@@ -72,7 +72,7 @@
 </script>
 <style>
 :root{
-color-scheme: light dark;
+color-scheme: light;
 --bg:#fff8ef;
 --bg-soft:#ffedd8;
 --card:#ffffff;
@@ -89,25 +89,7 @@ color-scheme: light dark;
 --bubble-user:#e07b24;
 --shadow:0 2px 10px rgba(146,84,20,.10);
 }
-@media (prefers-color-scheme: dark){
-:root{
---bg:#221812;
---bg-soft:#2d2016;
---card:#2e2119;
---ink:#f6e8da;
---ink-soft:#cdb09a;
---line:#4a3527;
---accent:#f0953f;
---accent-deep:#e8b07c;
---accent-soft:#3a2817;
---green:#a9c47e;
---green-soft:#2c331f;
---chat-bg:#2a1e15;
---bubble-bot:#38291d;
---bubble-user:#c96a17;
---shadow:0 2px 10px rgba(0,0,0,.35);
-}
-}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -229,17 +211,12 @@ radial-gradient(circle at 8px 8px, rgba(120,72,20,.20) 1.6px, transparent 1.7px)
 border:10px solid #b07a45;
 box-shadow:var(--shadow);
 }
-@media (prefers-color-scheme: dark){
-.board{background:
-radial-gradient(circle at 8px 8px, rgba(0,0,0,.35) 1.6px, transparent 1.7px) 0 0/26px 26px,
-#5a3d22;
-border-color:#7d5636}
-}
+
 .board-title{
 font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;
 font-weight:900;font-size:1.05rem;color:#5b3a17;text-align:center;margin:0 0 14px;
 }
-@media (prefers-color-scheme: dark){.board-title{color:#f3ddba}}
+
 .board-grid{display:grid;gap:14px}
 @media (min-width:600px){.board-grid{grid-template-columns:1fr 1fr}}
 .note{
@@ -499,9 +476,7 @@ background:var(--accent-soft);color:var(--accent-deep);
 }
 .win-card-panel svg{width:44px;height:44px}
 .win-card-panel.green{background:#e4f9ec;color:#049e42}
-@media (prefers-color-scheme: dark){
-.win-card-panel.green{background:#173b24;color:#4ade80}
-}
+
 .win-card-meta{padding:12px 16px 14px}
 .win-card-name{font-weight:700;line-height:1.5}
 .win-card-desc{font-size:.8rem;color:var(--ink-soft);line-height:1.55}
@@ -644,7 +619,18 @@ html{scroll-behavior:auto}
 html.js .reveal{opacity:1;transform:none;transition:none}
 }
 </style>
-<link rel="canonical" href="https://momowari.github.io/OHANA-share/"></head>
+<link rel="canonical" href="https://momowari.github.io/OHANA-share/"><meta property="og:title" content="OHANAシェア＊プロジェクト｜松山の選べる物々交換フリマ">
+<meta property="og:description" content="OHANAシェア＊プロジェクトは、愛媛・松山市のフリマ型の物々交換プロジェクト。100円券でお買い物ができる「選べる物々交換」です。ヒト・モノ・コトをつなぎ、理念は「眠っている価値を、必要な場所へ」。開催は不定期で、LINEオープンチャットで案内します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://momowari.github.io/OHANA-share/">
+<meta property="og:image" content="https://momowari.github.io/OHANA-share/ogp.png">
+<meta property="og:site_name" content="OHANAシェア＊プロジェクト">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OHANAシェア＊プロジェクト｜松山の選べる物々交換フリマ">
+<meta name="twitter:description" content="100円券でお買い物ができる、フリマ型の物々交換。ヒト・モノ・コトをつなぎ、松山市で不定期開催中。">
+<meta name="twitter:image" content="https://momowari.github.io/OHANA-share/ogp.png">
+<meta name="theme-color" content="#fff8ef">
+</head>
 <body>
 <div class="wrap">
 
