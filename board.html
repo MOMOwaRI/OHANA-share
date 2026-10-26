@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>みんなの掲示板｜OHANAシェア＊プロジェクト</title>
+<link rel="icon" href="favicon.png">
+<style>
+  :root{--orange:#e07b24;--ink:#3a2e25;--paper:#fff6ec}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;background:var(--paper);color:var(--ink);line-height:1.8}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px 48px}
+  header{text-align:center;padding:36px 0 6px}
+  header img{width:110px}
+  h1{font-size:1.6rem;margin:6px 0 2px}
+  .sub{color:#8a6a4f;font-size:.92rem}
+  .board{background:#fdfdf8;border:2px solid #ecd9bd;border-radius:18px;padding:22px 14px;margin-top:18px;box-shadow:inset 0 0 0 6px #fff}
+  .notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+  .note{position:relative;padding:18px 14px 14px;border-radius:4px;box-shadow:0 4px 10px rgba(90,60,20,.15);font-size:.92rem;min-height:120px}
+  .note::before{content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-2deg);width:74px;height:20px;background:rgba(255,235,180,.85);border:1px solid rgba(200,160,80,.35)}
+  .note h2{font-size:1rem;margin-bottom:4px}
+  .note a{color:#c2610f;font-weight:bold}
+  .n-yellow{background:#fff3a6;transform:rotate(-1.2deg)}
+  .n-pink{background:#ffd9e2;transform:rotate(1deg)}
+  .n-blue{background:#d6ecff;transform:rotate(-.6deg)}
+  .n-green{background:#dcf5d0;transform:rotate(.8deg)}
+  .n-orange{background:#ffe3c2;transform:rotate(-1deg)}
+  .n-white{background:#ffffff;transform:rotate(.5deg)}
+  .who{font-size:.75rem;color:#8a6a4f;margin-top:6px}
+  .back{display:block;text-align:center;margin-top:26px}
+  .back a{display:inline-block;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:12px 28px}
+  footer{text-align:center;margin-top:22px;font-size:.82rem;color:#8a6a4f}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="img-992cf83a89.png" alt="OHANAキャラクター">
+    <h1>みんなの掲示板</h1>
+    <p class="sub">OHANAシェア＊プロジェクトのお知らせと、メンバーからの告知</p>
+  </header>
+
+  <div class="board">
+    <div class="notes">
+      <div class="note n-yellow">
+        <h2>メンバー募集してます！</h2>
+        <p>ヒト・モノ・コトの登録を受付中。あなたの「できること」「ゆずりたいもの」を教えてください。</p>
+        <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォームはこちら →</a></p>
+        <p class="who">運営からのメモ</p>
+      </div>
+      <div class="note n-pink">
+        <h2>次回イベントのお知らせ</h2>
+        <p>11月23日（月・祝）に開催予定です。出店者・ワークショップ・ボランティアを募集中。詳しくはLINEオープンチャットで案内します。</p>
+        <p class="who">運営からのメモ</p>
+      </div>
+      <div class="note n-blue">
+        <h2>設置場所を募集中</h2>
+        <p>エクスチェンジハンガーの設置場所を募集しています。置いてもいいよ、という場所があったら教えてください。</p>
+        <p class="who">運営からのメモ</p>
+      </div>
+      <div class="note n-green">
+        <h2>OHANA100円券のこと</h2>
+        <p>券は無料で配布しています。買うものではありません。受け取った券は、使える場所でまた使えます（換金はしません）。</p>
+        <p class="who">運営からのメモ</p>
+      </div>
+      <div class="note n-orange">
+        <h2>告知したい方へ</h2>
+        <p>イベントや活動のお知らせは、フォームから送ってください。確認してから、この掲示板に貼ります。</p>
+        <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd_2ZSETY_-uKQmIczIliK6ymP0vTG623fX5_DIttoyBrfTxg/viewform" target="_blank" rel="noopener">告知フォームはこちら →</a></p>
+        <p class="who">運営からのメモ</p>
+      </div>
+      <div class="note n-white">
+        <h2>メンバーの告知</h2>
+        <p>メンバーの告知は、ここにどんどん増えていきます。最新情報は運営が見回るので、載せる手間はありません（掲載前に確認します）。</p>
+        <p class="who">運営からのメモ</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="back"><a href="index.html">← トップページへ戻る</a></div>
+  <footer>OHANAシェア＊プロジェクト みんなの掲示板</footer>
+</div>
+</body>
+</html>
