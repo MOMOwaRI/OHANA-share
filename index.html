@@ -697,13 +697,11 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <h2 id="matching-h">ヒト・モノ・コトを探す・登録する</h2>
 </div>
 <div class="card">
-<p>OHANAのマッチングサイトができました。インスタだけでは流れて埋もれてしまう情報も、<strong class="hl">自分のページ</strong>として残せます。「提供できます」と「求めています」を集めて、必要な人・場所へつなぎます。登録した方には、イベントのたびに優先して声をかけます。告知を載せられる掲示板もあります。</p>
+<p>OHANAのマッチングサイトができました。インスタだけでは流れて埋もれてしまう情報も、<strong class="hl">自分のページ</strong>として残せます。「提供できます」と「求めています」を集めて、必要な人・場所へつなぎます。登録した方には、イベントのたびに優先して声をかけます。イベントや活動の告知もできます。</p>
 <div class="hero-cta">
 <a class="btn btn-line" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener"><span class="btn-lines">価値を<br />登録する</span></a>
-<a class="btn btn-ghost" href="#matching-h">価値を探す</a>
-<a class="btn btn-ghost" href="https://ohana087ehime.wordpress.com/board/" target="_blank" rel="noopener">告知掲示板を見る</a>
+<a class="btn btn-ghost" href="https://docs.google.com/forms/d/e/1FAIpQLSd_2ZSETY_-uKQmIczIliK6ymP0vTG623fX5_DIttoyBrfTxg/viewform" target="_blank" rel="noopener">告知する</a>
 </div>
-<p>これまでの紹介ページ（WordPress）はこちら：<a href="https://ohana087ehime.wordpress.com/" target="_blank" rel="noopener">OHANAマッチングサイト（WordPress）↗</a></p>
 </div>
 <style>
 .hero-cta{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;justify-content:center;align-items:stretch}
@@ -721,9 +719,9 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 .member-card a.mc-link{display:inline-block;margin-top:8px;font-weight:bold;color:#c2610f}
 </style>
 <div class="card">
-<p><strong class="hl">メンバーを探す</strong>（チップをタップすると絞り込めます）</p>
+<p><strong class="hl">価値を探す</strong>（チップを選ぶと、下に表示されます）</p>
 <div class="chips" id="cat-chips">
-<button class="chip on" data-cat="all">すべて</button>
+<button class="chip" data-cat="all">すべて</button>
 <button class="chip" data-cat="ヒト">ヒト</button>
 <button class="chip" data-cat="モノ">モノ</button>
 <button class="chip" data-cat="コト">コト</button>
@@ -735,7 +733,8 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <button class="chip small" data-area="その他愛媛">その他愛媛</button>
 <button class="chip small" data-area="オンライン">オンライン</button>
 </div>
-<div class="member-grid" id="member-grid">
+<p id="member-hint" style="font-size:.88rem;color:#8a6a4f">上のチップを選ぶと、登録されている価値がここに表示されます。</p>
+<div class="member-grid" id="member-grid" style="display:none">
 <article class="member-card" data-cat="ヒト" data-area="松山市">
 <span class="mc-cat">ヒト</span>
 <h3>MOMOwaRI（運営）</h3>
@@ -744,16 +743,25 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <a class="mc-link" href="members/momowari.html">紹介ページを見る →</a>
 </article>
 </div>
-<p style="margin-top:12px">メンバーはこれから増えていきます。お店・団体の掲載についてはこちら：<a href="https://ohana087ehime.wordpress.com/partners/" target="_blank" rel="noopener">お店・団体の方へ↗</a></p>
+<p id="member-empty" style="display:none;font-size:.88rem;color:#8a6a4f">この条件ではまだ登録がありません。</p>
+<p style="margin-top:12px">メンバーはこれから増えていきます。お店・団体の無料掲載に興味のある方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォーム</a>からご連絡ください。</p>
 </div>
 <script>
 (function(){
-  var cat='all', area='all';
+  var cat=null, area='all';
+  var grid=document.getElementById('member-grid');
+  var hint=document.getElementById('member-hint');
+  var empty=document.getElementById('member-empty');
   function apply(){
+    if(cat===null){ grid.style.display='none'; hint.style.display=''; empty.style.display='none'; return; }
+    hint.style.display='none';
+    var shown=0;
     document.querySelectorAll('#member-grid .member-card').forEach(function(c){
       var ok=(cat==='all'||c.dataset.cat===cat)&&(area==='all'||c.dataset.area===area);
-      c.style.display=ok?'':'none';
+      c.style.display=ok?'':'none'; if(ok) shown++;
     });
+    grid.style.display=shown?'':'none';
+    empty.style.display=shown?'none':'';
   }
   document.querySelectorAll('#cat-chips .chip').forEach(function(b){
     b.addEventListener('click',function(){
@@ -767,6 +775,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
       b.classList.add('on'); area=b.dataset.area; apply();
     });
   });
+  apply();
 })();
 </script>
 </section>
