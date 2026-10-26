@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://momowari.github.io/OHANA-share/sitemap.xml
