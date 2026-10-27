@@ -62,7 +62,7 @@
 {"@type":"Question","name":"どうやって参加しますか？","acceptedAnswer":{"@type":"Answer","text":"まずはLINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」に参加するところから。開催の案内や出店の募集は、すべてオープンチャットで行います。見るだけ・質問だけでも大丈夫です。"}},
 {"@type":"Question","name":"出店するにはどうすればいいですか？","acceptedAnswer":{"@type":"Answer","text":"フリマ出店のほか、ワークショップや「こんなことやってみたい」という企画も歓迎しています。出店の条件や募集は開催ごとに異なるため、オープンチャットでその都度案内します。"}},
 {"@type":"Question","name":"売るものがなくても参加できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。買い物だけ、遊びに来るだけでも大丈夫です。交換の対象はヒト・モノ・コトで、モノがなくても、できること（ヒト）や体験（コト）を持ち寄る参加のしかたもあります。"}},
-{"@type":"Question","name":"OHANA100円券って何ですか？","acceptedAnswer":{"@type":"Answer","text":"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。開催のときに、この券でお買い物ができます。オープンチャットでも案内します。"}},
+{"@type":"Question","name":"OHANA100円券って何ですか？","acceptedAnswer":{"@type":"Answer","text":"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。"}},
 {"@type":"Question","name":"売上は全部100円券になるのですか？","acceptedAnswer":{"@type":"Answer","text":"OHANAは、OHANA100円券でのお買い物を通じて、券が地域の中でぐるぐる循環していく仕組みです。券は無料で配布されるもので、買うものではありません。現金への換金はできません。"}},
 {"@type":"Question","name":"誰がやっているのですか？","acceptedAnswer":{"@type":"Answer","text":"松山市で活動している主催者と、賛同する仲間たちで運営しています。"}}
 ]
@@ -603,7 +603,7 @@ cursor:pointer;box-shadow:0 6px 18px rgba(146,84,20,.25);min-height:48px;
 position:fixed;right:14px;bottom:calc(140px + env(safe-area-inset-bottom,0px));z-index:61;
 width:min(360px,calc(100vw - 28px));
 }
-.chat-panel .chat{max-height:min(68vh,560px);overflow-y:auto}
+.chat-panel .chat{max-height:min(54vh,420px);overflow-y:auto}
 .chat-close{
 margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;
 border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
@@ -771,6 +771,11 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <p id="member-empty" style="display:none;font-size:.88rem;color:#8a6a4f">この条件ではまだ登録がありません。</p>
 <p style="margin-top:12px">メンバーはこれから増えていきます。お店・団体の無料掲載に興味のある方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォーム</a>からご連絡ください。</p>
 </div>
+<div class="card">
+<p><strong class="hl">メンバーマップ</strong>（ピンの色は、ヒト＝青・モノ＝緑・コト＝オレンジです）</p>
+<iframe src="https://www.google.com/maps/d/embed?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4" style="width:100%;height:340px;border:0;border-radius:14px" loading="lazy" title="OHANAメンバーマップ"></iframe>
+<p style="margin-top:8px;font-size:.88rem"><a href="https://www.google.com/maps/d/viewer?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4" target="_blank" rel="noopener">Googleマップで大きく開く →</a>（メンバーが増えるたびに、ピンも増えていきます）</p>
+</div>
 <script>
 (function(){
   var cat='all';
@@ -912,7 +917,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 </figure>
 <div class="card">
 <p><strong class="hl">OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。</strong></p>
-<p>開催のときに、この券でお買い物ができます。使った券も受け取った券も、次の開催でまた使えて、地域の中でぐるぐる循環していきます。オープンチャットでも案内します。</p>
+<p>OHANAメンバー内のお店やイベントで使えます。使った券も受け取った券も、また次の機会に使えて、地域の中でぐるぐる循環していきます。</p>
 </div>
 </section>
 
@@ -925,7 +930,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <dl class="glossary">
 <div class="gloss">
 <dt>OHANA100円券</dt>
-<dd>買うものではありません。無料で配布される券です。現金への換金はできません。開催のときに、この券でお買い物ができます。</dd>
+<dd>買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。</dd>
 </div>
 <div class="gloss">
 <dt>選べる物々交換</dt>
@@ -988,7 +993,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 
 <details class="faq-item">
 <summary><span class="q">Q.</span>OHANA100円券って何ですか？</summary>
-<div class="faq-a"><p>OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。開催のときに、この券でお買い物ができます。オープンチャットでも案内します。</p></div>
+<div class="faq-a"><p>OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。</p></div>
 </details>
 
 <details class="faq-item">
@@ -1565,7 +1570,7 @@ var QA = [
 { q:"どうやって参加するの？", chip:"参加のしかた", a:"まずはこのページのボタンから、LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」に参加してください。開催の案内や出店の募集はすべてそこで行います。見るだけ・質問だけでも大丈夫です。"},
 { q:"出店したい", chip:"出店したい", a:"ありがとうございます。フリマ出店のほか、ワークショップや「こんなことやってみたい」という企画も歓迎しています。条件や募集は開催ごとに異なるので、オープンチャットでその都度ご確認ください。"},
 { q:"売るものがなくてもいい？", chip:"売るものがなくても？", a:"大丈夫です。買い物だけ、遊びに来るだけでもOK。交換の対象はヒト・モノ・コトで、モノがなくても、できること（ヒト）や体験（コト）を持ち寄る参加のしかたもあります。"},
-{ q:"100円券って何？", chip:"100円券って何？", a:"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。開催のときに、この券でお買い物ができます。オープンチャットでも案内します。"},
+{ q:"100円券って何？", chip:"100円券って何？", a:"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。"},
 { q:"売上は全部券になるの？", chip:"売上は全部券？", a:"OHANAは、OHANA100円券でのお買い物を通じて、券が地域の中でぐるぐる循環していく仕組みです。券は無料で配布されるもので、買うものではありません。現金への換金はできません。"},
 { q:"誰がやっているの？", chip:"誰がやっているの？", a:"松山市で活動している主催者と、賛同する仲間たちで運営しています。"},
 { q:"エクスチェンジハンガーは？", chip:"エクスチェンジハンガー", a:"子供服を1点持ち込むと1点持ち帰れる、1対1交換のハンガーポールです。現在、設置場所を募集中です。協力いただける店舗・施設・公民館などは、オープンチャットへご連絡ください。"}
