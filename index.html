@@ -312,7 +312,12 @@ background:var(--green-soft);border:1.5px dashed var(--green);border-radius:16px
 .notice .caution{font-weight:700}
 
 figure.photo{margin:0}
-figure.photo-sign{max-width:240px;margin:16px auto 0}
+.ticket-rules{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}
+.trule{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:7px 14px;font-size:.92rem;font-weight:700;border:1.5px solid}
+.trule-mark{font-weight:900}
+.trule.ok{background:#eef7ee;border-color:#7fb069;color:#33691e}
+.trule.ng{background:#faf3ec;border-color:#d9b48f;color:#8a5a18}
+figure.photo-sign{max-width:150px;margin:16px auto 0}
 .photo-sign figcaption{text-align:center}
 figure.photo img{border-radius:14px;border:1px solid var(--line)}
 figcaption{font-size:.8rem;color:var(--ink-soft);margin-top:8px;line-height:1.6}
@@ -743,11 +748,15 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <h2 id="ticket-h">OHANA100円券のこと</h2>
 </div>
 <figure class="photo" style="margin-bottom:14px">
-<img src="img-a28e6abcf8.png" alt="マルシェのイラスト。「100yen 価値を、みんなでぐるぐる循環させる」と書かれている" width="800" height="284" loading="lazy" />
-<figcaption>noteマガジン「OHANAイベント等」のカバーイラスト</figcaption>
+<a href="https://note.com/momo2025/m/mdc77ac7bbdc7" target="_blank" rel="noopener" aria-label="noteマガジン「OHANAイベント等」を開く"><img src="img-a28e6abcf8.png" alt="マルシェのイラスト。「100yen 価値を、みんなでぐるぐる循環させる」と書かれている" width="800" height="284" loading="lazy" /></a>
+<figcaption>noteマガジン「OHANAイベント等」のカバーイラスト（タップでマガジンへ）</figcaption>
 </figure>
 <div class="card">
-<p><strong class="hl">OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。</strong></p>
+<div class="ticket-rules" role="note" aria-label="OHANA100円券のルール">
+<span class="trule ok"><span class="trule-mark" aria-hidden="true">✓</span>無料で配布される券です</span>
+<span class="trule ng"><span class="trule-mark" aria-hidden="true">✕</span>買うものではありません</span>
+<span class="trule ng"><span class="trule-mark" aria-hidden="true">✕</span>現金への換金はできません</span>
+</div>
 <p>OHANAメンバー内のお店やイベントで使えます。使った券も受け取った券も、また次の機会に使えて、地域の中でぐるぐる循環していきます。</p>
 </div>
 </section>
@@ -766,7 +775,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <figure class="film-item"><img class="s-rect" src="img-549e7b1d13.jpg" alt="テーブルの上に並ぶ小物と、100円の表示" width="750" height="1000" loading="lazy" /><figcaption>小物いろいろ</figcaption></figure>
 <figure class="film-item"><img class="s-arch" src="img-6defdb0cf7.jpg" alt="交換会の会場全体の様子" width="1440" height="960" loading="lazy" /><figcaption>交換会の会場</figcaption></figure>
 <figure class="film-item"><img class="s-rect" src="img-520bb487ca.jpg" alt="雑貨屋Lea Mahaloの店内。棚に並ぶ雑貨いろいろ" width="750" height="563" loading="lazy" /><figcaption>棚いっぱいの雑貨</figcaption></figure>
-<figure class="film-item"><img class="s-char s-circle" src="img-a9cbfe91d5.png" alt="" width="780" height="1049" loading="lazy" /><figcaption>みかんのヘタの赤ちゃん</figcaption></figure>
+
 <figure class="film-item"><img class="s-rect" src="img-5b048d6a96.jpg" alt="テーブルに並ぶ衣類と値札" width="1440" height="960" loading="lazy" /><figcaption>衣類のテーブル</figcaption></figure>
 <figure class="film-item"><img class="s-arch" src="img-b139f81054.jpg" alt="MAHALO美容室の階段前。ぬいぐるみなどが並ぶブース" width="750" height="1000" loading="lazy" /><figcaption>階段前のブース</figcaption></figure>
 <figure class="film-item"><img class="s-circle" src="img-2cf76acd95.jpg" alt="シートの上に並ぶ品々" width="1440" height="960" loading="lazy" /><figcaption>シートに並ぶ品物</figcaption></figure>
@@ -804,7 +813,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <a class="btn btn-line" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener"><span class="btn-lines">価値を<br />登録する</span></a>
 <a class="btn btn-ghost" href="board.html">みんなの掲示板</a>
 </div>
-<p style="margin-top:10px;font-size:.88rem">LINEが使いにくい方、登録フォームがうまく開けない方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">お問い合わせフォーム</a>からどうぞ。</p>
+<p style="margin-top:10px;font-size:.88rem">LINEが使いにくい方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">お問い合わせフォーム</a>からどうぞ。フォームがうまく開けないときは、ブラウザ（Safari・Chrome）で開き直してみてください。</p>
 </div>
 <style>
 .hero-cta{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;justify-content:center;align-items:stretch}
