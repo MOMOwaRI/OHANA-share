@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>雑貨屋 Lea Mahalo｜OHANAシェア＊プロジェクト メンバーページ</title>
+<title>雑貨屋 Lea Mahalo｜OHANAシェア＊プロジェクト OHANAメンバーページ</title>
 <link rel="icon" href="../favicon.png">
 <style>
   :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;background:var(--paper);color:var(--ink);line-height:1.8}
+  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
   header{text-align:center;padding:36px 0 8px}
   header img.hero{width:150px}
@@ -23,6 +23,8 @@
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
   h2{font-size:1.1rem;color:var(--orange-dark);margin-bottom:8px}
   ul{padding-left:1.2em}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
   .sns{display:flex;flex-direction:column;gap:10px}
   .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdf9}
   .sns a b{color:var(--orange-dark)}
@@ -31,12 +33,14 @@
   .cta.sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
   footer{text-align:center;margin-top:28px;font-size:.85rem;color:#8a6a4f}
   footer img{width:90px;display:block;margin:0 auto 8px}
-  .banner{height:118px;object-fit:cover}
   .slides{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:#f3e3cd}
   .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:cm 12s infinite}
   .slides img:nth-child(2){animation-delay:4s}
   .slides img:nth-child(3){animation-delay:8s}
   @keyframes cm{0%{opacity:0}5%{opacity:1}33%{opacity:1}38%{opacity:0}100%{opacity:0}}
+  .slides.n2 img{animation:cm2 8s infinite}
+  .slides.n2 img:nth-child(2){animation-delay:4s}
+  @keyframes cm2{0%{opacity:0}6%{opacity:1}50%{opacity:1}56%{opacity:0}100%{opacity:0}}
   .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
 
 </style>
@@ -44,7 +48,7 @@
 <body>
 <div class="wrap">
   <header>
-    <img class="banner" src="../ogp.png" alt="OHANAシェア＊プロジェクト">
+    <img class="banner" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
     <div><span class="badge">モノ</span></div>
     <h1>雑貨屋 Lea Mahalo</h1>
     <p class="sub">雑貨屋 ｜ 松山市（MAHALO美容室1階奥）</p>
@@ -69,26 +73,18 @@
 
   <section>
     <h2>写真</h2>
-    <div class="slides">
+    <div class="slides n2">
     <img src="../img-d11a178ef4.jpg" alt="雑貨屋Lea Mahaloの店内。アクセサリーやフラワー雑貨が並ぶ棚">
     <img src="../images/shop/zakka-sign.jpg" alt="ZAKKA Leaの案内看板（美容室が入口です）">
-    <img src="../img-5e3cde7ccf.jpg" alt="店舗外観（MAHALOビル）と店先の様子">
     </div>
     <p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真は自動で切り替わります</p>
   </section>
 
-  <section>
-    <h2>最新情報</h2>
-    <p>新着の雑貨や出品情報は、リンク集からご確認ください。OHANAのイベント出店時は、みんなの掲示板でもお知らせします。</p>
-    <div class="sns">
-      <a href="https://lit.link/momowari" target="_blank" rel="noopener"><b>リンク集（lit.link）</b><span>SNSや出品先への入口はこちら</span></a>
-      <a href="../board.html"><b>みんなの掲示板</b><span>OHANAのお知らせはこちら</span></a>
-    </div>
-  </section>
 
   <section>
-    <h2>ほかのメンバー</h2>
+    <h2>ほかのOHANAメンバー</h2>
     <div class="sns">
+      <a href="elua-mahalo.html"><b>elua Mahalo</b><span>コト｜女性限定美容室（1階）</span></a>
       <a href="mahalo.html"><b>MAHALO美容室</b><span>コト｜美容室（同じビル）</span></a>
       <a href="eyes-mahalo.html"><b>Eyes MAHALO</b><span>コト｜まつげパーマ専門</span></a>
       <a href="momowari.html"><b>MOMOwaRI（運営）</b><span>ヒト｜松山市</span></a>
@@ -105,7 +101,7 @@
 
   <footer>
     <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
-    OHANAシェア＊プロジェクト メンバーページ<br>
+    OHANAシェア＊プロジェクト OHANAメンバーページ<br>
     <a href="../index.html">トップページへ</a>
   </footer>
 </div>
