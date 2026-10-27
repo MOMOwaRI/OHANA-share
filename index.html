@@ -629,22 +629,6 @@ html{scroll-behavior:auto}
 html.js .reveal{opacity:1;transform:none;transition:none}
 }
 
-/* chatbot UI */
-#fab-bot{position:fixed;right:16px;bottom:16px;z-index:60;background:#D96C33;color:#fff;border:none;border-radius:999px;padding:13px 20px;font-size:15px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;font-family:inherit}
-#chat-panel{position:fixed;right:16px;bottom:76px;z-index:60;width:min(92vw,360px);max-height:70vh;background:#FFF9F3;border:1.5px solid #D96C33;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden}
-#chat-panel[hidden]{display:none}
-.chat-head{display:flex;justify-content:space-between;align-items:center;background:#D96C33;color:#fff;padding:10px 14px;font-weight:700}
-#chat-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1}
-#chat-log{padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:120px}
-.msg{max-width:85%;padding:8px 12px;border-radius:14px;font-size:14px;line-height:1.6;white-space:pre-wrap}
-.msg.bot{background:#F6E7DC;align-self:flex-start}
-.msg.user{background:#D96C33;color:#fff;align-self:flex-end}
-#chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 10px}
-#chips .chip{border:1.5px solid #D96C33;color:#B3541E;background:#fff;border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-#chat-form{display:flex;gap:6px;padding:10px 12px;border-top:1px solid #EAD9C8}
-#chat-input{flex:1;border:1.5px solid #D9C3AC;border-radius:999px;padding:8px 14px;font-size:14px;font-family:inherit}
-#chat-form button{background:#D96C33;color:#fff;border:none;border-radius:999px;padding:8px 16px;font-weight:700;cursor:pointer;font-family:inherit}
-.oc-link{color:#B3541E;font-weight:700}
 </style>
 <link rel="canonical" href="https://momowari.github.io/OHANA-share/"><meta property="og:title" content="OHANAシェア＊プロジェクト｜松山の選べる物々交換フリマ">
 <meta property="og:description" content="OHANAシェア＊プロジェクトは、愛媛・松山市のフリマ型の物々交換プロジェクト。100円券でお買い物ができる「選べる物々交換」です。ヒト・モノ・コトをつなぎ、理念は「眠っている価値を、必要な場所へ」。開催は不定期で、LINEオープンチャットで案内します。">
@@ -668,7 +652,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <h1>OHANAシェア<span class="star">＊</span>プロジェクト</h1>
 </div>
 <div class="hero-pv">
-<video class="hero-video" id="hero-video" src="pv-hero.mp4" poster="pv-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="OHANAシェア＊プロジェクトの紹介PV動画"></video>
+<img class="hero-video" src="pv-hero.webp" width="420" height="582" alt="OHANAシェア＊プロジェクトの紹介アニメーション">
 </div>
 <p class="hero-ticket"><span class="free">OHANA100円券は<br />無料配布です！</span><span class="ticket-note">買うものではありません。現金への換金はできません。</span></p>
 <p class="tagline">眠っている価値を、必要な場所へ。</p>
@@ -767,8 +751,8 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 17v2M13 11v2"/></svg></span>
 <h2 id="ticket-h">OHANA100円券のこと</h2>
 </div>
-<figure class="photo" style="margin-bottom:14px">
-<a href="https://note.com/momo2025/m/mdc77ac7bbdc7" target="_blank" rel="noopener" aria-label="noteマガジン「OHANAイベント等」を開く"><img src="magazine-cover.jpg" alt="マルシェのイラスト。「OHANA 100yen 価値を、みんなでぐるぐる循環させる」と書かれている" width="1024" height="536" loading="lazy" /></a>
+<figure class="photo" style="margin:0 auto 14px;max-width:340px">
+<a href="https://note.com/momo2025/m/mdc77ac7bbdc7" target="_blank" rel="noopener" aria-label="noteマガジン「OHANAイベント等」を開く"><img src="magazine-cover.jpg" alt="マルシェのイラスト。「OHANA 100yen 価値を、みんなでぐるぐる循環させる」と書かれている" width="1024" height="536" loading="lazy" style="width:100%;height:auto;display:block" /></a>
 <figcaption>noteマガジン「OHANAイベント等」のカバーイラスト（タップでマガジンへ）</figcaption>
 </figure>
 <div class="card">
@@ -1385,7 +1369,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <footer>
 <img class="f-mascot floaty" src="img-992cf83a89.png" alt="" width="489" height="680" loading="lazy" />
 <p>OHANAシェア＊プロジェクト<br />主催：中岡有里（松山市）</p>
-<span class="draft">このページはLP案（ドラフト）です</span>
+
 </footer>
 
 </div>
@@ -1557,15 +1541,15 @@ for (var i = 0; i < words.length; i++){ if (text.indexOf(words[i]) !== -1) retur
 return false;
 }
 function answerFor(text){
-if (has(text, ["ハンガー", "子供服", "子ども服"])) window.__ct = QA[8].q; return QA[8].a;
-if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) window.__ct = QA[6].q; return QA[6].a;
-if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) window.__ct = QA[3].q; return QA[3].a;
-if (has(text, ["いつ", "どこ", "開催", "場所", "住所", "日程", "時間"])) window.__ct = QA[1].q; return QA[1].a;
-if (has(text, ["券", "100円", "１００円", "換金", "現金"])) window.__ct = QA[5].q; return QA[5].a;
-if (has(text, ["売るもの", "買い物", "手ぶら", "見学", "遊び"])) window.__ct = QA[4].q; return QA[4].a;
-if (has(text, ["参加", "入り方", "オープンチャット", "LINE", "ライン", "申込", "申し込"])) window.__ct = QA[2].q; return QA[2].a;
-if (has(text, ["誰", "主催", "やってる", "運営", "連絡"])) window.__ct = QA[7].q; return QA[7].a;
-if (has(text, ["何", "とは", "OHANA", "おはな", "オハナ", "物々交換", "フリマ"])) window.__ct = QA[0].q; return QA[0].a;
+if (has(text, ["ハンガー", "子供服", "子ども服"])) { window.__ct = QA[8].q; return QA[8].a; }
+if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) { window.__ct = QA[6].q; return QA[6].a; }
+if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) { window.__ct = QA[3].q; return QA[3].a; }
+if (has(text, ["いつ", "どこ", "開催", "場所", "住所", "日程", "時間"])) { window.__ct = QA[1].q; return QA[1].a; }
+if (has(text, ["券", "100円", "１００円", "換金", "現金"])) { window.__ct = QA[5].q; return QA[5].a; }
+if (has(text, ["売るもの", "買い物", "手ぶら", "見学", "遊び"])) { window.__ct = QA[4].q; return QA[4].a; }
+if (has(text, ["参加", "入り方", "オープンチャット", "LINE", "ライン", "申込", "申し込"])) { window.__ct = QA[2].q; return QA[2].a; }
+if (has(text, ["誰", "主催", "やってる", "運営", "連絡"])) { window.__ct = QA[7].q; return QA[7].a; }
+if (has(text, ["何", "とは", "OHANA", "おはな", "オハナ", "物々交換", "フリマ"])) { window.__ct = QA[0].q; return QA[0].a; }
 return null;
 }
 QA.forEach(function(item){
