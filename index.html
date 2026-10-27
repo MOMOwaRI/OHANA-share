@@ -665,17 +665,17 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <p>やり方はシンプルです。OHANAは、100円券でお買い物ができる、フリマ型の物々交換です。「選べる」とは、1対1のマッチングが起こりにくい物々交換を、お買い物感覚で選べるようにした仕組みという意味です。目指すのは、お金がなくても回る仕組み作り。券は現金に換金せず、地域の中でぐるぐる巡らせます。</p>
 <p>交換の対象は、モノだけではありません。</p>
 <div class="pillars">
-<div class="pillar">
+<div class="pillar" data-jump="ヒト" title="ヒトを探す">
 <div class="p-ico" aria-hidden="true">🤲</div>
 <div class="p-name">ヒト</div>
 <div class="p-desc">「これができます」という、人の力や得意なこと</div>
 </div>
-<div class="pillar">
+<div class="pillar" data-jump="モノ" title="モノを探す">
 <div class="p-ico" aria-hidden="true">🧺</div>
 <div class="p-name">モノ</div>
 <div class="p-desc">衣類・雑貨・子ども用品など、まだ使えるもの</div>
 </div>
-<div class="pillar">
+<div class="pillar" data-jump="コト" title="コトを探す">
 <div class="p-ico" aria-hidden="true">🎨</div>
 <div class="p-name">コト</div>
 <div class="p-desc">ワークショップなどの体験や、場所のシェア</div>
@@ -697,11 +697,12 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <h2 id="matching-h">ヒト・モノ・コトを探す・登録する</h2>
 </div>
 <div class="card">
-<p>OHANAのマッチングサイトができました。インスタだけでは流れて埋もれてしまう情報も、<strong class="hl">自分のページ</strong>として残せます。「提供できます」と「求めています」を集めて、必要な人・場所へつなぎます。最新情報は運営が見回るので、載せる手間はありません（掲載する前に確認します）。イベントや活動の告知もできます。</p>
+<p>OHANAのマッチングサイトができました。インスタだけでは流れて埋もれてしまう情報も、<strong class="hl">自分のページ</strong>として残せます。「提供できます」と「求めています」を集めて、必要な人・場所へつなぎます。最新情報はAIが見回るので、載せる手間はありません（掲載する前に確認します）。イベントや活動の告知もできます。</p>
 <div class="hero-cta">
 <a class="btn btn-line" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener"><span class="btn-lines">価値を<br />登録する</span></a>
 <a class="btn btn-ghost" href="board.html">みんなの掲示板</a>
 </div>
+<p style="margin-top:10px;font-size:.88rem">LINEが使いにくい方、登録フォームがうまく開けない方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">お問い合わせフォーム</a>からどうぞ。</p>
 </div>
 <style>
 .hero-cta{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;justify-content:center;align-items:stretch}
@@ -709,6 +710,17 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 .chip{border:1.5px solid #e07b24;background:#fff;color:#c2610f;border-radius:999px;padding:3px 13px;font-size:.85rem;cursor:pointer;font-family:inherit}
 .chip.small{border-color:#d9c7b2;color:#7a5c3e;font-size:.78rem;padding:2px 10px}
 .chip.on{background:#e07b24;color:#fff;border-color:#e07b24}
+.chip[data-cat="ヒト"]{border-color:#2f7fd0;color:#2f7fd0}
+.chip[data-cat="ヒト"].on{background:#2f7fd0;border-color:#2f7fd0;color:#fff}
+.chip[data-cat="モノ"]{border-color:#3d9e63;color:#3d9e63}
+.chip[data-cat="モノ"].on{background:#3d9e63;border-color:#3d9e63;color:#fff}
+.chip[data-cat="コト"]{border-color:#e07b24;color:#c2610f}
+.chip[data-cat="コト"].on{background:#e07b24;border-color:#e07b24;color:#fff}
+.member-card[data-cat="ヒト"] .mc-cat{background:#2f7fd0}
+.member-card[data-cat="モノ"] .mc-cat{background:#3d9e63}
+.member-card[data-cat="コト"] .mc-cat{background:#e07b24}
+.pillar{cursor:pointer}
+.pillar .p-name{color:#c2610f;text-decoration:underline;text-underline-offset:3px}
 .chip.small.on{background:#a97c50;border-color:#a97c50}
 .member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:10px}
 .member-card{border:1px solid #f3ddc4;border-radius:14px;padding:14px;background:#fffdf9}
@@ -719,22 +731,14 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 .member-card a.mc-link{display:inline-block;margin-top:8px;font-weight:bold;color:#c2610f}
 </style>
 <div class="card">
-<p><strong class="hl">価値を探す</strong>（チップを選ぶと、下に表示されます）</p>
+<p><strong class="hl">価値を探す</strong>（カテゴリのチップで絞り込めます）</p>
 <div class="chips" id="cat-chips">
-<button class="chip" data-cat="all">すべて</button>
+<button class="chip on" data-cat="all">すべて</button>
 <button class="chip" data-cat="ヒト">ヒト</button>
 <button class="chip" data-cat="モノ">モノ</button>
 <button class="chip" data-cat="コト">コト</button>
 </div>
-<div class="chips" id="area-chips">
-<button class="chip small on" data-area="all">全エリア</button>
-<button class="chip small" data-area="松山市">松山市</button>
-<button class="chip small" data-area="砥部町">砥部町</button>
-<button class="chip small" data-area="その他愛媛">その他愛媛</button>
-<button class="chip small" data-area="オンライン">オンライン</button>
-</div>
-<p id="member-hint" style="font-size:.88rem;color:#8a6a4f">上のチップを選ぶと、登録されている価値がここに表示されます。</p>
-<div class="member-grid" id="member-grid" style="display:none">
+<div class="member-grid" id="member-grid">
 <article class="member-card" data-cat="ヒト" data-area="松山市">
 <span class="mc-cat">ヒト</span>
 <h3>MOMOwaRI（運営）</h3>
@@ -769,31 +773,30 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 </div>
 <script>
 (function(){
-  var cat=null, area='all';
+  var cat='all';
   var grid=document.getElementById('member-grid');
-  var hint=document.getElementById('member-hint');
   var empty=document.getElementById('member-empty');
   function apply(){
-    if(cat===null){ grid.style.display='none'; hint.style.display=''; empty.style.display='none'; return; }
-    hint.style.display='none';
     var shown=0;
     document.querySelectorAll('#member-grid .member-card').forEach(function(c){
-      var ok=(cat==='all'||c.dataset.cat===cat)&&(area==='all'||c.dataset.area===area);
+      var ok=(cat==='all'||c.dataset.cat===cat);
       c.style.display=ok?'':'none'; if(ok) shown++;
     });
     grid.style.display=shown?'':'none';
     empty.style.display=shown?'none':'';
   }
+  function setCat(v){
+    cat=v;
+    document.querySelectorAll('#cat-chips .chip').forEach(function(x){x.classList.toggle('on', x.dataset.cat===v)});
+    apply();
+  }
   document.querySelectorAll('#cat-chips .chip').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#cat-chips .chip').forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); cat=b.dataset.cat; apply();
-    });
+    b.addEventListener('click',function(){ setCat(b.dataset.cat); });
   });
-  document.querySelectorAll('#area-chips .chip').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#area-chips .chip').forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); area=b.dataset.area; apply();
+  document.querySelectorAll('.pillar[data-jump]').forEach(function(p){
+    p.addEventListener('click',function(){
+      setCat(p.dataset.jump);
+      document.getElementById('matching-h').scrollIntoView({behavior:'smooth'});
     });
   });
   apply();
