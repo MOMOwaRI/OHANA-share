@@ -312,6 +312,9 @@ background:var(--green-soft);border:1.5px dashed var(--green);border-radius:16px
 .notice .caution{font-weight:700}
 
 figure.photo{margin:0}
+.map-legend{display:flex;gap:16px;flex-wrap:wrap;margin:2px 0 10px}
+.map-legend-item{display:inline-flex;align-items:center;gap:5px;font-weight:700}
+.map-legend-item img{width:26px;height:26px}
 .ticket-rules{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}
 .trule{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:7px 14px;font-size:.92rem;font-weight:700;border:1.5px solid}
 .trule-mark{font-weight:900}
@@ -850,7 +853,12 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <p>100円券が使えたら嬉しいなと思うヒト・モノ・コトへお声がけください。輪を広げていきましょう♪</p>
 </div>
 <div class="card">
-<p><strong class="hl">OHANAメンバーマップ</strong>（ピンの色は、ヒト＝ピンク・モノ＝緑・コト＝黄色です）</p>
+<p><strong class="hl">OHANAメンバーマップ</strong></p>
+<div class="map-legend" aria-label="ピンの色の説明">
+<span class="map-legend-item"><img src="pin-hito.png" alt="ヒトのピン（ピンクのみかん）" width="26" height="26" />ヒト</span>
+<span class="map-legend-item"><img src="pin-mono.png" alt="モノのピン（緑のみかん）" width="26" height="26" />モノ</span>
+<span class="map-legend-item"><img src="pin-koto.png" alt="コトのピン（黄色のみかん）" width="26" height="26" />コト</span>
+</div>
 <iframe src="https://www.google.com/maps/d/embed?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4&ll=33.8456%2C132.7554&z=13" style="width:100%;height:340px;border:0;border-radius:14px" loading="lazy" title="OHANAメンバーマップ"></iframe>
 <p style="margin-top:8px;font-size:.88rem"><a href="https://www.google.com/maps/d/viewer?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4" target="_blank" rel="noopener">Googleマップで大きく開く →</a>（OHANAメンバーが増えるたびに、ピンも増えていきます）</p>
 </div>
