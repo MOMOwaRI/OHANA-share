@@ -57,7 +57,7 @@
 {
 "@type": "FAQPage",
 "mainEntity": [
-{"@type":"Question","name":"OHANAシェア＊プロジェクトって何ですか？","acceptedAnswer":{"@type":"Answer","text":"愛媛県松山市で活動するプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」。お金不要の仕組み作りと、地域の中での価値の循環を目指しています。"}},
+{"@type":"Question","name":"OHANAシェア＊プロジェクトって何ですか？","acceptedAnswer":{"@type":"Answer","text":"愛媛県松山市で活動するプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」。お金不要の仕組み作りと、地域の中での価値の循環を目指しています。"}},
 {"@type":"Question","name":"いつ・どこで開催していますか？","acceptedAnswer":{"@type":"Answer","text":"不定期開催中。月曜祝日に、MAHALO美容室（松山市味酒町）で開催することが多いです。開催日はその都度オープンチャットで案内します。案内のない日は開催していません。"}},
 {"@type":"Question","name":"どうやって参加しますか？","acceptedAnswer":{"@type":"Answer","text":"まずはLINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」に参加するところから。開催の案内や出店の募集は、すべてオープンチャットで行います。見るだけ・質問だけでも大丈夫です。"}},
 {"@type":"Question","name":"出店するにはどうすればいいですか？","acceptedAnswer":{"@type":"Answer","text":"フリマ出店のほか、ワークショップや「こんなことやってみたい」という企画も歓迎しています。出店の条件や募集は開催ごとに異なるため、オープンチャットでその都度案内します。"}},
@@ -662,7 +662,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 </div>
 <div class="card">
 <p>OHANAシェア＊プロジェクトは、<strong class="hl">愛媛県松山市</strong>で活動する地域プロジェクトです。理念は<strong class="hl">「眠っている価値を、必要な場所へ」</strong>。家で眠っているモノ、誰かの得意なこと、体験や場所——そうした<strong class="hl">ヒト・モノ・コト</strong>をつなぎ、価値を地域の中で循環させる取り組みです。</p>
-<p>やり方はシンプルです。OHANAは、100円券でお買い物ができる、フリマ型の物々交換です。「選べる」とは、1対1のマッチングが起こりにくい物々交換を、お買い物感覚で選べるようにした仕組みという意味です。目指すのは、お金がなくても回る仕組み作り。券は現金に換金せず、地域の中でぐるぐる巡らせます。</p>
+<p>やり方はシンプルです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1のマッチングが起こりにくい物々交換を、お買い物感覚で選べるようにした仕組みという意味です。目指すのは、お金がなくても回る仕組み作り。券は現金に換金せず、地域の中でぐるぐる巡らせます。</p>
 <p>交換の対象は、モノだけではありません。</p>
 <div class="pillars">
 <div class="pillar" data-jump="ヒト" title="ヒトを探す">
@@ -697,7 +697,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <h2 id="matching-h">ヒト・モノ・コトを探す・登録する</h2>
 </div>
 <div class="card">
-<p>OHANAのマッチングサイトができました。インスタだけでは流れて埋もれてしまう情報も、<strong class="hl">自分のページ</strong>として残せます。「提供できます」と「求めています」を集めて、必要な人・場所へつなぎます。最新情報はAIが見回るので、載せる手間はありません（掲載する前に確認します）。イベントや活動の告知もできます。</p>
+<p>OHANAのマッチングサイトができました。SNSだけでは流れて埋もれてしまう情報も、<strong class="hl">自分のページ</strong>として残せます。「提供できます」と「求めています」を集めて、必要な人・場所へつなぎます。最新情報はAIが見回るので、載せる手間はありません（掲載する前に確認します）。イベントや活動の告知もできます。</p>
 <div class="hero-cta">
 <a class="btn btn-line" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener"><span class="btn-lines">価値を<br />登録する</span></a>
 <a class="btn btn-ghost" href="board.html">みんなの掲示板</a>
@@ -731,14 +731,15 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 .member-card a.mc-link{display:inline-block;margin-top:8px;font-weight:bold;color:#c2610f}
 </style>
 <div class="card">
-<p><strong class="hl">価値を探す</strong>（カテゴリのチップで絞り込めます）</p>
+<p><strong class="hl">価値を探す</strong>（チップを選ぶと、下に表示されます）</p>
 <div class="chips" id="cat-chips">
-<button class="chip on" data-cat="all">すべて</button>
+<button class="chip" data-cat="all">すべて</button>
 <button class="chip" data-cat="ヒト">ヒト</button>
 <button class="chip" data-cat="モノ">モノ</button>
 <button class="chip" data-cat="コト">コト</button>
 </div>
-<div class="member-grid" id="member-grid">
+<p id="member-hint" style="font-size:.88rem;color:#8a6a4f">上のチップを選ぶと、登録されている価値がここに表示されます。</p>
+<div class="member-grid" id="member-grid" style="display:none">
 <article class="member-card" data-cat="ヒト" data-area="松山市">
 <span class="mc-cat">ヒト</span>
 <h3>MOMOwaRI（運営）</h3>
@@ -767,21 +768,31 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <p class="mc-tags">松山市 ｜ 場所 ｜ OHANAメンバー</p>
 <a class="mc-link" href="members/mahalo.html">紹介ページを見る →</a>
 </article>
+<article class="member-card" data-cat="コト" data-area="松山市">
+<span class="mc-cat">コト</span>
+<h3>elua Mahalo</h3>
+<p>女性限定・完全予約制の美容室。マンツーマンで静かな、マハロビル1階の「第2のMAHALO」。</p>
+<p class="mc-tags">松山市 ｜ 美容室 ｜ OHANAメンバー</p>
+<a class="mc-link" href="members/elua-mahalo.html">紹介ページを見る →</a>
+</article>
 </div>
 <p id="member-empty" style="display:none;font-size:.88rem;color:#8a6a4f">この条件ではまだ登録がありません。</p>
-<p style="margin-top:12px">メンバーはこれから増えていきます。お店・団体の無料掲載に興味のある方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォーム</a>からご連絡ください。</p>
+<p style="margin-top:12px">OHANAメンバーはこれから増えていきます。お店・団体の無料掲載に興味のある方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォーム</a>からご連絡ください。</p>
 </div>
 <div class="card">
-<p><strong class="hl">メンバーマップ</strong>（ピンの色は、ヒト＝青・モノ＝緑・コト＝オレンジです）</p>
+<p><strong class="hl">OHANAメンバーマップ</strong>（ピンの色は、ヒト＝青・モノ＝緑・コト＝オレンジです）</p>
 <iframe src="https://www.google.com/maps/d/embed?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4" style="width:100%;height:340px;border:0;border-radius:14px" loading="lazy" title="OHANAメンバーマップ"></iframe>
-<p style="margin-top:8px;font-size:.88rem"><a href="https://www.google.com/maps/d/viewer?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4" target="_blank" rel="noopener">Googleマップで大きく開く →</a>（メンバーが増えるたびに、ピンも増えていきます）</p>
+<p style="margin-top:8px;font-size:.88rem"><a href="https://www.google.com/maps/d/viewer?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4" target="_blank" rel="noopener">Googleマップで大きく開く →</a>（OHANAメンバーが増えるたびに、ピンも増えていきます）</p>
 </div>
 <script>
 (function(){
-  var cat='all';
+  var cat=null;
   var grid=document.getElementById('member-grid');
+  var hint=document.getElementById('member-hint');
   var empty=document.getElementById('member-empty');
   function apply(){
+    if(cat===null){ grid.style.display='none'; hint.style.display=''; empty.style.display='none'; return; }
+    hint.style.display='none';
     var shown=0;
     document.querySelectorAll('#member-grid .member-card').forEach(function(c){
       var ok=(cat==='all'||c.dataset.cat===cat);
@@ -968,7 +979,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <p class="sec-lead">まずはこちらを。右下の「案内ボット」ボタンからも、同じ内容を質問形式で聞けます（文字入力もできます）。</p>
 <details class="faq-item">
 <summary><span class="q">Q.</span>OHANAシェア＊プロジェクトって何ですか？</summary>
-<div class="faq-a"><p>愛媛県松山市で活動するプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」。お金不要の仕組み作りと、地域の中での価値の循環を目指しています。</p></div>
+<div class="faq-a"><p>愛媛県松山市で活動するプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」。お金不要の仕組み作りと、地域の中での価値の循環を目指しています。</p></div>
 </details>
 
 <details class="faq-item">
@@ -1565,7 +1576,7 @@ if (hp && hp.catch) hp.catch(function(){});
 /* ---------- chatbot ---------- */
 var OC_URL = "https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default";
 var QA = [
-{ q:"OHANAって何？", chip:"OHANAって何？", a:"愛媛県松山市のプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」です。"},
+{ q:"OHANAって何？", chip:"OHANAって何？", a:"愛媛県松山市のプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」です。"},
 { q:"いつ・どこで開催？", chip:"いつ・どこで開催？", a:"不定期開催中です。月曜祝日に、MAHALO美容室（松山市味酒町）で開催することが多いです。開催日はその都度オープンチャットで案内します。案内のない日は開催していません。"},
 { q:"どうやって参加するの？", chip:"参加のしかた", a:"まずはこのページのボタンから、LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」に参加してください。開催の案内や出店の募集はすべてそこで行います。見るだけ・質問だけでも大丈夫です。"},
 { q:"出店したい", chip:"出店したい", a:"ありがとうございます。フリマ出店のほか、ワークショップや「こんなことやってみたい」という企画も歓迎しています。条件や募集は開催ごとに異なるので、オープンチャットでその都度ご確認ください。"},
