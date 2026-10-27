@@ -31,6 +31,14 @@
   .cta.sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
   footer{text-align:center;margin-top:28px;font-size:.85rem;color:#8a6a4f}
   footer img{width:90px;display:block;margin:0 auto 8px}
+  .banner{height:118px;object-fit:cover}
+  .slides{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:#f3e3cd}
+  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:cm 12s infinite}
+  .slides img:nth-child(2){animation-delay:4s}
+  .slides img:nth-child(3){animation-delay:8s}
+  @keyframes cm{0%{opacity:0}5%{opacity:1}33%{opacity:1}38%{opacity:0}100%{opacity:0}}
+  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
+
 </style>
 </head>
 <body>
@@ -66,9 +74,12 @@
 
   <section>
     <h2>写真</h2>
-    <img class="photo" src="../images/shop/salon-main.jpg" alt="MAHALO美容室の店内。セット面とカラフルなチェア">
-    <img class="photo" src="../images/shop/entrance.jpg" alt="お店の入口（階段と植栽）" style="margin-top:10px">
-    <img class="photo" src="../img-5e3cde7ccf.jpg" alt="MAHALO美容室の外観と店先の様子" style="margin-top:10px">
+    <div class="slides">
+    <img src="../images/shop/salon-main.jpg" alt="MAHALO美容室の店内。セット面とカラフルなチェア">
+    <img src="../images/shop/decor.jpg" alt="店内のインテリア">
+    <img src="../img-5e3cde7ccf.jpg" alt="MAHALO美容室の外観と店先の様子">
+    </div>
+    <p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真は自動で切り替わります</p>
   </section>
 
   <section>
@@ -103,5 +114,6 @@
     <a href="../index.html">トップページへ</a>
   </footer>
 </div>
+<a class="fab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットに参加</a>
 </body>
 </html>

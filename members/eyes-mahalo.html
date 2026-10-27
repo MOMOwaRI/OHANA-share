@@ -31,6 +31,14 @@
   .cta.sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
   footer{text-align:center;margin-top:28px;font-size:.85rem;color:#8a6a4f}
   footer img{width:90px;display:block;margin:0 auto 8px}
+  .banner{height:118px;object-fit:cover}
+  .slides{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:#f3e3cd}
+  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:cm 12s infinite}
+  .slides img:nth-child(2){animation-delay:4s}
+  .slides img:nth-child(3){animation-delay:8s}
+  @keyframes cm{0%{opacity:0}5%{opacity:1}33%{opacity:1}38%{opacity:0}100%{opacity:0}}
+  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
+
 </style>
 </head>
 <body>
@@ -46,9 +54,13 @@
   </header>
 
   <section>
+    <h2>お店のこと</h2>
+    <p>まつげパーマ歴15年以上。遠赤外線まつげパーマとキラ水（煌水）が特色です。</p>
+  </section>
+
+  <section>
     <h2>メニュー</h2>
     <ul>
-      <li>まつげパーマ歴15年以上。遠赤外線まつげパーマとキラ水（煌水）が特色です</li>
       <li>基本メニュー 4,000円</li>
       <li>根元メニュー 3,000円（根元メンテナンスは3週間以内が目安）</li>
       <li>ヘッドスパの追加メニューもあります</li>
@@ -71,16 +83,19 @@
 
   <section>
     <h2>写真</h2>
-    <img class="photo" src="../images/shop/salon-1f.jpg" alt="施術スペース。ベッドとチェアが並ぶ店内">
-    <img class="photo" src="../images/shop/shampoo.jpg" alt="庭が見える店内のくつろぎスペース" style="margin-top:10px">
-    <img class="photo" src="../images/shop/entrance.jpg" alt="お店の入口（階段と植栽）" style="margin-top:10px">
+    <div class="slides">
+    <img src="../images/shop/salon-1f.jpg" alt="施術スペース。ベッドとチェアが並ぶ店内">
+    <img src="../images/shop/eyes-tech.jpg" alt="まつげパーマの施術中">
+    <img src="../images/shop/shampoo.jpg" alt="庭が見える店内のくつろぎスペース">
+    </div>
+    <p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真は自動で切り替わります</p>
   </section>
 
   <section>
     <h2>最新情報</h2>
-    <p>予約の空き状況やお知らせは、専用ページと公式LINEでご確認ください。</p>
+    <p>予約の空き状況は、公式LINEが早くて確実です。</p>
     <div class="sns">
-      <a href="https://momowari.github.io/Eyes-MAHALO/" target="_blank" rel="noopener"><b>専用ページで最新情報を見る</b><span>メニュー・雰囲気・アクセス</span></a>
+      <a href="https://lin.ee/q8vBvt1" target="_blank" rel="noopener"><b>公式LINEで空きを確認する</b><span>相談・予約はこちらから</span></a>
       <a href="../board.html"><b>みんなの掲示板</b><span>OHANAのお知らせはこちら</span></a>
     </div>
   </section>
@@ -109,5 +124,6 @@
     <a href="../index.html">トップページへ</a>
   </footer>
 </div>
+<a class="fab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットに参加</a>
 </body>
 </html>
