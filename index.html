@@ -387,7 +387,6 @@ transform:translateY(-70%) rotate(45deg);transition:transform.2s ease;
 .faq-a p{margin:0}
 
 /* ---------- chatbot ---------- */
-function logChat(topic, kind){ if (window.gtag){ gtag('event', 'chat_question', {topic: topic, kind: kind}); } }
 .chat{
 background:var(--chat-bg);border:1px solid var(--line);border-radius:18px;
 padding:18px;box-shadow:var(--shadow);
@@ -1511,6 +1510,7 @@ if (hp && hp.catch) hp.catch(function(){});
 
 
 /* ---------- chatbot ---------- */
+function logChat(topic, kind){ if (window.gtag){ gtag('event', 'chat_question', {topic: topic, kind: kind}); } }
 var OC_URL = "https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default";
 var QA = [
 { q:"OHANAって何？", chip:"OHANAって何？", a:"愛媛県松山市のプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」です。"},
