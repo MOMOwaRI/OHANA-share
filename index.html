@@ -662,24 +662,24 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 </div>
 <div class="card">
 <p>OHANAシェア＊プロジェクトは、<strong class="hl">愛媛県松山市</strong>で活動する地域プロジェクトです。理念は<strong class="hl">「眠っている価値を、必要な場所へ」</strong>。家で眠っているモノ、誰かの得意なこと、体験や場所——そうした<strong class="hl">ヒト・モノ・コト</strong>をつなぎ、価値を地域の中で循環させる取り組みです。</p>
-<p>やり方はシンプルです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1のマッチングが起こりにくい物々交換を、お買い物感覚で選べるようにした仕組みという意味です。目指すのは、お金がなくても回る仕組み作り。券は現金に換金せず、地域の中でぐるぐる巡らせます。</p>
+<p>やり方はシンプルです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。目指すのは、お金がなくても回る仕組み作り。券は現金に換金せず、地域の中でぐるぐる巡らせます。</p>
 <p>交換の対象は、モノだけではありません。</p>
 <div class="pillars">
-<div class="pillar" data-jump="ヒト" title="ヒトを探す">
+<a class="pillar" href="hito.html" style="display:block;text-decoration:none;color:inherit" title="ヒトの一覧へ">
 <div class="p-ico" aria-hidden="true">🤲</div>
 <div class="p-name">ヒト</div>
 <div class="p-desc">「これができます」という、人の力や得意なこと</div>
-</div>
-<div class="pillar" data-jump="モノ" title="モノを探す">
+</a>
+<a class="pillar" href="mono.html" style="display:block;text-decoration:none;color:inherit" title="モノの一覧へ">
 <div class="p-ico" aria-hidden="true">🧺</div>
 <div class="p-name">モノ</div>
 <div class="p-desc">衣類・雑貨・子ども用品など、まだ使えるもの</div>
-</div>
-<div class="pillar" data-jump="コト" title="コトを探す">
+</a>
+<a class="pillar" href="koto.html" style="display:block;text-decoration:none;color:inherit" title="コトの一覧へ">
 <div class="p-ico" aria-hidden="true">🎨</div>
 <div class="p-name">コト</div>
 <div class="p-desc">ワークショップなどの体験や、場所のシェア</div>
-</div>
+</a>
 </div>
 <div class="host-box">
 <img class="floaty" src="img-992cf83a89.png" alt="" width="489" height="680" loading="lazy" />
@@ -833,93 +833,21 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 .member-card a.mc-link{display:inline-block;margin-top:8px;font-weight:bold;color:#c2610f}
 </style>
 <div class="card">
-<p><strong class="hl">価値を探す</strong>（チップを選ぶと、下に表示されます）</p>
-<div class="chips" id="cat-chips">
-<button class="chip" data-cat="ヒト">ヒト（1件）</button>
-<button class="chip" data-cat="モノ">モノ（1件）</button>
-<button class="chip" data-cat="コト">コト（3件）</button>
+<p><strong class="hl">価値を探す</strong>（カテゴリを選ぶと、一覧ページへ移動します）</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 4px">
+<a href="hito.html" style="flex:1;min-width:96px;text-align:center;background:#2f7fd0;color:#fff;font-weight:bold;border-radius:999px;padding:13px 6px;text-decoration:none">ヒト（1件）</a>
+<a href="mono.html" style="flex:1;min-width:96px;text-align:center;background:#3d9e63;color:#fff;font-weight:bold;border-radius:999px;padding:13px 6px;text-decoration:none">モノ（1件）</a>
+<a href="koto.html" style="flex:1;min-width:96px;text-align:center;background:#e07b24;color:#fff;font-weight:bold;border-radius:999px;padding:13px 6px;text-decoration:none">コト（3件）</a>
 </div>
-<p id="member-hint" style="font-size:.88rem;color:#8a6a4f">上のチップを選ぶと、登録されている価値がここに表示されます。</p>
-<div class="member-grid" id="member-grid" style="display:none">
-<article class="member-card" data-cat="ヒト" data-area="松山市">
-<span class="mc-cat">ヒト</span>
-<h3>MOMOwaRI（運営）</h3>
-<p>まつげパーマ（Eyes MAHALO）、ヒト・モノ・コトをつなぐこと、イベント企画・運営。</p>
-<p class="mc-tags">松山市 ｜ 提供できます ｜ スキル提供</p>
-<a class="mc-link" href="members/momowari.html">紹介ページを見る →</a>
-</article>
-<article class="member-card" data-cat="コト" data-area="松山市">
-<span class="mc-cat">コト</span>
-<h3>Eyes MAHALO</h3>
-<p>まつげパーマ専門（遠赤外線・キラ水）。歴15年以上、松山市・MAHALO美容室1F。</p>
-<p class="mc-tags">松山市 ｜ スキル提供 ｜ OHANAメンバー</p>
-<a class="mc-link" href="members/eyes-mahalo.html">紹介ページを見る →</a>
-</article>
-<article class="member-card" data-cat="モノ" data-area="松山市">
-<span class="mc-cat">モノ</span>
-<h3>雑貨屋 Lea Mahalo</h3>
-<p>雑貨・アクセサリー・フラワー雑貨のお店。メルカリでも出品中。</p>
-<p class="mc-tags">松山市 ｜ OHANAメンバー</p>
-<a class="mc-link" href="members/lea-mahalo.html">紹介ページを見る →</a>
-</article>
-<article class="member-card" data-cat="コト" data-area="松山市">
-<span class="mc-cat">コト</span>
-<h3>MAHALO美容室</h3>
-<p>松山市味酒町の美容室。Eyes MAHALOと雑貨屋Lea Mahaloが入る、OHANAのイベント会場にもなる場所。</p>
-<p class="mc-tags">松山市 ｜ 場所 ｜ OHANAメンバー</p>
-<a class="mc-link" href="members/mahalo.html">紹介ページを見る →</a>
-</article>
-<article class="member-card" data-cat="コト" data-area="松山市">
-<span class="mc-cat">コト</span>
-<h3>elua Mahalo</h3>
-<p>女性限定・完全予約制の美容室。マンツーマンで静かな、マハロビル1階の「第2のMAHALO」。</p>
-<p class="mc-tags">松山市 ｜ 美容室 ｜ OHANAメンバー</p>
-<a class="mc-link" href="members/elua-mahalo.html">紹介ページを見る →</a>
-</article>
-</div>
-<p id="member-empty" style="display:none;font-size:.88rem;color:#8a6a4f">この条件ではまだ登録がありません。</p>
+
 <p style="margin-top:12px">メンバーはこれから増えていきます。お店・団体の無料掲載に興味のある方は、<a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォーム</a>からご連絡ください。</p>
-<p>100円券が使えたら嬉しいなと思うヒト・モノ・コトへお声がけください。そうやって輪を広げましょう。</p>
+<p>100円券が使えたら嬉しいなと思うヒト・モノ・コトへお声がけください。輪を広げていきましょう♪</p>
 </div>
 <div class="card">
 <p><strong class="hl">OHANAメンバーマップ</strong>（ピンの色は、ヒト＝青・モノ＝緑・コト＝オレンジです）</p>
 <iframe src="https://www.google.com/maps/d/embed?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4&ll=33.8456%2C132.7554&z=13" style="width:100%;height:340px;border:0;border-radius:14px" loading="lazy" title="OHANAメンバーマップ"></iframe>
 <p style="margin-top:8px;font-size:.88rem"><a href="https://www.google.com/maps/d/viewer?mid=1888y0m8zE6iMiS9vIePuuzJix8mzkl4" target="_blank" rel="noopener">Googleマップで大きく開く →</a>（OHANAメンバーが増えるたびに、ピンも増えていきます）</p>
 </div>
-<script>
-(function(){
-  var cat=null;
-  var grid=document.getElementById('member-grid');
-  var hint=document.getElementById('member-hint');
-  var empty=document.getElementById('member-empty');
-  function apply(){
-    if(cat===null){ grid.style.display='none'; hint.style.display=''; empty.style.display='none'; return; }
-    hint.style.display='none';
-    var shown=0;
-    document.querySelectorAll('#member-grid .member-card').forEach(function(c){
-      var ok=(cat==='all'||c.dataset.cat===cat);
-      c.style.display=ok?'':'none'; if(ok) shown++;
-    });
-    grid.style.display=shown?'':'none';
-    empty.style.display=shown?'none':'';
-  }
-  function setCat(v){
-    cat=v;
-    document.querySelectorAll('#cat-chips .chip').forEach(function(x){x.classList.toggle('on', x.dataset.cat===v)});
-    apply();
-  }
-  document.querySelectorAll('#cat-chips .chip').forEach(function(b){
-    b.addEventListener('click',function(){ setCat(b.dataset.cat); });
-  });
-  document.querySelectorAll('.pillar[data-jump]').forEach(function(p){
-    p.addEventListener('click',function(){
-      setCat(p.dataset.jump);
-      document.getElementById('matching-h').scrollIntoView({behavior:'smooth'});
-    });
-  });
-  apply();
-})();
-</script>
 </section>
 <section aria-labelledby="glossary-h">
 <div class="sec-head">
@@ -933,7 +861,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 </div>
 <div class="gloss">
 <dt>選べる物々交換</dt>
-<dd>「選べる」とは、1対1のマッチングが起こりにくい物々交換を、お買い物感覚で選べるようにした仕組みという意味です。</dd>
+<dd>「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</dd>
 </div>
 <div class="gloss">
 <dt>エクスチェンジハンガー</dt>
