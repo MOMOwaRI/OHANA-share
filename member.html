@@ -212,35 +212,43 @@ function render(d, editMode){
   $('in-sns').value = d.snsLinks || '';
 }
 
-var SUGG = [
-  {key:'Lea', items:[['ホームページ','hp','https://momowari.github.io/Lea-Mahalo/'],['SNS（メルカリ）','sns','https://jp.mercari.com/user/profile/256767561']]},
-  {key:'Eyes', items:[['ホームページ','hp','https://momowari.github.io/Eyes-MAHALO/'],['メニュー・料金','menu','https://momowari.github.io/Eyes-MAHALO/'],['SNS（公式LINE）','sns','https://lin.ee/q8vBvt1']]},
-  {key:'elua', items:[['ホームページ','hp','https://www.hair-mahalo.com/mahalo-1f']]},
-  {key:'MAHALO', items:[['ホームページ','hp','https://www.hair-mahalo.com/']]},
-  {key:'MOMOwaRI', items:[['ホームページ','hp','https://lit.link/momowari']]}
-];
+var SUGGSETS = {
+  lea: [['ホームページ','hp','https://momowari.github.io/Lea-Mahalo/'],['SNS（メルカリ）','sns','https://jp.mercari.com/user/profile/256767561']],
+  eyes: [['ホームページ','hp','https://momowari.github.io/Eyes-MAHALO/'],['メニュー・料金','menu','https://momowari.github.io/Eyes-MAHALO/'],['SNS（公式LINE）','sns','https://lin.ee/q8vBvt1']],
+  mahalo: [['ホームページ','hp','https://www.hair-mahalo.com/']],
+  elua: [['ホームページ','hp','https://www.hair-mahalo.com/mahalo-1f']],
+  momo: [['ホームページ','hp','https://lit.link/momowari']]
+};
 function buildSuggestions(){
   var name = (pageData && pageData.nickname) || '';
+  var cats = (pageData && pageData.categories) || (pageData && pageData.category ? [pageData.category] : []);
+  var sets = [];
+  if(name.indexOf('Lea') >= 0 || (id && id.slice(-6) === '__mono')) sets.push(['Lea Mahalo', SUGGSETS.lea]);
+  if(name.indexOf('Eyes') >= 0 || (id && id.slice(-6) === '__koto')) sets.push(['Eyes MAHALO', SUGGSETS.eyes]);
+  if(name.indexOf('elua') >= 0) sets.push(['elua Mahalo', SUGGSETS.elua]);
+  if(name.indexOf('MAHALO') >= 0 && name.indexOf('Eyes') < 0) sets.push(['hair ID salon MAHALO', SUGGSETS.mahalo]);
+  if(name.indexOf('MOMOwaRI') >= 0) sets.push(['MOMOwaRI', SUGGSETS.momo]);
+  if(!sets.length){
+    if(cats.indexOf('モノ') >= 0) sets.push(['Lea Mahalo', SUGGSETS.lea]);
+    else if(cats.indexOf('コト') >= 0){ sets.push(['Eyes MAHALO', SUGGSETS.eyes]); sets.push(['hair ID salon MAHALO', SUGGSETS.mahalo]); sets.push(['elua Mahalo', SUGGSETS.elua]); }
+    else sets.push(['MOMOwaRI', SUGGSETS.momo]);
+  }
   var box = $('sugg-btns');
   box.innerHTML = '';
-  var found = false;
-  SUGG.forEach(function(s){
-    if(name.indexOf(s.key) >= 0){
-      s.items.forEach(function(it){
-        found = true;
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.textContent = it[0] + '：' + it[2].replace('https://','');
-        b.addEventListener('click', function(){
-          if(it[1] === 'hp') $('in-hp').value = it[2];
-          else if(it[1] === 'menu') $('in-menu').value = it[2];
-          else { var cur = $('in-sns').value.trim(); $('in-sns').value = cur ? cur + '\n' + it[2] : it[2]; }
-        });
-        box.appendChild(b);
+  sets.forEach(function(pair){
+    pair[1].forEach(function(it){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = pair[0] + '・' + it[0];
+      b.addEventListener('click', function(){
+        if(it[1] === 'hp') $('in-hp').value = it[2];
+        else if(it[1] === 'menu') $('in-menu').value = it[2];
+        else { var cur = $('in-sns').value.trim(); $('in-sns').value = cur ? cur + '\n' + it[2] : it[2]; }
       });
-    }
+      box.appendChild(b);
+    });
   });
-  $('link-suggest').hidden = !found;
+  $('link-suggest').hidden = false;
 }
 
 function setEdit(on){
