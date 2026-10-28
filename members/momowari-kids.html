@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>子供服・おもちゃ（MOMOwaRI）｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ</title>
+<title>MOMOwaRIのモノ（子供服・服・おもちゃ）｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ</title>
 <link rel="canonical" href="https://momowari.github.io/OHANA-share/members/momowari-kids.html">
 <link rel="icon" href="../favicon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
@@ -73,19 +73,30 @@ th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertic
 footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
 footer img{width:90px;display:block;margin:0 auto 8px}
 .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
+
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pgrid figure{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.pgrid img{width:100%;height:150px;object-fit:cover;display:block}
+.pgrid figcaption{font-size:.82rem;padding:6px 8px;text-align:center}
+
+.sharewrap{text-align:center;margin-top:12px}
+.sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
+.sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
+.sharemenu.open{display:flex}
+.sharemenu a,.sharemenu button{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:7px 14px;font-size:.85rem;text-decoration:none;color:#3a2e25;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
 <div><span class="badge">モノ</span></div>
-<h1>子供服・おもちゃ</h1>
+<h1>MOMOwaRIのモノ</h1>
 <p class="ename">MOMOwaRI</p>
 <div class="hero-pv"><img class="hero-video" src="../images/shop/mono-cm.webp" width="408" height="538" alt="子供服・おもちゃの紹介アニメーション"></div>
-<p class="catch">サイズアウトした子供服を、<span>次の家族へ</span>。</p>
+<p class="catch">眠っている服とモノを、<span>次の人へ</span>。</p>
 <p class="sub">松山市｜MOMOwaRI（OHANAメンバー）のモノページ</p>
 <div class="tags">
-<span class="tag">松山市</span><span class="tag">子供服</span><span class="tag">おもちゃ</span><span class="tag">OHANAメンバー</span>
+<span class="tag">松山市</span><span class="tag">子供服</span><span class="tag">レディース服</span><span class="tag">おもちゃ</span><span class="tag">OHANAメンバー</span>
 </div>
 <div class="ctarow">
 <a class="main" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットで聞く</a>
@@ -93,20 +104,51 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 </div>
 <p class="note">気になるモノがあったら、オープンチャットで声をかけてください。</p>
 </header>
+<div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
+<div class="sharemenu" id="share-menu">
+<a id="share-line" target="_blank" rel="noopener">LINEで送る</a>
+<a id="share-x" target="_blank" rel="noopener">Xでシェア</a>
+<button type="button" id="share-copy">リンクをコピー</button>
+</div><p class="note" id="share-msg"></p></div>
+<script>
+(function(){
+  var line = document.getElementById('share-line'), x = document.getElementById('share-x');
+  var url = location.href;
+  if(line) line.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url);
+  if(x) x.href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(document.title);
+  var btn = document.getElementById('share-btn'), menu = document.getElementById('share-menu');
+  btn.addEventListener('click', function(){
+    if(navigator.share){ navigator.share({title: document.title, url: url}).catch(function(){}); }
+    else { menu.classList.toggle('open'); }
+  });
+  document.getElementById('share-copy').addEventListener('click', function(){
+    if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){ document.getElementById('share-msg').textContent = 'リンクをコピーしました'; }); }
+  });
+})();
+</script>
+
 
 <section>
 <h2>このモノのこと</h2>
 <img class="story-photo" src="../images/shop/mono-kids-1.jpg" alt="子供服などのコラージュ">
-<p>子供服が大量にあります。BABYDOLL・JAMなどのブランド子供服もまざっています。サイズアウトして眠っている服を、必要な家族へつなぎたいと思って出しています。</p>
+<p>子供服が大量にあります。BABYDOLL・JAMなどのブランド子供服もまざっています。写真のレディース服や雑貨、おもちゃも出しています。サイズアウトして眠っている服を、必要な家族へつなぎたいと思って出しています。</p>
 <p>レンタルや物々交換もOKです。雑貨屋 Lea Mahalo のモノと一緒に見ることもできます。</p>
 </section>
 
+<section>
+<h2>モノの写真</h2>
+<div class="pgrid"><figure><img src="../images/shop/items/item-a.jpg" alt="靴・小物いろいろ"><figcaption>靴・小物いろいろ</figcaption></figure><figure><img src="../images/shop/items/item-b.jpg" alt="レースのワンピース"><figcaption>レースのワンピース</figcaption></figure><figure><img src="../images/shop/items/item-c.jpg" alt="ベージュのワンピース"><figcaption>ベージュのワンピース</figcaption></figure><figure><img src="../images/shop/items/item-d.jpg" alt="黄色のドレス"><figcaption>黄色のドレス</figcaption></figure><figure><img src="../images/shop/items/item-e.jpg" alt="黒トップスとチェックのスカート"><figcaption>黒トップスとチェックのスカート</figcaption></figure><figure><img src="../images/shop/items/item-f.jpg" alt="ベージュのコート"><figcaption>ベージュのコート</figcaption></figure><figure><img src="../images/shop/mono-toys-1.jpg" alt="おもちゃいろいろ"><figcaption>おもちゃいろいろ</figcaption></figure></div>
+<p class="note">写真はこれから増えていきます。気になるモノはオープンチャットで聞いてください。</p>
+</section>
 <div class="ticket"><span class="tk-big">写真を投げるだけで、出品できます</span><span class="tk-note">このページも、写真から作りました。出品の手間はありません</span></div>
 
+<p style="text-align:center;margin-top:14px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener" style="display:inline-block;background:#fff;color:var(--accent-dark);border:2px solid var(--accent);border-radius:999px;padding:11px 22px;font-weight:bold;text-decoration:none">写真受付箱はこちら（Googleフォト）→</a></p>
+<p class="note" style="text-align:center">開いたときに「人やペットを選んでください」と出ても、Googleフォトの機能でOHANAとは関係ありません。そのまま閉じて大丈夫です。</p>
 <section>
 <h2>ピックアップ</h2>
 <div class="feats">
 <div class="feat"><b>子供服</b>：BABYDOLL・JAMなどのキッズ子供服が大量にあります</div>
+<div class="feat"><b>レディース服</b>：axes femmeなどのワンピースやコート（写真の通りです）</div>
 <div class="feat"><b>おもちゃ</b>：トーマスのビッグローダー、トイ・ストーリーのゲームなど</div>
 <div class="feat"><b>レンタル・物々交換</b>も相談できます</div>
 </div>
@@ -115,14 +157,13 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <section>
 <h2>こんなモノです</h2>
 <table>
-<tr><th>カテゴリ</th><td>ベビー・キッズ服／おもちゃ</td></tr>
+<tr><th>カテゴリ</th><td>ベビー・キッズ服／レディース服／おもちゃ・雑貨</td></tr>
 <tr><th>場所</th><td>松山市（マハロビル・Lea Mahalo）</td></tr>
 <tr><th>渡し方</th><td>OHANAのイベントやお店で手渡し（相談に応じます）</td></tr>
 <tr><th>交換</th><td>OHANA100円券・物々交換でお渡しします</td></tr>
 </table>
 </section>
 
-<figure class="band"><img src="../images/shop/mono-toys-1.jpg" alt="店先に並んだおもちゃ"><figcaption>おもちゃも並んでいます</figcaption></figure>
 
 <section>
 <h2>よくある質問</h2>
@@ -172,6 +213,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
 OHANAシェア＊プロジェクト OHANAメンバー紹介ページ<br>
 <a href="../index.html">トップページへ</a>
+<p style="text-align:center;font-size:.85rem;color:var(--soft);margin-top:10px">「こうしたら？」のアイディア・ご意見は<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">こちら</a>へお寄せください</p>
 </footer>
 </div>
 <a class="fab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットに参加</a>

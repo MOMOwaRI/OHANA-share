@@ -6,7 +6,7 @@
 <title>hair ID salon MAHALO｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/mahalo.html">
 <link rel="icon" href="../favicon.png">
 <style>
-:root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4;--soft:#8a6a4f}
+:root{--orange:#2e6da4;--orange-dark:#1f4e79;--ink:#3a2e25;--paper:#f4f8fb;--card:#ffffff;--line:#cfdff0;--soft:#5f7d97}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
@@ -37,7 +37,7 @@ body{counter-reset:feat}
 .qa .q{position:relative;padding-left:36px}
 .qa .q::before{content:"Q";position:absolute;left:0;top:3px;width:25px;height:25px;border-radius:50%;background:var(--orange);color:#fff;font-weight:bold;text-align:center;line-height:25px;font-size:.85rem}
 .qa .a{padding-left:36px}
-.ticket{position:relative;max-width:34em;margin:18px auto 4px;text-align:center;background:var(--orange);color:#fff;border-radius:26px;padding:22px 22px 18px;box-shadow:0 12px 26px rgba(224,123,36,.35)}
+.ticket{position:relative;max-width:34em;margin:18px auto 4px;text-align:center;background:var(--orange);color:#fff;border-radius:26px;padding:22px 22px 18px;box-shadow:0 12px 26px rgba(46,109,164,.35)}
 .ticket::before{content:"";position:absolute;inset:6px;border:2.5px dashed rgba(255,255,255,.85);border-radius:20px;pointer-events:none}
 .ticket .tk-big{display:block;font-weight:900;font-size:clamp(1.25rem,5.2vw,1.6rem);line-height:1.5;letter-spacing:.03em;text-shadow:0 2px 0 rgba(124,74,22,.35);margin-bottom:4px}
 .ticket .tk-note{display:block;font-size:.85rem;color:#ffedd5;line-height:1.6}
@@ -51,10 +51,10 @@ h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
 .catch{font-size:1.12rem;font-weight:bold;margin-top:14px}
 .catch span{color:var(--orange-dark)}
 .tags{margin:10px 0 2px}
-.tag{display:inline-block;background:#fdeeda;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
+.tag{display:inline-block;background:#e9f2f9;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
 .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
-.ctarow .main{background:var(--orange);color:#fff;box-shadow:0 4px 14px rgba(224,123,36,.35)}
+.ctarow .main{background:var(--orange);color:#fff;box-shadow:0 4px 14px rgba(46,109,164,.35)}
 .ctarow .sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
 section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
 h2{font-size:1.18rem;color:var(--orange-dark);margin-bottom:10px;border-left:5px solid var(--orange);padding-left:10px;letter-spacing:.04em}
@@ -72,7 +72,7 @@ td.p{text-align:right;white-space:nowrap;font-weight:bold}
 .note{font-size:.82rem;color:var(--soft);margin-top:8px}
 .story-photo{width:100%;border-radius:12px;display:block;margin-bottom:12px}
 .feats{display:grid;grid-template-columns:1fr;gap:10px}
-.feat{border:1px solid var(--line);background:#fffdf9;border-radius:12px;padding:12px 14px;font-size:.94rem}
+
 .feat b{color:var(--orange-dark)}
 .film{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
 .film img{width:62%;flex:0 0 auto;border-radius:12px;display:block}
@@ -94,6 +94,20 @@ td.p{text-align:right;white-space:nowrap;font-weight:bold}
 footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
 footer img{width:90px;display:block;margin:0 auto 8px}
 .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
+
+.film{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.film figure{flex:0 0 68%;scroll-snap-align:start}
+.film img{width:100%;height:180px;object-fit:cover;border-radius:12px;display:block}
+.film figcaption{font-size:.8rem;color:var(--soft);margin-top:4px;text-align:center}
+.lrow{display:flex;gap:8px;align-items:flex-start;margin-top:10px}
+.lchip{flex:0 0 auto;border-radius:999px;padding:1px 11px;font-size:.78rem;font-weight:bold;color:#4a3418;margin-top:3px}
+.lrow p{flex:1}
+
+.sharewrap{text-align:center;margin-top:12px}
+.sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
+.sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
+.sharemenu.open{display:flex}
+.sharemenu a,.sharemenu button{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:7px 14px;font-size:.85rem;text-decoration:none;color:#3a2e25;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -109,11 +123,34 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <span class="tag">松山市</span><span class="tag">美容室</span><span class="tag">OHANAメンバー</span>
 </div>
 <div class="ctarow">
-<a class="main" href="tel:0899341455">電話で予約する</a>
-<a class="sub2" href="https://www.hair-mahalo.com/" target="_blank" rel="noopener">公式HPを見る</a>
+<a class="main" href="https://line.me/R/ti/p/%40mahalo.hair" target="_blank" rel="noopener">LINEで予約する</a>
+<a class="sub2" href="tel:0899341455">電話で予約する</a>
 </div>
 <p class="note">ご予約は前日までにお願いいたします（当日予約はできません）。</p>
 </header>
+<div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
+<div class="sharemenu" id="share-menu">
+<a id="share-line" target="_blank" rel="noopener">LINEで送る</a>
+<a id="share-x" target="_blank" rel="noopener">Xでシェア</a>
+<button type="button" id="share-copy">リンクをコピー</button>
+</div><p class="note" id="share-msg"></p></div>
+<script>
+(function(){
+  var line = document.getElementById('share-line'), x = document.getElementById('share-x');
+  var url = location.href;
+  if(line) line.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url);
+  if(x) x.href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(document.title);
+  var btn = document.getElementById('share-btn'), menu = document.getElementById('share-menu');
+  btn.addEventListener('click', function(){
+    if(navigator.share){ navigator.share({title: document.title, url: url}).catch(function(){}); }
+    else { menu.classList.toggle('open'); }
+  });
+  document.getElementById('share-copy').addEventListener('click', function(){
+    if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){ document.getElementById('share-msg').textContent = 'リンクをコピーしました'; }); }
+  });
+})();
+</script>
+
 
 <section>
 <h2>お店のこと</h2>
@@ -137,6 +174,11 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 </table>
 </section>
 
+<section>
+<h2>店内の様子</h2>
+<div class="film"><figure><img src="../images/shop/salon-film1.jpg" alt="木のある入口"><figcaption>木のある入口</figcaption></figure><figure><img src="../images/shop/salon-film2.jpg" alt="鏡の並ぶ店内"><figcaption>鏡の並ぶ店内</figcaption></figure><figure><img src="../images/shop/salon-film3.jpg" alt="カラーの色見本"><figcaption>カラーの色見本</figcaption></figure><figure><img src="../images/shop/salon-film4.jpg" alt="通りから見た外観"><figcaption>通りから見た外観</figcaption></figure><figure><img src="../images/shop/decor.jpg" alt="店内の飾り"><figcaption>店内の飾り</figcaption></figure></div>
+<p class="note">横にスライドできます。</p>
+</section>
 <section>
 <h2>特徴</h2>
 <div class="feats">
@@ -209,6 +251,11 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 </div>
 </section>
 
+<section id="live-sec" style="display:none">
+  <h2>探している・提供している</h2>
+  <div id="live-rows"></div>
+  <p class="note">この欄は、本人がマイページで更新しています。</p>
+</section>
 <section>
 <h2>リンク集</h2>
 <div class="sns">
@@ -267,8 +314,39 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
 OHANAシェア＊プロジェクト OHANAメンバーページ<br>
 <a href="../index.html">トップページへ</a>
+<p style="text-align:center;font-size:.85rem;color:var(--soft);margin-top:10px">「こうしたら？」のアイディア・ご意見は<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">こちら</a>へお寄せください</p>
 </footer>
 </div>
 <a class="fab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットに参加</a>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  if(!window.firebase) return;
+  var cfg = {
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+};
+  try{ if(!firebase.apps.length) firebase.initializeApp(cfg); }catch(e){ return; }
+  firebase.firestore().collection('profiles').doc("ELCzyeeoDCU4gveavc077L4jBqE3__pmahalo01").get().then(function(s){
+    if(!s.exists) return; var d = s.data(); if(!d || d.deleted) return;
+    var rows = '';
+    function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+    function row(label, color, text){ if(text && String(text).trim()){ rows += '<div class="lrow"><span class="lchip" style="background:'+color+'">'+label+'</span><p>'+esc(text)+'</p></div>'; } }
+    row('探しているヒト','#f6c3d5', d.seekingHito);
+    row('探しているモノ','#bfe6cf', d.seekingMono);
+    row('探しているコト','#fbe38e', d.seekingKoto);
+    row('提供できるヒト','#f6c3d5', d.offeringHito);
+    row('提供できるモノ','#bfe6cf', d.offeringMono);
+    row('提供できるコト','#fbe38e', d.offeringKoto);
+    if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
+    if(rows){ document.getElementById('live-rows').innerHTML = rows; document.getElementById('live-sec').style.display = ''; }
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
