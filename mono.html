@@ -20,6 +20,7 @@
   @media(min-width:560px){.grid{grid-template-columns:1fr 1fr 1fr}}
   .item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);display:block;box-shadow:0 2px 8px rgba(160,100,40,.08)}
   .item img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f6ead9}
+  .item .nophoto{width:100%;aspect-ratio:1/1;background:#f6ead9;color:var(--soft);display:flex;align-items:center;justify-content:center;font-size:.85rem}
   .item .body{display:block;padding:10px 12px 12px}
   .item .name{display:block;font-weight:bold;font-size:1rem;line-height:1.4}
   .item .desc{font-size:.84rem;color:var(--soft);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -43,7 +44,7 @@
     <h1>モノの一覧</h1>
     <p class="sub">ゆずれるモノ・お店のモノが並びます。気になるモノをタップすると、紹介ページが見られます。</p>
   </header>
-  <div class="grid">
+  <div class="grid" id="grid">
     <a class="item" href="members/lea-mahalo.html">
       <img src="images/shop/zakka-1.jpg" alt="雑貨屋 Lea Mahaloの店内">
       <span class="body">
@@ -65,5 +66,42 @@
   <a class="back" href="index.html">OHANAトップへ戻る</a>
   <footer>OHANAシェア＊プロジェクト</footer>
 </div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+});
+function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+firebase.firestore().collection('profiles').where('categories', 'array-contains', 'モノ').get().then(function(snap){
+  var items = [];
+  snap.forEach(function(doc){
+    var d = doc.data();
+    if(d.deleted || !d.nickname) return;
+    if(d.nickname.indexOf('Lea Mahalo') >= 0) return;
+    items.push({id: doc.id, d: d});
+  });
+  items.sort(function(a, b){ return (a.d.memberNo || 999) - (b.d.memberNo || 999); });
+  var grid = document.getElementById('grid');
+  var join = grid.querySelector('.join');
+  items.forEach(function(it){
+    var d = it.d;
+    var a = document.createElement('a');
+    a.className = 'item';
+    a.href = 'member.html?id=' + encodeURIComponent(it.id);
+    var ph = d.photoUrl ? '<img src="' + esc(d.photoUrl) + '" alt="">' : '<span class="nophoto">写真はまだ</span>';
+    var desc = (d.intro || '').slice(0, 60);
+    a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname) + '</span>' +
+      (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
+      '<span class="meta"><span class="ticket">100円券OK</span>' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
+    grid.insertBefore(a, join);
+  });
+}).catch(function(){});
+</script>
 </body>
 </html>
