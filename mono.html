@@ -5,20 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>モノの一覧｜OHANAシェア＊プロジェクト</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/mono.html">
 <link rel="icon" href="favicon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
 <style>
-  :root{--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f}
+  :root{--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f;--green:#3d7a4a}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
-  .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
+  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.7}
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px 48px}
   header{text-align:center;padding:32px 0 4px}
   .banner{width:100%;border-radius:14px;display:block;margin:0 auto 12px;border:2px solid #e8cdb0;box-shadow:0 4px 14px rgba(160,100,40,.28);background:#fff}
   h1{font-size:1.5rem;margin:6px 0 2px}
   .sub{color:var(--soft);font-size:.92rem}
-  .mcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:14px;box-shadow:0 2px 8px rgba(160,100,40,.08)}
-  .mcard h2{font-size:1.15rem;margin:4px 0}
-  .badge{display:inline-block;color:#4a3418;border-radius:999px;padding:1px 12px;font-size:.8rem;font-weight:bold}
-  .tags{font-size:.84rem;color:var(--soft)}
-  .mcard a.go{display:inline-block;margin-top:8px;font-weight:bold;text-decoration:none}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  @media(min-width:560px){.grid{grid-template-columns:1fr 1fr 1fr}}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);display:block;box-shadow:0 2px 8px rgba(160,100,40,.08)}
+  .item img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f6ead9}
+  .item .body{display:block;padding:10px 12px 12px}
+  .item .name{display:block;font-weight:bold;font-size:1rem;line-height:1.4}
+  .item .desc{font-size:.84rem;color:var(--soft);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .item .meta{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .ticket{background:#e5f3e8;color:var(--green);border:1px solid #bfe6cf;border-radius:999px;padding:0 10px;font-size:.75rem;font-weight:bold}
+  .area{font-size:.78rem;color:var(--soft)}
+  .join{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:2px dashed #d9b98c;border-radius:14px;background:#fffdf8;text-decoration:none;color:var(--ink);padding:18px 12px;min-height:100%}
+  .join .plus{font-size:2rem;color:#e07b24;line-height:1}
+  .join .jt{font-weight:bold;margin-top:6px}
+  .join .js{font-size:.8rem;color:var(--soft);margin-top:2px}
   .navrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
   .navrow a{flex:1;min-width:140px;text-align:center;background:#fff;border:2px solid var(--line);border-radius:999px;padding:11px 8px;text-decoration:none;color:var(--ink);font-weight:bold}
   .back{display:block;text-align:center;margin-top:14px;background:#e07b24;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:13px}
@@ -28,16 +39,24 @@
 <body>
 <div class="wrap">
   <header>
-    <img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
+    <a href="index.html"><img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト"></a>
     <h1>モノの一覧</h1>
-    <p class="sub">モノ・商品の一覧です。</p>
+    <p class="sub">ゆずれるモノ・お店のモノが並びます。気になるモノをタップすると、紹介ページが見られます。</p>
   </header>
-  <div class="mcard">
-    <span class="badge" style="background:#bfe6cf">モノ</span>
-    <h2>雑貨屋 Lea Mahalo</h2>
-    <p>雑貨・アクセサリー・フラワー雑貨のお店。メルカリでも出品中。</p>
-    <p class="tags">松山市 ｜ OHANAメンバー</p>
-    <a class="go" href="members/lea-mahalo.html">紹介ページを見る →</a>
+  <div class="grid">
+    <a class="item" href="members/lea-mahalo.html">
+      <img src="images/shop/zakka-1.jpg" alt="雑貨屋 Lea Mahaloの店内">
+      <span class="body">
+        <span class="name">雑貨屋 Lea Mahalo</span>
+        <span class="desc">雑貨・アクセサリー・フラワー雑貨のお店。メルカリでも出品中。</span>
+        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+      </span>
+    </a>
+    <a class="join" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">
+      <span class="plus">＋</span>
+      <span class="jt">あなたのモノも並べる</span>
+      <span class="js">子供服・ベビー用品・雑貨など、ゆずれるモノを登録できます</span>
+    </a>
   </div>
   <div class="navrow">
     <a href="hito.html">ヒトの一覧を見る</a>
