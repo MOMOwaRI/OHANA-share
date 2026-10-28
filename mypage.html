@@ -3,98 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>プロフィール編集｜OHANAシェア＊プロジェクト</title>
+<title>自分のページ一覧｜OHANAシェア＊プロジェクト</title>
 <link rel="canonical" href="https://momowari.github.io/OHANA-share/mypage.html">
 <link rel="icon" href="favicon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
 <style>
-  :root{--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f;--accent:#e07b24;--hito:#f6c3d5;--mono:#bfe6cf;--koto:#fbe38e}
+  :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
-  header{text-align:center;padding:28px 0 4px}
-  h1{font-size:1.45rem}
+  header{text-align:center;padding:28px 0 8px}
+  h1{font-size:1.7rem;letter-spacing:.03em}
   .sub{color:var(--soft);font-size:.92rem}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:16px}
-  .tabs{display:flex;gap:8px;margin-bottom:6px}
-  .tabs button{flex:1;border:2px solid var(--line);background:#fff;border-radius:999px;padding:10px 4px;font-weight:bold;font-family:inherit;font-size:1rem;cursor:pointer;color:var(--ink)}
-  .tabs button.on-hito{background:var(--hito);border-color:#e58bb0}
-  .tabs button.on-mono{background:var(--mono);border-color:#7cc79c}
-  .tabs button.on-koto{background:var(--koto);border-color:#ecc94b}
-  .status{font-size:.85rem;color:var(--soft);text-align:center;margin-top:8px}
-  label{display:block;font-weight:bold;margin:16px 0 4px}
-  label:first-of-type{margin-top:0}
-  .hint{font-size:.82rem;color:var(--soft);font-weight:normal}
-  input[type=text],input[type=url],textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;font-family:inherit;background:#fffdf9}
-  textarea{min-height:84px}
-  .savebtn{display:block;width:100%;margin-top:22px;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:14px;font-size:1rem;font-weight:bold;cursor:pointer;font-family:inherit}
-  .viewlink{display:block;text-align:center;margin-top:14px;background:#fff;color:var(--accent);border:2px solid var(--accent);border-radius:999px;padding:12px;font-weight:bold;text-decoration:none}
-  .msg{font-size:.9rem;color:#3f7a4d;text-align:center;margin-top:10px;min-height:1.4em}
-  .back{display:block;text-align:center;margin-top:22px;color:var(--soft)}
+  .badge{display:inline-block;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;color:#4a3418}
+  .cat-hito{background:#f6c3d5}.cat-mono{background:#bfe6cf}.cat-koto{background:#fbe38e}
+  .page-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .page-card .nm{font-weight:bold;font-size:1.1rem;flex:1;min-width:140px}
+  .page-card .no{color:var(--soft);font-size:.88rem}
+  .open-btn{background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 20px}
+  .create-card{background:#fffdf9;border:2px dashed #e8b96f;border-radius:16px;padding:16px 20px;margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .create-card .nm{flex:1;min-width:140px;color:var(--soft)}
+  .create-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;border-radius:999px;padding:9px 20px;cursor:pointer;font-family:inherit;font-size:.95rem}
+  section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
+  .cta{display:block;text-align:center;background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;text-decoration:none;border-radius:999px;padding:13px;margin-top:16px}
+  .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
+  footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
+  footer img{width:90px;display:block;margin:0 auto 8px}
   [hidden]{display:none !important}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>プロフィール編集</h1>
-    <p class="sub">区分ごとに紹介ページを作れます。ヒト・モノ・コト、当てはまる区分だけ作れば大丈夫です。</p>
+    <img src="img-992cf83a89.png" alt="OHANAキャラクター" style="width:110px">
+    <h1>自分のページ一覧</h1>
+    <p class="sub">ページを開くと、その場で文字を直して編集できます。1人で複数のページを持てます。</p>
   </header>
 
-  <div class="card" id="box-loading"><p>ログイン状態を確認しています…</p></div>
-
-  <div class="card" id="box-needlogin" hidden>
-    <p>プロフィールの編集にはログインが必要です。</p>
-    <a class="viewlink" href="login.html">ログインページへ</a>
+  <div id="login-needed" hidden>
+    <section><p>ログインが必要です。</p></section>
+    <a class="cta" href="login.html">ログインページへ</a>
   </div>
 
-  <div class="card" id="box-form" hidden>
-    <div class="tabs">
-      <button type="button" id="tab-hito">ヒト</button>
-      <button type="button" id="tab-mono">モノ</button>
-      <button type="button" id="tab-koto">コト</button>
-    </div>
-    <p class="status" id="role-status"></p>
-    <p id="member-no" style="font-weight:bold;color:var(--accent);margin:8px 0 2px"></p>
-    <form id="profile-form">
-      <label for="f-nickname">このページの名前（公開名）</label>
-      <input type="text" id="f-nickname" maxlength="40" placeholder="例：みかんママ">
-      <p class="hint">区分ごとに違う名前で大丈夫です（例：ヒト＝個人の名前、モノ＝お店の名前）。</p>
-
-      <label for="f-area">地域</label>
-      <input type="text" id="f-area" maxlength="40" placeholder="例：松山市">
-
-      <label for="f-intro">紹介文</label>
-      <textarea id="f-intro" maxlength="600" placeholder="この区分での、あなたやお店・活動の紹介を書いてください"></textarea>
-
-      <label for="f-seekhito">探しているヒト（こんな人）</label>
-      <input type="text" id="f-seekhito" maxlength="200" placeholder="例：フリマ出店仲間、子育て中のママ友">
-      <label for="f-seekmono">探しているモノ（こんなもの）</label>
-      <input type="text" id="f-seekmono" maxlength="200" placeholder="例：子ども服のおさがり、男の子の自転車">
-      <label for="f-seekkoto">探しているコト（こんなこと）</label>
-      <input type="text" id="f-seekkoto" maxlength="200" placeholder="例：一緒にイベントを盛り上げてくれる団体">
-      <p class="hint">探しているものは、紹介ページに表示されます。空欄でも大丈夫です。</p>
-
-      <label for="f-offering">提供できること・ゆずれるもの</label>
-      <textarea id="f-offering" maxlength="600" placeholder="例：着なくなった子ども服があります／スマホの使い方なら教えられます"></textarea>
-
-      <label for="f-hp">ホームページのURL（あれば）</label>
-      <input type="url" id="f-hp" placeholder="https://">
-
-      <label for="f-sns">SNSのリンク（あれば）</label>
-      <textarea id="f-sns" maxlength="400" placeholder="SNSのURLを貼ってください（複数OK）"></textarea>
-
-      <label for="f-menu">メニュー・料金ページのURL（あれば）</label>
-      <input type="url" id="f-menu" placeholder="https://">
-
-      <button class="savebtn" type="submit">この区分で保存する</button>
-      <p class="msg" id="save-msg"></p>
-      <a class="viewlink" id="view-own" href="#" hidden>この区分の紹介ページを見る →</a>
-    </form>
+  <div id="pages-area" hidden>
+    <div id="pages-list"></div>
+    <div id="create-list"></div>
+    <p class="sub" id="hub-msg" style="margin-top:12px"></p>
   </div>
 
-  <a class="back" href="index.html">トップページへ戻る</a>
+  <a class="cta" href="board.html">みんなの掲示板へ</a>
+  <a class="cta" href="index.html">OHANAトップへ戻る</a>
+
+  <a href="index.html"><img class="banner-sm" src="member-banner.png" alt="OHANAシェア＊プロジェクト"></a>
+  <footer>
+    <img src="img-992cf83a89.png" alt="OHANAキャラクター">
+    OHANAシェア＊プロジェクト
+  </footer>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -112,119 +77,90 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var auth = firebase.auth();
 var db = firebase.firestore();
-var uid = null;
-var ROLES = {hito:'ヒト', mono:'モノ', koto:'コト'};
-var NAME_PH = {hito:'例：みかんママ', mono:'例：雑貨屋〇〇', koto:'例：〇〇サロン'};
-var currentRole = 'hito';
-var cache = {hito:null, mono:null, koto:null};
-var legacy = null;
 function $(id){ return document.getElementById(id); }
-function docId(role){ return uid + '__' + role; }
+function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function catCls(c){ return c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto'; }
+var uid = null;
 
-function fillForm(d){
-  $('f-nickname').value = d ? (d.nickname || '') : '';
-  $('f-area').value = d ? (d.area || '') : '';
-  $('f-intro').value = d ? (d.intro || '') : '';
-  $('f-seekhito').value = d ? (d.seekingHito || d.seekingText || '') : '';
-  $('f-seekmono').value = d ? (d.seekingMono || '') : '';
-  $('f-seekkoto').value = d ? (d.seekingKoto || '') : '';
-  $('f-offering').value = d ? (d.offering || '') : '';
-  $('f-hp').value = d ? (d.hpUrl || '') : '';
-  $('f-sns').value = d ? (d.snsLinks || '') : '';
-  $('f-menu').value = d ? (d.menuUrl || '') : '';
-  if(d && d.memberNo){ $('member-no').textContent = 'このページのメンバーNo.： No.' + d.memberNo; }
-  else { $('member-no').textContent = '保存すると、このページにメンバーNo.が付きます。'; }
-  $('f-nickname').placeholder = NAME_PH[currentRole];
-  var view = $('view-own');
-  view.href = 'member.html?id=' + docId(currentRole);
-  view.hidden = !(d && d.nickname);
-  $('save-msg').textContent = '';
+function card(docId, d){
+  var cats = d.categories || (d.category ? [d.category] : []);
+  var bh = '';
+  cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
+  return '<div class="page-card">' + bh + '<span class="nm">' + esc(d.nickname || '（名前はまだ）') + '</span>' +
+    (d.memberNo ? '<span class="no">No.' + d.memberNo + '</span>' : '') +
+    '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '">ページを開く</a></div>';
 }
-function statusText(){
-  var parts = [];
-  ['hito','mono','koto'].forEach(function(r){
-    var d = cache[r];
-    parts.push(ROLES[r] + '：' + (d ? ('作成済み' + (d.memberNo ? '（No.' + d.memberNo + '）' : '')) : 'まだ'));
+function createCard(cat, docId){
+  return '<div class="create-card"><span class="badge ' + catCls(cat) + '">' + cat + '</span><span class="nm">' + cat + 'のページはまだありません</span>' +
+    '<button type="button" class="create-btn" data-cat="' + cat + '" data-doc="' + docId + '">' + cat + 'のページを作る</button></div>';
+}
+
+function loadPages(){
+  var slots = [
+    {docId: uid, cat: 'ヒト'},
+    {docId: uid + '__hito', cat: 'ヒト'},
+    {docId: uid + '__mono', cat: 'モノ'},
+    {docId: uid + '__koto', cat: 'コト'}
+  ];
+  var seenCat = {};
+  var cards = '', creates = '';
+  var jobs = slots.map(function(s){
+    return db.collection('profiles').doc(s.docId).get().then(function(doc){
+      return {slot: s, doc: doc};
+    });
   });
-  $('role-status').textContent = parts.join('　');
-}
-function selectRole(role){
-  currentRole = role;
-  ['hito','mono','koto'].forEach(function(r){
-    $('tab-' + r).className = (r === role) ? ('on-' + r) : '';
+  Promise.all(jobs).then(function(results){
+    results.forEach(function(r){
+      if(r.doc.exists){
+        cards += card(r.slot.docId, r.doc.data());
+        seenCat[r.slot.cat] = true;
+      }
+    });
+    ['ヒト','モノ','コト'].forEach(function(cat){
+      if(!seenCat[cat]){
+        var docId = uid + '__' + (cat === 'ヒト' ? 'hito' : cat === 'モノ' ? 'mono' : 'koto');
+        creates += createCard(cat, docId);
+      }
+    });
+    $('pages-list').innerHTML = cards || '<section><p>まだページがありません。下から作ってください。</p></section>';
+    $('create-list').innerHTML = creates;
+    document.querySelectorAll('.create-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){ createPage(btn.getAttribute('data-cat'), btn.getAttribute('data-doc')); });
+    });
   });
-  fillForm(cache[role]);
-  statusText();
 }
-['hito','mono','koto'].forEach(function(r){
-  $('tab-' + r).addEventListener('click', function(){ selectRole(r); });
-});
+
+function createPage(cat, docId){
+  $('hub-msg').textContent = cat + 'のページを作っています…';
+  var counterRef = db.collection('counters').doc('members');
+  var pageRef = db.collection('profiles').doc(docId);
+  db.runTransaction(function(tx){
+    return tx.get(counterRef).then(function(cdoc){
+      var next = cdoc.exists && cdoc.data().next ? cdoc.data().next : 1;
+      tx.update(counterRef, {next: next + 1});
+      tx.set(pageRef, {
+        nickname: '', area: '', categories: [cat], intro: '',
+        seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
+        hpUrl: '', menuUrl: '', snsLinks: '',
+        memberNo: next,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      return next;
+    });
+  }).then(function(no){
+    $('hub-msg').textContent = 'No.' + no + ' で作りました。ページへ移動します…';
+    location.href = 'member.html?id=' + encodeURIComponent(docId);
+  }).catch(function(){
+    $('hub-msg').textContent = '作れませんでした。時間をおいて試してください。';
+  });
+}
 
 auth.onAuthStateChanged(function(user){
-  $('box-loading').hidden = true;
-  if(!user){ $('box-needlogin').hidden = false; return; }
+  if(!user){ $('login-needed').hidden = false; return; }
   uid = user.uid;
-  $('box-form').hidden = false;
-  var jobs = ['hito','mono','koto'].map(function(r){
-    return db.collection('profiles').doc(docId(r)).get().then(function(doc){
-      cache[r] = doc.exists ? doc.data() : null;
-    });
-  });
-  jobs.push(db.collection('profiles').doc(uid).get().then(function(doc){
-    legacy = doc.exists ? doc.data() : null;
-    // 旧形式（区分分け前）のプロフィールは、ヒトのページとして引き継ぐ
-    if(legacy && !cache.hito){ cache.hito = legacy; }
-  }));
-  Promise.all(jobs).then(function(){ selectRole('hito'); });
-});
-
-$('profile-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  if(!uid) return;
-  var role = currentRole;
-  var data = {
-    nickname: $('f-nickname').value.trim(),
-    categories: [ROLES[role]],
-    area: $('f-area').value.trim(),
-    intro: $('f-intro').value.trim(),
-    seekingHito: $('f-seekhito').value.trim(),
-    seekingMono: $('f-seekmono').value.trim(),
-    seekingKoto: $('f-seekkoto').value.trim(),
-    offering: $('f-offering').value.trim(),
-    hpUrl: $('f-hp').value.trim(),
-    snsLinks: $('f-sns').value.trim(),
-    menuUrl: $('f-menu').value.trim(),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-  var keepNo = (cache[role] && cache[role].memberNo) || (role === 'hito' && legacy && legacy.memberNo) || null;
-  $('save-msg').textContent = '保存しています…';
-  var ref = db.collection('profiles').doc(docId(role));
-  var p;
-  if(keepNo){
-    data.memberNo = keepNo;
-    p = ref.set(data, {merge:true});
-  } else {
-    var counterRef = db.collection('counters').doc('members');
-    p = db.runTransaction(function(tx){
-      return tx.get(counterRef).then(function(cdoc){
-        var next = cdoc.exists ? (cdoc.data().next || 1) : 1;
-        data.memberNo = next;
-        tx.update(counterRef, {next: next + 1});
-        tx.set(ref, data, {merge:true});
-      });
-    });
-  }
-  p.then(function(){
-    cache[role] = data;
-    $('member-no').textContent = 'このページのメンバーNo.： No.' + data.memberNo;
-    $('save-msg').textContent = '保存しました。紹介ページに反映されています。';
-    var view = $('view-own');
-    view.href = 'member.html?id=' + docId(role);
-    view.hidden = false;
-    statusText();
-  }).catch(function(){
-    $('save-msg').textContent = '保存できませんでした。時間をおいて試してください。';
-  });
+  $('pages-area').hidden = false;
+  loadPages();
 });
 </script>
 </body>
