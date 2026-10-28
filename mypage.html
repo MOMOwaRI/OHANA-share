@@ -26,6 +26,7 @@
   .create-card .nm{flex:1;min-width:140px;color:var(--soft)}
   .create-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;border-radius:999px;padding:9px 20px;cursor:pointer;font-family:inherit;font-size:.95rem}
   .del-btn{background:#fff;color:#b03a3a;border:1.5px solid #d99;background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .add-btn{background:#fff;color:#3d7a4a;border:1.5px solid #8fc79b;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
   .catchips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
   .catchips label{border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
@@ -101,28 +102,34 @@ function card(docId, d){
   return '<div class="page-card">' + bh + '<span class="nm">' + esc(d.nickname || '（名前はまだ）') + '</span>' +
     (d.memberNo ? '<span class="no">No.' + d.memberNo + '</span>' : '') +
     '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '&edit=1">このページを編集</a>' +
+    '<button type="button" class="add-btn" data-cat="' + esc((d.categories && d.categories[0]) || d.category || 'ヒト') + '">＋追加</button>' +
     '<button type="button" class="del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(d.nickname || '（名前はまだ）') + '">削除</button></div>';
 }
 function bindDeleteButtons(){
   document.querySelectorAll('.del-btn').forEach(function(btn){
     btn.addEventListener('click', function(){ deletePage(btn.getAttribute('data-doc'), btn.getAttribute('data-name')); });
   });
+  document.querySelectorAll('.add-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ createPage(btn.getAttribute('data-cat') || 'ヒト'); });
+  });
 }
 function deletePage(docId, nm){
-  if(!confirm('「' + nm + '」のページを削除しますか？\n元に戻せません。メンバーNo.は空き番号として、次の人が使えるようになります。')) return;
+  if(!confirm('「' + nm + '」のページを削除しますか？\n元に戻せません。メンバーNo.は繰り上がります。')) return;
   $('hub-msg').textContent = '削除しています…';
   var pageRef = db.collection('profiles').doc(docId);
-  var counterRef = db.collection('counters').doc('members');
   pageRef.get().then(function(pdoc){
     var no = pdoc.exists ? pdoc.data().memberNo : null;
-    if(!no){ return pageRef.delete(); }
-    return db.runTransaction(function(tx){
-      return tx.get(counterRef).then(function(cdoc){
-        var free = (cdoc.exists && cdoc.data().free) || [];
-        if(free.indexOf(no) < 0){ free.push(no); free.sort(function(a,b){ return a - b; }); }
-        tx.update(counterRef, {free: free});
-        tx.delete(pageRef);
+    if(!no){ return pageRef.delete().then(function(){ return null; }); }
+    return db.collection('profiles').get().then(function(snap){
+      var batch = db.batch();
+      snap.forEach(function(d){
+        if(d.id === docId) return;
+        if(d.id.split('__')[0] !== uid) return;
+        var mno = d.data().memberNo;
+        if(mno && mno > no) batch.update(d.ref, {memberNo: mno - 1});
       });
+      batch.delete(pageRef);
+      return batch.commit();
     });
   }).then(function(){
     $('hub-msg').textContent = '削除しました。';
@@ -154,35 +161,22 @@ function loadPages(){
 
 function createPage(cat){
   $('hub-msg').textContent = cat + 'のページを作っています…';
-  var counterRef = db.collection('counters').doc('members');
-  var newDocId = null;
-  db.runTransaction(function(tx){
-    return tx.get(counterRef).then(function(cdoc){
-      var cdata = cdoc.exists ? cdoc.data() : {};
-      var next = cdata.next ? cdata.next : 1;
-      var free = cdata.free || [];
-      var no;
-      if(free.length){
-        no = Math.min.apply(null, free);
-        tx.update(counterRef, {free: free.filter(function(x){ return x !== no; })});
-      } else {
-        no = next;
-        tx.update(counterRef, {next: next + 1});
-      }
-      newDocId = uid + '__p' + no;
-      tx.set(db.collection('profiles').doc(newDocId), {
-        nickname: '', area: '', categories: [cat], intro: '',
-        seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
-        hpUrl: '', menuUrl: '', snsLinks: '',
-        memberNo: no,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      return no;
+  db.collection('profiles').get().then(function(snap){
+    var maxNo = 0;
+    snap.forEach(function(d){ var mno = d.data().memberNo; if(mno && mno > maxNo) maxNo = mno; });
+    var no = maxNo + 1;
+    var newDocId = uid + '__p' + Date.now().toString(36);
+    return db.collection('profiles').doc(newDocId).set({
+      nickname: '', area: '', categories: [cat], intro: '',
+      seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
+      hpUrl: '', menuUrl: '', snsLinks: '',
+      memberNo: no,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      $('hub-msg').textContent = 'No.' + no + ' で作りました。ページへ移動します…';
+      location.href = 'member.html?id=' + encodeURIComponent(newDocId) + '&edit=1';
     });
-  }).then(function(no){
-    $('hub-msg').textContent = 'No.' + no + ' で作りました。ページへ移動します…';
-    location.href = 'member.html?id=' + encodeURIComponent(newDocId) + '&edit=1';
   }).catch(function(){
     $('hub-msg').textContent = '作れませんでした。時間をおいて試してください。';
   });
