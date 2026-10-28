@@ -26,6 +26,8 @@
   .create-card .nm{flex:1;min-width:140px;color:var(--soft)}
   .create-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;border-radius:999px;padding:9px 20px;cursor:pointer;font-family:inherit;font-size:.95rem}
   .del-btn{background:#fff;color:#b03a3a;border:1.5px solid #d99;background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .catchips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .catchips label{border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
   .cta{display:block;text-align:center;background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;text-decoration:none;border-radius:999px;padding:13px;margin-top:16px}
   .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
@@ -49,7 +51,16 @@
 
   <div id="pages-area" hidden>
     <div id="pages-list"></div>
-    <div id="create-list"></div>
+    <div class="create-card" style="display:block">
+      <p style="font-weight:bold">新しいページを作る</p>
+      <p class="sub">区分を選んでください。ページはいくつでも作れます。</p>
+      <div class="catchips">
+        <label><input type="radio" name="newcat" value="ヒト" checked>ヒト</label>
+        <label><input type="radio" name="newcat" value="モノ">モノ</label>
+        <label><input type="radio" name="newcat" value="コト">コト</label>
+      </div>
+      <button type="button" class="create-btn" id="btn-create" style="margin-top:10px">この区分でページを作る</button>
+    </div>
     <p class="sub" id="hub-msg" style="margin-top:12px"></p>
   </div>
 
@@ -92,77 +103,59 @@ function card(docId, d){
     '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '&edit=1">このページを編集</a>' +
     '<button type="button" class="del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(d.nickname || '（名前はまだ）') + '">削除</button></div>';
 }
-function createCard(cat, docId){
-  return '<div class="create-card"><span class="badge ' + catCls(cat) + '">' + cat + '</span><span class="nm">' + cat + 'のページはまだありません</span>' +
-    '<button type="button" class="create-btn" data-cat="' + cat + '" data-doc="' + docId + '">' + cat + 'のページを作る</button></div>';
+function bindDeleteButtons(){
+  document.querySelectorAll('.del-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ deletePage(btn.getAttribute('data-doc'), btn.getAttribute('data-name')); });
+  });
+}
+function deletePage(docId, nm){
+  if(!confirm('「' + nm + '」のページを削除しますか？\n元に戻せません。メンバーNo.は空き番号として、次の人が使えるようになります。')) return;
+  $('hub-msg').textContent = '削除しています…';
+  var pageRef = db.collection('profiles').doc(docId);
+  var counterRef = db.collection('counters').doc('members');
+  pageRef.get().then(function(pdoc){
+    var no = pdoc.exists ? pdoc.data().memberNo : null;
+    if(!no){ return pageRef.delete(); }
+    return db.runTransaction(function(tx){
+      return tx.get(counterRef).then(function(cdoc){
+        var free = (cdoc.exists && cdoc.data().free) || [];
+        if(free.indexOf(no) < 0){ free.push(no); free.sort(function(a,b){ return a - b; }); }
+        tx.update(counterRef, {free: free});
+        tx.delete(pageRef);
+      });
+    });
+  }).then(function(){
+    $('hub-msg').textContent = '削除しました。';
+    loadPages();
+  }).catch(function(){
+    $('hub-msg').textContent = '削除できませんでした。時間をおいて試してください。';
+  });
 }
 
 function loadPages(){
-  var slots = [
-    {docId: uid, cat: 'ヒト'},
-    {docId: uid + '__hito', cat: 'ヒト'},
-    {docId: uid + '__mono', cat: 'モノ'},
-    {docId: uid + '__koto', cat: 'コト'}
-  ];
-  var seenCat = {};
-  var cards = '', creates = '';
-  var jobs = slots.map(function(s){
-    return db.collection('profiles').doc(s.docId).get().then(function(doc){
-      return {slot: s, doc: doc};
+  var slotIds = [uid, uid + '__hito', uid + '__mono', uid + '__koto'];
+  var cards = '';
+  var jobs = slotIds.map(function(docId){
+    return db.collection('profiles').doc(docId).get().then(function(doc){
+      if(doc.exists) cards += card(docId, doc.data());
     });
   });
-  Promise.all(jobs).then(function(results){
-    results.forEach(function(r){
-      if(r.doc.exists){
-        cards += card(r.slot.docId, r.doc.data());
-        seenCat[r.slot.cat] = true;
-      }
-    });
-    ['ヒト','モノ','コト'].forEach(function(cat){
-      if(!seenCat[cat]){
-        var docId = uid + '__' + (cat === 'ヒト' ? 'hito' : cat === 'モノ' ? 'mono' : 'koto');
-        creates += createCard(cat, docId);
-      }
-    });
+  var q = db.collection('profiles')
+    .where(firebase.firestore.FieldPath.documentId(), '>=', uid + '__p')
+    .where(firebase.firestore.FieldPath.documentId(), '<', uid + '__p\uf8ff')
+    .get().then(function(snap){
+      snap.forEach(function(doc){ cards += card(doc.id, doc.data()); });
+    }).catch(function(){});
+  Promise.all(jobs.concat([q])).then(function(){
     $('pages-list').innerHTML = cards || '<section><p>まだページがありません。下から作ってください。</p></section>';
-    $('create-list').innerHTML = creates;
-    document.querySelectorAll('.create-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){ createPage(btn.getAttribute('data-cat'), btn.getAttribute('data-doc')); });
-    });
-    document.querySelectorAll('.del-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var docId = btn.getAttribute('data-doc');
-        var nm = btn.getAttribute('data-name');
-        if(!confirm('「' + nm + '」のページを削除しますか？\n元に戻せません。メンバーNo.は空き番号として、次の人が使えるようになります。')) return;
-        $('hub-msg').textContent = '削除しています…';
-        var pageRef = db.collection('profiles').doc(docId);
-        var counterRef = db.collection('counters').doc('members');
-        pageRef.get().then(function(pdoc){
-          var no = pdoc.exists ? pdoc.data().memberNo : null;
-          if(!no){ return pageRef.delete(); }
-          return db.runTransaction(function(tx){
-            return tx.get(counterRef).then(function(cdoc){
-              var free = (cdoc.exists && cdoc.data().free) || [];
-              if(free.indexOf(no) < 0){ free.push(no); free.sort(function(a,b){ return a - b; }); }
-              tx.update(counterRef, {free: free});
-              tx.delete(pageRef);
-            });
-          });
-        }).then(function(){
-          $('hub-msg').textContent = '削除しました。';
-          loadPages();
-        }).catch(function(){
-          $('hub-msg').textContent = '削除できませんでした。時間をおいて試してください。';
-        });
-      });
-    });
+    bindDeleteButtons();
   });
 }
 
-function createPage(cat, docId){
+function createPage(cat){
   $('hub-msg').textContent = cat + 'のページを作っています…';
   var counterRef = db.collection('counters').doc('members');
-  var pageRef = db.collection('profiles').doc(docId);
+  var newDocId = null;
   db.runTransaction(function(tx){
     return tx.get(counterRef).then(function(cdoc){
       var cdata = cdoc.exists ? cdoc.data() : {};
@@ -176,7 +169,8 @@ function createPage(cat, docId){
         no = next;
         tx.update(counterRef, {next: next + 1});
       }
-      tx.set(pageRef, {
+      newDocId = uid + '__p' + no;
+      tx.set(db.collection('profiles').doc(newDocId), {
         nickname: '', area: '', categories: [cat], intro: '',
         seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
         hpUrl: '', menuUrl: '', snsLinks: '',
@@ -188,7 +182,7 @@ function createPage(cat, docId){
     });
   }).then(function(no){
     $('hub-msg').textContent = 'No.' + no + ' で作りました。ページへ移動します…';
-    location.href = 'member.html?id=' + encodeURIComponent(docId) + '&edit=1';
+    location.href = 'member.html?id=' + encodeURIComponent(newDocId) + '&edit=1';
   }).catch(function(){
     $('hub-msg').textContent = '作れませんでした。時間をおいて試してください。';
   });
@@ -199,6 +193,10 @@ auth.onAuthStateChanged(function(user){
   uid = user.uid;
   $('pages-area').hidden = false;
   loadPages();
+});
+$('btn-create').addEventListener('click', function(){
+  var sel = document.querySelector('input[name="newcat"]:checked');
+  createPage(sel ? sel.value : 'ヒト');
 });
 </script>
 </body>
