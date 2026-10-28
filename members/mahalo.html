@@ -23,6 +23,14 @@ header{text-align:center;padding:16px 0 8px}
 .pvhero img{width:100%;height:100%;object-fit:cover;display:block}
 .pv-cap{position:absolute;left:0;right:0;bottom:0;padding:30px 16px 12px;background:linear-gradient(transparent,rgba(43,24,8,.55));color:#fff;font-weight:bold;font-size:1.05rem;text-align:left;animation:pvup 1.2s ease .3s both}
 @keyframes pvup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero-pv{position:relative;margin:14px auto 6px;max-width:330px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
+@media (max-width:520px){.hero-pv{max-width:290px}}
+.hero-video{width:100%;height:auto;display:block;border-radius:150px 150px 22px 22px;border:1px solid var(--line);background:#fdf3e3;box-shadow:0 14px 34px rgba(146,84,20,.20)}
+.hero-pv::before,.hero-pv::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.hero-pv::before{width:16px;height:16px;left:-24px;top:12%;background:var(--orange);opacity:.55;animation:floaty 3.4s ease-in-out infinite}
+.hero-pv::after{width:11px;height:11px;right:-20px;bottom:16%;background:#5f9e6e;opacity:.55;animation:floaty 2.9s ease-in-out .5s infinite}
+@keyframes pvIn{from{opacity:0;transform:scale(.95) translateY(14px)}to{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .badge{display:inline-block;background:#fbe38e;color:#4a3418;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;margin-top:16px}
 h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
 .ename{font-size:.95rem;letter-spacing:.22em;color:var(--orange-dark);font-weight:bold;margin-top:2px}
@@ -73,10 +81,11 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <body>
 <div class="wrap">
 <header>
-<div class="pvhero"><img src="../images/shop/mahalo-pv.webp" alt="hair ID salon MAHALOのPV風スライド"><div class="pv-cap">すべては、感謝の心から。</div></div>
 <div><span class="badge">コト</span></div>
 <h1>MAHALO</h1>
 <p class="ename">hair ID salon</p>
+<div class="hero-pv"><img class="hero-video" src="../images/shop/mahalo-cm.webp" width="440" height="580" alt="hair ID salon MAHALOの紹介アニメーション"></div>
+<p class="catch">すべては、<span>感謝の心</span>から。</p>
 <p class="sub">松山市味酒町・マハロビル2階</p>
 <div class="tags">
 <span class="tag">松山市</span><span class="tag">美容室</span><span class="tag">OHANAメンバー</span>
@@ -239,7 +248,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 </div>
 
 
-<img class="banner-sm" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
+<a href="../index.html"><img class="banner-sm" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ"></a>
 <footer>
 <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
 OHANAシェア＊プロジェクト OHANAメンバーページ<br>
