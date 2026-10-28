@@ -47,6 +47,14 @@
   .linkedit input,.linkedit textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;font-family:inherit;background:#fffdf9}
   .catchips{display:flex;gap:8px;justify-content:center;margin-top:6px}
   .catchips label{border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
+  #savebar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--orange);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;justify-content:center;align-items:center;z-index:60;box-shadow:0 -6px 18px rgba(160,100,40,.18)}
+  #savebar .sb-label{font-weight:bold;color:var(--orange-dark);font-size:.9rem}
+  #savebar button{border:none;border-radius:999px;padding:13px 22px;font-weight:bold;font-family:inherit;font-size:1rem;cursor:pointer}
+  #btn-save2{background:var(--orange);color:#fff;flex:0 1 230px}
+  #btn-cancel2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange) !important}
+  body.editing{padding-bottom:84px}
+  .sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .sugg button{border:1.5px solid var(--orange);background:#fff7ea;color:var(--orange-dark);border-radius:999px;padding:7px 14px;font-family:inherit;font-weight:bold;font-size:.85rem;cursor:pointer}
   [hidden]{display:none !important}
 </style>
 </head>
@@ -97,6 +105,10 @@
       <input type="url" id="in-menu" placeholder="https://">
       <label for="in-sns">SNSのリンク（URLを貼る・複数OK）</label>
       <textarea id="in-sns" rows="3" placeholder="https://"></textarea>
+      <div id="link-suggest" hidden>
+        <label>リンクの候補（タップで入ります）</label>
+        <div class="sugg" id="sugg-btns"></div>
+      </div>
     </div>
   </section>
 
@@ -118,6 +130,12 @@
       <a href="koto.html" style="background:#fbe38e">コトを探す</a>
     </div>
   </section>
+
+  <div id="savebar" hidden>
+    <span class="sb-label">編集中</span>
+    <button type="button" id="btn-save2">保存する</button>
+    <button type="button" id="btn-cancel2">キャンセル</button>
+  </div>
 
   <a class="cta" href="index.html">OHANAトップへ戻る</a>
 
@@ -194,10 +212,43 @@ function render(d, editMode){
   $('in-sns').value = d.snsLinks || '';
 }
 
+var SUGG = [
+  {key:'Lea', items:[['ホームページ','hp','https://momowari.github.io/Lea-Mahalo/'],['SNS（メルカリ）','sns','https://jp.mercari.com/user/profile/256767561']]},
+  {key:'Eyes', items:[['ホームページ','hp','https://momowari.github.io/Eyes-MAHALO/'],['メニュー・料金','menu','https://momowari.github.io/Eyes-MAHALO/'],['SNS（公式LINE）','sns','https://lin.ee/q8vBvt1']]},
+  {key:'elua', items:[['ホームページ','hp','https://www.hair-mahalo.com/mahalo-1f']]},
+  {key:'MAHALO', items:[['ホームページ','hp','https://www.hair-mahalo.com/']]},
+  {key:'MOMOwaRI', items:[['ホームページ','hp','https://lit.link/momowari']]}
+];
+function buildSuggestions(){
+  var name = (pageData && pageData.nickname) || '';
+  var box = $('sugg-btns');
+  box.innerHTML = '';
+  var found = false;
+  SUGG.forEach(function(s){
+    if(name.indexOf(s.key) >= 0){
+      s.items.forEach(function(it){
+        found = true;
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = it[0] + '：' + it[2].replace('https://','');
+        b.addEventListener('click', function(){
+          if(it[1] === 'hp') $('in-hp').value = it[2];
+          else if(it[1] === 'menu') $('in-menu').value = it[2];
+          else { var cur = $('in-sns').value.trim(); $('in-sns').value = cur ? cur + '\n' + it[2] : it[2]; }
+        });
+        box.appendChild(b);
+      });
+    }
+  });
+  $('link-suggest').hidden = !found;
+}
+
 function setEdit(on){
   editing = on;
   document.body.classList.toggle('editing', on);
+  $('savebar').hidden = !on;
   render(pageData, on);
+  if(on) buildSuggestions();
   document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
   $('link-edit').hidden = !on;
   $('cat-edit').hidden = !on;
@@ -230,6 +281,8 @@ else {
   });
   $('btn-edit').addEventListener('click', function(){ setEdit(true); });
   $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
+  $('btn-cancel2').addEventListener('click', function(){ setEdit(false); });
+  $('btn-save2').addEventListener('click', function(){ $('btn-save').click(); });
   $('btn-save').addEventListener('click', function(){
     if(!pageData) return;
     function txt(elid){ var el = $(elid); return el ? el.innerText.replace(/ /g,' ').trim() : ''; }
