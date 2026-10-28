@@ -22,19 +22,31 @@
   .tag{display:inline-block;background:#fdeeda;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
   h2{font-size:1.18rem;color:var(--orange-dark);margin-bottom:10px;border-left:5px solid var(--orange);padding-left:10px;letter-spacing:.04em}
-  .chips{margin-bottom:6px}
   .chip{display:inline-block;border-radius:999px;padding:2px 14px;margin:2px;font-weight:bold;font-size:.88rem;color:#4a3418}
   .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdf9;margin-top:10px}
   .sns a b{color:var(--orange-dark)}
   .sns a:first-child{margin-top:0}
-  .recruit{background:#fdf3e3;border:1.5px dashed #e8b96f;border-radius:16px;padding:20px;margin-top:16px;text-align:center}
-  .recruit h2{border:none;padding:0;text-align:center}
-  .recruit a{display:inline-block;margin-top:10px;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:12px 26px}
   .cta{display:block;text-align:center;background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;text-decoration:none;border-radius:999px;padding:13px;margin-top:16px}
   .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
   footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
   footer img{width:90px;display:block;margin:0 auto 8px}
   .empty{font-size:.9rem;color:var(--soft)}
+  .step{display:flex;gap:10px;align-items:flex-start;margin-top:10px}
+  .step .n{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-weight:bold;text-align:center;line-height:26px;font-size:.9rem}
+  .step p{flex:1}
+  .matchbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .matchbtns a{flex:1;min-width:100px;text-align:center;padding:12px 6px;border-radius:999px;font-weight:bold;text-decoration:none;color:#4a3418}
+  .note{font-size:.82rem;color:var(--soft);margin-top:8px}
+  #editbar{border:2px dashed var(--orange);background:#fff7ea;border-radius:16px;padding:14px;margin-top:16px;text-align:center}
+  #editbar button{border:none;border-radius:999px;padding:12px 26px;font-weight:bold;font-family:inherit;font-size:.95rem;cursor:pointer;margin:4px}
+  #btn-edit,#btn-save{background:var(--orange);color:#fff}
+  #btn-cancel{background:#fff;color:var(--orange-dark);border:2px solid var(--orange) !important}
+  .ed[contenteditable="true"]{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px;min-height:1.5em}
+  body.editing .ed:empty::before{content:"（ここをタップして入力）";color:var(--soft)}
+  .linkedit label{display:block;font-weight:bold;margin:12px 0 4px;text-align:left}
+  .linkedit input,.linkedit textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;font-family:inherit;background:#fffdf9}
+  .catchips{display:flex;gap:8px;justify-content:center;margin-top:6px}
+  .catchips label{border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
   [hidden]{display:none !important}
 </style>
 </head>
@@ -44,31 +56,72 @@
     <img src="img-992cf83a89.png" alt="OHANAキャラクター" style="width:110px">
     <div id="p-head" hidden>
       <div id="p-badges"></div>
-      <h1 id="p-name"></h1>
-      <p class="sub" id="p-area"></p>
+      <h1 id="p-name" class="ed"></h1>
+      <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
     </div>
     <div id="p-loading"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
   </header>
 
-  <section id="s-intro" hidden><h2>紹介</h2><p id="p-intro"></p></section>
+  <div id="editbar" hidden>
+    <p id="edit-msg" style="font-weight:bold">これはあなたのページです</p>
+    <div class="catchips" id="cat-edit" hidden>
+      <span style="font-weight:bold">区分：</span>
+      <label><input type="radio" name="ecat" value="ヒト">ヒト</label>
+      <label><input type="radio" name="ecat" value="モノ">モノ</label>
+      <label><input type="radio" name="ecat" value="コト">コト</label>
+    </div>
+    <button type="button" id="btn-edit">このページを編集する</button>
+    <button type="button" id="btn-save" hidden>保存する</button>
+    <button type="button" id="btn-cancel" hidden>キャンセル</button>
+    <p class="note" id="edit-note" hidden>文字の部分をタップすると、その場で直せます。リンクは下の「リンク集」で直してください。</p>
+  </div>
+
+  <section id="s-intro" hidden><h2>紹介</h2><p id="p-intro" class="ed"></p></section>
 
   <section id="s-seeking" hidden>
     <h2>探しているヒト・モノ・コト</h2>
     <div id="p-seeking"></div>
   </section>
 
-  <section id="s-offering" hidden><h2>提供できること・ゆずれるもの</h2><p id="p-offering"></p></section>
+  <section id="s-offering" hidden><h2>提供できること・ゆずれるもの</h2><p id="p-offering" class="ed"></p></section>
 
   <section id="s-links" hidden>
     <h2>リンク集</h2>
     <div class="sns" id="p-links"></div>
+    <div class="linkedit" id="link-edit" hidden>
+      <label for="in-hp">ホームページのURL</label>
+      <input type="url" id="in-hp" placeholder="https://">
+      <label for="in-menu">メニュー・料金ページのURL</label>
+      <input type="url" id="in-menu" placeholder="https://">
+      <label for="in-sns">SNSのリンク（URLを貼る・複数OK）</label>
+      <textarea id="in-sns" rows="3" placeholder="https://"></textarea>
+    </div>
+  </section>
+
+  <section>
+    <h2>OHANAの仕組み</h2>
+    <p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</p>
+    <div class="step"><span class="n">1</span><p>イベントやお店で100円券を受け取ります（券は無料で配布しています）</p></div>
+    <div class="step"><span class="n">2</span><p>OHANAメンバー（100円券が使えるお店・活動）で、お買い物のように使えます</p></div>
+    <div class="step"><span class="n">3</span><p>受け取ったお店は、その券をよそのお店で使うことで、価値が地域を廻ります</p></div>
+    <p class="note">券は買うものではありません。現金への換金はしません。お釣りは出ません。</p>
+  </section>
+
+  <section>
+    <h2>ヒト・モノ・コトを探す</h2>
+    <p>OHANAメンバーはこれから増えていきます。探したいもの・出会いたい人はこちらから。</p>
+    <div class="matchbtns">
+      <a href="hito.html" style="background:#f6c3d5">ヒトを探す</a>
+      <a href="mono.html" style="background:#bfe6cf">モノを探す</a>
+      <a href="koto.html" style="background:#fbe38e">コトを探す</a>
+    </div>
   </section>
 
   <a class="cta" href="index.html">OHANAトップへ戻る</a>
 
-  <img class="banner-sm" src="member-banner.png" alt="OHANAシェア＊プロジェクト">
+  <a href="index.html"><img class="banner-sm" src="member-banner.png" alt="OHANAシェア＊プロジェクト"></a>
   <footer>
     <img src="img-992cf83a89.png" alt="OHANAキャラクター">
     OHANAシェア＊プロジェクト OHANAメンバー紹介ページ
@@ -76,6 +129,7 @@
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
 var firebaseConfig = {
@@ -87,47 +141,117 @@ var firebaseConfig = {
   appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
 };
 firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth();
 var db = firebase.firestore();
 function $(id){ return document.getElementById(id); }
 function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function nl(t){ return esc(t).replace(/\n/g,'<br>'); }
+function catCls(c){ return c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto'; }
 var id = new URLSearchParams(location.search).get('id');
+var ownerUid = id ? id.split('__')[0] : '';
+var pageData = null;
+var editing = false;
+
+function render(d, editMode){
+  pageData = d;
+  $('p-head').hidden = false;
+  var dcats = d.categories || (d.category ? [d.category] : []);
+  var bh = '';
+  dcats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
+  $('p-badges').innerHTML = bh;
+  $('p-no').textContent = d.memberNo ? ('No.' + d.memberNo) : '';
+  $('p-no').style.display = d.memberNo ? '' : 'none';
+  $('p-name').textContent = d.nickname || 'OHANAメンバー';
+  document.title = (d.nickname || 'OHANAメンバー') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
+  $('p-area').textContent = d.area || '';
+  $('s-intro').hidden = !(d.intro || editMode);
+  $('p-intro').innerHTML = nl(d.intro || '');
+  var rows = '';
+  [['ヒト','seekingHito','e-seekhito', d.seekingHito || d.seekingText], ['モノ','seekingMono','e-seekmono', d.seekingMono], ['コト','seekingKoto','e-seekkoto', d.seekingKoto]].forEach(function(r){
+    if(r[3] || editMode){
+      rows += '<p><span class="chip ' + catCls(r[0]) + '">' + r[0] + 'を探しています</span></p><p class="ed" id="' + r[2] + '">' + nl(r[3] || '') + '</p>';
+    }
+  });
+  $('s-seeking').hidden = !rows;
+  $('p-seeking').innerHTML = rows;
+  $('s-offering').hidden = !(d.offering || editMode);
+  $('p-offering').innerHTML = nl(d.offering || '');
+  var links = '';
+  if(d.hpUrl) links += '<a href="' + esc(d.hpUrl) + '" target="_blank" rel="noopener"><b>ホームページ</b></a>';
+  if(d.menuUrl) links += '<a href="' + esc(d.menuUrl) + '" target="_blank" rel="noopener"><b>メニュー・料金ページ</b></a>';
+  if(d.snsLinks){
+    d.snsLinks.split(/\s+/).forEach(function(u){
+      if(u.indexOf('http') === 0) links += '<a href="' + esc(u) + '" target="_blank" rel="noopener"><b>SNSリンク</b></a>';
+    });
+  }
+  $('s-links').hidden = !(links || editMode);
+  $('p-links').innerHTML = links;
+  $('in-hp').value = d.hpUrl || '';
+  $('in-menu').value = d.menuUrl || '';
+  $('in-sns').value = d.snsLinks || '';
+}
+
+function setEdit(on){
+  editing = on;
+  document.body.classList.toggle('editing', on);
+  render(pageData, on);
+  document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
+  $('link-edit').hidden = !on;
+  $('cat-edit').hidden = !on;
+  $('edit-note').hidden = !on;
+  $('btn-edit').hidden = on;
+  $('btn-save').hidden = !on;
+  $('btn-cancel').hidden = !on;
+  if(on){
+    var dcats = pageData.categories || (pageData.category ? [pageData.category] : []);
+    var main = dcats[0] || 'ヒト';
+    var r = document.querySelector('input[name="ecat"][value="' + main + '"]');
+    if(r) r.checked = true;
+    $('edit-msg').textContent = '編集中です（文字をタップして直せます）';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+}
+
 if(!id){ $('p-loading').hidden = true; $('p-notfound').hidden = false; }
 else {
   db.collection('profiles').doc(id).get().then(function(doc){
     $('p-loading').hidden = true;
     if(!doc.exists){ $('p-notfound').hidden = false; return; }
-    var d = doc.data();
-    $('p-head').hidden = false;
-    var dcats = d.categories || (d.category ? [d.category] : []);
-    var bh = '';
-    dcats.forEach(function(c){
-      bh += '<span class="badge ' + (c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto') + '">' + esc(c) + '</span> ';
-    });
-    $('p-badges').innerHTML = bh;
-    $('p-no').textContent = d.memberNo ? ('No.' + d.memberNo) : '';
-    if(!d.memberNo){ $('p-no').style.display = 'none'; }
-    $('p-name').textContent = d.nickname || 'OHANAメンバー';
-    document.title = (d.nickname || 'OHANAメンバー') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
-    $('p-area').textContent = d.area || '';
-    if(d.intro){ $('s-intro').hidden = false; $('p-intro').innerHTML = nl(d.intro); }
-    var rows = '';
-    if(d.seekingHito || d.seekingText) rows += '<p><span class="chip cat-hito">ヒトを探しています</span></p><p>' + nl(d.seekingHito || d.seekingText) + '</p>';
-    if(d.seekingMono) rows += '<p style="margin-top:10px"><span class="chip cat-mono">モノを探しています</span></p><p>' + nl(d.seekingMono) + '</p>';
-    if(d.seekingKoto) rows += '<p style="margin-top:10px"><span class="chip cat-koto">コトを探しています</span></p><p>' + nl(d.seekingKoto) + '</p>';
-    if(rows){ $('s-seeking').hidden = false; $('p-seeking').innerHTML = rows; }
-    if(d.offering){ $('s-offering').hidden = false; $('p-offering').innerHTML = nl(d.offering); }
-    var links = '';
-    if(d.hpUrl) links += '<a href="' + esc(d.hpUrl) + '" target="_blank" rel="noopener"><b>ホームページ</b></a>';
-    if(d.menuUrl) links += '<a href="' + esc(d.menuUrl) + '" target="_blank" rel="noopener"><b>メニュー・料金ページ</b></a>';
-    if(d.snsLinks){
-      d.snsLinks.split(/\s+/).forEach(function(u){
-        if(u.indexOf('http') === 0) links += '<a href="' + esc(u) + '" target="_blank" rel="noopener"><b>SNSリンク</b></a>';
-      });
-    }
-    if(links){ $('s-links').hidden = false; $('p-links').innerHTML = links; }
+    render(doc.data(), false);
   }).catch(function(){
     $('p-loading').hidden = true; $('p-notfound').hidden = false;
+  });
+  auth.onAuthStateChanged(function(user){
+    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; }
+  });
+  $('btn-edit').addEventListener('click', function(){ setEdit(true); });
+  $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
+  $('btn-save').addEventListener('click', function(){
+    if(!pageData) return;
+    function txt(elid){ var el = $(elid); return el ? el.innerText.replace(/ /g,' ').trim() : ''; }
+    var catEl = document.querySelector('input[name="ecat"]:checked');
+    var data = {
+      nickname: txt('p-name') || pageData.nickname || '',
+      area: txt('p-area'),
+      intro: txt('p-intro'),
+      seekingHito: txt('e-seekhito'),
+      seekingMono: txt('e-seekmono'),
+      seekingKoto: txt('e-seekkoto'),
+      offering: txt('p-offering'),
+      hpUrl: $('in-hp').value.trim(),
+      menuUrl: $('in-menu').value.trim(),
+      snsLinks: $('in-sns').value.trim(),
+      categories: catEl ? [catEl.value] : (pageData.categories || []),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    $('edit-msg').textContent = '保存しています…';
+    db.collection('profiles').doc(id).set(data, {merge: true}).then(function(){
+      Object.keys(data).forEach(function(k){ if(k !== 'updatedAt') pageData[k] = data[k]; });
+      setEdit(false);
+      $('edit-msg').textContent = '保存しました。これはあなたのページです';
+    }).catch(function(){
+      $('edit-msg').textContent = '保存できませんでした。時間をおいて試してください。';
+    });
   });
 }
 </script>
