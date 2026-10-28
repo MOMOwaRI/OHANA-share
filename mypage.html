@@ -88,7 +88,7 @@ function card(docId, d){
   cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
   return '<div class="page-card">' + bh + '<span class="nm">' + esc(d.nickname || '（名前はまだ）') + '</span>' +
     (d.memberNo ? '<span class="no">No.' + d.memberNo + '</span>' : '') +
-    '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '">ページを開く</a></div>';
+    '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '&edit=1">このページを編集</a></div>';
 }
 function createCard(cat, docId){
   return '<div class="create-card"><span class="badge ' + catCls(cat) + '">' + cat + '</span><span class="nm">' + cat + 'のページはまだありません</span>' +
@@ -150,7 +150,7 @@ function createPage(cat, docId){
     });
   }).then(function(no){
     $('hub-msg').textContent = 'No.' + no + ' で作りました。ページへ移動します…';
-    location.href = 'member.html?id=' + encodeURIComponent(docId);
+    location.href = 'member.html?id=' + encodeURIComponent(docId) + '&edit=1';
   }).catch(function(){
     $('hub-msg').textContent = '作れませんでした。時間をおいて試してください。';
   });

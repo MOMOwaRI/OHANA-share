@@ -151,6 +151,9 @@ var id = new URLSearchParams(location.search).get('id');
 var ownerUid = id ? id.split('__')[0] : '';
 var pageData = null;
 var editing = false;
+var wantEdit = new URLSearchParams(location.search).get('edit') === '1';
+var isOwner = false;
+function tryEdit(){ if(wantEdit && isOwner && pageData && !editing) setEdit(true); }
 
 function render(d, editMode){
   pageData = d;
@@ -218,11 +221,12 @@ else {
     $('p-loading').hidden = true;
     if(!doc.exists){ $('p-notfound').hidden = false; return; }
     render(doc.data(), false);
+    tryEdit();
   }).catch(function(){
     $('p-loading').hidden = true; $('p-notfound').hidden = false;
   });
   auth.onAuthStateChanged(function(user){
-    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; }
+    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; tryEdit(); }
   });
   $('btn-edit').addEventListener('click', function(){ setEdit(true); });
   $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
