@@ -3,93 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>elua Mahalo｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/elua-mahalo.html">
+<title>elua Mahalo（女性限定美容室）｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/elua-mahalo.html">
 <link rel="icon" href="../favicon.png">
 <style>
-  :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4}
+  :root{--accent:#b07d4f;--accent-dark:#8a5a30;--ink:#3a2f26;--paper:#fbf7f1;--card:#ffffff;--line:#ecd9c3;--soft:#97805f;--orange:#e07b24}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
-  header{text-align:center;padding:36px 0 8px}
-  .banner{width:100%;border-radius:14px;display:block;margin:0 auto 12px;border:2px solid #e8cdb0;box-shadow:0 4px 14px rgba(160,100,40,.28);background:#fff}
-  .photo{width:100%;border-radius:14px;display:block}
-  .map{width:100%;height:280px;border:0;border-radius:14px;display:block}
-  .badge{display:inline-block;background:#fbe38e;color:#4a3418;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em}
-  h1{font-size:1.7rem;margin:10px 0 2px}
-  .sub{color:#8a6a4f;font-size:.95rem}
-  .tags{margin:12px 0 4px}
-  .tag{display:inline-block;background:#fdeeda;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
+  header{text-align:center;padding:16px 0 8px}
+  .slides{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/10;background:#f1e4d2;box-shadow:0 10px 28px rgba(150,110,60,.22)}
+  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:cm 12s infinite,zm 12s infinite}
+  .slides img:nth-child(2){animation-delay:4s,4s}
+  .slides img:nth-child(3){animation-delay:8s,8s}
+  @keyframes cm{0%{opacity:0}5%{opacity:1}33%{opacity:1}38%{opacity:0}100%{opacity:0}}
+  @keyframes zm{from{transform:scale(1)}to{transform:scale(1.07)}}
+  .badge{display:inline-block;background:#fbe38e;color:#4a3418;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;margin-top:16px}
+  h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
+  .ename{font-size:.95rem;letter-spacing:.22em;color:var(--accent-dark);font-weight:bold;margin-top:2px}
+  .sub{color:var(--soft);font-size:.92rem;margin-top:2px}
+  .catch{font-size:1.12rem;font-weight:bold;margin-top:14px}
+  .catch span{color:var(--accent-dark)}
+  .tags{margin:10px 0 2px}
+  .tag{display:inline-block;background:#f8ecdb;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
+  .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
+  .ctarow .main{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(176,125,79,.35)}
+  .ctarow .sub2{background:#fff;color:var(--accent-dark);border:2px solid var(--accent)}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
-  h2{font-size:1.1rem;color:var(--orange-dark);margin-bottom:8px}
+  h2{font-size:1.12rem;color:var(--accent-dark);margin-bottom:8px}
   ul{padding-left:1.2em}
   table{width:100%;border-collapse:collapse;font-size:.92rem}
   th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
   td.p{text-align:right;white-space:nowrap;font-weight:bold}
-  .cat{font-weight:bold;color:var(--orange-dark);background:#fff6ec}
-  .note{font-size:.82rem;color:#8a6a4f;margin-top:8px}
+  .note{font-size:.82rem;color:var(--soft);margin-top:8px}
+  .story-photo{width:100%;border-radius:12px;display:block;margin-bottom:12px}
+  .feats{display:grid;grid-template-columns:1fr;gap:10px}
+  .feat{border:1px solid var(--line);background:#fffdfa;border-radius:12px;padding:12px 14px;font-size:.94rem}
+  .feat b{color:var(--accent-dark)}
+  .film{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+  .film img{width:62%;flex:0 0 auto;border-radius:12px;display:block}
   .sns{display:flex;flex-direction:column;gap:10px}
-  .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdf9}
-  .sns a b{color:var(--orange-dark)}
-  .sns a span{display:block;font-size:.85rem;color:#8a6a4f}
-  .cta{display:block;text-align:center;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:14px;margin-top:16px}
-  .cta.sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
-  footer{text-align:center;margin-top:28px;font-size:.85rem;color:#8a6a4f}
-  footer img{width:90px;display:block;margin:0 auto 8px}
-  .slides{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:#f3e3cd}
-  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:cm 12s infinite}
-  .slides img:nth-child(2){animation-delay:4s}
-  .slides img:nth-child(3){animation-delay:8s}
-  @keyframes cm{0%{opacity:0}5%{opacity:1}33%{opacity:1}38%{opacity:0}100%{opacity:0}}
-  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
-
-  /* hero redesign */
-  header{padding-top:16px}
-  h1{font-size:2.05rem;letter-spacing:.03em;margin-top:12px}
-  .slides{margin-top:6px;box-shadow:0 8px 24px rgba(160,100,40,.18)}
-  .slides img{animation:cm 12s infinite,zm 12s infinite}
-  @keyframes zm{from{transform:scale(1)}to{transform:scale(1.07)}}
+  .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdfa}
+  .sns a b{color:var(--accent-dark)}
+  .sns a span{display:block;font-size:.85rem;color:var(--soft)}
+  .map{width:100%;height:280px;border:0;border-radius:14px;display:block}
+  .recruit{background:#fdf3e3;border:1.5px dashed #e8b96f;border-radius:16px;padding:20px;margin-top:16px;text-align:center}
+  .recruit h2{color:var(--orange)}
+  .recruit a{display:inline-block;margin-top:10px;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:12px 26px}
+  .cta{display:block;text-align:center;background:#fff;color:var(--orange);border:2px solid var(--orange);font-weight:bold;text-decoration:none;border-radius:999px;padding:13px;margin-top:16px}
   .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
+  footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
+  footer img{width:90px;display:block;margin:0 auto 8px}
+  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="slides">
-    <img src="../images/shop/salon-1f.jpg" alt="1階サロンの施術スペース">
-    <img src="../images/shop/shampoo.jpg" alt="庭が見える店内のくつろぎスペース">
-    <img src="../images/shop/decor.jpg" alt="店内のインテリア">
+    <img src="../images/shop/elua-1.jpg" alt="elua Mahaloの店内">
+    <img src="../images/shop/zakka-sign.jpg" alt="マハロビルの看板">
+    <img src="../images/shop/elua-2.jpg" alt="elua Mahaloのドライヤースペース">
     </div>
     <div><span class="badge">コト</span></div>
     <h1>elua Mahalo</h1>
-    <p class="sub">女性限定美容室 ｜ 松山市味酒町・マハロビル1階</p>
+    <p class="ename">elua Mahalo ladies salon</p>
+    <p class="sub">女性限定美容室・松山市味酒町マハロビル1階</p>
+    <p class="catch">女性限定・完全予約制。<span>あなただけのマンツーマン</span>サロン。</p>
     <div class="tags">
-      <span class="tag">松山市</span><span class="tag">美容室</span><span class="tag">完全予約制</span><span class="tag">OHANAメンバー</span>
+      <span class="tag">松山市</span><span class="tag">女性限定美容室</span><span class="tag">OHANAメンバー</span>
     </div>
+    <div class="ctarow">
+      <a class="main" href="tel:0899341587">電話で予約する</a>
+      <a class="sub2" href="https://www.hair-mahalo.com/mahalo-1f" target="_blank" rel="noopener">公式HPを見る</a>
+    </div>
+    <p class="note">完全予約制・マンツーマン施術のため、事前のご予約をお願いいたします。</p>
   </header>
 
   <section>
     <h2>お店のこと</h2>
-    <p>「elua（エルア）」はハワイ語で数字の2。MAHALOの2号店、「第2のMAHALO」です。女性限定・完全予約制の、マンツーマンで静かなサロンです。</p>
-    <ul>
-      <li>安心の女性限定サロン</li>
-      <li>完全予約制、マンツーマンで静かな空間</li>
-      <li>リビングルーム風サロンでリラックス</li>
-      <li>おひとりおひとりに合ったお手入れやスタイリングの提案</li>
-    </ul>
+    <img class="story-photo" src="../images/shop/elua-2.jpg" alt="elua Mahaloのドライヤースペース">
+    <p>MAHALO美容室の2号店として生まれた、女性限定の美容室。「elua（エルア）」はハワイ語で「2」を意味します。完全予約制・マンツーマンで、周りを気にせずゆったり過ごせる空間です。</p>
   </section>
 
   <section>
-    <h2>メニュー・料金（主なもの）</h2>
-    <table>
-      <tr><td>カット レディース（シャンプーブロー込み）</td><td class="p">¥5,280</td></tr>
-      <tr><td>カラー（ショート〜ロング）</td><td class="p">¥7,260〜¥9,460</td></tr>
-      <tr><td>ヘッドスパ（煌水・ベルジュバンス）</td><td class="p">¥4,730</td></tr>
-      <tr><td>トリートメント</td><td class="p">¥4,400〜</td></tr>
-      <tr><td>パーマ（低アルカリ／ホット／ベルジュバンス）</td><td class="p">¥14,300〜¥15,400</td></tr>
-      <tr><td>ヘアセット</td><td class="p">¥4,290</td></tr>
-      <tr><td>着付け（浴衣／振袖／袴／留袖・訪問着）</td><td class="p">¥5,390〜¥10,340</td></tr>
-    </table>
-    <p class="note">料金は税込。公式HPの記載をもとにしています。詳しくは公式HPでご確認ください。</p>
+    <h2>特徴</h2>
+    <div class="feats">
+      <div class="feat"><b>女性限定・完全予約制</b>：落ち着いたプライベートな空間</div>
+      <div class="feat"><b>マンツーマン施術</b>：最初から最後まで同じスタイリストが担当</div>
+      <div class="feat">煌水（キラスイ）など、MAHALOの美容法を導入</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>店内の様子</h2>
+    <div class="film">
+    <img src="../images/shop/elua-1.jpg" alt="elua Mahaloの店内">
+    <img src="../images/shop/zakka-sign.jpg" alt="マハロビルの看板">
+    <img src="../images/shop/elua-2.jpg" alt="elua Mahaloのドライヤースペース">
+    </div>
   </section>
 
   <section>
@@ -97,16 +109,25 @@
     <table>
       <tr><th>営業時間</th><td>水〜金 10:00〜17:00／土・日・祝 9:00〜18:00</td></tr>
       <tr><th>定休日</th><td>月曜日・火曜日・月に1度日曜日</td></tr>
-      <tr><th>ご予約</th><td>完全予約制。当日予約はできません。前日までにご予約をお願いいたします。</td></tr>
       <tr><th>電話</th><td><a href="tel:0899341587">089-934-1587</a></td></tr>
-      <tr><th>駐車場</th><td>3台（マハロビル共用）</td></tr>
+      <tr><th>ご予約</th><td>完全予約制</td></tr>
+      <tr><th>駐車場</th><td>3台</td></tr>
     </table>
+  </section>
+
+  <section>
+    <h2>マハロビルのお店</h2>
+    <div class="sns">
+      <a href="mahalo.html"><b>MAHALO美容室（2階）</b><span>美容室</span></a>
+      <a href="eyes-mahalo.html"><b>Eyes MAHALO（1階）</b><span>まつげパーマ専門</span></a>
+      <a href="lea-mahalo.html"><b>雑貨屋 Lea Mahalo（1階）</b><span>雑貨屋</span></a>
+    </div>
   </section>
 
   <section>
     <h2>リンク集</h2>
     <div class="sns">
-      <a href="https://www.hair-mahalo.com/mahalo-1f" target="_blank" rel="noopener"><b>公式HP・MAHALO-1Fのページ</b><span>店舗情報はこちら</span></a>
+      <a href="https://www.hair-mahalo.com/mahalo-1f" target="_blank" rel="noopener"><b>公式HP・MAHALO（1F）のページ</b><span>店舗情報の最新版はこちら</span></a>
       <a href="../board.html"><b>みんなの掲示板</b><span>OHANAのお知らせはこちら</span></a>
     </div>
   </section>
@@ -120,13 +141,20 @@
       <a href="momowari.html"><b>MOMOwaRI（運営）</b><span>ヒト｜松山市</span></a>
     </div>
   </section>
+
   <section>
     <h2>地図・アクセス</h2>
     <iframe class="map" src="https://maps.google.com/maps?q=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="地図"></iframe>
-    <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル（伊予鉄道「古町駅」より徒歩3分／駐車場3台）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
+    <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル1階（伊予鉄道「古町駅」より徒歩3分／駐車場3台）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
   </section>
 
-  <a class="cta sub2" href="../index.html">OHANAトップへ戻る</a>
+  <div class="recruit">
+    <h2>こんなページが欲しい方へ</h2>
+    <p>OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。公式HPのように使える、本格的な作りです。<br>条件はひとつだけ、OHANA100円券が使えるお店・活動にしていただくことです。</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォームへ</a>
+  </div>
+
+  <a class="cta" href="../index.html">OHANAトップへ戻る</a>
 
   <img class="banner-sm" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
   <footer>

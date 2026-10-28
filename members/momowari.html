@@ -6,79 +6,120 @@
 <title>MOMOwaRI（運営）｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/momowari.html">
 <link rel="icon" href="../favicon.png">
 <style>
-  :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4}
+  :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4;--soft:#8a6a4f}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
-  header{text-align:center;padding:20px 0 8px}
-  .banner{width:100%;border-radius:14px;display:block;margin:0 auto 12px;border:2px solid #e8cdb0;box-shadow:0 4px 14px rgba(160,100,40,.28);background:#fff}
-  .badge{display:inline-block;background:#f6c3d5;color:#4a3418;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em}
-  h1{font-size:1.7rem;margin:10px 0 2px}
-  .sub{color:#8a6a4f;font-size:.95rem}
-  .tags{margin:12px 0 4px}
+  header{text-align:center;padding:16px 0 8px}
+  .hero-img{width:min(300px,72%);display:block;margin:0 auto;border-radius:16px}
+  .badge{display:inline-block;background:#f6c3d5;color:#5c2340;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;margin-top:16px}
+  h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
+  .ename{font-size:.95rem;letter-spacing:.22em;color:var(--orange-dark);font-weight:bold;margin-top:2px}
+  .sub{color:var(--soft);font-size:.92rem;margin-top:2px}
+  .catch{font-size:1.12rem;font-weight:bold;margin-top:14px}
+  .catch span{color:var(--orange-dark)}
+  .tags{margin:10px 0 2px}
   .tag{display:inline-block;background:#fdeeda;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
+  .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
+  .ctarow .main{background:#06c755;color:#fff;box-shadow:0 4px 14px rgba(6,199,85,.35)}
+  .ctarow .sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
-  h2{font-size:1.1rem;color:var(--orange-dark);margin-bottom:8px}
+  h2{font-size:1.12rem;color:var(--orange-dark);margin-bottom:8px}
   ul{padding-left:1.2em}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+  .note{font-size:.82rem;color:var(--soft);margin-top:8px}
+  .feats{display:grid;grid-template-columns:1fr;gap:10px}
+  .feat{border:1px solid var(--line);background:#fffdf9;border-radius:12px;padding:12px 14px;font-size:.94rem}
+  .feat b{color:var(--orange-dark)}
   .sns{display:flex;flex-direction:column;gap:10px}
   .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdf9}
   .sns a b{color:var(--orange-dark)}
-  .sns a span{display:block;font-size:.85rem;color:#8a6a4f}
-  .cta{display:block;text-align:center;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:14px;margin-top:16px}
-  .cta.sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
-  footer{text-align:center;margin-top:28px;font-size:.85rem;color:#8a6a4f}
+  .sns a span{display:block;font-size:.85rem;color:var(--soft)}
+  .map{width:100%;height:280px;border:0;border-radius:14px;display:block}
+  .recruit{background:#fdf3e3;border:1.5px dashed #e8b96f;border-radius:16px;padding:20px;margin-top:16px;text-align:center}
+  .recruit h2{color:var(--orange-dark)}
+  .recruit a{display:inline-block;margin-top:10px;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:12px 26px}
+  .cta{display:block;text-align:center;background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;text-decoration:none;border-radius:999px;padding:13px;margin-top:16px}
+  .banner-md{width:min(430px,94%);display:block;margin:24px auto 2px;border-radius:12px;border:1.5px solid #e8cdb0;background:#fff}
+  footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
   footer img{width:90px;display:block;margin:0 auto 8px}
   .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
-
-  /* header tune */
-  header{padding-top:20px}
-  h1{font-size:2.05rem;letter-spacing:.03em}
-  .banner{width:min(430px,94%)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <img class="banner" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
+    <img class="hero-img" src="../img-992cf83a89.png" alt="OHANA公式キャラクター">
     <div><span class="badge">ヒト</span></div>
     <h1>MOMOwaRI（運営）</h1>
-    <p class="sub">OHANAシェア＊プロジェクト運営 ｜ 松山市</p>
+    <p class="ename">MOMOwaRI</p>
+    <p class="sub">OHANAシェア＊プロジェクト 運営・松山市</p>
+    <p class="catch">眠っている価値を、<span>必要な場所へ</span>。</p>
     <div class="tags">
-      <span class="tag">提供できます</span><span class="tag">スキル提供</span><span class="tag">松山市</span><span class="tag">オンライン</span>
+      <span class="tag">松山市</span><span class="tag">運営</span><span class="tag">OHANAメンバー</span>
+    </div>
+    <div class="ctarow">
+      <a class="main" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットに参加</a>
+      <a class="sub2" href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">お問い合わせフォーム</a>
     </div>
   </header>
 
   <section>
-    <h2>できること・提供できること</h2>
-    <ul>
-      <li>まつげパーマ（Eyes MAHALO／松山市）</li>
-      <li>ヒト・モノ・コトをつなぐこと、マッチングのお手伝い</li>
-      <li>イベントの企画・運営（物々交換・フリマ型イベント）</li>
-    </ul>
+    <h2>運営について</h2>
+    <p>OHANAシェア＊プロジェクトの運営をしています。「眠っている価値を、必要な場所へ」を合言葉に、ヒト・モノ・コトをつなぐ、フリマ型の選べる物々交換の仕組みづくりをしています。</p>
+    <p>松山市のMAHALOビルを拠点に、イベントの開催や、OHANAメンバーのページづくりを行っています。</p>
   </section>
 
   <section>
-    <h2>ひとこと</h2>
-    <p>眠っている価値を、必要な場所へ。あなたの「できること」も、ぜひ登録してください。イベントのたびに、登録した方へ優先して声をかけます。</p>
-  </section>
-
-  <section>
-    <h2>SNS・発信</h2>
-    <div class="sns">
-      <a href="https://www.instagram.com/p/DeiJEqPkzVl/" target="_blank" rel="noopener"><b>Instagram の投稿を見る</b><span>OHANA券の魅力を紹介した投稿です</span></a>
-      <a href="https://www.instagram.com/momowari/" target="_blank" rel="noopener"><b>Instagram @momowari</b><span>日々の活動はこちら</span></a>
-      <a href="https://x.com/Lea_Mahalo" target="_blank" rel="noopener"><b>X @Lea_Mahalo</b><span>お知らせなど</span></a>
-      <a href="https://note.com/momo2025" target="_blank" rel="noopener"><b>note</b><span>活動の記録はこちら</span></a>
+    <h2>できること</h2>
+    <div class="feats">
+      <div class="feat"><b>OHANAメンバーページの作成</b>：ネットの公開情報から、AIがあなたのページを作ります</div>
+      <div class="feat"><b>イベントの企画・運営</b>：フリマ型の選べる物々交換イベントを開催</div>
+      <div class="feat"><b>情報の見回りと掲示板への掲載</b>：メンバーの最新情報はAIが見回ります（掲載前に確認します）</div>
     </div>
   </section>
 
-  <a class="cta" href="../index.html">問い合わせはトップページの参加案内から</a>
-  <a class="cta sub2" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform">あなたも登録する</a>
+  <section>
+    <h2>リンク集</h2>
+    <div class="sns">
+      <a href="https://lit.link/momowari" target="_blank" rel="noopener"><b>lit.link</b><span>最新情報のハブはこちら</span></a>
+      <a href="https://note.com/momo2025" target="_blank" rel="noopener"><b>note（公式記録・発信）</b><span>活動の記録はこちら</span></a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener"><b>お問い合わせフォーム</b><span>LINEが使いにくい方はこちらから</span></a>
+      <a href="../board.html"><b>みんなの掲示板</b><span>OHANAのお知らせはこちら</span></a>
+    </div>
+  </section>
 
+  <section>
+    <h2>OHANAメンバー</h2>
+    <div class="sns">
+      <a href="mahalo.html"><b>MAHALO美容室</b><span>コト｜美容室（2階）</span></a>
+      <a href="elua-mahalo.html"><b>elua Mahalo</b><span>コト｜女性限定美容室（1階）</span></a>
+      <a href="eyes-mahalo.html"><b>Eyes MAHALO</b><span>コト｜まつげパーマ専門（1階）</span></a>
+      <a href="lea-mahalo.html"><b>雑貨屋 Lea Mahalo</b><span>モノ｜雑貨屋（1階）</span></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>拠点・アクセス</h2>
+    <iframe class="map" src="https://maps.google.com/maps?q=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="地図"></iframe>
+    <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル（伊予鉄道「古町駅」より徒歩3分／駐車場3台）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
+  </section>
+
+  <div class="recruit">
+    <h2>こんなページが欲しい方へ</h2>
+    <p>OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。公式HPのように使える、本格的な作りです。<br>条件はひとつだけ、OHANA100円券が使えるお店・活動にしていただくことです。</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォームへ</a>
+  </div>
+
+  <a class="cta" href="../index.html">OHANAトップへ戻る</a>
+
+  <img class="banner-md" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
   <footer>
     <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
     OHANAシェア＊プロジェクト OHANAメンバーページ<br>
-    <a href="../index.html">マッチングサイト トップへ</a>
+    <a href="../index.html">トップページへ</a>
   </footer>
 </div>
 <a class="fab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットに参加</a>

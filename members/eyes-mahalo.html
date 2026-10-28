@@ -3,115 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eyes MAHALO｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/eyes-mahalo.html">
+<title>Eyes MAHALO（まつげパーマ専門）｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/eyes-mahalo.html">
 <link rel="icon" href="../favicon.png">
 <style>
-  :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4}
+  :root{--accent:#c2577a;--accent-dark:#9c3d5e;--ink:#3a2b30;--paper:#fdf6f4;--card:#ffffff;--line:#f2d3dd;--soft:#96707d;--orange:#e07b24}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
-  header{text-align:center;padding:36px 0 8px}
-  header img.hero{width:150px}
-  .banner{width:100%;border-radius:14px;display:block;margin:0 auto 12px;border:2px solid #e8cdb0;box-shadow:0 4px 14px rgba(160,100,40,.28);background:#fff}
-  .photo{width:100%;border-radius:14px;display:block}
-  .map{width:100%;height:280px;border:0;border-radius:14px;display:block}
-  .badge{display:inline-block;background:#fbe38e;color:#4a3418;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em}
-  h1{font-size:1.7rem;margin:10px 0 2px}
-  .sub{color:#8a6a4f;font-size:.95rem}
-  .tags{margin:12px 0 4px}
-  .tag{display:inline-block;background:#fdeeda;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
-  section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
-  h2{font-size:1.1rem;color:var(--orange-dark);margin-bottom:8px}
-  ul{padding-left:1.2em}
-  .sns{display:flex;flex-direction:column;gap:10px}
-  .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdf9}
-  .sns a b{color:var(--orange-dark)}
-  .sns a span{display:block;font-size:.85rem;color:#8a6a4f}
-  .cta{display:block;text-align:center;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:14px;margin-top:16px}
-  .cta.sub2{background:#fff;color:var(--orange-dark);border:2px solid var(--orange)}
-  footer{text-align:center;margin-top:28px;font-size:.85rem;color:#8a6a4f}
-  footer img{width:90px;display:block;margin:0 auto 8px}
-  .slides{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:#f3e3cd}
-  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:cm 12s infinite}
-  .slides img:nth-child(2){animation-delay:4s}
-  .slides img:nth-child(3){animation-delay:8s}
+  header{text-align:center;padding:16px 0 8px}
+  .slides{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/10;background:#f6e3ea;box-shadow:0 10px 28px rgba(160,80,110,.22)}
+  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:cm 12s infinite,zm 12s infinite}
+  .slides img:nth-child(2){animation-delay:4s,4s}
+  .slides img:nth-child(3){animation-delay:8s,8s}
   @keyframes cm{0%{opacity:0}5%{opacity:1}33%{opacity:1}38%{opacity:0}100%{opacity:0}}
-  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
-
-
-  /* hero redesign */
-  header{padding-top:16px}
-  h1{font-size:2.05rem;letter-spacing:.03em;margin-top:12px}
-  .slides{margin-top:6px;box-shadow:0 8px 24px rgba(160,100,40,.18)}
-  .slides img{animation:cm 12s infinite,zm 12s infinite}
   @keyframes zm{from{transform:scale(1)}to{transform:scale(1.07)}}
+  .badge{display:inline-block;background:#fbe38e;color:#4a3418;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;margin-top:16px}
+  h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
+  .ename{font-size:.95rem;letter-spacing:.22em;color:var(--accent-dark);font-weight:bold;margin-top:2px}
+  .sub{color:var(--soft);font-size:.92rem;margin-top:2px}
+  .catch{font-size:1.12rem;font-weight:bold;margin-top:14px}
+  .catch span{color:var(--accent-dark)}
+  .tags{margin:10px 0 2px}
+  .tag{display:inline-block;background:#fdeef2;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
+  .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
+  .ctarow .main{background:#06c755;color:#fff;box-shadow:0 4px 14px rgba(6,199,85,.35)}
+  .ctarow .sub2{background:#fff;color:var(--accent-dark);border:2px solid var(--accent)}
+  section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
+  h2{font-size:1.12rem;color:var(--accent-dark);margin-bottom:8px}
+  ul{padding-left:1.2em}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+  td.p{text-align:right;white-space:nowrap;font-weight:bold}
+  .note{font-size:.82rem;color:var(--soft);margin-top:8px}
+  .story-photo{width:100%;border-radius:12px;display:block;margin-bottom:12px}
+  .feats{display:grid;grid-template-columns:1fr;gap:10px}
+  .feat{border:1px solid var(--line);background:#fffcfd;border-radius:12px;padding:12px 14px;font-size:.94rem}
+  .feat b{color:var(--accent-dark)}
+  .film{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+  .film img{width:62%;flex:0 0 auto;border-radius:12px;display:block}
+  .sns{display:flex;flex-direction:column;gap:10px}
+  .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffcfd}
+  .sns a b{color:var(--accent-dark)}
+  .sns a span{display:block;font-size:.85rem;color:var(--soft)}
+  .map{width:100%;height:280px;border:0;border-radius:14px;display:block}
+  .recruit{background:#fdf3e3;border:1.5px dashed #e8b96f;border-radius:16px;padding:20px;margin-top:16px;text-align:center}
+  .recruit h2{color:var(--orange)}
+  .recruit a{display:inline-block;margin-top:10px;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:12px 26px}
+  .cta{display:block;text-align:center;background:#fff;color:var(--orange);border:2px solid var(--orange);font-weight:bold;text-decoration:none;border-radius:999px;padding:13px;margin-top:16px}
   .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
+  footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
+  footer img{width:90px;display:block;margin:0 auto 8px}
+  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="slides">
-    <img src="../images/shop/salon-1f.jpg" alt="施術スペース。ベッドとチェアが並ぶ店内">
-    <img src="../images/shop/eyes-tech.jpg" alt="まつげパーマの施術中">
-    <img src="../images/shop/shampoo.jpg" alt="庭が見える店内のくつろぎスペース">
+    <img src="../images/shop/eyes-1.jpg" alt="Eyes MAHALOの店内">
+    <img src="../images/shop/eyes-2.jpg" alt="店内の明るいスペース">
+    <img src="../images/shop/eyes-3.jpg" alt="Eyes MAHALOの外観">
     </div>
     <div><span class="badge">コト</span></div>
     <h1>Eyes MAHALO</h1>
-    <p class="sub">まつげパーマ専門 ｜ 松山市（MAHALO美容室1F・味酒町）</p>
+    <p class="ename">Eyes MAHALO eyelash salon</p>
+    <p class="sub">遠赤外線まつげパーマ専門・松山市味酒町マハロビル1階</p>
+    <p class="catch">遠赤外線×キラ水で、<span>根元からふんわり</span>。</p>
     <div class="tags">
-      <span class="tag">スキル提供</span><span class="tag">松山市</span><span class="tag">OHANAメンバー</span>
+      <span class="tag">松山市</span><span class="tag">まつげパーマ専門</span><span class="tag">OHANAメンバー</span>
     </div>
+    <div class="ctarow">
+      <a class="main" href="https://lin.ee/q8vBvt1" target="_blank" rel="noopener">LINEで相談・予約</a>
+      <a class="sub2" href="https://momowari.github.io/Eyes-MAHALO/" target="_blank" rel="noopener">専用LPを見る</a>
+    </div>
+    <p class="note">空き確認はLINEが早くて確実です。</p>
   </header>
 
   <section>
     <h2>お店のこと</h2>
-    <p>まつげパーマ歴15年以上。遠赤外線まつげパーマとキラ水（煌水）が特色です。</p>
+    <img class="story-photo" src="../images/shop/eyes-2.jpg" alt="店内の明るいスペース">
+    <p>まつげパーマ歴15年以上のアイリストによる、遠赤外線まつげパーマ専門サロン。遠赤外線とキラ水（煌水）を使い、まつげへの負担を抑えながら、根元から自然に立ち上がるカールを目指します。</p>
   </section>
 
   <section>
-    <h2>メニュー</h2>
+    <h2>特徴</h2>
+    <div class="feats">
+      <div class="feat"><b>遠赤外線まつげパーマ</b>：温めながら施術することで、薬剤の浸透を助けます</div>
+      <div class="feat"><b>キラ水（煌水）</b>を使用し、まつげのコンディションを整えます</div>
+      <div class="feat"><b>短いまつげ・下がりまつげ・左右差</b>のご相談も歓迎</div>
+      <div class="feat"><b>ヘッドスパ</b>の追加メニューもあります</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>店内の様子</h2>
+    <div class="film">
+    <img src="../images/shop/eyes-1.jpg" alt="Eyes MAHALOの店内">
+    <img src="../images/shop/eyes-2.jpg" alt="店内の明るいスペース">
+    <img src="../images/shop/eyes-3.jpg" alt="Eyes MAHALOの外観">
+    </div>
+  </section>
+
+  <section>
+    <h2>メニュー・料金</h2>
+    <table>
+      <tr><td>まつげパーマ（基本）</td><td class="p">¥4,000</td></tr>
+      <tr><td>根元メニュー</td><td class="p">¥3,000</td></tr>
+      <tr><td>根元メンテナンス</td><td class="p">3週間以内が目安</td></tr>
+    </table>
+    <p class="note">ペア割・学割などのメニューも、LINEからそのままご予約いただけます。詳しくは専用LPをご覧ください。</p>
+  </section>
+
+  <section>
+    <h2>選ばれる理由</h2>
     <ul>
-      <li>基本メニュー 4,000円</li>
-      <li>根元メニュー 3,000円（根元メンテナンスは3週間以内が目安）</li>
-      <li>ヘッドスパの追加メニューもあります</li>
+      <li>まつげパーマ一筋15年以上の経験</li>
+      <li>朝早く・夜・月曜日のご予約も相談できます</li>
+      <li>親子・お友達同士のペア来店も歓迎</li>
     </ul>
   </section>
 
   <section>
-    <h2>ひとこと</h2>
-    <p>営業は予約時間に合わせたスタイルです。朝・夜や月曜日の予約は相談してください。空き確認と予約はLINEが早くて確実です。</p>
+    <h2>店舗情報</h2>
+    <table>
+      <tr><th>場所</th><td>マハロビル1階（MAHALO美容室と同ビル）</td></tr>
+      <tr><th>ご予約</th><td>公式LINEから（空き確認はLINEが早くて確実です）</td></tr>
+      <tr><th>時間</th><td>朝・夜や月曜日は相談制です</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>マハロビルのお店</h2>
+    <div class="sns">
+      <a href="mahalo.html"><b>MAHALO美容室（2階）</b><span>美容室</span></a>
+      <a href="elua-mahalo.html"><b>elua Mahalo（1階）</b><span>女性限定美容室・完全予約制</span></a>
+      <a href="lea-mahalo.html"><b>雑貨屋 Lea Mahalo（1階）</b><span>雑貨屋</span></a>
+    </div>
   </section>
 
   <section>
     <h2>リンク集</h2>
     <div class="sns">
-      <a href="https://momowari.github.io/Eyes-MAHALO/" target="_blank" rel="noopener"><b>Eyes MAHALO 専用ページ</b><span>メニューや雰囲気はこちら</span></a>
-      <a href="https://www.hair-mahalo.com/mahalo-1f" target="_blank" rel="noopener"><b>MAHALO美容室 公式HP</b><span>店舗情報はこちら</span></a>
-      <a href="https://lin.ee/q8vBvt1" target="_blank" rel="noopener"><b>公式LINE</b><span>相談・予約はこちらから。空き確認もLINEが早くて確実です</span></a>
+      <a href="https://momowari.github.io/Eyes-MAHALO/" target="_blank" rel="noopener"><b>Eyes MAHALO 専用LP</b><span>メニュー・よくある質問・予約の流れはこちら</span></a>
+      <a href="https://lin.ee/q8vBvt1" target="_blank" rel="noopener"><b>公式LINE</b><span>相談・予約はこちらから</span></a>
+      <a href="https://www.hair-mahalo.com/mahalo-1f" target="_blank" rel="noopener"><b>MAHALO公式HP（1Fのページ）</b><span>ビル全体のご案内</span></a>
       <a href="../board.html"><b>みんなの掲示板</b><span>OHANAのお知らせはこちら</span></a>
     </div>
   </section>
 
-
   <section>
     <h2>ほかのOHANAメンバー</h2>
     <div class="sns">
+      <a href="mahalo.html"><b>MAHALO美容室</b><span>コト｜美容室（2階）</span></a>
       <a href="elua-mahalo.html"><b>elua Mahalo</b><span>コト｜女性限定美容室（1階）</span></a>
-      <a href="mahalo.html"><b>MAHALO美容室</b><span>コト｜美容室（同じビル）</span></a>
-      <a href="lea-mahalo.html"><b>雑貨屋 Lea Mahalo</b><span>モノ｜雑貨屋（1階奥）</span></a>
+      <a href="lea-mahalo.html"><b>雑貨屋 Lea Mahalo</b><span>モノ｜雑貨屋（1階）</span></a>
       <a href="momowari.html"><b>MOMOwaRI（運営）</b><span>ヒト｜松山市</span></a>
     </div>
   </section>
 
   <section>
-    <h2>地図</h2>
-    <iframe class="map" src="https://maps.google.com/maps?q=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="Eyes MAHALOの地図"></iframe>
-    <p style="margin-top:8px;font-size:.88rem">〒790-0814 松山市味酒町3-2-29 MAHALOビル1F（古町駅徒歩約3分）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
+    <h2>地図・アクセス</h2>
+    <iframe class="map" src="https://maps.google.com/maps?q=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="地図"></iframe>
+    <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル1階（伊予鉄道「古町駅」より徒歩3分／駐車場3台）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
   </section>
 
-  <a class="cta" href="https://lin.ee/q8vBvt1" target="_blank" rel="noopener">LINEで相談・予約する</a>
-  <a class="cta sub2" href="../index.html">OHANAトップへ戻る</a>
+  <div class="recruit">
+    <h2>こんなページが欲しい方へ</h2>
+    <p>OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。公式HPのように使える、本格的な作りです。<br>条件はひとつだけ、OHANA100円券が使えるお店・活動にしていただくことです。</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォームへ</a>
+  </div>
+
+  <a class="cta" href="../index.html">OHANAトップへ戻る</a>
 
   <img class="banner-sm" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
   <footer>
@@ -120,6 +183,6 @@
     <a href="../index.html">トップページへ</a>
   </footer>
 </div>
-<a class="fab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットに参加</a>
+<a class="fab-line" href="https://lin.ee/q8vBvt1" target="_blank" rel="noopener">予約・相談はLINEで</a>
 </body>
 </html>
