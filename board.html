@@ -38,6 +38,15 @@
   .login-cta{text-align:center;padding:6px 0}
   .login-cta a{display:inline-block;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:11px 26px}
   .statusline{font-size:.85rem;color:#8a6a4f;text-align:center}
+  .post-actions{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+  .post-actions button{border:1.5px solid #e8b96f;background:#fff;border-radius:999px;padding:4px 14px;font-family:inherit;font-size:.82rem;cursor:pointer;font-weight:bold;color:#8a6a4f}
+  .post-actions button.liked{background:#ffd9e2;border-color:#e88bb0;color:#b03a5f}
+  .replies{margin-top:8px;border-top:1px dashed rgba(160,110,50,.35);padding-top:6px}
+  .reply{font-size:.85rem;padding:3px 0}
+  .reply .who{margin-top:0;display:inline;font-size:.72rem}
+  .reply-form textarea{width:100%;border:1px solid #e5cfae;border-radius:8px;padding:8px;font-size:.88rem;min-height:52px;font-family:inherit;margin-top:6px;background:#fff}
+  .reply-form button{background:var(--orange);color:#fff;font-weight:bold;border:none;border-radius:999px;padding:7px 18px;font-size:.85rem;cursor:pointer;margin-top:6px}
+  .reply-msg{font-size:.78rem;color:#8a6a4f}
 </style>
 </head>
 <body>
@@ -165,22 +174,107 @@ document.getElementById('post-btn').addEventListener('click', function(){
     msg.textContent = '投稿できませんでした。時間をおいて試してください。';
   });
 });
+function fmtWhen(ts){
+  if(ts && ts.toDate){ var dt = ts.toDate(); return dt.getFullYear() + '/' + (dt.getMonth()+1) + '/' + dt.getDate(); }
+  return '';
+}
+var replyUnsubs = {}, likeUnsubs = {};
+var openForms = {}, drafts = {};
+function needLogin(){
+  document.getElementById('auth-status').textContent = 'いいね・返事にはログインが必要です';
+}
 db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function(snap){
   var box = document.getElementById('live-notes');
+  document.querySelectorAll('.reply-form textarea').forEach(function(t){ drafts[t.getAttribute('data-pid')] = t.value; });
+  Object.keys(replyUnsubs).forEach(function(k){ replyUnsubs[k](); });
+  Object.keys(likeUnsubs).forEach(function(k){ likeUnsubs[k](); });
+  replyUnsubs = {}; likeUnsubs = {};
   if(snap.empty){
     box.innerHTML = '<div class="note n-white"><p>まだ書き込みはありません。最初のひとことをどうぞ。</p></div>';
     return;
   }
   var html = '';
   var i = 0;
+  var ids = [];
   snap.forEach(function(doc){
     var d = doc.data();
-    var when = '';
-    if(d.createdAt && d.createdAt.toDate){ var dt = d.createdAt.toDate(); when = dt.getFullYear() + '/' + (dt.getMonth()+1) + '/' + dt.getDate(); }
-    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + esc(d.name || 'メンバー') + (when ? ' ・ ' + when : '') + '</p></div>';
+    var when = fmtWhen(d.createdAt);
+    ids.push(doc.id);
+    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + esc(d.name || 'メンバー') + (when ? ' ・ ' + when : '') + '</p>' +
+      '<div class="replies" id="replies-' + doc.id + '"></div>' +
+      '<div class="post-actions"><button type="button" class="like-btn" id="like-' + doc.id + '">♡ <span id="like-count-' + doc.id + '">0</span></button>' +
+      '<button type="button" class="reply-toggle" data-pid="' + doc.id + '">返事する</button></div>' +
+      '<div class="reply-form" id="rform-' + doc.id + '" style="display:' + (openForms[doc.id] ? 'block' : 'none') + '">' +
+      '<textarea data-pid="' + doc.id + '" maxlength="300" placeholder="返事を書いてください（300文字まで）">' + esc(drafts[doc.id] || '') + '</textarea>' +
+      '<button type="button" class="reply-send" data-pid="' + doc.id + '">返事を貼る</button> <span class="reply-msg" id="rmsg-' + doc.id + '"></span></div>' +
+      '</div>';
     i++;
   });
   box.innerHTML = html;
+  ids.forEach(function(pid){
+    replyUnsubs[pid] = db.collection('posts').doc(pid).collection('replies').orderBy('createdAt','asc').limit(50).onSnapshot(function(rsnap){
+      var el = document.getElementById('replies-' + pid);
+      if(!el) return;
+      var rh = '';
+      rsnap.forEach(function(rdoc){
+        var rd = rdoc.data();
+        var rw = fmtWhen(rd.createdAt);
+        rh += '<div class="reply">↪ ' + esc(rd.text || '') + ' <span class="who">' + esc(rd.name || 'メンバー') + (rw ? ' ・ ' + rw : '') + '</span></div>';
+      });
+      el.innerHTML = rh;
+    }, function(){});
+    likeUnsubs[pid] = db.collection('posts').doc(pid).collection('likes').onSnapshot(function(lsnap){
+      var c = document.getElementById('like-count-' + pid);
+      var b = document.getElementById('like-' + pid);
+      if(c) c.textContent = lsnap.size;
+      if(b){
+        var mine = currentUser && lsnap.docs.some(function(x){ return x.id === currentUser.uid; });
+        b.classList.toggle('liked', !!mine);
+        b.firstChild.textContent = mine ? '♥ ' : '♡ ';
+      }
+    }, function(){});
+    var lb = document.getElementById('like-' + pid);
+    if(lb) lb.addEventListener('click', function(){
+      if(!currentUser){ needLogin(); return; }
+      var ref = db.collection('posts').doc(pid).collection('likes').doc(currentUser.uid);
+      ref.get().then(function(ld){
+        if(ld.exists) ref.delete();
+        else ref.set({ createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      });
+    });
+  });
+  document.querySelectorAll('.reply-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      var f = document.getElementById('rform-' + pid);
+      var open = f.style.display !== 'none';
+      f.style.display = open ? 'none' : 'block';
+      openForms[pid] = !open;
+    });
+  });
+  document.querySelectorAll('.reply-send').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      var ta = document.querySelector('.reply-form textarea[data-pid="' + pid + '"]');
+      var msg = document.getElementById('rmsg-' + pid);
+      var text = ta.value.trim();
+      if(!currentUser){ needLogin(); return; }
+      if(!text){ msg.textContent = '内容を書いてください。'; return; }
+      msg.textContent = '投稿しています…';
+      db.collection('posts').doc(pid).collection('replies').add({
+        text: text,
+        name: profileName || currentUser.displayName || 'メンバー',
+        uid: currentUser.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(function(){
+        ta.value = '';
+        drafts[pid] = '';
+        msg.textContent = '貼りました！';
+      }).catch(function(){
+        msg.textContent = '投稿できませんでした。時間をおいて試してください。';
+      });
+    });
+  });
 }, function(err){
   document.getElementById('live-notes').innerHTML = '<div class="note n-white"><p>読み込みに失敗しました。時間をおいて開き直してください。</p></div>';
 });
