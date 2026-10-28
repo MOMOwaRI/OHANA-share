@@ -9,7 +9,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
 <style>
-  :root{--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f;--accent:#e07b24}
+  :root{--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f;--accent:#e07b24;--hito:#f6c3d5;--mono:#bfe6cf;--koto:#fbe38e}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
@@ -17,14 +17,17 @@
   h1{font-size:1.45rem}
   .sub{color:var(--soft);font-size:.92rem}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:16px}
+  .tabs{display:flex;gap:8px;margin-bottom:6px}
+  .tabs button{flex:1;border:2px solid var(--line);background:#fff;border-radius:999px;padding:10px 4px;font-weight:bold;font-family:inherit;font-size:1rem;cursor:pointer;color:var(--ink)}
+  .tabs button.on-hito{background:var(--hito);border-color:#e58bb0}
+  .tabs button.on-mono{background:var(--mono);border-color:#7cc79c}
+  .tabs button.on-koto{background:var(--koto);border-color:#ecc94b}
+  .status{font-size:.85rem;color:var(--soft);text-align:center;margin-top:8px}
   label{display:block;font-weight:bold;margin:16px 0 4px}
   label:first-of-type{margin-top:0}
   .hint{font-size:.82rem;color:var(--soft);font-weight:normal}
   input[type=text],input[type=url],textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;font-family:inherit;background:#fffdf9}
   textarea{min-height:84px}
-  .radios,.checks{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-  .radios label,.checks label{margin:0;font-weight:normal;border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
-  .radios input,.checks input{margin-right:6px}
   .savebtn{display:block;width:100%;margin-top:22px;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:14px;font-size:1rem;font-weight:bold;cursor:pointer;font-family:inherit}
   .viewlink{display:block;text-align:center;margin-top:14px;background:#fff;color:var(--accent);border:2px solid var(--accent);border-radius:999px;padding:12px;font-weight:bold;text-decoration:none}
   .msg{font-size:.9rem;color:#3f7a4d;text-align:center;margin-top:10px;min-height:1.4em}
@@ -36,7 +39,7 @@
 <div class="wrap">
   <header>
     <h1>プロフィール編集</h1>
-    <p class="sub">ここで書いた内容が、あなたの紹介ページに表示されます。</p>
+    <p class="sub">区分ごとに紹介ページを作れます。ヒト・モノ・コト、当てはまる区分だけ作れば大丈夫です。</p>
   </header>
 
   <div class="card" id="box-loading"><p>ログイン状態を確認しています…</p></div>
@@ -47,25 +50,23 @@
   </div>
 
   <div class="card" id="box-form" hidden>
-    <p id="member-no" style="font-weight:bold;color:var(--accent);margin-bottom:6px"></p>
+    <div class="tabs">
+      <button type="button" id="tab-hito">ヒト</button>
+      <button type="button" id="tab-mono">モノ</button>
+      <button type="button" id="tab-koto">コト</button>
+    </div>
+    <p class="status" id="role-status"></p>
+    <p id="member-no" style="font-weight:bold;color:var(--accent);margin:8px 0 2px"></p>
     <form id="profile-form">
-      <label for="f-nickname">ニックネーム（公開名）</label>
+      <label for="f-nickname">このページの名前（公開名）</label>
       <input type="text" id="f-nickname" maxlength="40" placeholder="例：みかんママ">
-      <p class="hint">紹介ページと掲示板に表示される名前です。本名でなくて大丈夫です。</p>
-
-      <label>区分（当てはまるもの全部）</label>
-      <div class="checks">
-        <label><input type="checkbox" id="c-hito" value="ヒト">ヒト</label>
-        <label><input type="checkbox" id="c-mono" value="モノ">モノ</label>
-        <label><input type="checkbox" id="c-koto" value="コト">コト</label>
-      </div>
-      <p class="hint">人・モノ・活動、全部当てはまる方は全部選んでください。</p>
+      <p class="hint">区分ごとに違う名前で大丈夫です（例：ヒト＝個人の名前、モノ＝お店の名前）。</p>
 
       <label for="f-area">地域</label>
       <input type="text" id="f-area" maxlength="40" placeholder="例：松山市">
 
       <label for="f-intro">紹介文</label>
-      <textarea id="f-intro" maxlength="600" placeholder="あなたやお店・活動の紹介を書いてください"></textarea>
+      <textarea id="f-intro" maxlength="600" placeholder="この区分での、あなたやお店・活動の紹介を書いてください"></textarea>
 
       <label for="f-seekhito">探しているヒト（こんな人）</label>
       <input type="text" id="f-seekhito" maxlength="200" placeholder="例：フリマ出店仲間、子育て中のママ友">
@@ -82,14 +83,14 @@
       <input type="url" id="f-hp" placeholder="https://">
 
       <label for="f-sns">SNSのリンク（あれば）</label>
-      <textarea id="f-sns" maxlength="400" placeholder="Instagram・Threads・Facebook・LINEなどのURLを貼ってください（複数OK）"></textarea>
+      <textarea id="f-sns" maxlength="400" placeholder="SNSのURLを貼ってください（複数OK）"></textarea>
 
       <label for="f-menu">メニュー・料金ページのURL（あれば）</label>
       <input type="url" id="f-menu" placeholder="https://">
 
-      <button class="savebtn" type="submit">保存する</button>
+      <button class="savebtn" type="submit">この区分で保存する</button>
       <p class="msg" id="save-msg"></p>
-      <a class="viewlink" id="view-own" href="#" hidden>自分の紹介ページを見る →</a>
+      <a class="viewlink" id="view-own" href="#" hidden>この区分の紹介ページを見る →</a>
     </form>
   </div>
 
@@ -112,45 +113,78 @@ firebase.initializeApp(firebaseConfig);
 var auth = firebase.auth();
 var db = firebase.firestore();
 var uid = null;
+var ROLES = {hito:'ヒト', mono:'モノ', koto:'コト'};
+var NAME_PH = {hito:'例：みかんママ', mono:'例：雑貨屋〇〇', koto:'例：〇〇サロン'};
+var currentRole = 'hito';
+var cache = {hito:null, mono:null, koto:null};
+var legacy = null;
 function $(id){ return document.getElementById(id); }
+function docId(role){ return uid + '__' + role; }
+
+function fillForm(d){
+  $('f-nickname').value = d ? (d.nickname || '') : '';
+  $('f-area').value = d ? (d.area || '') : '';
+  $('f-intro').value = d ? (d.intro || '') : '';
+  $('f-seekhito').value = d ? (d.seekingHito || d.seekingText || '') : '';
+  $('f-seekmono').value = d ? (d.seekingMono || '') : '';
+  $('f-seekkoto').value = d ? (d.seekingKoto || '') : '';
+  $('f-offering').value = d ? (d.offering || '') : '';
+  $('f-hp').value = d ? (d.hpUrl || '') : '';
+  $('f-sns').value = d ? (d.snsLinks || '') : '';
+  $('f-menu').value = d ? (d.menuUrl || '') : '';
+  if(d && d.memberNo){ $('member-no').textContent = 'このページのメンバーNo.： No.' + d.memberNo; }
+  else { $('member-no').textContent = '保存すると、このページにメンバーNo.が付きます。'; }
+  $('f-nickname').placeholder = NAME_PH[currentRole];
+  var view = $('view-own');
+  view.href = 'member.html?id=' + docId(currentRole);
+  view.hidden = !(d && d.nickname);
+  $('save-msg').textContent = '';
+}
+function statusText(){
+  var parts = [];
+  ['hito','mono','koto'].forEach(function(r){
+    var d = cache[r];
+    parts.push(ROLES[r] + '：' + (d ? ('作成済み' + (d.memberNo ? '（No.' + d.memberNo + '）' : '')) : 'まだ'));
+  });
+  $('role-status').textContent = parts.join('　');
+}
+function selectRole(role){
+  currentRole = role;
+  ['hito','mono','koto'].forEach(function(r){
+    $('tab-' + r).className = (r === role) ? ('on-' + r) : '';
+  });
+  fillForm(cache[role]);
+  statusText();
+}
+['hito','mono','koto'].forEach(function(r){
+  $('tab-' + r).addEventListener('click', function(){ selectRole(r); });
+});
+
 auth.onAuthStateChanged(function(user){
   $('box-loading').hidden = true;
   if(!user){ $('box-needlogin').hidden = false; return; }
   uid = user.uid;
   $('box-form').hidden = false;
-  var view = $('view-own');
-  view.href = 'member.html?id=' + uid;
-  view.hidden = false;
-  db.collection('profiles').doc(uid).get().then(function(doc){
-    if(!doc.exists) return;
-    var d = doc.data();
-    $('f-nickname').value = d.nickname || '';
-    var dcats = d.categories || (d.category ? [d.category] : []);
-    $('c-hito').checked = dcats.indexOf('ヒト') >= 0;
-    $('c-mono').checked = dcats.indexOf('モノ') >= 0;
-    $('c-koto').checked = dcats.indexOf('コト') >= 0;
-    if(d.memberNo){ $('member-no').textContent = 'あなたのメンバーNo.： No.' + d.memberNo; }
-    $('f-area').value = d.area || '';
-    $('f-intro').value = d.intro || '';
-    $('f-seekhito').value = d.seekingHito || d.seekingText || '';
-    $('f-seekmono').value = d.seekingMono || '';
-    $('f-seekkoto').value = d.seekingKoto || '';
-    $('f-offering').value = d.offering || '';
-    $('f-hp').value = d.hpUrl || '';
-    $('f-sns').value = d.snsLinks || '';
-    $('f-menu').value = d.menuUrl || '';
+  var jobs = ['hito','mono','koto'].map(function(r){
+    return db.collection('profiles').doc(docId(r)).get().then(function(doc){
+      cache[r] = doc.exists ? doc.data() : null;
+    });
   });
+  jobs.push(db.collection('profiles').doc(uid).get().then(function(doc){
+    legacy = doc.exists ? doc.data() : null;
+    // 旧形式（区分分け前）のプロフィールは、ヒトのページとして引き継ぐ
+    if(legacy && !cache.hito){ cache.hito = legacy; }
+  }));
+  Promise.all(jobs).then(function(){ selectRole('hito'); });
 });
+
 $('profile-form').addEventListener('submit', function(e){
   e.preventDefault();
   if(!uid) return;
-  var cats = [];
-  if($('c-hito').checked) cats.push('ヒト');
-  if($('c-mono').checked) cats.push('モノ');
-  if($('c-koto').checked) cats.push('コト');
+  var role = currentRole;
   var data = {
     nickname: $('f-nickname').value.trim(),
-    categories: cats,
+    categories: [ROLES[role]],
     area: $('f-area').value.trim(),
     intro: $('f-intro').value.trim(),
     seekingHito: $('f-seekhito').value.trim(),
@@ -162,15 +196,16 @@ $('profile-form').addEventListener('submit', function(e){
     menuUrl: $('f-menu').value.trim(),
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
+  var keepNo = (cache[role] && cache[role].memberNo) || (role === 'hito' && legacy && legacy.memberNo) || null;
   $('save-msg').textContent = '保存しています…';
-  var ref = db.collection('profiles').doc(uid);
-  ref.get().then(function(doc){
-    if(doc.exists && doc.data().memberNo){
-      return ref.set(data, {merge:true});
-    }
-    // 初めての保存：メンバーNo.を採番する
+  var ref = db.collection('profiles').doc(docId(role));
+  var p;
+  if(keepNo){
+    data.memberNo = keepNo;
+    p = ref.set(data, {merge:true});
+  } else {
     var counterRef = db.collection('counters').doc('members');
-    return db.runTransaction(function(tx){
+    p = db.runTransaction(function(tx){
       return tx.get(counterRef).then(function(cdoc){
         var next = cdoc.exists ? (cdoc.data().next || 1) : 1;
         data.memberNo = next;
@@ -178,9 +213,15 @@ $('profile-form').addEventListener('submit', function(e){
         tx.set(ref, data, {merge:true});
       });
     });
-  }).then(function(){
-    if(data.memberNo){ $('member-no').textContent = 'あなたのメンバーNo.： No.' + data.memberNo; }
+  }
+  p.then(function(){
+    cache[role] = data;
+    $('member-no').textContent = 'このページのメンバーNo.： No.' + data.memberNo;
     $('save-msg').textContent = '保存しました。紹介ページに反映されています。';
+    var view = $('view-own');
+    view.href = 'member.html?id=' + docId(role);
+    view.hidden = false;
+    statusText();
   }).catch(function(){
     $('save-msg').textContent = '保存できませんでした。時間をおいて試してください。';
   });
