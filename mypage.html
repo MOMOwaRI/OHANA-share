@@ -27,6 +27,9 @@
   .create-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;border-radius:999px;padding:9px 20px;cursor:pointer;font-family:inherit;font-size:.95rem}
   .del-btn{background:#fff;color:#b03a3a;border:1.5px solid #d99;background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
   .add-btn{background:#fff;color:#3d7a4a;border:1.5px solid #8fc79b;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .trash-card{background:#faf3ea;border:1px dashed #d9c3a5;border-radius:16px;padding:14px 20px;margin-top:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--soft)}
+  .restore-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);border-radius:999px;padding:8px 18px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .trash-h{font-size:1.05rem;margin-top:26px;color:var(--soft)}
   .catchips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
   .catchips label{border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
@@ -61,6 +64,11 @@
         <label><input type="radio" name="newcat" value="コト">コト</label>
       </div>
       <button type="button" class="create-btn" id="btn-create" style="margin-top:10px">この区分でページを作る</button>
+    </div>
+    <div id="trash-area" hidden>
+      <h2 class="trash-h">削除したページ</h2>
+      <p class="sub">「元に戻す」を押すと、ページ一覧に戻ります。</p>
+      <div id="trash-list"></div>
     </div>
     <p class="sub" id="hub-msg" style="margin-top:12px"></p>
   </div>
@@ -105,6 +113,13 @@ function card(docId, d){
     '<button type="button" class="add-btn" data-cat="' + esc((d.categories && d.categories[0]) || d.category || 'ヒト') + '">＋追加</button>' +
     '<button type="button" class="del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(d.nickname || '（名前はまだ）') + '">削除</button></div>';
 }
+function trashCard(docId, d){
+  var cats = d.categories || (d.category ? [d.category] : []);
+  var bh = '';
+  cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
+  return '<div class="trash-card">' + bh + '<span class="nm" style="flex:1;min-width:140px">' + esc(d.nickname || '（名前はまだ）') + '</span>' +
+    '<button type="button" class="restore-btn" data-doc="' + esc(docId) + '">元に戻す</button></div>';
+}
 function bindDeleteButtons(){
   document.querySelectorAll('.del-btn').forEach(function(btn){
     btn.addEventListener('click', function(){ deletePage(btn.getAttribute('data-doc'), btn.getAttribute('data-name')); });
@@ -112,49 +127,106 @@ function bindDeleteButtons(){
   document.querySelectorAll('.add-btn').forEach(function(btn){
     btn.addEventListener('click', function(){ createPage(btn.getAttribute('data-cat') || 'ヒト'); });
   });
+  document.querySelectorAll('.restore-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ restorePage(btn.getAttribute('data-doc')); });
+  });
 }
 function deletePage(docId, nm){
-  if(!confirm('「' + nm + '」のページを削除しますか？\n元に戻せません。メンバーNo.は繰り上がります。')) return;
+  if(!confirm('「' + nm + '」のページを削除しますか？\nあとで「削除したページ」から元に戻せます。メンバーNo.は繰り上がります。')) return;
   $('hub-msg').textContent = '削除しています…';
   var pageRef = db.collection('profiles').doc(docId);
   pageRef.get().then(function(pdoc){
     var no = pdoc.exists ? pdoc.data().memberNo : null;
-    if(!no){ return pageRef.delete().then(function(){ return null; }); }
     return db.collection('profiles').get().then(function(snap){
       var batch = db.batch();
-      snap.forEach(function(d){
-        if(d.id === docId) return;
-        if(d.id.split('__')[0] !== uid) return;
-        var mno = d.data().memberNo;
-        if(mno && mno > no) batch.update(d.ref, {memberNo: mno - 1});
+      if(no){
+        snap.forEach(function(d){
+          if(d.id === docId) return;
+          if(d.id.split('__')[0] !== uid) return;
+          if(d.data().deleted) return;
+          var mno = d.data().memberNo;
+          if(mno && mno > no) batch.update(d.ref, {memberNo: mno - 1});
+        });
+      }
+      batch.update(pageRef, {
+        deleted: true,
+        prevNo: no || null,
+        memberNo: firebase.firestore.FieldValue.delete(),
+        deletedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      batch.delete(pageRef);
       return batch.commit();
     });
   }).then(function(){
-    $('hub-msg').textContent = '削除しました。';
+    $('hub-msg').textContent = '削除しました。「削除したページ」から元に戻せます。';
     loadPages();
   }).catch(function(){
     $('hub-msg').textContent = '削除できませんでした。時間をおいて試してください。';
   });
 }
+function restorePage(docId){
+  $('hub-msg').textContent = '元に戻しています…';
+  var pageRef = db.collection('profiles').doc(docId);
+  pageRef.get().then(function(pdoc){
+    if(!pdoc.exists) return null;
+    var prevNo = pdoc.data().prevNo || null;
+    return db.collection('profiles').get().then(function(snap){
+      var maxNo = 0;
+      snap.forEach(function(d){
+        if(d.id.split('__')[0] !== uid) return;
+        if(d.data().deleted) return;
+        var mno = d.data().memberNo;
+        if(mno && mno > maxNo) maxNo = mno;
+      });
+      var newNo = prevNo ? Math.min(prevNo, maxNo + 1) : maxNo + 1;
+      var batch = db.batch();
+      snap.forEach(function(d){
+        if(d.id === docId) return;
+        if(d.id.split('__')[0] !== uid) return;
+        if(d.data().deleted) return;
+        var mno = d.data().memberNo;
+        if(mno && mno >= newNo) batch.update(d.ref, {memberNo: mno + 1});
+      });
+      batch.update(pageRef, {
+        deleted: false,
+        memberNo: newNo,
+        prevNo: firebase.firestore.FieldValue.delete(),
+        deletedAt: firebase.firestore.FieldValue.delete()
+      });
+      return batch.commit();
+    });
+  }).then(function(){
+    $('hub-msg').textContent = '元に戻しました。';
+    loadPages();
+  }).catch(function(){
+    $('hub-msg').textContent = '戻せませんでした。時間をおいて試してください。';
+  });
+}
 
 function loadPages(){
   var slotIds = [uid, uid + '__hito', uid + '__mono', uid + '__koto'];
-  var cards = '';
+  var actives = [];
+  var trashed = [];
+  function push(docId, d){ (d.deleted ? trashed : actives).push({id: docId, d: d}); }
   var jobs = slotIds.map(function(docId){
     return db.collection('profiles').doc(docId).get().then(function(doc){
-      if(doc.exists) cards += card(docId, doc.data());
+      if(doc.exists) push(docId, doc.data());
     });
   });
   var q = db.collection('profiles')
     .where(firebase.firestore.FieldPath.documentId(), '>=', uid + '__p')
     .where(firebase.firestore.FieldPath.documentId(), '<', uid + '__p\uf8ff')
     .get().then(function(snap){
-      snap.forEach(function(doc){ cards += card(doc.id, doc.data()); });
+      snap.forEach(function(doc){ push(doc.id, doc.data()); });
     }).catch(function(){});
   Promise.all(jobs.concat([q])).then(function(){
+    actives.sort(function(a, b){ return (a.d.memberNo || 999) - (b.d.memberNo || 999); });
+    var cards = '';
+    actives.forEach(function(p){ cards += card(p.id, p.d); });
     $('pages-list').innerHTML = cards || '<section><p>まだページがありません。下から作ってください。</p></section>';
+    var tcards = '';
+    trashed.forEach(function(p){ tcards += trashCard(p.id, p.d); });
+    $('trash-area').hidden = !trashed.length;
+    $('trash-list').innerHTML = tcards;
     bindDeleteButtons();
   });
 }
@@ -169,6 +241,7 @@ function createPage(cat){
     return db.collection('profiles').doc(newDocId).set({
       nickname: '', area: '', categories: [cat], intro: '',
       seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
+      offeringHito: '', offeringMono: '', offeringKoto: '',
       hpUrl: '', menuUrl: '', snsLinks: '',
       memberNo: no,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
