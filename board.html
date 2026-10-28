@@ -27,6 +27,7 @@
   .n-orange{background:#ffe3c2;transform:rotate(-1deg)}
   .n-white{background:#ffffff;transform:rotate(.5deg)}
   .who{font-size:.75rem;color:#8a6a4f;margin-top:6px}
+  .who a{color:#c2610f;font-weight:bold}
   .back{display:block;text-align:center;margin-top:26px}
   .back a{display:inline-block;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:12px 28px}
   footer{text-align:center;margin-top:22px;font-size:.82rem;color:#8a6a4f}
@@ -54,7 +55,7 @@
   <header>
     <img src="img-992cf83a89.png" alt="OHANAキャラクター">
     <h1>みんなの掲示板</h1>
-    <p class="sub">OHANAシェア＊プロジェクトのお知らせと、メンバーからの告知</p>
+    <p class="sub">OHANAシェア＊プロジェクトのお知らせと、メンバーからの告知。困ったことは<a href="help.html">困った助け合い</a>へ。</p>
   </header>
 
   <div class="board">
@@ -63,6 +64,13 @@
         <h2>写真を投げるだけで、モノページができます</h2>
         <p>普通は出品って手間がかかります。ここでは、写真受付箱にモノの写真を入れるだけ。AIがタイトルと説明を作って、あなたのモノページを作ります（確認してから公開）。</p>
         <p><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">写真受付箱はこちら →</a></p>
+        <p>※開いたときに「人やペットを選んでください」と出ることがありますが、それはGoogleフォトの機能で、OHANAとは関係ありません。そのまま閉じて大丈夫です。</p>
+        <p class="who">運営からのメモ</p>
+      </div>
+      <div class="note n-blue">
+        <h2>アイディア募集中</h2>
+        <p>「こうしたら？」と思ったら、ぜひ教えてください。アイディア・ご意見はお問い合わせフォームからお寄せください。</p>
+        <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">お問い合わせフォームはこちら →</a></p>
         <p class="who">運営からのメモ</p>
       </div>
       <div class="note n-yellow">
@@ -204,9 +212,11 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
   var ids = [];
   snap.forEach(function(doc){
     var d = doc.data();
+    if(d.kind === 'help'){ return; }
     var when = fmtWhen(d.createdAt);
     ids.push(doc.id);
-    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + esc(d.name || 'メンバー') + (when ? ' ・ ' + when : '') + '</p>' +
+    var author = d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー');
+    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + author + (when ? ' ・ ' + when : '') + '</p>' +
       '<div class="replies" id="replies-' + doc.id + '"></div>' +
       '<div class="post-actions"><button type="button" class="like-btn" id="like-' + doc.id + '">♡ <span id="like-count-' + doc.id + '">0</span></button>' +
       '<button type="button" class="reply-toggle" data-pid="' + doc.id + '">返事する</button></div>' +
@@ -225,7 +235,8 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       rsnap.forEach(function(rdoc){
         var rd = rdoc.data();
         var rw = fmtWhen(rd.createdAt);
-        rh += '<div class="reply">↪ ' + esc(rd.text || '') + ' <span class="who">' + esc(rd.name || 'メンバー') + (rw ? ' ・ ' + rw : '') + '</span></div>';
+        var rauthor = rd.uid ? '<a href="member.html?id=' + rd.uid + '">' + esc(rd.name || 'メンバー') + '</a>' : esc(rd.name || 'メンバー');
+        rh += '<div class="reply">↪ ' + esc(rd.text || '') + ' <span class="who">' + rauthor + (rw ? ' ・ ' + rw : '') + '</span></div>';
       });
       el.innerHTML = rh;
     }, function(){});

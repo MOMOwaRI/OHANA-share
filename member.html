@@ -56,6 +56,12 @@
   .sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
   .sugg button{border:1.5px solid var(--orange);background:#fff7ea;color:var(--orange-dark);border-radius:999px;padding:7px 14px;font-family:inherit;font-weight:bold;font-size:.85rem;cursor:pointer}
   [hidden]{display:none !important}
+
+.sharewrap{text-align:center;margin-top:12px}
+.sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
+.sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
+.sharemenu.open{display:flex}
+.sharemenu a,.sharemenu button{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:7px 14px;font-size:.85rem;text-decoration:none;color:#3a2e25;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -71,6 +77,29 @@
     <div id="p-loading"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
   </header>
+<div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
+<div class="sharemenu" id="share-menu">
+<a id="share-line" target="_blank" rel="noopener">LINEで送る</a>
+<a id="share-x" target="_blank" rel="noopener">Xでシェア</a>
+<button type="button" id="share-copy">リンクをコピー</button>
+</div><p class="note" id="share-msg"></p></div>
+<script>
+(function(){
+  var line = document.getElementById('share-line'), x = document.getElementById('share-x');
+  var url = location.href;
+  if(line) line.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url);
+  if(x) x.href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(document.title);
+  var btn = document.getElementById('share-btn'), menu = document.getElementById('share-menu');
+  btn.addEventListener('click', function(){
+    if(navigator.share){ navigator.share({title: document.title, url: url}).catch(function(){}); }
+    else { menu.classList.toggle('open'); }
+  });
+  document.getElementById('share-copy').addEventListener('click', function(){
+    if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){ document.getElementById('share-msg').textContent = 'リンクをコピーしました'; }); }
+  });
+})();
+</script>
+
 
   <div id="editbar" hidden>
     <p id="edit-msg" style="font-weight:bold">これはあなたのページです</p>
@@ -155,7 +184,8 @@
   <footer>
     <img src="img-992cf83a89.png" alt="OHANAキャラクター">
     OHANAシェア＊プロジェクト OHANAメンバー紹介ページ
-  </footer>
+  <p style="text-align:center;font-size:.85rem;color:var(--soft);margin-top:10px">「こうしたら？」のアイディア・ご意見は<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">こちら</a>へお寄せください</p>
+</footer>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -207,8 +237,8 @@ function render(d, editMode){
   $('p-badges').innerHTML = bh;
   $('p-no').textContent = d.memberNo ? ('No.' + d.memberNo) : '';
   $('p-no').style.display = d.memberNo ? '' : 'none';
-  $('p-name').textContent = d.nickname || 'OHANAメンバー';
-  document.title = (d.nickname || 'OHANAメンバー') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
+  $('p-name').textContent = d.nickname || '新しいページ';
+  document.title = (d.nickname || '新しいページ') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
   $('p-area').textContent = d.area || '';
   $('s-photo').hidden = !d.photoUrl;
   if(d.photoUrl) $('p-photo').src = d.photoUrl;

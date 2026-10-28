@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>困った助け合い｜OHANAシェア＊プロジェクト</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/board.html">
+<link rel="icon" href="favicon.png">
+<style>
+  :root{--orange:#e07b24;--ink:#3a2e25;--paper:#fff6ec}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;background:var(--paper);color:var(--ink);line-height:1.8}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px 48px}
+  header{text-align:center;padding:36px 0 6px}
+  header img{width:110px}
+  h1{font-size:1.6rem;margin:6px 0 2px}
+  .sub{color:#8a6a4f;font-size:.92rem}
+  .board{background:#fdfdf8;border:2px solid #ecd9bd;border-radius:18px;padding:22px 14px;margin-top:18px;box-shadow:inset 0 0 0 6px #fff}
+  .notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+  .note{position:relative;padding:18px 14px 14px;border-radius:4px;box-shadow:0 4px 10px rgba(90,60,20,.15);font-size:.92rem;min-height:120px}
+  .note::before{content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-2deg);width:74px;height:20px;background:rgba(255,235,180,.85);border:1px solid rgba(200,160,80,.35)}
+  .note h2{font-size:1rem;margin-bottom:4px}
+  .note a{color:#c2610f;font-weight:bold}
+  .n-yellow{background:#fff3a6;transform:rotate(-1.2deg)}
+  .n-pink{background:#ffd9e2;transform:rotate(1deg)}
+  .n-blue{background:#d6ecff;transform:rotate(-.6deg)}
+  .n-green{background:#dcf5d0;transform:rotate(.8deg)}
+  .n-orange{background:#ffe3c2;transform:rotate(-1deg)}
+  .n-white{background:#ffffff;transform:rotate(.5deg)}
+  .who{font-size:.75rem;color:#8a6a4f;margin-top:6px}
+  .who a{color:#c2610f;font-weight:bold}
+  .back{display:block;text-align:center;margin-top:26px}
+  .back a{display:inline-block;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:12px 28px}
+  footer{text-align:center;margin-top:22px;font-size:.82rem;color:#8a6a4f}
+
+  .live-title{font-size:1.15rem;margin:26px 0 4px;text-align:center}
+  .postbox{background:#fff;border:1.5px dashed #e8b96f;border-radius:14px;padding:14px;margin-top:12px}
+  .postbox textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;min-height:76px;font-family:inherit}
+  .postbox button{background:var(--orange);color:#fff;font-weight:bold;border:none;border-radius:999px;padding:11px 26px;font-size:.95rem;cursor:pointer;margin-top:8px}
+  .login-cta{text-align:center;padding:6px 0}
+  .login-cta a{display:inline-block;background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:11px 26px}
+  .statusline{font-size:.85rem;color:#8a6a4f;text-align:center}
+  .post-actions{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+  .post-actions button{border:1.5px solid #e8b96f;background:#fff;border-radius:999px;padding:4px 14px;font-family:inherit;font-size:.82rem;cursor:pointer;font-weight:bold;color:#8a6a4f}
+  .post-actions button.liked{background:#ffd9e2;border-color:#e88bb0;color:#b03a5f}
+  .replies{margin-top:8px;border-top:1px dashed rgba(160,110,50,.35);padding-top:6px}
+  .reply{font-size:.85rem;padding:3px 0}
+  .reply .who{margin-top:0;display:inline;font-size:.72rem}
+  .reply-form textarea{width:100%;border:1px solid #e5cfae;border-radius:8px;padding:8px;font-size:.88rem;min-height:52px;font-family:inherit;margin-top:6px;background:#fff}
+  .reply-form button{background:var(--orange);color:#fff;font-weight:bold;border:none;border-radius:999px;padding:7px 18px;font-size:.85rem;cursor:pointer;margin-top:6px}
+  .reply-msg{font-size:.78rem;color:#8a6a4f}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="img-992cf83a89.png" alt="OHANAキャラクター">
+    <h1>困った助け合い</h1>
+    <p class="sub">OHANAの中で困ったことを、仲間同士で助け合うページです。お知らせ・告知は<a href="board.html">みんなの掲示板</a>へ。</p>
+  </header>
+
+  <div class="board">
+    <div class="notes">
+      <div class="note n-green">
+        <h2>100円券はどこでもらえますか？</h2>
+        <p>OHANAのイベントや、OHANAメンバーのお店で無料で配布しています。買うものではありません。</p>
+        <p class="who">よくある困った</p>
+      </div>
+      <div class="note n-blue">
+        <h2>券は現金に換えられますか？</h2>
+        <p>換金はできません。お釣りも出ません。受け取った券は、他のお店で使うことで地域を廻ります。</p>
+        <p class="who">よくある困った</p>
+      </div>
+      <div class="note n-yellow">
+        <h2>自分のページを作るには？</h2>
+        <p>写真受付箱に写真を入れるだけ。AIがタイトルと説明を作ってページにします（確認してから公開）。</p>
+        <p><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">写真受付箱はこちら →</a></p>
+        <p class="who">よくある困った</p>
+      </div>
+      <div class="note n-pink">
+        <h2>写真受付箱で「人やペットを選んでください」と出ます</h2>
+        <p>それはGoogleフォトの機能で、OHANAとは関係ありません。そのまま閉じて大丈夫です。</p>
+        <p class="who">よくある困った</p>
+      </div>
+      <div class="note n-blue">
+        <h2>ページの内容を直したい</h2>
+        <p>ログインしてマイページから編集できます。書いた内容は、紹介ページにも自動で出ます。</p>
+        <p class="who">よくある困った</p>
+      </div>
+      <div class="note n-green">
+        <h2>ここに無い困ったは？</h2>
+        <p>下の「みんなの困った・質問」に書いてください。分かる仲間が返事します。急ぎならLINEオープンチャットでも聞けます。</p>
+        <p class="who">よくある困った</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="live-title">みんなの困った・質問</h2>
+  <p class="statusline" id="auth-status">ログイン状態を確認しています…</p>
+  <div class="postbox" id="postbox" style="display:none">
+    <div style="margin-bottom:8px"><label style="font-size:.85rem">種類：<select id="post-cat"><option>使い方</option><option>100円券</option><option>ページ作り</option><option>イベント</option><option>モノの交換</option><option>その他</option></select></label></div>
+    <textarea id="post-text" maxlength="300" placeholder="困っていること・質問を書いてください（300文字まで）"></textarea>
+    <div style="text-align:right"><button id="post-btn" type="button">質問を貼る</button></div>
+    <p class="statusline" id="post-msg"></p>
+  </div>
+  <div class="postbox login-cta" id="login-cta" style="display:none">
+    <p style="font-size:.9rem;margin-bottom:8px">書き込みにはログインが必要です（読むだけなら、このままどうぞ）</p>
+    <a href="login.html">OHANAメンバーログインへ</a>
+  </div>
+  <div class="board">
+    <div class="notes" id="live-notes">
+      <div class="note n-white"><p>読み込んでいます…</p></div>
+    </div>
+  </div>
+
+  <div class="back"><a href="index.html">← トップページへ戻る</a></div>
+  <footer>OHANAシェア＊プロジェクト みんなの掲示板</footer>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+};
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth();
+var db = firebase.firestore();
+var COLORS = ['n-yellow','n-pink','n-blue','n-green','n-orange','n-white'];
+var currentUser = null;
+var profileName = '';
+function refreshAuthLabel(){
+  if(!currentUser) return;
+  document.getElementById('auth-status').textContent = (profileName || currentUser.displayName || 'メンバー') + ' さんとしてログイン中です';
+}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+auth.onAuthStateChanged(function(user){
+  currentUser = user;
+  if(user){
+    db.collection('profiles').doc(user.uid).get().then(function(doc){
+      if(doc.exists && doc.data().nickname){ profileName = doc.data().nickname; refreshAuthLabel(); }
+    }).catch(function(){});
+  }
+  var st = document.getElementById('auth-status');
+  if(user){
+    st.textContent = (profileName || user.displayName || 'メンバー') + ' さんとしてログイン中です';
+    document.getElementById('postbox').style.display = 'block';
+    document.getElementById('login-cta').style.display = 'none';
+  } else {
+    st.textContent = 'ログインしていません';
+    document.getElementById('postbox').style.display = 'none';
+    document.getElementById('login-cta').style.display = 'block';
+  }
+});
+document.getElementById('post-btn').addEventListener('click', function(){
+  var ta = document.getElementById('post-text');
+  var msg = document.getElementById('post-msg');
+  var text = ta.value.trim();
+  if(!currentUser){ msg.textContent = 'ログインが必要です。'; return; }
+  if(!text){ msg.textContent = '内容を書いてください。'; return; }
+  msg.textContent = '投稿しています…';
+  db.collection('posts').add({
+    text: text,
+    name: profileName || currentUser.displayName || 'メンバー',
+    kind: 'help',
+    cat: (document.getElementById('post-cat') || {}).value || 'その他',
+    uid: currentUser.uid,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    ta.value = '';
+    msg.textContent = '貼りました！';
+  }).catch(function(e){
+    msg.textContent = '投稿できませんでした。時間をおいて試してください。';
+  });
+});
+function fmtWhen(ts){
+  if(ts && ts.toDate){ var dt = ts.toDate(); return dt.getFullYear() + '/' + (dt.getMonth()+1) + '/' + dt.getDate(); }
+  return '';
+}
+var replyUnsubs = {}, likeUnsubs = {};
+var openForms = {}, drafts = {};
+function needLogin(){
+  document.getElementById('auth-status').textContent = 'いいね・返事にはログインが必要です';
+}
+db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function(snap){
+  var box = document.getElementById('live-notes');
+  document.querySelectorAll('.reply-form textarea').forEach(function(t){ drafts[t.getAttribute('data-pid')] = t.value; });
+  Object.keys(replyUnsubs).forEach(function(k){ replyUnsubs[k](); });
+  Object.keys(likeUnsubs).forEach(function(k){ likeUnsubs[k](); });
+  replyUnsubs = {}; likeUnsubs = {};
+  if(snap.empty){
+    box.innerHTML = '<div class="note n-white"><p>まだ書き込みはありません。最初のひとことをどうぞ。</p></div>';
+    return;
+  }
+  var html = '';
+  var i = 0;
+  var ids = [];
+  snap.forEach(function(doc){
+    var d = doc.data();
+    if(d.kind !== 'help'){ return; }
+    var when = fmtWhen(d.createdAt);
+    ids.push(doc.id);
+    var author = d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー');
+    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + (d.cat ? '【' + esc(d.cat) + '】' : '') + author + (when ? ' ・ ' + when : '') + '</p>' +
+      '<div class="replies" id="replies-' + doc.id + '"></div>' +
+      '<div class="post-actions"><button type="button" class="like-btn" id="like-' + doc.id + '">♡ <span id="like-count-' + doc.id + '">0</span></button>' +
+      '<button type="button" class="reply-toggle" data-pid="' + doc.id + '">返事する</button></div>' +
+      '<div class="reply-form" id="rform-' + doc.id + '" style="display:' + (openForms[doc.id] ? 'block' : 'none') + '">' +
+      '<textarea data-pid="' + doc.id + '" maxlength="300" placeholder="返事を書いてください（300文字まで）">' + esc(drafts[doc.id] || '') + '</textarea>' +
+      '<button type="button" class="reply-send" data-pid="' + doc.id + '">返事を貼る</button> <span class="reply-msg" id="rmsg-' + doc.id + '"></span></div>' +
+      '</div>';
+    i++;
+  });
+  box.innerHTML = html;
+  ids.forEach(function(pid){
+    replyUnsubs[pid] = db.collection('posts').doc(pid).collection('replies').orderBy('createdAt','asc').limit(50).onSnapshot(function(rsnap){
+      var el = document.getElementById('replies-' + pid);
+      if(!el) return;
+      var rh = '';
+      rsnap.forEach(function(rdoc){
+        var rd = rdoc.data();
+        var rw = fmtWhen(rd.createdAt);
+        var rauthor = rd.uid ? '<a href="member.html?id=' + rd.uid + '">' + esc(rd.name || 'メンバー') + '</a>' : esc(rd.name || 'メンバー');
+        rh += '<div class="reply">↪ ' + esc(rd.text || '') + ' <span class="who">' + rauthor + (rw ? ' ・ ' + rw : '') + '</span></div>';
+      });
+      el.innerHTML = rh;
+    }, function(){});
+    likeUnsubs[pid] = db.collection('posts').doc(pid).collection('likes').onSnapshot(function(lsnap){
+      var c = document.getElementById('like-count-' + pid);
+      var b = document.getElementById('like-' + pid);
+      if(c) c.textContent = lsnap.size;
+      if(b){
+        var mine = currentUser && lsnap.docs.some(function(x){ return x.id === currentUser.uid; });
+        b.classList.toggle('liked', !!mine);
+        b.firstChild.textContent = mine ? '♥ ' : '♡ ';
+      }
+    }, function(){});
+    var lb = document.getElementById('like-' + pid);
+    if(lb) lb.addEventListener('click', function(){
+      if(!currentUser){ needLogin(); return; }
+      var ref = db.collection('posts').doc(pid).collection('likes').doc(currentUser.uid);
+      ref.get().then(function(ld){
+        if(ld.exists) ref.delete();
+        else ref.set({ createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      });
+    });
+  });
+  document.querySelectorAll('.reply-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      var f = document.getElementById('rform-' + pid);
+      var open = f.style.display !== 'none';
+      f.style.display = open ? 'none' : 'block';
+      openForms[pid] = !open;
+    });
+  });
+  document.querySelectorAll('.reply-send').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      var ta = document.querySelector('.reply-form textarea[data-pid="' + pid + '"]');
+      var msg = document.getElementById('rmsg-' + pid);
+      var text = ta.value.trim();
+      if(!currentUser){ needLogin(); return; }
+      if(!text){ msg.textContent = '内容を書いてください。'; return; }
+      msg.textContent = '投稿しています…';
+      db.collection('posts').doc(pid).collection('replies').add({
+        text: text,
+        name: profileName || currentUser.displayName || 'メンバー',
+        uid: currentUser.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(function(){
+        ta.value = '';
+        drafts[pid] = '';
+        msg.textContent = '貼りました！';
+      }).catch(function(){
+        msg.textContent = '投稿できませんでした。時間をおいて試してください。';
+      });
+    });
+  });
+}, function(err){
+  document.getElementById('live-notes').innerHTML = '<div class="note n-white"><p>読み込みに失敗しました。時間をおいて開き直してください。</p></div>';
+});
+</script>
+</body>
+</html>

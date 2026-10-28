@@ -110,7 +110,6 @@ function card(docId, d){
   return '<div class="page-card">' + bh + '<span class="nm">' + esc(d.nickname || '（名前はまだ）') + '</span>' +
     (d.memberNo ? '<span class="no">No.' + d.memberNo + '</span>' : '') +
     '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '&edit=1">このページを編集</a>' +
-    '<button type="button" class="add-btn" data-cat="' + esc((d.categories && d.categories[0]) || d.category || 'ヒト') + '">＋追加</button>' +
     '<button type="button" class="del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(d.nickname || '（名前はまだ）') + '">削除</button></div>';
 }
 function trashCard(docId, d){
@@ -123,9 +122,6 @@ function trashCard(docId, d){
 function bindDeleteButtons(){
   document.querySelectorAll('.del-btn').forEach(function(btn){
     btn.addEventListener('click', function(){ deletePage(btn.getAttribute('data-doc'), btn.getAttribute('data-name')); });
-  });
-  document.querySelectorAll('.add-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){ createPage(btn.getAttribute('data-cat') || 'ヒト'); });
   });
   document.querySelectorAll('.restore-btn').forEach(function(btn){
     btn.addEventListener('click', function(){ restorePage(btn.getAttribute('data-doc')); });
