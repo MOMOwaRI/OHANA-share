@@ -43,10 +43,10 @@
   <header>
     <img src="img-992cf83a89.png" alt="OHANAキャラクター" style="width:110px">
     <div id="p-head" hidden>
-      <div><span class="badge" id="p-badge"></span></div>
+      <div id="p-badges"></div>
       <h1 id="p-name"></h1>
       <p class="sub" id="p-area"></p>
-      <div class="tags"><span class="tag">OHANAメンバー</span></div>
+      <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
     </div>
     <div id="p-loading"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
@@ -56,8 +56,7 @@
 
   <section id="s-seeking" hidden>
     <h2>探しているヒト・モノ・コト</h2>
-    <div class="chips" id="p-seekchips"></div>
-    <p id="p-seeking"></p>
+    <div id="p-seeking"></div>
   </section>
 
   <section id="s-offering" hidden><h2>提供できること・ゆずれるもの</h2><p id="p-offering"></p></section>
@@ -66,12 +65,6 @@
     <h2>リンク集</h2>
     <div class="sns" id="p-links"></div>
   </section>
-
-  <div class="recruit">
-    <h2>こんなページが欲しい方へ</h2>
-    <p>OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。公式HPのように使える作りです。<br>条件はひとつだけ、OHANA100円券が使えるお店・活動にしていただくことです。</p>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォームへ</a>
-  </div>
 
   <a class="cta" href="index.html">OHANAトップへ戻る</a>
 
@@ -106,23 +99,23 @@ else {
     if(!doc.exists){ $('p-notfound').hidden = false; return; }
     var d = doc.data();
     $('p-head').hidden = false;
-    var badge = $('p-badge');
-    badge.textContent = d.category || 'メンバー';
-    badge.className = 'badge ' + (d.category === 'ヒト' ? 'cat-hito' : d.category === 'モノ' ? 'cat-mono' : 'cat-koto');
+    var dcats = d.categories || (d.category ? [d.category] : []);
+    var bh = '';
+    dcats.forEach(function(c){
+      bh += '<span class="badge ' + (c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto') + '">' + esc(c) + '</span> ';
+    });
+    $('p-badges').innerHTML = bh;
+    $('p-no').textContent = d.memberNo ? ('No.' + d.memberNo) : '';
+    if(!d.memberNo){ $('p-no').style.display = 'none'; }
     $('p-name').textContent = d.nickname || 'OHANAメンバー';
     document.title = (d.nickname || 'OHANAメンバー') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
     $('p-area').textContent = d.area || '';
     if(d.intro){ $('s-intro').hidden = false; $('p-intro').innerHTML = nl(d.intro); }
-    var cats = d.seekingCats || [];
-    if(cats.length || d.seekingText){
-      $('s-seeking').hidden = false;
-      var ch = '';
-      cats.forEach(function(c){
-        ch += '<span class="chip ' + (c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto') + '">' + esc(c) + 'を探しています</span>';
-      });
-      $('p-seekchips').innerHTML = ch;
-      $('p-seeking').innerHTML = nl(d.seekingText || '');
-    }
+    var rows = '';
+    if(d.seekingHito || d.seekingText) rows += '<p><span class="chip cat-hito">ヒトを探しています</span></p><p>' + nl(d.seekingHito || d.seekingText) + '</p>';
+    if(d.seekingMono) rows += '<p style="margin-top:10px"><span class="chip cat-mono">モノを探しています</span></p><p>' + nl(d.seekingMono) + '</p>';
+    if(d.seekingKoto) rows += '<p style="margin-top:10px"><span class="chip cat-koto">コトを探しています</span></p><p>' + nl(d.seekingKoto) + '</p>';
+    if(rows){ $('s-seeking').hidden = false; $('p-seeking').innerHTML = rows; }
     if(d.offering){ $('s-offering').hidden = false; $('p-offering').innerHTML = nl(d.offering); }
     var links = '';
     if(d.hpUrl) links += '<a href="' + esc(d.hpUrl) + '" target="_blank" rel="noopener"><b>ホームページ</b></a>';

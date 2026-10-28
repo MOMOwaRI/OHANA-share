@@ -47,17 +47,19 @@
   </div>
 
   <div class="card" id="box-form" hidden>
+    <p id="member-no" style="font-weight:bold;color:var(--accent);margin-bottom:6px"></p>
     <form id="profile-form">
       <label for="f-nickname">ニックネーム（公開名）</label>
       <input type="text" id="f-nickname" maxlength="40" placeholder="例：みかんママ">
       <p class="hint">紹介ページと掲示板に表示される名前です。本名でなくて大丈夫です。</p>
 
-      <label>区分</label>
-      <div class="radios">
-        <label><input type="radio" name="cat" value="ヒト">ヒト</label>
-        <label><input type="radio" name="cat" value="モノ">モノ</label>
-        <label><input type="radio" name="cat" value="コト">コト</label>
+      <label>区分（当てはまるもの全部）</label>
+      <div class="checks">
+        <label><input type="checkbox" id="c-hito" value="ヒト">ヒト</label>
+        <label><input type="checkbox" id="c-mono" value="モノ">モノ</label>
+        <label><input type="checkbox" id="c-koto" value="コト">コト</label>
       </div>
+      <p class="hint">人・モノ・活動、全部当てはまる方は全部選んでください。</p>
 
       <label for="f-area">地域</label>
       <input type="text" id="f-area" maxlength="40" placeholder="例：松山市">
@@ -65,14 +67,13 @@
       <label for="f-intro">紹介文</label>
       <textarea id="f-intro" maxlength="600" placeholder="あなたやお店・活動の紹介を書いてください"></textarea>
 
-      <label>探しているもの</label>
-      <div class="checks">
-        <label><input type="checkbox" id="s-hito" value="ヒト">ヒト</label>
-        <label><input type="checkbox" id="s-mono" value="モノ">モノ</label>
-        <label><input type="checkbox" id="s-koto" value="コト">コト</label>
-      </div>
-      <input type="text" id="f-seeking" maxlength="200" placeholder="例：子ども服のおさがり、フリマ出店仲間" style="margin-top:8px">
-      <p class="hint">探しているヒト・モノ・コトは、紹介ページに表示されます。</p>
+      <label for="f-seekhito">探しているヒト（こんな人）</label>
+      <input type="text" id="f-seekhito" maxlength="200" placeholder="例：フリマ出店仲間、子育て中のママ友">
+      <label for="f-seekmono">探しているモノ（こんなもの）</label>
+      <input type="text" id="f-seekmono" maxlength="200" placeholder="例：子ども服のおさがり、男の子の自転車">
+      <label for="f-seekkoto">探しているコト（こんなこと）</label>
+      <input type="text" id="f-seekkoto" maxlength="200" placeholder="例：一緒にイベントを盛り上げてくれる団体">
+      <p class="hint">探しているものは、紹介ページに表示されます。空欄でも大丈夫です。</p>
 
       <label for="f-offering">提供できること・ゆずれるもの</label>
       <textarea id="f-offering" maxlength="600" placeholder="例：着なくなった子ども服があります／スマホの使い方なら教えられます"></textarea>
@@ -124,14 +125,16 @@ auth.onAuthStateChanged(function(user){
     if(!doc.exists) return;
     var d = doc.data();
     $('f-nickname').value = d.nickname || '';
-    if(d.category){ var r = document.querySelector('input[name="cat"][value="' + d.category + '"]'); if(r) r.checked = true; }
+    var dcats = d.categories || (d.category ? [d.category] : []);
+    $('c-hito').checked = dcats.indexOf('ヒト') >= 0;
+    $('c-mono').checked = dcats.indexOf('モノ') >= 0;
+    $('c-koto').checked = dcats.indexOf('コト') >= 0;
+    if(d.memberNo){ $('member-no').textContent = 'あなたのメンバーNo.： No.' + d.memberNo; }
     $('f-area').value = d.area || '';
     $('f-intro').value = d.intro || '';
-    var sk = d.seekingCats || [];
-    $('s-hito').checked = sk.indexOf('ヒト') >= 0;
-    $('s-mono').checked = sk.indexOf('モノ') >= 0;
-    $('s-koto').checked = sk.indexOf('コト') >= 0;
-    $('f-seeking').value = d.seekingText || '';
+    $('f-seekhito').value = d.seekingHito || d.seekingText || '';
+    $('f-seekmono').value = d.seekingMono || '';
+    $('f-seekkoto').value = d.seekingKoto || '';
     $('f-offering').value = d.offering || '';
     $('f-hp').value = d.hpUrl || '';
     $('f-sns').value = d.snsLinks || '';
@@ -142,17 +145,17 @@ $('profile-form').addEventListener('submit', function(e){
   e.preventDefault();
   if(!uid) return;
   var cats = [];
-  if($('s-hito').checked) cats.push('ヒト');
-  if($('s-mono').checked) cats.push('モノ');
-  if($('s-koto').checked) cats.push('コト');
-  var catEl = document.querySelector('input[name="cat"]:checked');
+  if($('c-hito').checked) cats.push('ヒト');
+  if($('c-mono').checked) cats.push('モノ');
+  if($('c-koto').checked) cats.push('コト');
   var data = {
     nickname: $('f-nickname').value.trim(),
-    category: catEl ? catEl.value : '',
+    categories: cats,
     area: $('f-area').value.trim(),
     intro: $('f-intro').value.trim(),
-    seekingCats: cats,
-    seekingText: $('f-seeking').value.trim(),
+    seekingHito: $('f-seekhito').value.trim(),
+    seekingMono: $('f-seekmono').value.trim(),
+    seekingKoto: $('f-seekkoto').value.trim(),
     offering: $('f-offering').value.trim(),
     hpUrl: $('f-hp').value.trim(),
     snsLinks: $('f-sns').value.trim(),
@@ -160,7 +163,23 @@ $('profile-form').addEventListener('submit', function(e){
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
   $('save-msg').textContent = '保存しています…';
-  db.collection('profiles').doc(uid).set(data, {merge:true}).then(function(){
+  var ref = db.collection('profiles').doc(uid);
+  ref.get().then(function(doc){
+    if(doc.exists && doc.data().memberNo){
+      return ref.set(data, {merge:true});
+    }
+    // 初めての保存：メンバーNo.を採番する
+    var counterRef = db.collection('counters').doc('members');
+    return db.runTransaction(function(tx){
+      return tx.get(counterRef).then(function(cdoc){
+        var next = cdoc.exists ? (cdoc.data().next || 1) : 1;
+        data.memberNo = next;
+        tx.update(counterRef, {next: next + 1});
+        tx.set(ref, data, {merge:true});
+      });
+    });
+  }).then(function(){
+    if(data.memberNo){ $('member-no').textContent = 'あなたのメンバーNo.： No.' + data.memberNo; }
     $('save-msg').textContent = '保存しました。紹介ページに反映されています。';
   }).catch(function(){
     $('save-msg').textContent = '保存できませんでした。時間をおいて試してください。';
