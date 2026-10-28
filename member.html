@@ -220,8 +220,7 @@ function render(d, editMode){
       rows += '<p><span class="chip ' + catCls(r[0]) + '">' + r[0] + 'を探しています</span></p><p class="ed" id="' + r[2] + '">' + nl(r[3] || '') + '</p>';
     }
   });
-  var isHito = dcats.indexOf('ヒト') >= 0;
-  $('s-seeking').hidden = !rows || !isHito;
+  $('s-seeking').hidden = !rows;
   $('p-seeking').innerHTML = rows;
   var offPh = {'ヒト':'（例：子育ての手伝い、話し相手、得意なこと など）','モノ':'（例：子供服・ベビー用品・おもちゃ など）','コト':'（例：ワークショップ、レッスン、場所の提供 など）'};
   var offs = [['ヒト','e-offhito', d.offeringHito], ['モノ','e-offmono', d.offeringMono], ['コト','e-offkoto', d.offeringKoto]];
@@ -233,7 +232,7 @@ function render(d, editMode){
       orows += '<p><span class="chip ' + catCls(r[0]) + '">' + r[0] + 'を提供しています</span></p><p class="ed" id="' + r[1] + '" data-ph="' + offPh[r[0]] + '">' + nl(v || '') + '</p>';
     }
   });
-  $('s-offering').hidden = !orows || !isHito;
+  $('s-offering').hidden = !orows;
   $('p-offering').innerHTML = orows;
   var links = '';
   if(d.hpUrl) links += '<a href="' + esc(d.hpUrl) + '" target="_blank" rel="noopener"><b>ホームページ</b></a>';
@@ -336,7 +335,6 @@ else {
   });
   document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){
     applyCatLabels(r.value);
-    if(editing){ var h = r.value === 'ヒト'; $('s-seeking').hidden = !h; $('s-offering').hidden = !h; }
   }); });
   $('in-photo').addEventListener('change', function(){
     var f = $('in-photo').files && $('in-photo').files[0];
