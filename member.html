@@ -80,11 +80,20 @@
       <label><input type="radio" name="ecat" value="モノ">モノ</label>
       <label><input type="radio" name="ecat" value="コト">コト</label>
     </div>
+    <div id="photo-edit" hidden>
+      <p style="font-weight:bold;margin-top:12px">写真</p>
+      <img id="pe-preview" alt="" style="width:130px;height:130px;object-fit:cover;border-radius:12px;display:none;margin:6px auto">
+      <input type="file" id="in-photo" accept="image/*" style="display:block;margin:8px auto;max-width:100%">
+      <p class="note" id="photo-msg">写真を選ぶとアップロードされます。「保存する」を押すとページに反映されます。</p>
+      <button type="button" id="btn-photo-del" hidden>写真を消す</button>
+    </div>
     <button type="button" id="btn-edit">このページを編集する</button>
     <button type="button" id="btn-save" hidden>保存する</button>
     <button type="button" id="btn-cancel" hidden>キャンセル</button>
     <p class="note" id="edit-note" hidden>文字の部分をタップすると、その場で直せます。リンクは下の「リンク集」で直してください。</p>
   </div>
+
+  <section id="s-photo" hidden style="padding:0;overflow:hidden"><img id="p-photo" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"></section>
 
   <section id="s-intro" hidden><h2>紹介</h2><p id="p-intro" class="ed"></p></section>
 
@@ -93,7 +102,7 @@
     <div id="p-seeking"></div>
   </section>
 
-  <section id="s-offering" hidden><h2 id="h-offering">提供できること・ゆずれるもの</h2><p id="p-offering" class="ed"></p></section>
+  <section id="s-offering" hidden><h2 id="h-offering">提供しているヒト・モノ・コト</h2><div id="p-offering"></div></section>
 
   <section id="s-links" hidden>
     <h2>リンク集</h2>
@@ -152,6 +161,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 <script>
 var firebaseConfig = {
   apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
@@ -164,6 +174,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var auth = firebase.auth();
 var db = firebase.firestore();
+var storage = firebase.storage();
+var pendingPhotoUrl = null;
 function $(id){ return document.getElementById(id); }
 function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function nl(t){ return esc(t).replace(/\n/g,'<br>'); }
@@ -177,16 +189,12 @@ var isOwner = false;
 function tryEdit(){ if(wantEdit && isOwner && pageData && !editing) setEdit(true); }
 
 function applyCatLabels(cat){
-  var h = $('h-offering');
-  if(h) h.textContent = cat === 'モノ' ? '出せるモノ・ゆずれるもの' : cat === 'ヒト' ? 'できること・得意なこと' : '提供できること・ゆずれるもの';
   var fm = $('fld-menu');
   if(fm) fm.style.display = (cat === 'コト') ? '' : 'none';
   var ln = $('link-note');
   if(ln) ln.textContent = (cat === 'コト') ? '' : 'リンクは、あればでOKです（なくても大丈夫です）。';
   var intro = $('p-intro');
   if(intro) intro.setAttribute('data-ph', cat === 'モノ' ? '（例：子供服 80〜120cm。状態はきれいです。イベントでお渡しできます）' : '（ここをタップして入力）');
-  var off = $('p-offering');
-  if(off) off.setAttribute('data-ph', cat === 'モノ' ? '（例：子供服・ベビー用品・おもちゃ など）' : '（ここをタップして入力）');
 }
 
 function render(d, editMode){
@@ -202,6 +210,8 @@ function render(d, editMode){
   $('p-name').textContent = d.nickname || 'OHANAメンバー';
   document.title = (d.nickname || 'OHANAメンバー') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
   $('p-area').textContent = d.area || '';
+  $('s-photo').hidden = !d.photoUrl;
+  if(d.photoUrl) $('p-photo').src = d.photoUrl;
   $('s-intro').hidden = !(d.intro || editMode);
   $('p-intro').innerHTML = nl(d.intro || '');
   var rows = '';
@@ -210,10 +220,21 @@ function render(d, editMode){
       rows += '<p><span class="chip ' + catCls(r[0]) + '">' + r[0] + 'を探しています</span></p><p class="ed" id="' + r[2] + '">' + nl(r[3] || '') + '</p>';
     }
   });
-  $('s-seeking').hidden = !rows;
+  var isHito = dcats.indexOf('ヒト') >= 0;
+  $('s-seeking').hidden = !rows || !isHito;
   $('p-seeking').innerHTML = rows;
-  $('s-offering').hidden = !(d.offering || editMode);
-  $('p-offering').innerHTML = nl(d.offering || '');
+  var offPh = {'ヒト':'（例：子育ての手伝い、話し相手、得意なこと など）','モノ':'（例：子供服・ベビー用品・おもちゃ など）','コト':'（例：ワークショップ、レッスン、場所の提供 など）'};
+  var offs = [['ヒト','e-offhito', d.offeringHito], ['モノ','e-offmono', d.offeringMono], ['コト','e-offkoto', d.offeringKoto]];
+  var hasNewOff = offs.some(function(r){ return r[2]; });
+  var orows = '';
+  offs.forEach(function(r){
+    var v = r[2] || (!hasNewOff && d.offering && (dcats[0] || 'ヒト') === r[0] ? d.offering : '');
+    if(v || editMode){
+      orows += '<p><span class="chip ' + catCls(r[0]) + '">' + r[0] + 'を提供しています</span></p><p class="ed" id="' + r[1] + '" data-ph="' + offPh[r[0]] + '">' + nl(v || '') + '</p>';
+    }
+  });
+  $('s-offering').hidden = !orows || !isHito;
+  $('p-offering').innerHTML = orows;
   var links = '';
   if(d.hpUrl) links += '<a href="' + esc(d.hpUrl) + '" target="_blank" rel="noopener"><b>ホームページ</b></a>';
   if(d.menuUrl) links += '<a href="' + esc(d.menuUrl) + '" target="_blank" rel="noopener"><b>メニュー・料金ページ</b></a>';
@@ -276,6 +297,15 @@ function setEdit(on){
   if(on) buildSuggestions();
   document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; if(on && !el.getAttribute('data-ph')) el.setAttribute('data-ph', '（ここをタップして入力）'); });
   $('link-edit').hidden = !on;
+  $('photo-edit').hidden = !on;
+  if(on){
+    pendingPhotoUrl = null;
+    var cur = pageData.photoUrl || '';
+    $('pe-preview').style.display = cur ? 'block' : 'none';
+    if(cur) $('pe-preview').src = cur;
+    $('btn-photo-del').hidden = !cur;
+    $('photo-msg').textContent = '写真を選ぶとアップロードされます。「保存する」を押すとページに反映されます。';
+  }
   $('cat-edit').hidden = !on;
   $('edit-note').hidden = !on;
   $('btn-edit').hidden = on;
@@ -295,7 +325,7 @@ if(!id){ $('p-loading').hidden = true; $('p-notfound').hidden = false; }
 else {
   db.collection('profiles').doc(id).get().then(function(doc){
     $('p-loading').hidden = true;
-    if(!doc.exists){ $('p-notfound').hidden = false; return; }
+    if(!doc.exists || doc.data().deleted){ $('p-notfound').hidden = false; return; }
     render(doc.data(), false);
     tryEdit();
   }).catch(function(){
@@ -304,7 +334,46 @@ else {
   auth.onAuthStateChanged(function(user){
     if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; tryEdit(); }
   });
-  document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){ applyCatLabels(r.value); }); });
+  document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){
+    applyCatLabels(r.value);
+    if(editing){ var h = r.value === 'ヒト'; $('s-seeking').hidden = !h; $('s-offering').hidden = !h; }
+  }); });
+  $('in-photo').addEventListener('change', function(){
+    var f = $('in-photo').files && $('in-photo').files[0];
+    if(!f) return;
+    $('photo-msg').textContent = 'アップロードしています…';
+    var img = new Image();
+    img.onload = function(){
+      URL.revokeObjectURL(img.src);
+      var max = 1280;
+      var scale = Math.min(1, max / Math.max(img.width, img.height));
+      var cv = document.createElement('canvas');
+      cv.width = Math.round(img.width * scale);
+      cv.height = Math.round(img.height * scale);
+      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+      cv.toBlob(function(blob){
+        if(!blob){ $('photo-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; return; }
+        var ref = storage.ref('profiles/' + ownerUid + '/' + id + '.jpg');
+        ref.put(blob, {contentType: 'image/jpeg'}).then(function(){ return ref.getDownloadURL(); }).then(function(url){
+          pendingPhotoUrl = url;
+          $('pe-preview').src = url;
+          $('pe-preview').style.display = 'block';
+          $('btn-photo-del').hidden = false;
+          $('photo-msg').textContent = 'アップロードできました。「保存する」を押すと反映されます。';
+        }).catch(function(){
+          $('photo-msg').textContent = 'アップロードできませんでした。時間をおいて試してください。';
+        });
+      }, 'image/jpeg', 0.85);
+    };
+    img.onerror = function(){ $('photo-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; };
+    img.src = URL.createObjectURL(f);
+  });
+  $('btn-photo-del').addEventListener('click', function(){
+    pendingPhotoUrl = '';
+    $('pe-preview').style.display = 'none';
+    $('btn-photo-del').hidden = true;
+    $('photo-msg').textContent = '写真を消します。「保存する」を押すと反映されます。';
+  });
   $('btn-edit').addEventListener('click', function(){ setEdit(true); });
   $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
   $('btn-cancel2').addEventListener('click', function(){ setEdit(false); });
@@ -320,7 +389,11 @@ else {
       seekingHito: txt('e-seekhito'),
       seekingMono: txt('e-seekmono'),
       seekingKoto: txt('e-seekkoto'),
-      offering: txt('p-offering'),
+      offeringHito: txt('e-offhito'),
+      offeringMono: txt('e-offmono'),
+      offeringKoto: txt('e-offkoto'),
+      offering: '',
+      photoUrl: pendingPhotoUrl !== null ? pendingPhotoUrl : (pageData.photoUrl || ''),
       hpUrl: $('in-hp').value.trim(),
       menuUrl: $('in-menu').value.trim(),
       snsLinks: $('in-sns').value.trim(),
