@@ -43,12 +43,23 @@
   @keyframes cm2{0%{opacity:0}6%{opacity:1}50%{opacity:1}56%{opacity:0}100%{opacity:0}}
   .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
 
+
+  /* hero redesign */
+  header{padding-top:16px}
+  h1{font-size:2.05rem;letter-spacing:.03em;margin-top:12px}
+  .slides{margin-top:6px;box-shadow:0 8px 24px rgba(160,100,40,.18)}
+  .slides img{animation:cm 12s infinite,zm 12s infinite}
+  @keyframes zm{from{transform:scale(1)}to{transform:scale(1.07)}}
+  .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <img class="banner" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
+    <div class="slides n2">
+    <img src="../img-d11a178ef4.jpg" alt="雑貨屋Lea Mahaloの店内。アクセサリーやフラワー雑貨が並ぶ棚">
+    <img src="../images/shop/zakka-sign.jpg" alt="ZAKKA Leaの案内看板（美容室が入口です）">
+    </div>
     <div><span class="badge">モノ</span></div>
     <h1>雑貨屋 Lea Mahalo</h1>
     <p class="sub">雑貨屋 ｜ 松山市（MAHALO美容室1階奥）</p>
@@ -71,15 +82,6 @@
     <p>棚いっぱいの雑貨の中から、お気に入りを探してください。OHANAのイベントではフリマにも登場します。</p>
   </section>
 
-  <section>
-    <h2>写真</h2>
-    <div class="slides n2">
-    <img src="../img-d11a178ef4.jpg" alt="雑貨屋Lea Mahaloの店内。アクセサリーやフラワー雑貨が並ぶ棚">
-    <img src="../images/shop/zakka-sign.jpg" alt="ZAKKA Leaの案内看板（美容室が入口です）">
-    </div>
-    <p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真は自動で切り替わります</p>
-  </section>
-
 
   <section>
     <h2>ほかのOHANAメンバー</h2>
@@ -99,6 +101,7 @@
 
   <a class="cta sub2" href="../index.html">OHANAトップへ戻る</a>
 
+  <img class="banner-sm" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
   <footer>
     <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
     OHANAシェア＊プロジェクト OHANAメンバーページ<br>
