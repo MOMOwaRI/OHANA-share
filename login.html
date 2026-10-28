@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OHANAメンバーログイン｜OHANAシェア＊プロジェクト</title>
+<meta name="description" content="OHANAメンバーのログインページ。自分の紹介ページの編集や、みんなの掲示板が使えます。">
+<link rel="canonical" href="https://momowari.github.io/OHANA-share/login.html">
+<link rel="icon" href="favicon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
+<style>
+  :root{--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f;--accent:#e07b24}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
+  .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
+  header{text-align:center;padding:32px 0 4px}
+  .banner{width:100%;border-radius:14px;display:block;margin:0 auto 12px;border:2px solid #e8cdb0;box-shadow:0 4px 14px rgba(160,100,40,.28);background:#fff}
+  h1{font-size:1.45rem;margin:6px 0 2px}
+  .sub{color:var(--soft);font-size:.92rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:16px;box-shadow:0 2px 8px rgba(160,100,40,.08)}
+  .card h2{font-size:1.1rem;margin-bottom:6px}
+  .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#fff;border:1.5px solid #dadce0;border-radius:999px;padding:13px;font-size:1rem;font-weight:bold;color:#3c4043;cursor:pointer;font-family:inherit}
+  .gbtn:disabled{opacity:.55;cursor:default}
+  .note{font-size:.88rem;color:var(--soft);margin-top:10px}
+  .menu a{display:block;background:#fff;border:2px solid var(--line);border-radius:14px;padding:13px 16px;margin-top:10px;text-decoration:none;color:var(--ink);font-weight:bold}
+  .outbtn{display:block;width:100%;margin-top:16px;background:#fff;color:#b3541e;border:2px solid var(--accent);border-radius:999px;padding:11px;font-weight:bold;cursor:pointer;font-family:inherit}
+  .back{display:block;text-align:center;margin-top:22px;background:var(--accent);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:13px}
+  footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
+    <h1>OHANAメンバーログイン</h1>
+    <p class="sub">OHANAメンバーのための入口です。</p>
+  </header>
+
+  <div class="card" id="box-prep">
+    <h2>ただいま接続の準備中です</h2>
+    <p>ログイン機能は、まもなく使えるようになります。準備ができたら、このページからGoogleアカウントでログインできるようになります。</p>
+    <p class="note">メンバー登録がまだの方は、先に登録フォームからご連絡ください。</p>
+    <div class="menu">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">価値を登録する（登録フォーム）→</a>
+      <a href="board.html">みんなの掲示板を見る →</a>
+    </div>
+  </div>
+
+  <div class="card" id="box-login" hidden>
+    <h2>ログイン</h2>
+    <p>Googleアカウントでログインしてください。連絡先は公開されません。</p>
+    <p style="margin-top:12px"><button class="gbtn" id="btn-google" type="button">Googleでログイン</button></p>
+    <p class="note">ログインすると、自分の紹介ページの編集や、掲示板への投稿ができます。</p>
+  </div>
+
+  <div class="card" id="box-home" hidden>
+    <h2 id="home-title">マイページ</h2>
+    <p id="home-who" class="note"></p>
+    <div class="menu">
+      <a href="board.html">みんなの掲示板 →</a>
+      <a href="index.html">トップページ →</a>
+    </div>
+    <button class="outbtn" id="btn-logout" type="button">ログアウト</button>
+  </div>
+
+  <a class="back" href="index.html">トップページへ戻る</a>
+  <footer>OHANAシェア＊プロジェクト</footer>
+</div>
+
+<script type="module">
+// Firebase設定は接続後にここへ入ります（null の間は「準備中」表示）
+const FIREBASE_CONFIG = null;
+
+const boxPrep = document.getElementById('box-prep');
+const boxLogin = document.getElementById('box-login');
+const boxHome = document.getElementById('box-home');
+
+if (FIREBASE_CONFIG) {
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+  const { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } =
+    await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  boxPrep.hidden = true;
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      boxLogin.hidden = true;
+      boxHome.hidden = false;
+      document.getElementById('home-who').textContent =
+        'ログイン中：' + (user.displayName || user.email || '');
+    } else {
+      boxHome.hidden = true;
+      boxLogin.hidden = false;
+    }
+  });
+  document.getElementById('btn-google').addEventListener('click', async () => {
+    try { await signInWithPopup(auth, provider); }
+    catch (e) { alert('ログインできませんでした。もう一度お試しください。'); }
+  });
+  document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
+}
+</script>
+</body>
+</html>
