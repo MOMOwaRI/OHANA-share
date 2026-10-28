@@ -122,12 +122,22 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 var COLORS = ['n-yellow','n-pink','n-blue','n-green','n-orange','n-white'];
 var currentUser = null;
+var profileName = '';
+function refreshAuthLabel(){
+  if(!currentUser) return;
+  document.getElementById('auth-status').textContent = (profileName || currentUser.displayName || 'メンバー') + ' さんとしてログイン中です';
+}
 function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 auth.onAuthStateChanged(function(user){
   currentUser = user;
+  if(user){
+    db.collection('profiles').doc(user.uid).get().then(function(doc){
+      if(doc.exists && doc.data().nickname){ profileName = doc.data().nickname; refreshAuthLabel(); }
+    }).catch(function(){});
+  }
   var st = document.getElementById('auth-status');
   if(user){
-    st.textContent = (user.displayName || 'メンバー') + ' さんとしてログイン中です';
+    st.textContent = (profileName || user.displayName || 'メンバー') + ' さんとしてログイン中です';
     document.getElementById('postbox').style.display = 'block';
     document.getElementById('login-cta').style.display = 'none';
   } else {
@@ -145,7 +155,7 @@ document.getElementById('post-btn').addEventListener('click', function(){
   msg.textContent = '投稿しています…';
   db.collection('posts').add({
     text: text,
-    name: currentUser.displayName || 'メンバー',
+    name: profileName || currentUser.displayName || 'メンバー',
     uid: currentUser.uid,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
