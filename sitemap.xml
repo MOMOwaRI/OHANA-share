@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://momowari.github.io/OHANA-share/</loc></url></urlset>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://momowari.github.io/OHANA-share/</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/hito.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/mono.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/koto.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/board.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/members/momowari.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/members/mahalo.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/members/eyes-mahalo.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/members/elua-mahalo.html</loc></url>
+  <url><loc>https://momowari.github.io/OHANA-share/members/lea-mahalo.html</loc></url>
+</urlset>
