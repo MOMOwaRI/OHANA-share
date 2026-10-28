@@ -42,7 +42,7 @@
   #btn-edit,#btn-save{background:var(--orange);color:#fff}
   #btn-cancel{background:#fff;color:var(--orange-dark);border:2px solid var(--orange) !important}
   .ed[contenteditable="true"]{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px;min-height:1.5em}
-  body.editing .ed:empty::before{content:"（ここをタップして入力）";color:var(--soft)}
+  body.editing .ed:empty::before{content:attr(data-ph);color:var(--soft)}
   .linkedit label{display:block;font-weight:bold;margin:12px 0 4px;text-align:left}
   .linkedit input,.linkedit textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;font-family:inherit;background:#fffdf9}
   .catchips{display:flex;gap:8px;justify-content:center;margin-top:6px}
@@ -93,16 +93,19 @@
     <div id="p-seeking"></div>
   </section>
 
-  <section id="s-offering" hidden><h2>提供できること・ゆずれるもの</h2><p id="p-offering" class="ed"></p></section>
+  <section id="s-offering" hidden><h2 id="h-offering">提供できること・ゆずれるもの</h2><p id="p-offering" class="ed"></p></section>
 
   <section id="s-links" hidden>
     <h2>リンク集</h2>
     <div class="sns" id="p-links"></div>
     <div class="linkedit" id="link-edit" hidden>
+      <p class="note" id="link-note"></p>
       <label for="in-hp">ホームページのURL</label>
       <input type="url" id="in-hp" placeholder="https://">
+      <div id="fld-menu">
       <label for="in-menu">メニュー・料金ページのURL</label>
       <input type="url" id="in-menu" placeholder="https://">
+      </div>
       <label for="in-sns">SNSのリンク（URLを貼る・複数OK）</label>
       <textarea id="in-sns" rows="3" placeholder="https://"></textarea>
       <div id="link-suggest" hidden>
@@ -173,10 +176,24 @@ var wantEdit = new URLSearchParams(location.search).get('edit') === '1';
 var isOwner = false;
 function tryEdit(){ if(wantEdit && isOwner && pageData && !editing) setEdit(true); }
 
+function applyCatLabels(cat){
+  var h = $('h-offering');
+  if(h) h.textContent = cat === 'モノ' ? '出せるモノ・ゆずれるもの' : cat === 'ヒト' ? 'できること・得意なこと' : '提供できること・ゆずれるもの';
+  var fm = $('fld-menu');
+  if(fm) fm.style.display = (cat === 'コト') ? '' : 'none';
+  var ln = $('link-note');
+  if(ln) ln.textContent = (cat === 'コト') ? '' : 'リンクは、あればでOKです（なくても大丈夫です）。';
+  var intro = $('p-intro');
+  if(intro) intro.setAttribute('data-ph', cat === 'モノ' ? '（例：子供服 80〜120cm。状態はきれいです。イベントでお渡しできます）' : '（ここをタップして入力）');
+  var off = $('p-offering');
+  if(off) off.setAttribute('data-ph', cat === 'モノ' ? '（例：子供服・ベビー用品・おもちゃ など）' : '（ここをタップして入力）');
+}
+
 function render(d, editMode){
   pageData = d;
   $('p-head').hidden = false;
   var dcats = d.categories || (d.category ? [d.category] : []);
+  applyCatLabels(dcats[0] || 'ヒト');
   var bh = '';
   dcats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
   $('p-badges').innerHTML = bh;
@@ -257,7 +274,7 @@ function setEdit(on){
   $('savebar').hidden = !on;
   render(pageData, on);
   if(on) buildSuggestions();
-  document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
+  document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; if(on && !el.getAttribute('data-ph')) el.setAttribute('data-ph', '（ここをタップして入力）'); });
   $('link-edit').hidden = !on;
   $('cat-edit').hidden = !on;
   $('edit-note').hidden = !on;
@@ -287,6 +304,7 @@ else {
   auth.onAuthStateChanged(function(user){
     if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; tryEdit(); }
   });
+  document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){ applyCatLabels(r.value); }); });
   $('btn-edit').addEventListener('click', function(){ setEdit(true); });
   $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
   $('btn-cancel2').addEventListener('click', function(){ setEdit(false); });
