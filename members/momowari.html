@@ -11,7 +11,14 @@
   body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
   header{text-align:center;padding:16px 0 8px}
-  .hero-img{width:min(300px,72%);display:block;margin:0 auto;border-radius:16px}
+  .hero-img{width:min(300px,72%);display:block;margin:0 auto;border-radius:16px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
+  @keyframes pvIn{from{opacity:0;transform:scale(.95) translateY(14px)}to{opacity:1;transform:none}}
+  body{counter-reset:feat}
+  .step{display:flex;gap:10px;align-items:flex-start;margin-top:10px;text-align:left}
+  .step .n{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-weight:bold;text-align:center;line-height:26px;font-size:.9rem}
+  .step p{flex:1}
+  .matchbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .matchbtns a{flex:1;min-width:100px;text-align:center;padding:12px 6px;border-radius:999px;font-weight:bold;text-decoration:none;color:#4a3418}
   .badge{display:inline-block;background:#f6c3d5;color:#5c2340;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;margin-top:16px}
   h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
   .ename{font-size:.95rem;letter-spacing:.22em;color:var(--orange-dark);font-weight:bold;margin-top:2px}
@@ -31,7 +38,8 @@
   th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
   .note{font-size:.82rem;color:var(--soft);margin-top:8px}
   .feats{display:grid;grid-template-columns:1fr;gap:10px}
-  .feat{border:1px solid var(--line);background:#fffdf9;border-radius:12px;padding:12px 14px;font-size:.94rem}
+  .feat{position:relative;border:1px solid var(--line);background:#fffdf9;border-radius:12px;padding:12px 14px 12px 60px;font-size:.94rem}
+  .feat::before{counter-increment:feat;content:counter(feat,decimal-leading-zero);position:absolute;left:14px;top:6px;font-size:1.5rem;font-weight:900;color:var(--orange);opacity:.75}
   .feat b{color:var(--orange-dark)}
   .sns{display:flex;flex-direction:column;gap:10px}
   .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdf9}
@@ -107,15 +115,29 @@
     <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル（伊予鉄道「古町駅」より徒歩3分／駐車場3台）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
   </section>
 
-  <div class="recruit">
-    <h2>こんなページが欲しい方へ</h2>
-    <p>OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。公式HPのように使える作りです。<br>条件はひとつだけ、OHANA100円券が使えるお店・活動にしていただくことです。</p>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">登録フォームへ</a>
-  </div>
+  <section>
+    <h2>OHANAの仕組み</h2>
+    <p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</p>
+    <div class="step"><span class="n">1</span><p>イベントやお店で100円券を受け取ります（券は無料で配布しています）</p></div>
+    <div class="step"><span class="n">2</span><p>OHANAメンバー（100円券が使えるお店・活動）で、お買い物のように使えます</p></div>
+    <div class="step"><span class="n">3</span><p>受け取ったお店は、その券をよそのお店で使うことで、価値が地域を廻ります</p></div>
+    <p class="note">券は買うものではありません。現金への換金はしません。お釣りは出ません。</p>
+  </section>
+
+  <section>
+    <h2>ヒト・モノ・コトを探す</h2>
+    <p>OHANAメンバーはこれから増えていきます。探したいもの・出会いたい人はこちらから。</p>
+    <div class="matchbtns">
+      <a href="../hito.html" style="background:#f6c3d5">ヒトを探す</a>
+      <a href="../mono.html" style="background:#bfe6cf">モノを探す</a>
+      <a href="../koto.html" style="background:#fbe38e">コトを探す</a>
+    </div>
+    <p style="margin-top:10px"><a href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">価値を登録する（登録フォーム）→</a></p>
+  </section>
 
   <a class="cta" href="../index.html">OHANAトップへ戻る</a>
 
-  <img class="banner-md" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
+  <a href="../index.html"><img class="banner-md" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ"></a>
   <footer>
     <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
     OHANAシェア＊プロジェクト OHANAメンバーページ<br>
