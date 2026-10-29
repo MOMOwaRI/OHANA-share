@@ -99,6 +99,13 @@
 .ptile .pn{display:block;font-weight:bold;line-height:1.4}
 .ptile .pc{font-size:.78rem;color:#8a6a4f}
 body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-owner #cm-live{cursor:pointer}
+
+.fstrip{display:flex;flex-wrap:wrap;gap:12px}
+.fcell{position:relative;width:110px}
+.fcell img{width:110px;height:110px;object-fit:cover;border-radius:10px;cursor:pointer;display:block}
+.fcell .fdel{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:14px;cursor:pointer;line-height:1}
+.fcell input{width:110px;margin-top:4px;font-family:inherit;font-size:.8rem;padding:4px 6px;border:1px solid #e8cdb0;border-radius:6px}
+.fadd{width:110px;height:110px;border:2px dashed #d9b98c;border-radius:10px;background:#fffdf8;font-size:2.2rem;color:#e07b24;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -187,43 +194,7 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
       <input type="file" id="in-cmphoto3" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
       <p class="note" id="cm-msg"></p>
     </div>
-    <div id="film-edit" hidden>
-      <p style="font-weight:bold;margin-top:14px">店内の様子（写真スライド・最大8枚）</p>
-      <p class="note">ここで変えると、このページと、お店の紹介ページのスライドに反映されます。写真は自動で小さくなります。</p>
-<div style="margin-top:8px"><img id="film-prev1" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film1" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap1" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del1" hidden>消す</button></div>
-<div style="margin-top:8px"><img id="film-prev2" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film2" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap2" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del2" hidden>消す</button></div>
-<div style="margin-top:8px"><img id="film-prev3" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film3" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap3" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del3" hidden>消す</button></div>
-<div style="margin-top:8px"><img id="film-prev4" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film4" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap4" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del4" hidden>消す</button></div>
-<div style="margin-top:8px"><img id="film-prev5" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film5" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap5" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del5" hidden>消す</button></div>
-<div style="margin-top:8px"><img id="film-prev6" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film6" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap6" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del6" hidden>消す</button></div>
-<div style="margin-top:8px"><img id="film-prev7" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film7" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap7" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del7" hidden>消す</button></div>
-<div style="margin-top:8px"><img id="film-prev8" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
-      <input type="file" id="in-film8" accept="image/*" style="max-width:100%">
-      <input type="text" id="film-cap8" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
-      <button type="button" id="film-del8" hidden>消す</button></div>
-<p class="note" id="film-msg"></p>
-    </div>
+
     <div class="ticket-card" id="ticket-card" hidden>
       <p style="font-weight:bold"><span id="ticket-title">OHANA100円券</span></p>
       <p><span class="ticket-num" id="ticket-num">…</span> 枚 持っています</p>
@@ -244,7 +215,7 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
   </div>
 
   <div id="cm-live" class="cm-live" hidden></div>
-  <section id="s-film" hidden><h2>店内の様子</h2><p class="sub">写真は横に流れ続けます（タップで止まります）。</p><div id="p-film" class="film"><div class="film-track" id="film-track"></div></div></section>
+  <section id="s-film" hidden><h2>店内の様子</h2><p class="sub" id="film-sub">写真は横に流れ続けます（タップで止まります）。</p><div id="p-film" class="film"><div class="film-track" id="film-track"></div></div><div id="film-strip" hidden><div class="fstrip" id="fstrip"></div><p class="note">写真をタップすると入れ替え、＋で追加できます。説明は写真の下に書けます。</p></div><input type="file" id="in-film-any" accept="image/*" hidden></section>
   <section id="s-photo" hidden style="padding:0;overflow:hidden"><img id="p-photo" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"></section>
 
   <section id="s-intro" hidden><h2>紹介</h2><p id="p-intro" class="ed"></p></section>
@@ -331,8 +302,9 @@ var db = firebase.firestore();
 var pendingPhotoUrl = null;
 var pendingIconData = null;
 var pendingCm = {};
-var pendingFilm = {};
-var filmLoaded = {};
+var filmWork = null;
+var filmLoadedCount = 0;
+var filmTarget = -1;
 var baseIconData = '';
 function $(id){ return document.getElementById(id); }
 function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -415,6 +387,56 @@ function loadSiblings(){
     $('p-siblings').innerHTML = h;
     sec.hidden = false;
   }).catch(function(){});
+}
+
+function syncFilmCaps(){
+  if(!filmWork) return;
+  var inputs = document.querySelectorAll('#fstrip .fcap');
+  inputs.forEach(function(inp, ix){ if(filmWork[ix]) filmWork[ix].cap = inp.value.trim(); });
+}
+function renderFilmStrip(){
+  var box = $('fstrip');
+  box.innerHTML = '';
+  (filmWork || []).forEach(function(p, ix){
+    var cell = document.createElement('div');
+    cell.className = 'fcell';
+    var img = document.createElement('img');
+    img.src = p.data;
+    img.alt = '';
+    img.addEventListener('click', function(){ syncFilmCaps(); filmTarget = ix; $('in-film-any').click(); });
+    var del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'fdel';
+    del.textContent = '×';
+    del.addEventListener('click', function(){ syncFilmCaps(); filmWork.splice(ix, 1); renderFilmStrip(); });
+    var cap = document.createElement('input');
+    cap.type = 'text';
+    cap.className = 'fcap';
+    cap.maxLength = 30;
+    cap.placeholder = '写真の説明';
+    cap.value = p.cap || '';
+    cell.appendChild(img);
+    cell.appendChild(del);
+    cell.appendChild(cap);
+    box.appendChild(cell);
+  });
+  if((filmWork || []).length < 8){
+    var add = document.createElement('button');
+    add.type = 'button';
+    add.className = 'fadd';
+    add.textContent = '＋';
+    add.addEventListener('click', function(){ syncFilmCaps(); filmTarget = -1; $('in-film-any').click(); });
+    box.appendChild(add);
+  }
+}
+function loadFilmWork(){
+  var jobs = [];
+  for(var n = 1; n <= 8; n++){ (function(n){ jobs.push(db.collection('pagePhotos').doc(id + '_f' + n).get().then(function(doc){ return doc.exists ? {data: doc.data().data, cap: doc.data().cap || ''} : null; }).catch(function(){ return null; })); })(n); }
+  Promise.all(jobs).then(function(list){
+    filmWork = list.filter(function(x){ return !!x; });
+    filmLoadedCount = filmWork.length;
+    renderFilmStrip();
+  });
 }
 
 function renderCm(d){
@@ -501,7 +523,7 @@ var SUGGSETS = {
   eyes: [['ホームページ','hp','https://momowari.github.io/Eyes-MAHALO/'],['メニュー・料金','menu','https://momowari.github.io/Eyes-MAHALO/'],['SNS（公式LINE）','sns','https://lin.ee/q8vBvt1']],
   mahalo: [['ホームページ','hp','https://www.hair-mahalo.com/']],
   elua: [['ホームページ','hp','https://www.hair-mahalo.com/mahalo-1f']],
-  momo: [['ホームページ','hp','https://lit.link/momowari']]
+  momo: [['ホームページ','hp','https://lit.link/momowari'],['SNS（Instagram）','sns','https://www.instagram.com/momowari/'],['SNS（X）','sns','https://twitter.com/Lea_Mahalo'],['SNS（note）','sns','https://note.com/momo2025'],['SNS（YouTube）','sns','https://youtube.com/@00LeaMahalo00'],['SNS（ジモティー）','sns','https://jmty.jp/profiles/5c00d902adce5e534b9fee98'],['掲載（エールラボえひめ）','sns','https://yell-lab.ehime.jp/interview/298.php']]
 };
 function buildSuggestions(){
   var name = (pageData && pageData.nickname) || '';
@@ -547,7 +569,6 @@ function setEdit(on){
   $('icon-edit').hidden = !on;
   $('mono-guide').hidden = !(on && pageData && (pageData.categories || []).indexOf('モノ') >= 0);
   $('cm-edit').hidden = !on;
-  $('film-edit').hidden = !on;
   if(on){
     pendingPhotoUrl = null;
     var cur = pageData.photoUrl || '';
@@ -562,14 +583,12 @@ function setEdit(on){
     pendingCm = {};
     $('in-cmcolor').value = pageData.cmColor || '#e07b24';
     ['t1','t2','t3','t4','t5'].forEach(function(k, ix){ $('in-cm' + k).value = pageData['cmT' + (ix + 1)] || ''; });
-    pendingFilm = {}; filmLoaded = {};
-    for(var fn = 1; fn <= 8; fn++){ (function(n){
-      db.collection('pagePhotos').doc(id + '_f' + n).get().then(function(doc){
-        var pv = $('film-prev' + n);
-        if(doc.exists){ filmLoaded[n] = {data: doc.data().data, cap: doc.data().cap || ''}; pv.src = filmLoaded[n].data; pv.style.display = 'inline-block'; $('film-cap' + n).value = filmLoaded[n].cap; $('film-del' + n).hidden = false; }
-        else { pv.style.display = 'none'; $('film-cap' + n).value = ''; $('film-del' + n).hidden = true; }
-      }).catch(function(){});
-    })(fn); }
+    filmWork = null;
+    $('s-film').hidden = false;
+    $('p-film').style.display = 'none';
+    $('film-sub').textContent = '写真をタップして入れ替え、＋で追加できます。';
+    $('film-strip').hidden = false;
+    loadFilmWork();
     [1,2,3].forEach(function(n){ var pv = $('cm-prev' + n); var cur = pageData['cmPhoto' + n] || ''; pv.style.display = cur ? 'inline-block' : 'none'; if(cur) pv.src = cur; });
     $('photo-msg').textContent = '写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。';
   }
@@ -585,6 +604,13 @@ function setEdit(on){
     if(r) r.checked = true;
     $('edit-msg').textContent = '編集中です（文字をタップして直せます）';
     window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+  if(!on){
+    $('film-strip').hidden = true;
+    $('p-film').style.display = '';
+    $('film-sub').textContent = '写真は横に流れ続けます（タップで止まります）。';
+    filmWork = null;
+    loadFilm(id);
   }
 }
 
@@ -798,35 +824,16 @@ $('qf-icon').addEventListener('change', function(){
       sw.appendChild(b);
     });
   })();
-  for(var _fn = 1; _fn <= 8; _fn++){ (function(n){
-    $('in-film' + n).addEventListener('change', function(){
-      var f = $('in-film' + n).files && $('in-film' + n).files[0];
-      if(!f) return;
-      $('film-msg').textContent = '取り込んでいます…';
-      var img = new Image();
-      img.onload = function(){
-        URL.revokeObjectURL(img.src);
-        var max = 800;
-        var scale = Math.min(1, max / Math.max(img.width, img.height));
-        var cv = document.createElement('canvas');
-        cv.width = Math.round(img.width * scale); cv.height = Math.round(img.height * scale);
-        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
-        pendingFilm[n] = cv.toDataURL('image/jpeg', 0.75);
-        var pv = $('film-prev' + n);
-        pv.src = pendingFilm[n]; pv.style.display = 'inline-block';
-        $('film-del' + n).hidden = false;
-        $('film-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
-      };
-      img.onerror = function(){ $('film-msg').textContent = '写真を読み込めませんでした。'; };
-      img.src = URL.createObjectURL(f);
+  $('in-film-any').addEventListener('change', function(){
+    var f = $('in-film-any').files && $('in-film-any').files[0];
+    if(!f || !filmWork) return;
+    fileToData(f, 800, 0.75, function(dataUrl){
+      if(filmTarget >= 0 && filmWork[filmTarget]){ filmWork[filmTarget].data = dataUrl; }
+      else { filmWork.push({data: dataUrl, cap: ''}); }
+      renderFilmStrip();
     });
-    $('film-del' + n).addEventListener('click', function(){
-      pendingFilm[n] = '';
-      $('film-prev' + n).style.display = 'none';
-      $('film-del' + n).hidden = true;
-      $('film-msg').textContent = '写真を消します。「保存する」を押すと反映されます。';
-    });
-  })(_fn); }
+    $('in-film-any').value = '';
+  });
   $('btn-photo-del').addEventListener('click', function(){
     pendingPhotoUrl = '';
     $('pe-preview').style.display = 'none';
@@ -869,16 +876,14 @@ $('qf-icon').addEventListener('change', function(){
     db.collection('profiles').doc(id).set(data, {merge: true}).then(function(){
       if(pendingIconData !== null && ownerUid && ownerUid !== id){ db.collection('profiles').doc(ownerUid).set({iconData: pendingIconData}, {merge: true}).catch(function(){}); if(pendingIconData) baseIconData = pendingIconData; }
       Object.keys(data).forEach(function(k){ if(k !== 'updatedAt') pageData[k] = data[k]; });
-      Object.keys(pendingFilm).forEach(function(k){
-        var ref = db.collection('pagePhotos').doc(id + '_f' + k);
-        if(pendingFilm[k] === ''){ ref.delete().catch(function(){}); }
-        else { ref.set({data: pendingFilm[k], cap: $('film-cap' + k).value.trim(), pageId: id, idx: Number(k), updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}).catch(function(){}); }
-      });
-      [1,2,3,4,5,6,7,8].forEach(function(n){
-        if(pendingFilm[n] === undefined && filmLoaded[n] && $('film-cap' + n).value.trim() !== filmLoaded[n].cap){
-          db.collection('pagePhotos').doc(id + '_f' + n).set({cap: $('film-cap' + n).value.trim()}, {merge: true}).catch(function(){});
+      if(filmWork){
+        syncFilmCaps();
+        for(var fn2 = 1; fn2 <= 8; fn2++){
+          var ref2 = db.collection('pagePhotos').doc(id + '_f' + fn2);
+          if(fn2 <= filmWork.length){ ref2.set({data: filmWork[fn2 - 1].data, cap: filmWork[fn2 - 1].cap || '', pageId: id, idx: fn2, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}).catch(function(){}); }
+          else if(fn2 <= filmLoadedCount){ ref2.delete().catch(function(){}); }
         }
-      });
+      }
       setEdit(false);
       $('edit-msg').textContent = '保存しました。これはあなたのページです';
     }).catch(function(){
