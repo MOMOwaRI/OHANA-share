@@ -23,6 +23,22 @@
   .navrow a{flex:1;min-width:140px;text-align:center;background:#fff;border:2px solid var(--line);border-radius:999px;padding:11px 8px;text-decoration:none;color:var(--ink);font-weight:bold}
   .back{display:block;text-align:center;margin-top:14px;background:#e07b24;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:13px}
   footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  @media(min-width:560px){.grid{grid-template-columns:1fr 1fr 1fr}}
+  .item{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);display:block;box-shadow:0 2px 8px rgba(160,100,40,.08)}
+  .item img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f6ead9}
+  .item .nophoto{width:100%;aspect-ratio:1/1;background:#f6ead9;color:var(--soft);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .item .body{display:block;padding:10px 12px 12px}
+  .item .name{display:block;font-weight:bold;font-size:1rem;line-height:1.4}
+  .item .desc{font-size:.84rem;color:var(--soft);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .item .meta{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .ticket{background:#e5f3e8;color:#3d7a4a;border:1px solid #bfe6cf;border-radius:999px;padding:0 10px;font-size:.75rem;font-weight:bold}
+  .area{font-size:.78rem;color:var(--soft)}
+  .join{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:2px dashed #d9b98c;border-radius:14px;background:#fffdf8;text-decoration:none;color:var(--ink);padding:18px 12px;min-height:100%}
+  .join .plus{font-size:2rem;color:#e07b24;line-height:1}
+  .join .jt{font-weight:bold;margin-top:6px}
+  .join .js{font-size:.8rem;color:var(--soft);margin-top:2px}
 </style>
 </head>
 <body>
@@ -30,34 +46,84 @@
   <header>
     <a href="index.html"><img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ"></a>
     <h1>コトの一覧</h1>
-    <p class="sub">活動・サービス・場所の一覧です。</p>
+    <p class="sub">お店・活動・サービスが並びます。気になるコトをタップすると、紹介ページが見られます。</p>
   </header>
-  <div class="mcard">
-    <span class="badge" style="background:#fbe38e;color:#4a3418">コト</span>
-    <h2>Eyes MAHALO</h2>
-    <p>まつげパーマ専門（遠赤外線・キラ水）。歴15年以上、松山市・マハロビル1F。</p>
-    <p class="tags">松山市 ｜ スキル提供 ｜ OHANAメンバー</p>
-    <a class="go" href="members/eyes-mahalo.html">紹介ページを見る →</a>
-  </div>
-  <div class="mcard">
-    <span class="badge" style="background:#fbe38e;color:#4a3418">コト</span>
-    <h2>elua Mahalo</h2>
-    <p>女性限定・完全予約制の美容室。マンツーマンで静かな、マハロビル1階の「第2のMAHALO」。</p>
-    <p class="tags">松山市 ｜ 美容室 ｜ OHANAメンバー</p>
-    <a class="go" href="members/elua-mahalo.html">紹介ページを見る →</a>
-  </div>
-  <div class="mcard">
-    <span class="badge" style="background:#fbe38e;color:#4a3418">コト</span>
-    <h2>hair ID salon MAHALO</h2>
-    <p>松山市味酒町の美容室。Eyes MAHALOと雑貨屋Lea Mahaloが入る、OHANAのイベント会場にもなる場所。</p>
-    <p class="tags">松山市 ｜ 場所 ｜ OHANAメンバー</p>
-    <a class="go" href="members/mahalo.html">紹介ページを見る →</a>
+  <div class="grid" id="grid">
+    <a class="item" href="members/eyes-mahalo.html">
+      <img src="images/shop/eyes-room.jpg" alt="Eyes MAHALOの施術スペース">
+      <span class="body">
+        <span class="name">Eyes MAHALO</span>
+        <span class="desc">まつげパーマ専門（遠赤外線・キラ水）。歴15年以上。</span>
+        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+      </span>
+    </a>
+    <a class="item" href="members/elua-mahalo.html">
+      <img src="images/shop/elua-mirror.jpg" alt="elua Mahaloの店内">
+      <span class="body">
+        <span class="name">elua Mahalo</span>
+        <span class="desc">女性限定・完全予約制の美容室。マンツーマンで静かに過ごせます。</span>
+        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+      </span>
+    </a>
+    <a class="item" href="members/mahalo.html">
+      <img src="images/shop/salon-chairs.jpg" alt="hair ID salon MAHALOの店内">
+      <span class="body">
+        <span class="name">hair ID salon MAHALO</span>
+        <span class="desc">松山市味酒町の美容室。OHANAのイベント会場にもなる場所。</span>
+        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+      </span>
+    </a>
+    <a class="join" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">
+      <span class="plus">＋</span>
+      <span class="jt">あなたのコトも並べる</span>
+      <span class="js">お店・活動・サービスを登録できます</span>
+    </a>
   </div>
   <div class="navrow">
     <a href="hito.html">ヒトの一覧を見る</a>
     <a href="mono.html">モノの一覧を見る</a>
   </div>
 <a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener" style="display:block;text-align:center;background:#06c755;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:13px;margin-top:12px">LINEオープンチャットに参加する</a>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+if(!firebase.apps.length){ firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}); }
+function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+var SKIP_IDS = {'ELCzyeeoDCU4gveavc077L4jBqE3__koto': 1, 'ELCzyeeoDCU4gveavc077L4jBqE3__pelua01': 1, 'ELCzyeeoDCU4gveavc077L4jBqE3__pmahalo01': 1};
+firebase.firestore().collection('profiles').where('categories', 'array-contains', 'コト').get().then(function(snap){
+  var items = [];
+  snap.forEach(function(doc){
+    var d = doc.data();
+    if(d.deleted || !d.nickname) return;
+    if(SKIP_IDS[doc.id]) return;
+    items.push({id: doc.id, d: d});
+  });
+  items.sort(function(a, b){ return (a.d.memberNo || 999) - (b.d.memberNo || 999); });
+  var grid = document.getElementById('grid');
+  var join = grid.querySelector('.join');
+  items.forEach(function(it){
+    var d = it.d;
+    var a = document.createElement('a');
+    a.className = 'item';
+    a.href = 'member.html?id=' + encodeURIComponent(it.id);
+    var photo = d.photoUrl || d.iconData || '';
+    var ph = photo ? '<img src="' + esc(photo) + '" alt="">' : '<span class="nophoto">写真はまだ</span>';
+    var desc = (d.intro || '').slice(0, 60);
+    a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname) + '</span>' +
+      (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
+      '<span class="meta"><span class="ticket">100円券OK</span>' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
+    grid.insertBefore(a, join);
+  });
+}).catch(function(){});
+</script>
   <a class="back" href="index.html">OHANAトップへ戻る</a>
   <footer>OHANAシェア＊プロジェクト</footer>
 </div>
