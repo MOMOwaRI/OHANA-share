@@ -460,7 +460,7 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
   try{ db = firebase.firestore(); }catch(e){ return; }
   var pid = "ELCzyeeoDCU4gveavc077L4jBqE3__mono";
   var jobs = [];
-  for(var n = 1; n <= 8; n++){ (function(n){ jobs.push(db.collection('pagePhotos').doc(pid + '_f' + n).get().then(function(doc){ return doc.exists ? doc.data() : null; }).catch(function(){ return null; })); })(n); }
+  for(var n = 1; n <= 12; n++){ (function(n){ jobs.push(db.collection('pagePhotos').doc(pid + '_f' + n).get().then(function(doc){ return doc.exists ? doc.data() : null; }).catch(function(){ return null; })); })(n); }
   Promise.all(jobs).then(function(list){
     var photos = list.filter(function(x){ return !!x && x.data; });
     if(!photos.length) return;
@@ -485,24 +485,350 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
 @keyframes cmSeqX{0%{opacity:0}3%{opacity:1}17%{opacity:1}20%{opacity:0}100%{opacity:0}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<style>
+body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
+body.site-editing .hero-pv{outline:2px dashed rgba(224,123,36,.55);outline-offset:3px;cursor:pointer}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;background:#fff;border:1.5px solid #e0a458;border-radius:999px;box-shadow:0 8px 24px rgba(120,70,10,.25);padding:8px 10px;display:none;gap:8px;align-items:center}
+#site-savebar.on{display:flex}
+#site-savebar button{font-family:inherit;font-weight:bold;border-radius:999px;padding:9px 18px;cursor:pointer}
+#sb-save{background:#e07b24;color:#fff;border:none}
+#sb-cancel{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
+#sb-msg{font-size:.82rem;color:#8a6a4f}
+.ied-panel{background:#fff;border:1.5px solid #e0a458;border-radius:14px;padding:14px;margin:12px 0;text-align:left}
+.ied-panel h3{font-size:1rem;margin-bottom:8px}
+.ied-panel label{display:block;font-size:.85rem;font-weight:bold;margin-top:10px}
+.ied-panel input[type="text"],.ied-panel textarea{width:100%;font-family:inherit;font-size:1rem;padding:9px 11px;border:1.5px solid #e8cfa5;border-radius:10px;background:#fffdf8}
+.ied-thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.ied-thumbs .th{position:relative;width:74px;height:96px;border-radius:10px;overflow:hidden;border:1.5px solid #e8cfa5;background:#f6ead2;cursor:pointer}
+.ied-thumbs .th img{width:100%;height:100%;object-fit:cover;display:block}
+.ied-thumbs .th .x{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid #d8c7ae;font-size:.8rem;line-height:1;cursor:pointer}
+.ied-thumbs .add{display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#c2610f;font-weight:bold}
+.film-strip{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.film-strip .th{position:relative;width:96px;height:72px;border-radius:10px;overflow:hidden;border:1.5px solid #e8cfa5;background:#f6ead2;cursor:pointer}
+.film-strip .th img{width:100%;height:100%;object-fit:cover;display:block}
+.film-strip .th .x{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid #d8c7ae;font-size:.8rem;line-height:1;cursor:pointer}
+.film-strip .add{display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#c2610f;font-weight:bold}
+body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px;min-height:1.5em}
+</style>
 <script>
 (function(){
   var DOC = 'ELCzyeeoDCU4gveavc077L4jBqE3__mono';
+  var PAGE = 'members-lea';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var SEL = 'h1,h2,h3,.catch,.sub,.step p';
+  var editing = false;
+  var docData = null;
+  var applied = {};
+  var cmPending = {};
+  var cmTouched = false;
+  function $(id){ return document.getElementById(id); }
+  function esc(t){ return String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function hash(t){ var h = 0; for(var i = 0; i < t.length; i++){ h = (h * 31 + t.charCodeAt(i)) | 0; } return 'k' + (h >>> 0).toString(36); }
+  function db(){ return firebase.firestore(); }
+  function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
+  function targets(){ var out = []; document.querySelectorAll(SEL).forEach(function(el){ if(pureText(el) && !el.closest('.film,.ofabs,.opanel,.sns,#live-sec,#site-savebar,.ied-panel')) out.push(el); }); return out; }
+
+  /* ---------- animation (CM) rendering ---------- */
+  function renderCm(d){
+    var pv = document.querySelector('.hero-pv');
+    if(!pv) return;
+    if(!(d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
+    var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
+    var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
+    var color = d.cmColor || '#e07b24';
+    var html = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
+    for(var i = 0; i < 3; i++){ if(photos[i]){ html += '<div class="cm-scene photo"><img src="' + photos[i] + '" alt=""><div class="band">' + esc(texts[i + 1] || '') + '</div></div>'; } }
+    html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
+    pv.innerHTML = html;
+    pv.classList.add('cm-live-x');
+    var kids = pv.children;
+    var total = kids.length * 5;
+    for(var k = 0; k < kids.length; k++){ kids[k].style.animationDuration = total + 's'; kids[k].style.animationDelay = (k * 5) + 's'; }
+  }
+
+  /* ---------- live rows (seeking / offering) ---------- */
+  var ROWSPEC = [
+    ['探しているヒト', '#f6c3d5', 'seekingHito'],
+    ['探しているモノ', '#bfe6cf', 'seekingMono'],
+    ['探しているコト', '#fbe38e', 'seekingKoto'],
+    ['提供できるヒト', '#f6c3d5', 'offeringHito'],
+    ['提供できるモノ', '#bfe6cf', 'offeringMono'],
+    ['提供できるコト', '#fbe38e', 'offeringKoto']
+  ];
+  function buildRows(d, editMode){
+    var rows = '';
+    ROWSPEC.forEach(function(r){
+      var v = d[r[2]] || '';
+      if(editMode || (v && String(v).trim())) rows += '<div class="lrow"><span class="lchip" style="background:' + r[1] + '">' + r[0] + '</span><p data-f="' + r[2] + '"' + (editMode ? ' contenteditable="true"' : '') + '>' + esc(v) + '</p></div>';
+    });
+    if(!editMode && !d.offeringHito && !d.offeringMono && !d.offeringKoto && d.offering){
+      rows += '<div class="lrow"><span class="lchip" style="background:#e8e3da">提供している</span><p>' + esc(d.offering) + '</p></div>';
+    }
+    var sec = $('live-sec');
+    var box = $('live-rows');
+    if(box) box.innerHTML = rows;
+    if(sec) sec.style.display = rows ? '' : 'none';
+  }
+
+  /* ---------- image compression ---------- */
+  function fileToData(file, maxW, maxH, quality, cb){
+    var img = new Image();
+    var url = URL.createObjectURL(file);
+    img.onload = function(){
+      URL.revokeObjectURL(url);
+      var scale = Math.min(1, maxW / img.width, maxH / img.height);
+      var w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+      var c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(c.toDataURL('image/jpeg', quality));
+    };
+    img.src = url;
+  }
+  function fileToCm(file, cb){
+    var img = new Image();
+    var url = URL.createObjectURL(file);
+    img.onload = function(){
+      URL.revokeObjectURL(url);
+      var tw = 600, th = 800;
+      var scale = Math.max(tw / img.width, th / img.height);
+      var w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+      var c = document.createElement('canvas');
+      c.width = tw; c.height = th;
+      c.getContext('2d').drawImage(img, (tw - w) / 2, (th - h) / 2, w, h);
+      cb(c.toDataURL('image/jpeg', 0.72));
+    };
+    img.src = url;
+  }
+
+  /* ---------- film ---------- */
+  var filmWork = null;
+  function currentFilmPhotos(cb){
+    var jobs = [];
+    for(var n = 1; n <= 12; n++){ (function(n){ jobs.push(db().collection('pagePhotos').doc(DOC + '_f' + n).get().then(function(doc){ return doc.exists ? doc.data() : null; }).catch(function(){ return null; })); })(n); }
+    Promise.all(jobs).then(function(list){
+      var photos = list.filter(function(x){ return !!x && x.data; }).map(function(x){ return {data: x.data, cap: x.cap || ''}; });
+      if(photos.length){ cb(photos); return; }
+      var figs = document.querySelectorAll('.film .film-set figure');
+      var seen = {};
+      var out = [];
+      figs.forEach(function(f){
+        var im = f.querySelector('img');
+        if(!im) return;
+        var src = im.getAttribute('src') || '';
+        if(seen[src]) return;
+        seen[src] = 1;
+        var cap = f.querySelector('figcaption');
+        var abs = src.indexOf('http') === 0 ? src : new URL(src, location.href).href;
+        out.push({data: abs, cap: cap ? cap.textContent : ''});
+      });
+      cb(out.slice(0, 12));
+    });
+  }
+  function renderFilm(photos){
+    var film = document.querySelector('.film');
+    if(!film || !photos.length) return;
+    var figs = '';
+    photos.forEach(function(p){ figs += '<figure><img src="' + p.data + '" alt="' + esc(p.cap || '店内の様子') + '"><figcaption>' + esc(p.cap || '') + '</figcaption></figure>'; });
+    var track = film.querySelector('.film-track');
+    if(track) track.innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>';
+    film.style.setProperty('--fd', (photos.length * 3) + 's');
+  }
+  function saveFilm(){
+    if(!filmWork) return;
+    var batch = db().batch();
+    for(var n = 1; n <= 12; n++){
+      var ref = db().collection('pagePhotos').doc(DOC + '_f' + n);
+      if(filmWork[n - 1]) batch.set(ref, {data: filmWork[n - 1].data, cap: filmWork[n - 1].cap || '', pageId: DOC, idx: n, updatedAt: firebase.firestore.FieldValue.serverTimestamp()});
+      else batch.delete(ref);
+    }
+    batch.commit().then(function(){ renderFilm(filmWork); }).catch(function(){});
+  }
+  function buildFilmStrip(){
+    var old = $('film-strip');
+    if(old) old.remove();
+    var film = document.querySelector('.film');
+    if(!film) return;
+    film.classList.add('paused');
+    var strip = document.createElement('div');
+    strip.className = 'film-strip';
+    strip.id = 'film-strip';
+    filmWork.forEach(function(p, i){
+      var th = document.createElement('div');
+      th.className = 'th';
+      th.innerHTML = '<img src="' + p.data + '" alt="">';
+      var x = document.createElement('button');
+      x.type = 'button'; x.className = 'x'; x.textContent = '×';
+      x.addEventListener('click', function(ev){ ev.stopPropagation(); filmWork.splice(i, 1); saveFilm(); buildFilmStrip(); });
+      th.appendChild(x);
+      th.addEventListener('click', function(){ pickFilmPhoto(i); });
+      strip.appendChild(th);
+    });
+    if(filmWork.length < 12){
+      var add = document.createElement('div');
+      add.className = 'th add';
+      add.textContent = '＋';
+      add.addEventListener('click', function(){ pickFilmPhoto(-1); });
+      strip.appendChild(add);
+    }
+    film.parentNode.insertBefore(strip, film.nextSibling);
+  }
+  var filmPickIdx = 0;
+  function pickFilmPhoto(i){
+    filmPickIdx = i;
+    $('film-file').click();
+  }
+
+  /* ---------- CM panel ---------- */
+  function buildCmPanel(){
+    var old = $('cm-panel');
+    if(old){ old.remove(); }
+    var pv = document.querySelector('.hero-pv');
+    if(!pv) return;
+    var d = docData || {};
+    var panel = document.createElement('div');
+    panel.className = 'ied-panel';
+    panel.id = 'cm-panel';
+    var h = '<h3>アニメーションの編集</h3><div class="ied-thumbs">';
+    for(var n = 1; n <= 3; n++){
+      var cur = cmPending['cmPhoto' + n] !== undefined ? cmPending['cmPhoto' + n] : (d['cmPhoto' + n] || '');
+      h += '<div class="th" data-cmn="' + n + '">' + (cur ? '<img src="' + cur + '" alt="">' : '<span style="display:flex;align-items:center;justify-content:center;height:100%;color:#c2610f;font-weight:bold">＋写真' + n + '</span>') + '</div>';
+    }
+    h += '</div>';
+    h += '<label>色 <input type="color" id="cm-color" value="' + esc(d.cmColor || '#e07b24') + '"></label>';
+    var labels = ['最初の画面の文字', '写真1の文字', '写真2の文字', '写真3の文字', '最後の画面の文字'];
+    for(var t = 1; t <= 5; t++){
+      h += '<label>' + labels[t - 1] + '<textarea id="cm-t' + t + '" rows="2">' + esc(d['cmT' + t] || '') + '</textarea></label>';
+    }
+    h += '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真はタップで入れ替え。保存は下の「保存する」でまとめて反映されます。</p>';
+    panel.innerHTML = h;
+    pv.parentNode.insertBefore(panel, pv.nextSibling);
+    panel.querySelectorAll('.th').forEach(function(th){
+      th.addEventListener('click', function(){
+        $('cm-file').setAttribute('data-n', th.getAttribute('data-cmn'));
+        $('cm-file').click();
+      });
+    });
+    panel.querySelectorAll('textarea, input').forEach(function(el){ el.addEventListener('input', function(){ cmTouched = true; }); });
+  }
+
+  /* ---------- edit mode ---------- */
+  function setEdit(on){
+    editing = on;
+    document.body.classList.toggle('site-editing', on);
+    $('site-savebar').classList.toggle('on', on);
+    $('sb-msg').textContent = '';
+    var btn = window.__authBtn;
+    if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
+    targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
+    if(on){
+      db().collection('profiles').doc(DOC).get().then(function(doc){
+        docData = doc.exists ? doc.data() : {};
+        cmPending = {}; cmTouched = false;
+        buildRows(docData, true);
+        currentFilmPhotos(function(list){ filmWork = list; buildFilmStrip(); });
+      }).catch(function(){});
+      var pv = document.querySelector('.hero-pv');
+      if(pv) pv.addEventListener('click', pvClick);
+    } else {
+      var pv2 = document.querySelector('.hero-pv');
+      if(pv2) pv2.removeEventListener('click', pvClick);
+      var p = $('cm-panel'); if(p) p.remove();
+      var fs = $('film-strip'); if(fs) fs.remove();
+      var film = document.querySelector('.film');
+      if(film) film.classList.remove('paused');
+      targets().forEach(function(el){ var k = el.getAttribute('data-tk'); if(k && applied[k] !== undefined) el.textContent = applied[k]; });
+      if(docData) { buildRows(docData, false); renderCm(docData); }
+    }
+  }
+  function pvClick(){ if(editing){ var p = $('cm-panel'); if(p) p.remove(); else buildCmPanel(); } }
+
+  function saveAll(){
+    $('sb-msg').textContent = '保存しています…';
+    var jobs = [];
+    var upd = {};
+    targets().forEach(function(el){
+      var k = el.getAttribute('data-tk');
+      if(!k) return;
+      var v = el.textContent.trim();
+      if(applied[k] !== undefined && applied[k] !== v) upd[k] = v;
+      else if(applied[k] === undefined && v) upd[k] = v;
+    });
+    if(Object.keys(upd).length) jobs.push(db().collection('siteTexts').doc(PAGE).set(upd, {merge: true}).then(function(){ Object.keys(upd).forEach(function(k){ applied[k] = upd[k]; }); }));
+    var prof = {};
+    document.querySelectorAll('#live-rows p[data-f]').forEach(function(p){ prof[p.getAttribute('data-f')] = p.textContent.trim(); });
+    var panel = $('cm-panel');
+    if(panel){
+      for(var t = 1; t <= 5; t++) prof['cmT' + t] = $('cm-t' + t).value;
+      prof.cmColor = $('cm-color').value;
+      Object.keys(cmPending).forEach(function(k){ prof[k] = cmPending[k]; });
+    } else if(cmTouched){
+      // panel closed after edits: nothing pending
+    }
+    if(Object.keys(prof).length){
+      prof.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+      jobs.push(db().collection('profiles').doc(DOC).set(prof, {merge: true}).then(function(){ Object.keys(prof).forEach(function(k){ if(k !== 'updatedAt') docData[k] = prof[k]; }); }));
+    }
+    Promise.all(jobs).then(function(){
+      $('sb-msg').textContent = '保存しました';
+      setTimeout(function(){ setEdit(false); }, 500);
+    }).catch(function(){ $('sb-msg').textContent = '保存できませんでした。時間をおいて試してください。'; });
+  }
+
   function init(){
     if(!window.firebase || !firebase.auth) return;
-    try{ if(!firebase.apps.length) firebase.initializeApp({
-  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
-  authDomain: "ohana-share.firebaseapp.com",
-  projectId: "ohana-share",
-  storageBucket: "ohana-share.firebasestorage.app",
-  messagingSenderId: "825904150210",
-  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
-}); }catch(e){}
+    /* stamp text keys and apply published overrides */
+    var els = targets();
+    els.forEach(function(el){ el.setAttribute('data-tk', hash(el.textContent.trim())); });
+    if(firebase.firestore){
+      db().collection('siteTexts').doc(PAGE).get().then(function(doc){
+        if(!doc.exists) return;
+        var data = doc.data() || {};
+        els.forEach(function(el){ var v = data[el.getAttribute('data-tk')]; if(typeof v === 'string'){ el.textContent = v; applied[el.getAttribute('data-tk')] = v; } });
+        els.forEach(function(el){ var k = el.getAttribute('data-tk'); if(applied[k] === undefined) applied[k] = el.textContent.trim(); });
+      }).catch(function(){});
+    }
+    /* save bar */
+    var bar = document.createElement('div');
+    bar.id = 'site-savebar';
+    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">やめる</button>';
+    document.body.appendChild(bar);
+    $('sb-save').addEventListener('click', saveAll);
+    $('sb-cancel').addEventListener('click', function(){ setEdit(false); });
+    /* hidden file inputs */
+    var cf = document.createElement('input');
+    cf.type = 'file'; cf.accept = 'image/*'; cf.id = 'cm-file'; cf.style.display = 'none';
+    cf.addEventListener('change', function(){
+      var f = cf.files[0];
+      var n = cf.getAttribute('data-n');
+      if(f && n) fileToCm(f, function(data){
+        cmPending['cmPhoto' + n] = data;
+        cmTouched = true;
+        buildCmPanel();
+      });
+      cf.value = '';
+    });
+    document.body.appendChild(cf);
+    var ff = document.createElement('input');
+    ff.type = 'file'; ff.accept = 'image/*'; ff.id = 'film-file'; ff.style.display = 'none';
+    ff.addEventListener('change', function(){
+      var f = ff.files[0];
+      if(f) fileToData(f, 900, 900, 0.78, function(data){
+        if(filmPickIdx >= 0 && filmWork[filmPickIdx]) filmWork[filmPickIdx] = {data: data, cap: filmWork[filmPickIdx].cap || ''};
+        else filmWork.push({data: data, cap: ''});
+        saveFilm();
+        buildFilmStrip();
+      });
+      ff.value = '';
+    });
+    document.body.appendChild(ff);
+    /* button */
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = 'ログイン';
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
+    window.__authBtn = btn;
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'display:flex;justify-content:flex-end;padding:8px 2px 0';
@@ -513,27 +839,17 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
       if(!u){ firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){}); }
-      else if(u.uid === OWNER && DOC){ location.href = '../member.html?id=' + DOC + '&edit=1'; }
+      else if(u.uid === OWNER){ setEdit(!editing); }
       else location.href = '../mypage.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = 'ログイン'; return; }
-      btn.textContent = (u.uid === OWNER && DOC) ? '✎ 編集する' : 'マイページ';
-      if(u.uid === OWNER && DOC){
-        var pv = document.querySelector('.hero-pv');
-        if(pv){
-          pv.style.cursor = 'pointer';
-          var tag = document.createElement('div');
-          tag.textContent = '✎ アニメーションを編集';
-          tag.style.cssText = 'position:absolute;top:10px;right:10px;z-index:6;background:rgba(255,255,255,.94);border:1px solid #d8c7ae;border-radius:999px;padding:5px 11px;font-weight:bold;font-size:.78rem;color:#7a4b12';
-          pv.appendChild(tag);
-          pv.addEventListener('click', function(){ location.href = '../member.html?id=' + DOC + '&edit=1&cm=1'; });
-        }
-      }
+      if(!u){ btn.textContent = 'ログイン'; if(editing) setEdit(false); return; }
+      btn.textContent = (u.uid === OWNER) ? (editing ? '編集を終わる' : '✎ 編集する') : 'マイページ';
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
 </body>
 </html>
