@@ -351,6 +351,8 @@ else useRule();
 (function(){
   var DOC = '';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  function memberKnown(){ try{ return !!localStorage.getItem('ohana_member'); }catch(e){ return false; } }
+  function memberLabel(){ return memberKnown() ? 'ログイン' : '無料メンバー登録'; }
   function init(){
     if(!window.firebase || !firebase.auth) return;
     try{ if(!firebase.apps.length) firebase.initializeApp({
@@ -364,16 +366,10 @@ else useRule();
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = '無料メンバー登録';
-    var btn2 = document.createElement('button');
-    btn2.type = 'button';
-    btn2.textContent = 'ログイン';
-    btn2.style.cssText = 'background:#fff;color:#7a5c3e;border:1.5px solid #d9c7b2;font-weight:bold;font-family:inherit;font-size:.82rem;border-radius:999px;padding:8px 13px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.12)';
-    btn2.addEventListener('click', function(){ location.href = 'login.html#login'; });
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96;display:flex;gap:6px;align-items:center';
-    rowEl.appendChild(btn2);
+    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
     rowEl.appendChild(btn);
     window.__authBtn = btn;
     var hdr = wrapEl.querySelector('header');
@@ -381,15 +377,15 @@ else useRule();
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
-      if(!u){ location.href = 'login.html'; }
+      if(!u){ location.href = memberKnown() ? 'login.html#login' : 'login.html'; }
       else if(u.uid === OWNER && window.__toggleSiteEdit){ window.__toggleSiteEdit(); }
       else if(u.uid === OWNER && DOC){ location.href = 'member.html?id=' + DOC + '&edit=1'; }
       else location.href = 'login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = '無料メンバー登録'; btn2.style.display = ''; return; }
+      if(!u){ btn.textContent = memberLabel(); return; }
       btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
-      btn2.style.display = 'none';
+      try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       if(u.uid === OWNER && DOC){
         var pv = document.querySelector('.hero-pv');
         if(pv){

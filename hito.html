@@ -29,6 +29,10 @@
   .item{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);display:block;box-shadow:0 2px 8px rgba(160,100,40,.08)}
   .item img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f6ead9}
   .item .nophoto{width:100%;aspect-ratio:1/1;background:#f6ead9;color:var(--soft);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .item .ph{width:100%;aspect-ratio:1/1;background:#f6ead9;display:flex;align-items:center;justify-content:center}
+  .item .ph img.fill{width:100%;height:100%;object-fit:cover;display:block}
+  .item .ph img.circle{width:64%;height:64%;border-radius:50%;object-fit:cover;display:block}
+  .item .ph .bigletter{width:64%;aspect-ratio:1/1;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:bold}
   .item .body{display:block;padding:10px 12px 12px}
   .item .name{display:block;font-weight:bold;font-size:1rem;line-height:1.4}
   .item .desc{font-size:.84rem;color:var(--soft);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -56,7 +60,7 @@
   </header>
   <div class="grid" id="grid">
     <a class="item" data-tags="松山市 OHANAメンバー" href="members/momowari.html">
-      <img src="momowari-icon.png" alt="MOMOwaRI">
+      <span class="ph"><img class="circle" src="momowari-icon.png" alt="MOMOwaRI"></span>
       <span class="body">
         <span class="name"><img class="tic" src="momowari-icon.png" alt="">MOMOwaRI</span>
         <span class="desc">まつげパーマ（Eyes MAHALO）、ヒトモノコトをつなぐこと、イベント企画・開催。</span>
@@ -112,8 +116,10 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     a.className = 'item';
     a.setAttribute('data-tags', ((d.tags || []).join(' ') + ' ' + (d.area || '') + ' ' + (d.nickname || '') + ' OHANAメンバー'));
     a.href = 'member.html?id=' + encodeURIComponent(it.id);
-    var photo = d.photoUrl || d.iconData || '';
-    var ph = photo ? '<img src="' + esc(photo) + '" alt="">' : '<span class="nophoto">写真はまだ</span>';
+    var ph;
+    if(d.photoUrl) ph = '<span class="ph"><img class="fill" src="' + esc(d.photoUrl) + '" alt=""></span>';
+    else if(d.iconData) ph = '<span class="ph"><img class="circle" src="' + esc(d.iconData) + '" alt=""></span>';
+    else ph = '<span class="ph"><span class="bigletter" style="background:' + icoColor(d.nickname) + '">' + esc((d.nickname || 'メ').charAt(0)) + '</span></span>';
     var desc = (d.intro || '').slice(0, 60);
     a.innerHTML = ph + '<span class="body"><span class="name">' + tileIcon(d) + esc(d.nickname) + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
@@ -265,6 +271,8 @@ else useRule();
 (function(){
   var DOC = '';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  function memberKnown(){ try{ return !!localStorage.getItem('ohana_member'); }catch(e){ return false; } }
+  function memberLabel(){ return memberKnown() ? 'ログイン' : '無料メンバー登録'; }
   function init(){
     if(!window.firebase || !firebase.auth) return;
     try{ if(!firebase.apps.length) firebase.initializeApp({
@@ -278,16 +286,10 @@ else useRule();
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = '無料メンバー登録';
-    var btn2 = document.createElement('button');
-    btn2.type = 'button';
-    btn2.textContent = 'ログイン';
-    btn2.style.cssText = 'background:#fff;color:#7a5c3e;border:1.5px solid #d9c7b2;font-weight:bold;font-family:inherit;font-size:.82rem;border-radius:999px;padding:8px 13px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.12)';
-    btn2.addEventListener('click', function(){ location.href = 'login.html#login'; });
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96;display:flex;gap:6px;align-items:center';
-    rowEl.appendChild(btn2);
+    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
     rowEl.appendChild(btn);
     window.__authBtn = btn;
     var hdr = wrapEl.querySelector('header');
@@ -295,15 +297,15 @@ else useRule();
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
-      if(!u){ location.href = 'login.html'; }
+      if(!u){ location.href = memberKnown() ? 'login.html#login' : 'login.html'; }
       else if(u.uid === OWNER && window.__toggleSiteEdit){ window.__toggleSiteEdit(); }
       else if(u.uid === OWNER && DOC){ location.href = 'member.html?id=' + DOC + '&edit=1'; }
       else location.href = 'login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = '無料メンバー登録'; btn2.style.display = ''; return; }
+      if(!u){ btn.textContent = memberLabel(); return; }
       btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
-      btn2.style.display = 'none';
+      try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       if(u.uid === OWNER && DOC){
         var pv = document.querySelector('.hero-pv');
         if(pv){
