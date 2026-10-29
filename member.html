@@ -62,6 +62,19 @@
 .sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
 .sharemenu.open{display:flex}
 .sharemenu a,.sharemenu button{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:7px 14px;font-size:.85rem;text-decoration:none;color:#3a2e25;cursor:pointer;font-family:inherit}
+
+.cm-live{position:relative;max-width:560px;margin:10px auto;aspect-ratio:3/4;border-radius:18px;overflow:hidden;background:#f6efe3}
+.cm-scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
+.cm-scene.solid{color:#fff;font-weight:bold;font-size:26px;line-height:1.7;white-space:pre-line}
+.cm-scene.photo{padding:0}
+.cm-scene.photo img{width:100%;height:100%;object-fit:cover}
+.cm-scene .band{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);color:#fff;font-weight:bold;font-size:19px;line-height:1.6;padding:14px 12px 18px;white-space:pre-line}
+@keyframes cmSeq{0%{opacity:0}3%{opacity:1}17%{opacity:1}20%{opacity:0}100%{opacity:0}}
+.cm-live .cm-scene{animation:cmSeq 25s linear infinite}
+.cm-live .cm-scene:nth-child(2){animation-delay:5s}
+.cm-live .cm-scene:nth-child(3){animation-delay:10s}
+.cm-live .cm-scene:nth-child(4){animation-delay:15s}
+.cm-live .cm-scene:nth-child(5){animation-delay:20s}
 </style>
 </head>
 <body>
@@ -70,6 +83,7 @@
     <img src="img-992cf83a89.png" alt="OHANAキャラクター" style="width:110px">
     <div id="p-head" hidden>
       <div id="p-badges"></div>
+      <img id="p-icon" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;display:none;margin:2px auto 0">
       <h1 id="p-name" class="ed"></h1>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
@@ -116,12 +130,41 @@
       <p class="note" id="photo-msg">写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。</p>
       <button type="button" id="btn-photo-del" hidden>写真を消す</button>
     </div>
+    <div id="icon-edit" hidden>
+      <p style="font-weight:bold;margin-top:12px">アイコン（掲示板などで名前の横に出ます）</p>
+      <img id="ie-preview" alt="" style="width:56px;height:56px;object-fit:cover;border-radius:50%;display:none;margin:6px auto">
+      <input type="file" id="in-icon" accept="image/*" style="display:block;margin:8px auto;max-width:100%">
+      <p class="note" id="icon-msg">写真を選ぶと、丸いアイコン用に小さくして取り込みます。「保存する」を押すと反映されます。</p>
+      <button type="button" id="btn-icon-del" hidden>アイコンを消す</button>
+    </div>
+    <div id="cm-edit" hidden>
+      <p style="font-weight:bold;margin-top:14px">アニメーション（ページの上の映像）</p>
+      <p class="note">写真3枚と文字、色を変えられます。写真は自動で小さくなります。</p>
+      <p class="sub" style="font-weight:bold">色</p>
+      <input type="color" id="in-cmcolor" value="#e07b24" style="width:64px;height:36px;vertical-align:middle">
+      <span id="cm-swatches"></span>
+      <p class="sub" style="font-weight:bold;margin-top:10px">文字（1行目と2行目）</p>
+      <textarea id="in-cmt1" rows="2" placeholder="最初の画面の文字" style="width:100%"></textarea>
+      <textarea id="in-cmt2" rows="2" placeholder="写真1の文字" style="width:100%"></textarea>
+      <textarea id="in-cmt3" rows="2" placeholder="写真2の文字" style="width:100%"></textarea>
+      <textarea id="in-cmt4" rows="2" placeholder="写真3の文字" style="width:100%"></textarea>
+      <textarea id="in-cmt5" rows="2" placeholder="最後の画面の文字" style="width:100%"></textarea>
+      <p class="sub" style="font-weight:bold;margin-top:10px">写真</p>
+      <img id="cm-prev1" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none">
+      <input type="file" id="in-cmphoto1" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
+      <img id="cm-prev2" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none">
+      <input type="file" id="in-cmphoto2" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
+      <img id="cm-prev3" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none">
+      <input type="file" id="in-cmphoto3" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
+      <p class="note" id="cm-msg"></p>
+    </div>
     <button type="button" id="btn-edit">このページを編集する</button>
     <button type="button" id="btn-save" hidden>保存する</button>
     <button type="button" id="btn-cancel" hidden>キャンセル</button>
     <p class="note" id="edit-note" hidden>文字の部分をタップすると、その場で直せます。リンクは下の「リンク集」で直してください。</p>
   </div>
 
+  <div id="cm-live" class="cm-live" hidden></div>
   <section id="s-photo" hidden style="padding:0;overflow:hidden"><img id="p-photo" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"></section>
 
   <section id="s-intro" hidden><h2>紹介</h2><p id="p-intro" class="ed"></p></section>
@@ -205,6 +248,9 @@ firebase.initializeApp(firebaseConfig);
 var auth = firebase.auth();
 var db = firebase.firestore();
 var pendingPhotoUrl = null;
+var pendingIconData = null;
+var pendingCm = {};
+var baseIconData = '';
 function $(id){ return document.getElementById(id); }
 function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function nl(t){ return esc(t).replace(/\n/g,'<br>'); }
@@ -226,8 +272,29 @@ function applyCatLabels(cat){
   if(intro) intro.setAttribute('data-ph', cat === 'モノ' ? '（例：子供服 80〜120cm。状態はきれいです。イベントでお渡しできます）' : '（ここをタップして入力）');
 }
 
+
+function renderCm(d){
+  var box = $('cm-live');
+  var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
+  var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
+  if(!photos.length && !texts.some(function(x){ return !!x; })){ box.hidden = true; box.innerHTML = ''; return; }
+  var color = d.cmColor || '#e07b24';
+  var html = '';
+  html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
+  for(var i = 0; i < 3; i++){
+    if(photos[i]){ html += '<div class="cm-scene photo"><img src="' + photos[i] + '" alt=""><div class="band">' + esc(texts[i + 1] || '') + '</div></div>'; }
+  }
+  html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
+  box.innerHTML = html;
+  var kids = box.children;
+  var total = kids.length * 5;
+  for(var k = 0; k < kids.length; k++){ kids[k].style.animationDuration = total + 's'; kids[k].style.animationDelay = (k * 5) + 's'; }
+  box.hidden = false;
+}
+
 function render(d, editMode){
   pageData = d;
+  if(ownerUid && ownerUid !== id && !baseIconData){ db.collection('profiles').doc(ownerUid).get().then(function(bd){ if(bd.exists && bd.data().iconData){ baseIconData = bd.data().iconData; render(pageData, false); } }).catch(function(){}); }
   $('p-head').hidden = false;
   var dcats = d.categories || (d.category ? [d.category] : []);
   applyCatLabels(dcats[0] || 'ヒト');
@@ -241,6 +308,10 @@ function render(d, editMode){
   $('p-area').textContent = d.area || '';
   $('s-photo').hidden = !d.photoUrl;
   if(d.photoUrl) $('p-photo').src = d.photoUrl;
+  renderCm(d);
+  var icoSrc = d.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
+  $('p-icon').style.display = icoSrc ? 'block' : 'none';
+  if(icoSrc) $('p-icon').src = icoSrc;
   $('s-intro').hidden = !(d.intro || editMode);
   $('p-intro').innerHTML = nl(d.intro || '');
   var rows = '';
@@ -326,12 +397,23 @@ function setEdit(on){
   document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; if(on && !el.getAttribute('data-ph')) el.setAttribute('data-ph', '（ここをタップして入力）'); });
   $('link-edit').hidden = !on;
   $('photo-edit').hidden = !on;
+  $('icon-edit').hidden = !on;
+  $('cm-edit').hidden = !on;
   if(on){
     pendingPhotoUrl = null;
     var cur = pageData.photoUrl || '';
     $('pe-preview').style.display = cur ? 'block' : 'none';
     if(cur) $('pe-preview').src = cur;
     $('btn-photo-del').hidden = !cur;
+    pendingIconData = null;
+    var curIco = pageData.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
+    $('ie-preview').style.display = curIco ? 'block' : 'none';
+    if(curIco) $('ie-preview').src = curIco;
+    $('btn-icon-del').hidden = !(pageData.iconData || baseIconData);
+    pendingCm = {};
+    $('in-cmcolor').value = pageData.cmColor || '#e07b24';
+    ['t1','t2','t3','t4','t5'].forEach(function(k, ix){ $('in-cm' + k).value = pageData['cmT' + (ix + 1)] || ''; });
+    [1,2,3].forEach(function(n){ var pv = $('cm-prev' + n); var cur = pageData['cmPhoto' + n] || ''; pv.style.display = cur ? 'inline-block' : 'none'; if(cur) pv.src = cur; });
     $('photo-msg').textContent = '写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。';
   }
   $('cat-edit').hidden = !on;
@@ -388,6 +470,65 @@ else {
     img.onerror = function(){ $('photo-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; };
     img.src = URL.createObjectURL(f);
   });
+  $('in-icon').addEventListener('change', function(){
+    var f = $('in-icon').files && $('in-icon').files[0];
+    if(!f) return;
+    $('icon-msg').textContent = '取り込んでいます…';
+    var img = new Image();
+    img.onload = function(){
+      URL.revokeObjectURL(img.src);
+      var side = Math.min(img.width, img.height);
+      var cv = document.createElement('canvas');
+      cv.width = 200; cv.height = 200;
+      cv.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, 200, 200);
+      pendingIconData = cv.toDataURL('image/jpeg', 0.8);
+      $('ie-preview').src = pendingIconData;
+      $('ie-preview').style.display = 'block';
+      $('btn-icon-del').hidden = false;
+      $('icon-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
+    };
+    img.onerror = function(){ $('icon-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; };
+    img.src = URL.createObjectURL(f);
+  });
+  $('btn-icon-del').addEventListener('click', function(){
+    pendingIconData = '';
+    $('ie-preview').style.display = 'none';
+    $('btn-icon-del').hidden = true;
+    $('icon-msg').textContent = 'アイコンを消します。「保存する」を押すと反映されます。';
+  });
+  [1,2,3].forEach(function(n){
+    $('in-cmphoto' + n).addEventListener('change', function(){
+      var f = $('in-cmphoto' + n).files && $('in-cmphoto' + n).files[0];
+      if(!f) return;
+      $('cm-msg').textContent = '取り込んでいます…';
+      var img = new Image();
+      img.onload = function(){
+        URL.revokeObjectURL(img.src);
+        var W = 600, H = 800;
+        var scale = Math.max(W / img.width, H / img.height);
+        var cv = document.createElement('canvas');
+        cv.width = W; cv.height = H;
+        var ctx = cv.getContext('2d');
+        ctx.drawImage(img, (W - img.width * scale) / 2, (H - img.height * scale) / 2, img.width * scale, img.height * scale);
+        pendingCm['cmPhoto' + n] = cv.toDataURL('image/jpeg', 0.72);
+        var pv = $('cm-prev' + n);
+        pv.src = pendingCm['cmPhoto' + n]; pv.style.display = 'inline-block';
+        $('cm-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
+      };
+      img.onerror = function(){ $('cm-msg').textContent = '写真を読み込めませんでした。'; };
+      img.src = URL.createObjectURL(f);
+    });
+  });
+  (function(){
+    var sw = $('cm-swatches');
+    [['#2e6da4','MAHALOの青'],['#e07b24','eluaのオレンジ'],['#8a5fb0','Eyesの紫'],['#5d9c6b','緑'],['#e8a13a','山吹色']].forEach(function(pair){
+      var b = document.createElement('button');
+      b.type = 'button'; b.title = pair[1];
+      b.style.cssText = 'width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #ccc;margin-left:6px;vertical-align:middle;background:' + pair[0];
+      b.addEventListener('click', function(){ $('in-cmcolor').value = pair[0]; });
+      sw.appendChild(b);
+    });
+  })();
   $('btn-photo-del').addEventListener('click', function(){
     pendingPhotoUrl = '';
     $('pe-preview').style.display = 'none';
@@ -414,6 +555,12 @@ else {
       offeringKoto: txt('e-offkoto'),
       offering: '',
       photoUrl: pendingPhotoUrl !== null ? pendingPhotoUrl : (pageData.photoUrl || ''),
+      iconData: pendingIconData !== null ? pendingIconData : (pageData.iconData || ''),
+      cmColor: $('in-cmcolor').value || pageData.cmColor || '',
+      cmT1: $('in-cmt1').value, cmT2: $('in-cmt2').value, cmT3: $('in-cmt3').value, cmT4: $('in-cmt4').value, cmT5: $('in-cmt5').value,
+      cmPhoto1: pendingCm.cmPhoto1 || pageData.cmPhoto1 || '',
+      cmPhoto2: pendingCm.cmPhoto2 || pageData.cmPhoto2 || '',
+      cmPhoto3: pendingCm.cmPhoto3 || pageData.cmPhoto3 || '',
       hpUrl: $('in-hp').value.trim(),
       menuUrl: $('in-menu').value.trim(),
       snsLinks: $('in-sns').value.trim(),
@@ -422,6 +569,7 @@ else {
     };
     $('edit-msg').textContent = '保存しています…';
     db.collection('profiles').doc(id).set(data, {merge: true}).then(function(){
+      if(pendingIconData !== null && ownerUid && ownerUid !== id){ db.collection('profiles').doc(ownerUid).set({iconData: pendingIconData}, {merge: true}).catch(function(){}); if(pendingIconData) baseIconData = pendingIconData; }
       Object.keys(data).forEach(function(k){ if(k !== 'updatedAt') pageData[k] = data[k]; });
       setEdit(false);
       $('edit-msg').textContent = '保存しました。これはあなたのページです';

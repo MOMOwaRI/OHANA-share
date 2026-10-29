@@ -53,6 +53,7 @@
   .reply-form button{background:var(--orange);color:#fff;font-weight:bold;border:none;border-radius:999px;padding:7px 18px;font-size:.85rem;cursor:pointer;margin-top:6px}
   .reply-msg{font-size:.78rem;color:#8a6a4f}
 .who img.ico{width:18px;height:18px;border-radius:50%;vertical-align:-4px;margin-right:4px}
+.ico-letter{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#e8a13a;color:#fff;font-size:11px;font-weight:bold;vertical-align:-4px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -209,6 +210,27 @@ function ownReply(d, key){ if(d.uid){ return !!(currentUser && d.uid === current
 function needLogin(){
   document.getElementById('auth-status').textContent = 'いいね・返事にはログインが必要です';
 }
+
+var MOMO_UID = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+var iconCache = {};
+function letterIcon(name){ return '<span class="ico-letter">' + esc((name || 'メ').charAt(0)) + '</span>'; }
+function ensureIcon(uid){
+  if(iconCache[uid] !== undefined) return;
+  iconCache[uid] = '';
+  db.collection('profiles').doc(uid).get().then(function(doc){
+    if(doc.exists && doc.data().iconData){
+      iconCache[uid] = doc.data().iconData;
+      document.querySelectorAll('.ico-slot[data-u="' + uid + '"]').forEach(function(el){ el.innerHTML = '<img class="ico" src="' + iconCache[uid] + '" alt="">'; });
+    }
+  }).catch(function(){});
+}
+function iconFor(uid, name){
+  if(!uid) return letterIcon(name);
+  if(iconCache[uid]) return '<img class="ico" src="' + iconCache[uid] + '" alt="">';
+  if(uid === MOMO_UID) return '<img class="ico" src="momowari-icon.png" alt="">';
+  ensureIcon(uid);
+  return letterIcon(name);
+}
 db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function(snap){
   var box = document.getElementById('live-notes');
   document.querySelectorAll('.reply-form textarea').forEach(function(t){ drafts[t.getAttribute('data-pid')] = t.value; });
@@ -228,8 +250,7 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
     if(d.kind === 'help'){ return; }
     var when = fmtWhen(d.createdAt);
     ids.push(doc.id);
-    var ico = d.uid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? '<img class="ico" src="favicon.png" alt="">' : '';
-    var author = ico + (d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー'));
+    var author = '<span class="ico-slot" data-u="' + (d.uid || '') + '">' + iconFor(d.uid, d.name) + '</span>' + (d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー'));
     var own = ownPost(d, doc.id);
     html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + author + (when ? ' ・ ' + when : '') + '</p>' +
       '<div class="edit-form" id="eform-' + doc.id + '" style="display:' + (editForms[doc.id] ? 'block' : 'none') + '">' +
@@ -253,7 +274,7 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       rsnap.forEach(function(rdoc){
         var rd = rdoc.data();
         var rw = fmtWhen(rd.createdAt);
-        var rauthor = rd.uid ? '<a href="member.html?id=' + rd.uid + '">' + esc(rd.name || 'メンバー') + '</a>' : esc(rd.name || 'メンバー');
+        var rauthor = '<span class="ico-slot" data-u="' + (rd.uid || '') + '">' + iconFor(rd.uid, rd.name) + '</span>' + (rd.uid ? '<a href="member.html?id=' + rd.uid + '">' + esc(rd.name || 'メンバー') + '</a>' : esc(rd.name || 'メンバー'));
         var rown = ownReply(rd, pid + ':' + rdoc.id);
         rh += '<div class="reply">↪ <span id="rtext-' + pid + '-' + rdoc.id + '">' + esc(rd.text || '') + '</span> <span class="who">' + rauthor + (rw ? ' ・ ' + rw : '') + '</span>' + (rown ? ' <button type="button" class="redit-btn" data-pid="' + pid + '" data-rid="' + rdoc.id + '">編集</button> <button type="button" class="rdel-btn" data-pid="' + pid + '" data-rid="' + rdoc.id + '">削除</button>' : '') + '</div>';
       });
