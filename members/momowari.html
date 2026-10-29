@@ -123,6 +123,11 @@
     <p>松山市のMAHALOビルを拠点に、イベントの開催や、OHANAメンバーのページづくりを行っています。</p>
   </section>
 
+  <section id="ticket-sec" style="display:none">
+    <h2>OHANA100円券</h2>
+    <p><span id="tk-num" style="font-size:1.6rem;font-weight:bold">…</span> 枚 持っています</p>
+  </section>
+
   <section>
     <h2>できること</h2>
     <div class="feats">
@@ -221,6 +226,7 @@
     row('提供できるコト','#fbe38e', d.offeringKoto);
     if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
     if(rows){ document.getElementById('live-rows').innerHTML = rows; document.getElementById('live-sec').style.display = ''; }
+    if(typeof d.tickets === 'number'){ document.getElementById('tk-num').textContent = d.tickets; document.getElementById('ticket-sec').style.display = ''; }
   }).catch(function(){});
 })();
 </script>
