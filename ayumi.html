@@ -42,7 +42,7 @@ footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
 <body>
 <div class="wrap">
 <header>
-<img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ">
+<a href="index.html"><img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ"></a>
 <h1>OHANAのあゆみ</h1>
 <p class="sub">考え方と、これまでの歩みを、noteの記事と一緒にたどります。</p>
 </header>
@@ -178,5 +178,117 @@ footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
 <a class="back" href="index.html">トップページへ戻る</a>
 <footer>OHANAシェア＊プロジェクト</footer>
 </div>
+<style>
+.ofabs{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.ofabs.obot{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.ofab-line{display:inline-flex;align-items:center;gap:7px;background:#06c755;color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px rgba(6,199,85,.35)}
+.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c2610f;border:1.5px solid #e0a458;font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.ofab-bot img{width:auto;height:38px;object-fit:contain}
+.opanel{position:fixed;right:14px;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:71;width:min(360px,calc(100vw - 28px));background:#fffdf8;border:1px solid #f3ddc4;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:14px}
+.ohead{display:flex;align-items:center;gap:10px}
+.ohead img{height:56px;width:auto}
+.ohead .nm{font-weight:700}
+.ohead .ds{font-size:.78rem;color:#8a6a4f;line-height:1.4}
+.oclose{margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid #f3ddc4;background:#fff;cursor:pointer;font-size:1rem;flex:none}
+.olog{display:flex;flex-direction:column;gap:8px;margin:12px 0;max-height:min(46vh,380px);overflow-y:auto}
+.omsg{background:#fdf3e3;border:1px solid #f3ddc4;border-radius:14px;border-bottom-left-radius:4px;padding:8px 12px;font-size:.9rem;align-self:flex-start;max-width:92%;line-height:1.6}
+.omsg.user{background:#ffe9d2;border-bottom-left-radius:14px;border-bottom-right-radius:4px;align-self:flex-end}
+.omsg .oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
+.ochips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.ochip{border:1.5px solid #e0a458;background:#fff;color:#c2610f;border-radius:999px;padding:5px 12px;font-size:.8rem;cursor:pointer;font-family:inherit;font-weight:700}
+.oform{display:flex;gap:8px}
+.oform input{flex:1;min-width:0;font-family:inherit;font-size:1rem;padding:9px 13px;border-radius:999px;border:1.5px solid #e8b96f}
+.oform button{flex:none;font-family:inherit;font-weight:700;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 16px;cursor:pointer}
+</style>
+<div class="ofabs">
+<a class="ofab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャットに参加</a>
+<button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="img-992cf83a89.png" alt="">OHANAに質問する</button>
+</div>
+<div class="opanel" id="opanel" hidden>
+<div class="ohead"><img src="img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA案内ボット</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
+<div class="olog" id="olog"><div class="omsg">こんにちは。OHANAシェア＊プロジェクトの案内ボットです。気になることを下のボタンから選ぶか、入力して聞いてください。</div></div>
+<div class="ochips" id="ochips"></div>
+<form class="oform" id="oform"><input id="oinput" type="text" placeholder="質問を入力してください" autocomplete="off"><button type="submit">送信</button></form>
+</div>
+<script>
+(function(){
+var OC_URL = "https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ";
+var QA = [
+{ q:"OHANAって何？", chip:"OHANAって何？", a:"愛媛県松山市のプロジェクトです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。対象はヒト・モノ・コトです。理念は「眠っている価値を、必要な場所へ」です。"},
+{ q:"いつ・どこで開催？", chip:"いつ・どこで開催？", a:"不定期開催中です。月曜祝日に、MAHALO美容室（松山市味酒町）で開催することが多いです。開催日はその都度オープンチャットで案内します。案内のない日は開催していません。"},
+{ q:"どうやって参加するの？", chip:"参加のしかた", a:"まずはこのページのボタンから、LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」に参加してください。開催の案内や出店の募集はすべてそこで行います。見るだけ・質問だけでも大丈夫です。"},
+{ q:"出店したい", chip:"出店したい", a:"ありがとうございます。フリマ出店のほか、ワークショップや「こんなことやってみたい」という企画も歓迎しています。条件や募集は開催ごとに異なるので、オープンチャットでその都度ご確認ください。"},
+{ q:"売るものがなくてもいい？", chip:"売るものがなくても？", a:"大丈夫です。買い物だけ、遊びに来るだけでもOK。交換の対象はヒト・モノ・コトで、モノがなくても、できること（ヒト）や体験（コト）を持ち寄る参加のしかたもあります。"},
+{ q:"100円券って何？", chip:"100円券って何？", a:"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。"},
+{ q:"売上は全部券になるの？", chip:"売上は全部券？", a:"OHANAは、OHANA100円券でのお買い物を通じて、券が地域の中でぐるぐる循環していく仕組みです。券は無料で配布されるもので、買うものではありません。現金への換金はできません。"},
+{ q:"誰がやっているの？", chip:"誰がやっているの？", a:"松山市で活動している主催者と、賛同する仲間たちで運営しています。"},
+{ q:"エクスチェンジハンガーは？", chip:"エクスチェンジハンガー", a:"子供服を1点持ち込むと1点持ち帰れる、1対1交換のハンガーポールです。現在、設置場所を募集中です。協力いただける店舗・施設・公民館などは、オープンチャットへご連絡ください。"}
+];
+var panel = document.getElementById('opanel');
+var fabBot = document.getElementById('ofab-bot');
+function setPanel(open){ panel.hidden = !open; fabBot.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+fabBot.addEventListener('click', function(){ setPanel(panel.hidden); });
+document.getElementById('oclose').addEventListener('click', function(){ setPanel(false); });
+var log = document.getElementById('olog');
+var chipsBox = document.getElementById('ochips');
+function addMsg(text, who){
+var d = document.createElement('div');
+d.className = 'omsg ' + who;
+d.textContent = text;
+log.appendChild(d);
+log.scrollTop = log.scrollHeight;
+return d;
+}
+function addFallback(){
+var d = addMsg("ごめんなさい、その質問にはここでは答えられませんでした。こちらで探したり、聞いたりできます。", 'bot');
+function mk(href, label, green){
+var a = document.createElement('a');
+a.className = 'oc-link';
+a.href = href;
+a.textContent = label;
+if (!green){ a.style.background = '#fff'; a.style.color = '#c2610f'; a.style.border = '1.5px solid #e0a458'; a.style.marginRight = '6px'; }
+if (href.indexOf('http') === 0){ a.target = '_blank'; a.rel = 'noopener'; }
+d.appendChild(document.createElement('br'));
+d.appendChild(a);
+}
+mk('help.html', '困った助け合い（FAQ）を見る');
+mk('board.html', 'みんなの掲示板を見る');
+mk(OC_URL, 'オープンチャットで聞く', true);
+}
+function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.indexOf(words[i]) !== -1) return true; } return false; }
+function answerFor(text){
+if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
+if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
+if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) return QA[3].a;
+if (has(text, ["いつ", "どこ", "開催", "場所", "住所", "日程", "時間"])) return QA[1].a;
+if (has(text, ["券", "100円", "１００円", "換金", "現金"])) return QA[5].a;
+if (has(text, ["売るもの", "買い物", "手ぶら", "見学", "遊び"])) return QA[4].a;
+if (has(text, ["参加", "入り方", "オープンチャット", "LINE", "ライン", "申込", "申し込"])) return QA[2].a;
+if (has(text, ["誰", "主催", "やってる", "運営", "連絡"])) return QA[7].a;
+if (has(text, ["何", "とは", "OHANA", "おはな", "オハナ", "物々交換", "フリマ"])) return QA[0].a;
+return null;
+}
+QA.forEach(function(item){
+var b = document.createElement('button');
+b.type = 'button';
+b.className = 'ochip';
+b.textContent = item.chip;
+b.addEventListener('click', function(){ addMsg(item.q, 'user'); addMsg(item.a, 'bot'); });
+chipsBox.appendChild(b);
+});
+var form = document.getElementById('oform');
+var input = document.getElementById('oinput');
+form.addEventListener('submit', function(e){
+e.preventDefault();
+var text = input.value.replace(/^\s+|\s+$/g, '');
+if (!text) return;
+addMsg(text, 'user');
+input.value = '';
+var ans = answerFor(text);
+if (ans){ addMsg(ans, 'bot'); } else { addFallback(); }
+});
+})();
+</script>
+
 </body>
 </html>
