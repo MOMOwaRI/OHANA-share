@@ -88,22 +88,24 @@
       </div>
       <div class="note n-green">
         <h2>ここに無い困ったは？</h2>
-        <p>下の「みんなの困った・質問」に書いてください。分かる仲間が返事します。急ぎならLINEオープンチャットでも聞けます。</p>
+        <p>下の「みんなの困った・質問」に書いてください。分かる仲間が返事します。急ぎなら<a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a>でも聞けます。</p>
         <p class="who">よくある困った</p>
       </div>
     </div>
   </div>
 
   <h2 class="live-title">みんなの困った・質問</h2>
+  <p style="text-align:center;margin:4px 0 10px"><a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener" style="display:inline-block;background:#06c755;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 24px">LINEオープンチャットでも聞けます</a></p>
   <p class="statusline" id="auth-status">ログイン状態を確認しています…</p>
-  <div class="postbox" id="postbox" style="display:none">
+  <div class="postbox" id="postbox">
+    <div style="margin-bottom:8px"><label style="font-size:.85rem">お名前（任意）：<input id="post-name" type="text" maxlength="20" placeholder="ゲスト" style="font-size:.9rem;padding:4px 8px;border:1px solid #d8cfc0;border-radius:8px"></label></div>
     <div style="margin-bottom:8px"><label style="font-size:.85rem">種類：<select id="post-cat"><option>使い方</option><option>100円券</option><option>ページ作り</option><option>イベント</option><option>モノの交換</option><option>その他</option></select></label></div>
     <textarea id="post-text" maxlength="300" placeholder="困っていること・質問を書いてください（300文字まで）"></textarea>
     <div style="text-align:right"><button id="post-btn" type="button">質問を貼る</button></div>
     <p class="statusline" id="post-msg"></p>
   </div>
   <div class="postbox login-cta" id="login-cta" style="display:none">
-    <p style="font-size:.9rem;margin-bottom:8px">書き込みにはログインが必要です（読むだけなら、このままどうぞ）</p>
+    <p style="font-size:.9rem;margin-bottom:8px">質問・返事はログインなしで書けます。メンバーはログインすると、名前が自動で入って、自分のページへのリンクが付きます。</p>
     <a href="login.html">OHANAメンバーログインへ</a>
   </div>
   <div class="board">
@@ -148,27 +150,31 @@ auth.onAuthStateChanged(function(user){
   var st = document.getElementById('auth-status');
   if(user){
     st.textContent = (profileName || user.displayName || 'メンバー') + ' さんとしてログイン中です';
-    document.getElementById('postbox').style.display = 'block';
     document.getElementById('login-cta').style.display = 'none';
+    var nm = document.getElementById('post-name');
+    if(nm) nm.value = profileName || user.displayName || '';
   } else {
-    st.textContent = 'ログインしていません';
-    document.getElementById('postbox').style.display = 'none';
+    st.textContent = 'ログインなしでも書けます';
     document.getElementById('login-cta').style.display = 'block';
   }
 });
+function posterName(){
+  if(currentUser) return profileName || currentUser.displayName || 'メンバー';
+  var v = (document.getElementById('post-name') || {}).value || '';
+  return v.trim() || 'ゲスト';
+}
 document.getElementById('post-btn').addEventListener('click', function(){
   var ta = document.getElementById('post-text');
   var msg = document.getElementById('post-msg');
   var text = ta.value.trim();
-  if(!currentUser){ msg.textContent = 'ログインが必要です。'; return; }
   if(!text){ msg.textContent = '内容を書いてください。'; return; }
   msg.textContent = '投稿しています…';
   db.collection('posts').add({
     text: text,
-    name: profileName || currentUser.displayName || 'メンバー',
+    name: posterName(),
     kind: 'help',
     cat: (document.getElementById('post-cat') || {}).value || 'その他',
-    uid: currentUser.uid,
+    uid: currentUser ? currentUser.uid : null,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
     ta.value = '';
@@ -184,7 +190,7 @@ function fmtWhen(ts){
 var replyUnsubs = {}, likeUnsubs = {};
 var openForms = {}, drafts = {};
 function needLogin(){
-  document.getElementById('auth-status').textContent = 'いいね・返事にはログインが必要です';
+  document.getElementById('auth-status').textContent = 'いいねにはログインが必要です（質問・返事はログインなしで書けます）';
 }
 db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function(snap){
   var box = document.getElementById('live-notes');
@@ -241,7 +247,6 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
     }, function(){});
     var lb = document.getElementById('like-' + pid);
     if(lb) lb.addEventListener('click', function(){
-      if(!currentUser){ needLogin(); return; }
       var ref = db.collection('posts').doc(pid).collection('likes').doc(currentUser.uid);
       ref.get().then(function(ld){
         if(ld.exists) ref.delete();
@@ -269,8 +274,9 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       msg.textContent = '投稿しています…';
       db.collection('posts').doc(pid).collection('replies').add({
         text: text,
-        name: profileName || currentUser.displayName || 'メンバー',
-        uid: currentUser.uid,
+        name: posterName(),
+        kind: 'help',
+        uid: currentUser ? currentUser.uid : null,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }).then(function(){
         ta.value = '';
