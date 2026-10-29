@@ -55,27 +55,37 @@
   .ticket-card::after{content:"券";position:absolute;top:10px;right:12px;width:34px;height:34px;border:2px solid rgba(194,97,15,.5);border-radius:50%;color:rgba(194,97,15,.7);display:flex;align-items:center;justify-content:center;font-weight:bold;transform:rotate(12deg);font-size:.95rem;background:rgba(255,255,255,.35)}
   .ticket-num{font-size:2rem;font-weight:bold;color:#c2610f}
   .recruit li{margin-left:1.2em}
+
+  .about-card{background:#fdf3e0;border:1.5px solid #e8cf9e;border-radius:16px;padding:14px 18px;margin:14px 0;text-align:left;line-height:1.8}
+  .merit-cards{display:grid;gap:10px;margin:12px 0}
+  .merit{display:flex;gap:12px;align-items:flex-start;background:#fffdf7;border:1.5px solid #eadfce;border-radius:16px;padding:14px 16px;text-align:left;box-shadow:0 3px 10px rgba(140,100,40,.06)}
+  .merit-ico{font-size:1.45rem;line-height:1.3;flex:none}
+  .merit p{font-size:.95rem;line-height:1.75}
+  .see-links{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .see-links a{flex:1;text-align:center;background:#fff;border:1.5px solid #d8c7ae;color:#7a4b12;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 8px;font-size:.9rem;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <a href="index.html"><img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ"></a>
-    <h1>マイページ</h1>
-    <p class="sub">OHANAメンバーの入口です。ログインすると、あなたのページが並びます。</p>
+    <h1>OHANAメンバーになりませんか</h1>
   </header>
 
   <section class="recruit" id="box-recruit" hidden>
-    <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーになりませんか</p>
-    <p>AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。</p>
-    <p style="margin-top:8px">メンバーになると、こんなことができます。</p>
-    <ul>
-      <li>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</li>
-      <li>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</li>
-      <li>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</li>
-      <li>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</li>
-      <li>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</li>
-    </ul>
+    <div class="about-card">OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</div>
+    <p style="margin-top:8px;font-weight:bold">メンバーになると、こんなことができます。</p>
+    <div class="merit-cards">
+        <div class="merit"><span class="merit-ico">🙆</span><p>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</p></div>
+        <div class="merit"><span class="merit-ico">✨</span><p>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</p></div>
+        <div class="merit"><span class="merit-ico">📣</span><p>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</p></div>
+        <div class="merit"><span class="merit-ico">📷</span><p>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</p></div>
+        <div class="merit"><span class="merit-ico">🎟</span><p>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</p></div>
+      </div>
+    <div class="see-links">
+      <a href="index.html">OHANAって何？（トップ）</a>
+      <a href="hito.html">メンバーのページを見る</a>
+    </div>
     <p style="margin-top:8px">下のボタンからログイン（Googleアカウント）すると、そのままメンバー登録になります。</p>
   </section>
 
@@ -99,14 +109,13 @@
       <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーのマイページです</p>
       <details>
         <summary style="cursor:pointer;font-weight:bold;margin-top:6px">メンバーの案内を見る</summary>
-        <p style="margin-top:8px">AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。</p>
-        <ul>
-          <li>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</li>
-          <li>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</li>
-          <li>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</li>
-          <li>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</li>
-          <li>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</li>
-        </ul>
+        <div class="merit-cards" style="margin-top:10px">
+        <div class="merit"><span class="merit-ico">🙆</span><p>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</p></div>
+        <div class="merit"><span class="merit-ico">✨</span><p>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</p></div>
+        <div class="merit"><span class="merit-ico">📣</span><p>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</p></div>
+        <div class="merit"><span class="merit-ico">📷</span><p>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</p></div>
+        <div class="merit"><span class="merit-ico">🎟</span><p>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</p></div>
+      </div>
       </details>
       <ul style="margin-top:6px">
         <li>下の「新しいページを作る」から、ページが作れます（1人で複数OK）。ページを開くと、その場で文字を直して編集できます</li>
@@ -474,7 +483,7 @@ function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.inde
 function answerFor(text){
 if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
 if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
-if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。"; }
 if (has(text, ["掲示板", "告知", "書き込", "投稿"])) { window.__ct = '掲示板'; window.__lk = 'board'; return QA[9].a; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
