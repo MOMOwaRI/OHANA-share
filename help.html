@@ -205,7 +205,7 @@ function dropGuest(key, id){ var a = myGuest(key).filter(function(x){ return x !
 function ownPost(d, id){ if(d.uid){ return !!(currentUser && d.uid === currentUser.uid); } return myGuest('ohana_guest_posts').indexOf(id) !== -1; }
 function ownReply(d, key){ if(d.uid){ return !!(currentUser && d.uid === currentUser.uid); } return myGuest('ohana_guest_replies').indexOf(key) !== -1; }
 function needLogin(){
-  document.getElementById('auth-status').textContent = 'いいねにはログインが必要です（質問・返事はログインなしで書けます）';
+  document.getElementById('auth-status').textContent = '質問・返事・いいねは、ログインなしで使えます';
 }
 
 var MOMO_UID = 'ELCzyeeoDCU4gveavc077L4jBqE3';
@@ -232,7 +232,14 @@ function iconFor(uid, name){
 }
 
 var nameCache = {};
+function myLikeId(){
+  if(currentUser) return currentUser.uid;
+  var g = localStorage.getItem('ohana_guest_like_id');
+  if(!g){ g = 'g_' + Math.random().toString(36).slice(2, 12) + Math.random().toString(36).slice(2, 12); localStorage.setItem('ohana_guest_like_id', g); }
+  return g;
+}
 function ensureName(uid){
+  if(uid.indexOf('g_') === 0) return Promise.resolve('ゲスト');
   if(nameCache[uid] !== undefined) return Promise.resolve(nameCache[uid]);
   nameCache[uid] = 'メンバー';
   return db.collection('profiles').doc(uid).get().then(function(doc){
@@ -324,14 +331,14 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
         }
       }
       if(b){
-        var mine = currentUser && lsnap.docs.some(function(x){ return x.id === currentUser.uid; });
+        var mine = lsnap.docs.some(function(x){ return x.id === myLikeId(); });
         b.classList.toggle('liked', !!mine);
         b.firstChild.textContent = mine ? '♥ ' : '♡ ';
       }
     }, function(){});
     var lb = document.getElementById('like-' + pid);
     if(lb) lb.addEventListener('click', function(){
-      var ref = db.collection('posts').doc(pid).collection('likes').doc(currentUser.uid);
+      var ref = db.collection('posts').doc(pid).collection('likes').doc(myLikeId());
       ref.get().then(function(ld){
         if(ld.exists) ref.delete();
         else ref.set({ createdAt: firebase.firestore.FieldValue.serverTimestamp() });
@@ -391,7 +398,6 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       var ta = document.querySelector('.reply-form textarea[data-pid="' + pid + '"]');
       var msg = document.getElementById('rmsg-' + pid);
       var text = ta.value.trim();
-      if(!currentUser){ needLogin(); return; }
       if(!text){ msg.textContent = '内容を書いてください。'; return; }
       msg.textContent = '投稿しています…';
       db.collection('posts').doc(pid).collection('replies').add({
