@@ -73,6 +73,16 @@
 
   <div id="pages-area" hidden>
     <div class="logout-row"><button type="button" class="logout-btn" id="btn-logout">ログアウト</button></div>
+    <section class="recruit">
+      <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーのマイページです</p>
+      <p>AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。</p>
+      <ul>
+        <li>下の「新しいページを作る」から、ヒト・モノ・コトのページが作れます（1人で複数OK）</li>
+        <li>ページを開くと、その場で文字を直して編集できます</li>
+        <li>OHANA100円券の枚数は、このページで記録できます</li>
+        <li>掲示板や「困った助け合い」にも、そのまま書けます</li>
+      </ul>
+    </section>
     <div class="ticket-card">
       <p style="font-weight:bold">あなたのOHANA100円券</p>
       <p><span class="ticket-num" id="ticket-num">…</span> 枚</p>
@@ -380,7 +390,7 @@ log.scrollTop = log.scrollHeight;
 return d;
 }
 function addFallback(){
-var d = addMsg("ごめんなさい、その質問にはここでは答えられませんでした。こちらで探したり、聞いたりできます。", 'bot');
+var d = addMsg("ごめんなさい、まだその質問には答えられませんでした。知りたいことは、下のボタンから探したり、聞いたりできます。", 'bot');
 function mk(href, label, green){
 var a = document.createElement('a');
 a.className = 'oc-link';
@@ -397,6 +407,9 @@ mk(OC_URL, 'オープンチャットで聞く', true);
 }
 function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.indexOf(words[i]) !== -1) return true; } return false; }
 function answerFor(text){
+if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
+if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。"; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
 if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) return QA[3].a;

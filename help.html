@@ -52,6 +52,7 @@
   .reply-form textarea{width:100%;border:1px solid #e5cfae;border-radius:8px;padding:8px;font-size:.88rem;min-height:52px;font-family:inherit;margin-top:6px;background:#fff}
   .reply-form button{background:var(--orange);color:#fff;font-weight:bold;border:none;border-radius:999px;padding:7px 18px;font-size:.85rem;cursor:pointer;margin-top:6px}
   .reply-msg{font-size:.78rem;color:#8a6a4f}
+.who img.ico{width:18px;height:18px;border-radius:50%;vertical-align:-4px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -224,9 +225,10 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
     if(d.kind !== 'help'){ return; }
     var when = fmtWhen(d.createdAt);
     ids.push(doc.id);
-    var author = d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー');
+    var ico = d.uid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? '<img class="ico" src="favicon.png" alt="">' : '';
+    var author = ico + (d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー'));
     var own = ownPost(d, doc.id);
-    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + (d.cat ? '【' + esc(d.cat) + '】' : '') + author + (when ? ' ・ ' + when : '') + '</p>' + +
+    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + (d.cat ? '【' + esc(d.cat) + '】' : '') + author + (when ? ' ・ ' + when : '') + '</p>' +
       '<div class="edit-form" id="eform-' + doc.id + '" style="display:' + (editForms[doc.id] ? 'block' : 'none') + '">' +
       '<textarea data-eid="' + doc.id + '" maxlength="300">' + esc(editDrafts[doc.id] != null ? editDrafts[doc.id] : (d.text || '')) + '</textarea>' +
       '<button type="button" class="edit-save" data-pid="' + doc.id + '">保存する</button> <button type="button" class="edit-cancel" data-pid="' + doc.id + '">やめる</button> <span class="reply-msg" id="emsg-' + doc.id + '"></span></div>' +
@@ -429,7 +431,7 @@ log.scrollTop = log.scrollHeight;
 return d;
 }
 function addFallback(){
-var d = addMsg("ごめんなさい、その質問にはここでは答えられませんでした。こちらで探したり、聞いたりできます。", 'bot');
+var d = addMsg("ごめんなさい、まだその質問には答えられませんでした。知りたいことは、下のボタンから探したり、聞いたりできます。", 'bot');
 function mk(href, label, green){
 var a = document.createElement('a');
 a.className = 'oc-link';
@@ -446,6 +448,9 @@ mk(OC_URL, 'オープンチャットで聞く', true);
 }
 function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.indexOf(words[i]) !== -1) return true; } return false; }
 function answerFor(text){
+if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
+if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。"; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
 if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) return QA[3].a;

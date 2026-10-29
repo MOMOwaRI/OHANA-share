@@ -52,6 +52,7 @@
   .reply-form textarea{width:100%;border:1px solid #e5cfae;border-radius:8px;padding:8px;font-size:.88rem;min-height:52px;font-family:inherit;margin-top:6px;background:#fff}
   .reply-form button{background:var(--orange);color:#fff;font-weight:bold;border:none;border-radius:999px;padding:7px 18px;font-size:.85rem;cursor:pointer;margin-top:6px}
   .reply-msg{font-size:.78rem;color:#8a6a4f}
+.who img.ico{width:18px;height:18px;border-radius:50%;vertical-align:-4px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -227,9 +228,10 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
     if(d.kind === 'help'){ return; }
     var when = fmtWhen(d.createdAt);
     ids.push(doc.id);
-    var author = d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー');
+    var ico = d.uid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? '<img class="ico" src="favicon.png" alt="">' : '';
+    var author = ico + (d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー'));
     var own = ownPost(d, doc.id);
-    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + author + (when ? ' ・ ' + when : '') + '</p>' + +
+    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + author + (when ? ' ・ ' + when : '') + '</p>' +
       '<div class="edit-form" id="eform-' + doc.id + '" style="display:' + (editForms[doc.id] ? 'block' : 'none') + '">' +
       '<textarea data-eid="' + doc.id + '" maxlength="300">' + esc(editDrafts[doc.id] != null ? editDrafts[doc.id] : (d.text || '')) + '</textarea>' +
       '<button type="button" class="edit-save" data-pid="' + doc.id + '">保存する</button> <button type="button" class="edit-cancel" data-pid="' + doc.id + '">やめる</button> <span class="reply-msg" id="emsg-' + doc.id + '"></span></div>' +

@@ -113,7 +113,7 @@
       <p style="font-weight:bold;margin-top:12px">写真</p>
       <img id="pe-preview" alt="" style="width:130px;height:130px;object-fit:cover;border-radius:12px;display:none;margin:6px auto">
       <input type="file" id="in-photo" accept="image/*" style="display:block;margin:8px auto;max-width:100%">
-      <p class="note" id="photo-msg">写真を選ぶとアップロードされます。「保存する」を押すとページに反映されます。</p>
+      <p class="note" id="photo-msg">写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。</p>
       <button type="button" id="btn-photo-del" hidden>写真を消す</button>
     </div>
     <button type="button" id="btn-edit">このページを編集する</button>
@@ -192,7 +192,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 <script>
 var firebaseConfig = {
   apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
@@ -205,7 +204,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var auth = firebase.auth();
 var db = firebase.firestore();
-var storage = firebase.storage();
 var pendingPhotoUrl = null;
 function $(id){ return document.getElementById(id); }
 function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -334,7 +332,7 @@ function setEdit(on){
     $('pe-preview').style.display = cur ? 'block' : 'none';
     if(cur) $('pe-preview').src = cur;
     $('btn-photo-del').hidden = !cur;
-    $('photo-msg').textContent = '写真を選ぶとアップロードされます。「保存する」を押すとページに反映されます。';
+    $('photo-msg').textContent = '写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。';
   }
   $('cat-edit').hidden = !on;
   $('edit-note').hidden = !on;
@@ -370,29 +368,22 @@ else {
   $('in-photo').addEventListener('change', function(){
     var f = $('in-photo').files && $('in-photo').files[0];
     if(!f) return;
-    $('photo-msg').textContent = 'アップロードしています…';
+    $('photo-msg').textContent = '取り込んでいます…';
     var img = new Image();
     img.onload = function(){
       URL.revokeObjectURL(img.src);
-      var max = 1280;
+      var max = 900;
       var scale = Math.min(1, max / Math.max(img.width, img.height));
       var cv = document.createElement('canvas');
       cv.width = Math.round(img.width * scale);
       cv.height = Math.round(img.height * scale);
       cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
-      cv.toBlob(function(blob){
-        if(!blob){ $('photo-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; return; }
-        var ref = storage.ref('profiles/' + ownerUid + '/' + id + '.jpg');
-        ref.put(blob, {contentType: 'image/jpeg'}).then(function(){ return ref.getDownloadURL(); }).then(function(url){
-          pendingPhotoUrl = url;
-          $('pe-preview').src = url;
-          $('pe-preview').style.display = 'block';
-          $('btn-photo-del').hidden = false;
-          $('photo-msg').textContent = 'アップロードできました。「保存する」を押すと反映されます。';
-        }).catch(function(){
-          $('photo-msg').textContent = 'アップロードできませんでした。時間をおいて試してください。';
-        });
-      }, 'image/jpeg', 0.85);
+      var url = cv.toDataURL('image/jpeg', 0.78);
+      pendingPhotoUrl = url;
+      $('pe-preview').src = url;
+      $('pe-preview').style.display = 'block';
+      $('btn-photo-del').hidden = false;
+      $('photo-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
     };
     img.onerror = function(){ $('photo-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; };
     img.src = URL.createObjectURL(f);
