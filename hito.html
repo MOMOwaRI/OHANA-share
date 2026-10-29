@@ -352,7 +352,17 @@ try {
   var ai = getAI(aiApp, { backend: new GoogleAIBackend() });
   var model = getGenerativeModel(ai, { model: 'gemini-2.5-flash-lite', systemInstruction: SYS });
   var chat = null;
+  function kunUsed(){
+    try {
+      var d = new Date();
+      var key = 'ohana_kun_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var n = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+      localStorage.setItem(key, String(n));
+      return n;
+    } catch(e){ return 1; }
+  }
   window.__ohanaKunAsk = function(text){
+    if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。続きは「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットでも聞けますよ。そちらも使ってみてくださいね。');
     function attempt(){
       if (!chat) chat = model.startChat({ history: [] });
       return chat.sendMessage(text).then(function(res){ return res.response.text(); });
