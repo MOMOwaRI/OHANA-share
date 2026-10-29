@@ -35,6 +35,15 @@
   .navrow a{flex:1;min-width:140px;text-align:center;background:#fff;border:2px solid var(--line);border-radius:999px;padding:11px 8px;text-decoration:none;color:var(--ink);font-weight:bold}
   .back{display:block;text-align:center;margin-top:14px;background:#e07b24;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:13px}
   footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
+
+  .film{overflow:hidden;margin-top:12px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+  .film-track{display:flex;width:max-content;animation:filmScroll 18s linear infinite}
+  .film.paused .film-track{animation-play-state:paused}
+  .film-set{display:flex;gap:10px;padding-right:10px}
+  .film figure{flex:0 0 220px;margin:0}
+  .film img{width:100%;height:220px;object-fit:cover;border-radius:12px}
+  .film figcaption{font-size:12px;color:var(--soft);text-align:center;margin-top:4px}
+  @keyframes filmScroll{to{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
@@ -74,6 +83,12 @@
     <p style="font-size:.92rem">★ <b>AIが下書き</b>：タイトルと説明はAIが作ります</p>
     <p style="font-size:.92rem">★ <b>確認して公開</b>：内容を確認してから、あなたのコレクションのページに並びます</p>
     <p style="margin-top:10px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener" style="display:inline-block;background:#e07b24;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 18px">写真受付箱を開く</a></p>
+  </section>
+
+  <section style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:18px">
+    <h2 style="font-size:1.05rem;margin-bottom:6px">写真受付箱のスライドショー</h2>
+    <p class="sub">Googleフォトの写真受付箱に入った写真です。写真は横に流れ続けます（タップで止まります）。</p>
+    <div class="film" id="album-film"><div class="film-track"><div class="film-set"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></div></div></div>
   </section>
   <div class="navrow">
     <a href="hito.html">ヒトの一覧を見る</a>
@@ -164,7 +179,8 @@ var QA = [
 { q:"100円券って何？", chip:"100円券って何？", a:"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。"},
 { q:"売上は全部券になるの？", chip:"売上は全部券？", a:"OHANAは、OHANA100円券でのお買い物を通じて、券が地域の中でぐるぐる循環していく仕組みです。券は無料で配布されるもので、買うものではありません。現金への換金はできません。"},
 { q:"誰がやっているの？", chip:"誰がやっているの？", a:"松山市で活動している主催者と、賛同する仲間たちで運営しています。"},
-{ q:"エクスチェンジハンガーは？", chip:"エクスチェンジハンガー", a:"子供服を1点持ち込むと1点持ち帰れる、1対1交換のハンガーポールです。現在、設置場所を募集中です。協力いただける店舗・施設・公民館などは、オープンチャットへご連絡ください。"}
+{ q:"エクスチェンジハンガーは？", chip:"エクスチェンジハンガー", a:"子供服を1点持ち込むと1点持ち帰れる、1対1交換のハンガーポールです。現在、設置場所を募集中です。協力いただける店舗・施設・公民館などは、オープンチャットへご連絡ください。"},
+{ q:"掲示板はどこ？", chip:"掲示板", a:"みんなの掲示板は、メンバー同士のお知らせや最新情報を書ける場所です。イベントや活動の告知も、ここに直接書けます。" }
 ];
 var panel = document.getElementById('opanel');
 var fabBot = document.getElementById('ofab-bot');
@@ -202,6 +218,7 @@ function answerFor(text){
 if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
 if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
 if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。"; }
+if (has(text, ["掲示板", "告知", "書き込", "投稿"])) { window.__ct = '掲示板'; window.__lk = 'board'; return QA[9].a; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
 if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) return QA[3].a;
@@ -218,7 +235,7 @@ var b = document.createElement('button');
 b.type = 'button';
 b.className = 'ochip';
 b.textContent = item.chip;
-b.addEventListener('click', function(){ addMsg(item.q, 'user'); addMsg(item.a, 'bot'); });
+b.addEventListener('click', function(){ addMsg(item.q, 'user'); var _cm = addMsg(item.a, 'bot'); if (item.chip === '掲示板'){ var _a2 = document.createElement('a'); _a2.className = 'oc-link'; _a2.href = 'board.html'; _a2.textContent = 'みんなの掲示板を見る'; _cm.appendChild(document.createElement('br')); _cm.appendChild(_a2); } });
 chipsBox.appendChild(b);
 });
 var form = document.getElementById('oform');
@@ -230,10 +247,13 @@ if (!text) return;
 addMsg(text, 'user');
 input.value = '';
 var ans = answerFor(text);
-if (ans){ addMsg(ans, 'bot'); } else { addFallback(); }
+if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = document.createElement('a'); _a.className = 'oc-link'; _a.href = 'board.html'; _a.textContent = 'みんなの掲示板を見る'; _m.appendChild(document.createElement('br')); _m.appendChild(_a); } window.__lk = null; } else { addFallback(); }
 });
 })();
 </script>
 
+<script>
+document.getElementById('album-film').addEventListener('click', function(){ this.classList.toggle('paused'); });
+</script>
 </body>
 </html>

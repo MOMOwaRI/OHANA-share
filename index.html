@@ -1517,7 +1517,8 @@ var QA = [
 { q:"100円券って何？", chip:"100円券って何？", a:"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。"},
 { q:"売上は全部券になるの？", chip:"売上は全部券？", a:"OHANAは、OHANA100円券でのお買い物を通じて、券が地域の中でぐるぐる循環していく仕組みです。券は無料で配布されるもので、買うものではありません。現金への換金はできません。"},
 { q:"誰がやっているの？", chip:"誰がやっているの？", a:"松山市で活動している主催者と、賛同する仲間たちで運営しています。"},
-{ q:"エクスチェンジハンガーは？", chip:"エクスチェンジハンガー", a:"子供服を1点持ち込むと1点持ち帰れる、1対1交換のハンガーポールです。現在、設置場所を募集中です。協力いただける店舗・施設・公民館などは、オープンチャットへご連絡ください。"}
+{ q:"エクスチェンジハンガーは？", chip:"エクスチェンジハンガー", a:"子供服を1点持ち込むと1点持ち帰れる、1対1交換のハンガーポールです。現在、設置場所を募集中です。協力いただける店舗・施設・公民館などは、オープンチャットへご連絡ください。"},
+{ q:"掲示板はどこ？", chip:"掲示板", a:"みんなの掲示板は、メンバー同士のお知らせや最新情報を書ける場所です。イベントや活動の告知も、ここに直接書けます。" }
 ];
 var panel = document.getElementById('chat-panel');
 var fabBot = document.getElementById('fab-bot');
@@ -1561,6 +1562,7 @@ function answerFor(text){
 if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
 if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
 if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。"; }
+if (has(text, ["掲示板", "告知", "書き込", "投稿"])) { window.__ct = '掲示板'; window.__lk = 'board'; return QA[9].a; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) { window.__ct = QA[8].q; return QA[8].a; }
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) { window.__ct = QA[6].q; return QA[6].a; }
 if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) { window.__ct = QA[3].q; return QA[3].a; }
@@ -1579,7 +1581,8 @@ b.className = 'chip';
 b.textContent = item.chip;
 b.addEventListener('click', function(){
 addMsg(item.q, 'user');
-addMsg(item.a, 'bot');
+var _cm = addMsg(item.a, 'bot');
+if (item.chip === '掲示板'){ var _a2 = document.createElement('a'); _a2.className = 'oc-link'; _a2.href = 'board.html'; _a2.textContent = 'みんなの掲示板を見る'; _cm.appendChild(document.createElement('br')); _cm.appendChild(_a2); }
 logChat(item.q, 'chip');
 });
 chipsBox.appendChild(b);
@@ -1594,7 +1597,7 @@ addMsg(text, 'user');
 input.value = '';
 var ans = answerFor(text);
 logChat(ans ? (window.__ct || 'その他') : '答えられなかった質問', 'text'); window.__ct = null;
-if (ans){ addMsg(ans, 'bot'); } else { addFallback(); }
+if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = document.createElement('a'); _a.className = 'oc-link'; _a.href = 'board.html'; _a.textContent = 'みんなの掲示板を見る'; _m.appendChild(document.createElement('br')); _m.appendChild(_a); } window.__lk = null; } else { addFallback(); }
 });
 })();
 </script>
