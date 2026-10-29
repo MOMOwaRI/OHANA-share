@@ -61,11 +61,11 @@
       <p>AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。</p>
       <p style="margin-top:8px">メンバーになると、こんなことができます。</p>
       <ul>
-        <li>お店の方も、個人の方も、オンラインだけの活動の方もOK。松山に来られなくても、メンバーになれます</li>
-        <li>AIがあなたの紹介ページを無料で作ります。SNSだけの方でも自分のページが持てて、公式HPのように使えます</li>
-        <li>告知の手間はありません。最新情報はAIが見回って、みんなの掲示板に載せます（載せる前に、確認の連絡をします）。AI主導なので無料です</li>
-        <li>モノは、写真を投げるだけ。AIがタイトルと説明を下書きします</li>
-        <li>条件はひとつだけ。OHANA100円券が使えるお店・活動にしてください</li>
+        <li>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</li>
+        <li>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</li>
+        <li>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</li>
+        <li>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</li>
+        <li>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</li>
       </ul>
       <p style="margin-top:8px">まずはログイン（登録）してください。Googleアカウントか、メールアドレスで入れます。</p>
     </section>
@@ -79,11 +79,11 @@
       <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーのマイページです</p>
       <p>AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。</p>
       <ul>
-        <li>お店の方も、個人の方も、オンラインだけの活動の方もOK。松山に来られなくても、メンバーになれます</li>
-        <li>AIがあなたの紹介ページを無料で作ります。SNSだけの方でも自分のページが持てて、公式HPのように使えます</li>
-        <li>告知の手間はありません。最新情報はAIが見回って、みんなの掲示板に載せます（載せる前に、確認の連絡をします）。AI主導なので無料です</li>
-        <li>モノは、写真を投げるだけ。AIがタイトルと説明を下書きします</li>
-        <li>条件はひとつだけ。OHANA100円券が使えるお店・活動にしてください</li>
+        <li>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</li>
+        <li>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</li>
+        <li>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</li>
+        <li>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</li>
+        <li>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</li>
       </ul>
       <ul style="margin-top:6px">
         <li>下の「新しいページを作る」から、ページが作れます（1人で複数OK）。ページを開くと、その場で文字を直して編集できます</li>
@@ -109,6 +109,7 @@
         <label><input type="radio" name="newcat" value="コト">コト</label>
       </div>
       <button type="button" class="create-btn" id="btn-create" style="margin-top:10px">この区分でページを作る</button>
+      <p class="sub" style="margin-top:8px">モノのページは、写真を<a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">Googleフォトの写真受付箱</a>に投げると、AIがタイトルと説明を作ります。</p>
     </div>
     <div id="pages-list"></div>
     <div id="trash-area" hidden>
@@ -149,20 +150,26 @@ function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 function catCls(c){ return c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto'; }
 var uid = null;
 
+function pageName(d){
+  if(d.nickname) return d.nickname;
+  var cats = d.categories || (d.category ? [d.category] : []);
+  if(cats.indexOf('モノ') >= 0) return 'モノのページ（写真待ち）';
+  return '（タイトル未設定）';
+}
 function card(docId, d){
   var cats = d.categories || (d.category ? [d.category] : []);
   var bh = '';
   cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
-  return '<div class="page-card">' + bh + '<span class="nm">' + esc(d.nickname || '（名前はまだ）') + '</span>' +
+  return '<div class="page-card">' + bh + '<span class="nm">' + esc(pageName(d)) + '</span>' +
     (d.memberNo ? '<span class="no">No.' + d.memberNo + '</span>' : '') +
     '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '&edit=1">このページを編集</a>' +
-    '<button type="button" class="del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(d.nickname || '（名前はまだ）') + '">削除</button></div>';
+    '<button type="button" class="del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '">削除</button></div>';
 }
 function trashCard(docId, d){
   var cats = d.categories || (d.category ? [d.category] : []);
   var bh = '';
   cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
-  return '<div class="trash-card">' + bh + '<span class="nm" style="flex:1;min-width:140px">' + esc(d.nickname || '（名前はまだ）') + '</span>' +
+  return '<div class="trash-card">' + bh + '<span class="nm" style="flex:1;min-width:140px">' + esc(pageName(d)) + '</span>' +
     '<button type="button" class="restore-btn" data-doc="' + esc(docId) + '">元に戻す</button></div>';
 }
 function bindDeleteButtons(){

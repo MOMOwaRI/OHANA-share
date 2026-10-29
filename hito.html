@@ -39,7 +39,10 @@
   .join .plus{font-size:2rem;color:#e07b24;line-height:1}
   .join .jt{font-weight:bold;margin-top:6px}
   .join .js{font-size:.8rem;color:var(--soft);margin-top:2px}
-</style>
+
+  .tic{width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:-6px;margin-right:6px}
+  .tletter{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;color:#fff;font-size:12px;font-weight:bold;vertical-align:-6px;margin-right:6px}
+
 </head>
 <body>
 <div class="wrap">
@@ -52,7 +55,7 @@
     <a class="item" href="members/momowari.html">
       <img src="momowari-icon.png" alt="MOMOwaRI">
       <span class="body">
-        <span class="name">MOMOwaRI（運営）</span>
+        <span class="name"><img class="tic" src="momowari-icon.png" alt="">MOMOwaRI（運営）</span>
         <span class="desc">まつげパーマ（Eyes MAHALO）、ヒトモノコトをつなぐこと、イベント企画・運営。</span>
         <span class="meta"><span class="area">松山市</span></span>
       </span>
@@ -82,6 +85,12 @@ if(!firebase.apps.length){ firebase.initializeApp({
 }); }
 function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 var SKIP_IDS = {'ELCzyeeoDCU4gveavc077L4jBqE3': 1};
+var ICO_COLORS = ['#e8a13a','#5d9c6b','#8a5fb0','#2e6da4','#e07b24','#d1607a','#4a90a4','#a35c14'];
+function icoColor(name){ var h = 0; var n = name || 'メ'; for(var i = 0; i < n.length; i++){ h = (h * 31 + n.charCodeAt(i)) >>> 0; } return ICO_COLORS[h % ICO_COLORS.length]; }
+function tileIcon(d){
+  if(d.iconData) return '<img class="tic" src="' + esc(d.iconData) + '" alt="">';
+  return '<span class="tletter" style="background:' + icoColor(d.nickname) + '">' + esc((d.nickname || 'メ').charAt(0)) + '</span>';
+}
 firebase.firestore().collection('profiles').where('categories', 'array-contains', 'ヒト').get().then(function(snap){
   var items = [];
   snap.forEach(function(doc){
@@ -101,7 +110,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     var photo = d.photoUrl || d.iconData || '';
     var ph = photo ? '<img src="' + esc(photo) + '" alt="">' : '<span class="nophoto">写真はまだ</span>';
     var desc = (d.intro || '').slice(0, 60);
-    a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname) + '</span>' +
+    a.innerHTML = ph + '<span class="body"><span class="name">' + tileIcon(d) + esc(d.nickname) + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
       '<span class="meta">' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
     grid.insertBefore(a, join);

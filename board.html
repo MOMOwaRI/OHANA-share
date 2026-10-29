@@ -213,7 +213,9 @@ function needLogin(){
 
 var MOMO_UID = 'ELCzyeeoDCU4gveavc077L4jBqE3';
 var iconCache = {};
-function letterIcon(name){ return '<span class="ico-letter">' + esc((name || 'メ').charAt(0)) + '</span>'; }
+var ICO_COLORS = ['#e8a13a','#5d9c6b','#8a5fb0','#2e6da4','#e07b24','#d1607a','#4a90a4','#a35c14'];
+function icoColor(name){ var h = 0; var n = name || 'メ'; for(var i = 0; i < n.length; i++){ h = (h * 31 + n.charCodeAt(i)) >>> 0; } return ICO_COLORS[h % ICO_COLORS.length]; }
+function letterIcon(name){ return '<span class="ico-letter" style="background:' + icoColor(name) + '">' + esc((name || 'メ').charAt(0)) + '</span>'; }
 function ensureIcon(uid){
   if(iconCache[uid] !== undefined) return;
   iconCache[uid] = '';
