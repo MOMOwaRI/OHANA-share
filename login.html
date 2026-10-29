@@ -142,11 +142,6 @@
       <p class="sub" style="margin-top:8px">この枚数は、ヒトのページでみんなにも見えます。枚数の変更は、ヒトのページでできます。</p>
       <p style="margin-top:6px"><a id="ticket-edit-link" href="member.html">ヒトのページで枚数を変える</a></p>
     </div>
-    <section id="botlogs-card" hidden style="text-align:left;background:#fff;border:1.5px solid #eadfce;border-radius:16px;padding:16px 18px;margin:18px 0">
-      <p style="font-weight:bold">OHANA君への質問（あなただけに見えます）</p>
-      <p class="sub">サイトの案内bot「OHANA君」が受けた質問と答えです。新しい順に30件まで表示します。</p>
-      <div id="botlogs-list" style="margin-top:10px"></div>
-    </section>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
       <p class="sub">区分を選んでください。ページはいくつでも作れます。</p>
@@ -382,26 +377,7 @@ auth.onAuthStateChanged(function(user){
   $('ticket-edit-link').href = 'member.html?id=' + encodeURIComponent(uid);
   loadPages();
   loadTickets();
-  if(uid === 'ELCzyeeoDCU4gveavc077L4jBqE3') loadBotLogs();
 });
-function loadBotLogs(){
-  $('botlogs-card').hidden = false;
-  db.collection('botLogs').orderBy('ts', 'desc').limit(30).get().then(function(snap){
-    var box = $('botlogs-list');
-    if(snap.empty){ box.innerHTML = '<p class="sub">まだ質問はありません。</p>'; return; }
-    var h = '';
-    snap.forEach(function(d){
-      var v = d.data();
-      var when = '';
-      if(v.ts && v.ts.toDate){ var t = v.ts.toDate(); when = (t.getMonth() + 1) + '/' + t.getDate() + ' ' + ('0' + t.getHours()).slice(-2) + ':' + ('0' + t.getMinutes()).slice(-2); }
-      h += '<div style="border-top:1px dashed #e3d5bd;padding:10px 0">'
-        + '<p style="font-size:.8rem;color:#a08b6d">' + when + '　' + esc(v.page || '') + '</p>'
-        + '<p style="margin-top:2px"><b>Q.</b> ' + esc(v.q || '') + '</p>'
-        + '<p style="margin-top:2px;color:#5c4a33"><b>A.</b> ' + esc(v.a || '') + '</p></div>';
-    });
-    box.innerHTML = h;
-  }).catch(function(){ $('botlogs-list').innerHTML = '<p class="sub">読み込めませんでした。</p>'; });
-}
 $('btn-google').addEventListener('click', function(){
   auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){
     alert('ログインできませんでした。もう一度お試しください。');
