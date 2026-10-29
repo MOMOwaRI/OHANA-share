@@ -54,7 +54,7 @@
       <span class="body">
         <span class="name">Eyes MAHALO</span>
         <span class="desc">まつげパーマ専門（遠赤外線・キラ水）。歴15年以上。</span>
-        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+        <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
     <a class="item" href="members/elua-mahalo.html">
@@ -62,7 +62,7 @@
       <span class="body">
         <span class="name">elua Mahalo</span>
         <span class="desc">女性限定・完全予約制の美容室。マンツーマンで静かに過ごせます。</span>
-        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+        <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
     <a class="item" href="members/mahalo.html">
@@ -70,13 +70,13 @@
       <span class="body">
         <span class="name">hair ID salon MAHALO</span>
         <span class="desc">松山市味酒町の美容室。OHANAのイベント会場にもなる場所。</span>
-        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+        <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="join" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">
+    <a class="join" href="mypage.html">
       <span class="plus">＋</span>
       <span class="jt">あなたのコトも並べる</span>
-      <span class="js">お店・活動・サービスを登録できます</span>
+      <span class="js">ログインすると、お店のページが作れます</span>
     </a>
   </div>
   <div class="navrow">
@@ -119,7 +119,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     var desc = (d.intro || '').slice(0, 60);
     a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname) + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
-      '<span class="meta"><span class="ticket">100円券OK</span>' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
+      '<span class="meta">' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
     grid.insertBefore(a, join);
   });
 }).catch(function(){});

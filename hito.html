@@ -54,13 +54,13 @@
       <span class="body">
         <span class="name">MOMOwaRI（運営）</span>
         <span class="desc">まつげパーマ（Eyes MAHALO）、ヒトモノコトをつなぐこと、イベント企画・運営。</span>
-        <span class="meta"><span class="ticket">100円券OK</span><span class="area">松山市</span></span>
+        <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="join" href="https://docs.google.com/forms/d/e/1FAIpQLSe2hkbFvObC1A2YeGvwiKh5NTv9mzfpwF3Ywpa0ijDhh90cSQ/viewform" target="_blank" rel="noopener">
+    <a class="join" href="mypage.html">
       <span class="plus">＋</span>
       <span class="jt">あなたも並ぶ</span>
-      <span class="js">できること・スキルを登録できます</span>
+      <span class="js">ログインすると、自分のページが作れます</span>
     </a>
   </div>
   <div class="navrow">
@@ -103,7 +103,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     var desc = (d.intro || '').slice(0, 60);
     a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname) + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
-      '<span class="meta"><span class="ticket">100円券OK</span>' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
+      '<span class="meta">' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
     grid.insertBefore(a, join);
   });
 }).catch(function(){});
