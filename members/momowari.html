@@ -24,7 +24,7 @@
   .ename{font-size:.95rem;letter-spacing:.22em;color:var(--orange-dark);font-weight:bold;margin-top:2px}
   .sub{color:var(--soft);font-size:.92rem;margin-top:2px}
   .catch{font-size:1.12rem;font-weight:bold;margin-top:14px}
-  .catch span{color:var(--orange-dark)}
+  .catch .acc{color:var(--orange-dark)}
   .tags{margin:10px 0 2px}
   .tag{display:inline-block;background:#fdeeda;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
   .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
@@ -94,7 +94,7 @@
     <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px">MOMOwaRI</h1>
     <p class="ename">MOMOwaRI</p>
     <p class="sub">松山市</p>
-    <p class="catch">眠っている価値を、<span>必要な場所へ</span>。</p>
+    <p class="catch"><span>眠っている価値を、</span><span class="acc">必要な場所へ</span><span>。</span></p>
     <div class="tags">
       <span class="tag">松山市</span><span class="tag">OHANAメンバー</span>
     </div>
@@ -186,7 +186,7 @@
     <p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</p>
     <div class="step"><span class="n">1</span><p>イベントやお店で100円券を受け取ります（券は無料で配布しています）</p></div>
     <div class="step"><span class="n">2</span><p>OHANAメンバー（100円券が使えるお店・活動）で、お買い物のように使えます</p></div>
-    <div class="step"><span class="n">3</span><p>受け取ったお店は、その券をよそのお店で使うことで、価値が地域を廻ります</p></div>
+    <div class="step"><span class="n">3</span><p>受け取ったお店は、その券を他のお店で使うことで、価値が地域を廻ります</p></div>
     <p class="note">券は買うものではありません。現金への換金はしません。お釣りは出ません。</p>
   </section>
 
@@ -400,7 +400,7 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'display:flex;justify-content:flex-end;padding:10px 2px 0';
+    rowEl.style.cssText = 'position:fixed;top:10px;right:10px;z-index:96';
     rowEl.appendChild(btn);
     wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
@@ -415,6 +415,29 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<style>.tags a.tag{text-decoration:none;color:inherit;cursor:pointer}</style>
+<script>
+(function(){
+  var LIST = '../hito.html';
+  var box = document.querySelector('.tags');
+  if(!box) return;
+  function current(){ return Array.prototype.map.call(box.querySelectorAll('.tag'), function(s){ return s.textContent.trim(); }).filter(Boolean); }
+  window.__pageTags = current;
+  function render(tags){
+    box.innerHTML = tags.map(function(t){ return '<a class="tag" href="' + LIST + '?tag=' + encodeURIComponent(t) + '">' + t.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</a>'; }).join('');
+  }
+  window.__renderTags = render;
+  render(current());
+  try{
+    if(window.firebase && firebase.firestore){
+      firebase.firestore().collection('profiles').doc('ELCzyeeoDCU4gveavc077L4jBqE3').get().then(function(s){
+        if(s.exists){ var d = s.data(); if(Array.isArray(d.tags) && d.tags.length) render(d.tags); }
+      }).catch(function(){});
+    }
+  }catch(e){}
 })();
 </script>
 </body>

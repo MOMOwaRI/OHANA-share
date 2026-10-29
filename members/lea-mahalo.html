@@ -37,7 +37,7 @@ h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
 .ename{font-size:.95rem;letter-spacing:.22em;color:var(--accent-dark);font-weight:bold;margin-top:2px}
 .sub{color:var(--soft);font-size:.92rem;margin-top:2px}
 .catch{font-size:1.12rem;font-weight:bold;margin-top:14px}
-.catch span{color:var(--accent-dark)}
+.catch .acc{color:var(--accent-dark)}
 .tags{margin:10px 0 2px}
 .tag{display:inline-block;background:#eaf5e6;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
 .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
@@ -114,7 +114,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <h1>雑貨屋 Lea Mahalo</h1>
 <p class="ename">Lea Mahalo select shop</p>
 <div class="hero-pv"><img class="hero-video" src="../images/shop/lea-cm.webp" width="408" height="538" alt="雑貨屋 Lea Mahaloの紹介アニメーション"></div>
-<p class="catch">眠っている価値を、<span>必要な場所へ</span>。</p>
+<p class="catch"><span>眠っている価値を、</span><span class="acc">必要な場所へ</span><span>。</span></p>
 <p class="sub">松山市味酒町・マハロビル1階</p>
 <div class="tags">
 <span class="tag">松山市</span><span class="tag">雑貨屋</span><span class="tag">OHANAメンバー</span>
@@ -179,9 +179,9 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <section>
 <h2>取り扱いジャンル</h2>
 <div class="feats">
-<div class="feat"><b>レディース古着</b>：axes femme中心のトップス・ワンピース</div>
-<div class="feat"><b>雑貨・インテリア</b>：置物・フォトフレームなど</div>
-<div class="feat"><b>ベビー・キッズ</b>用品も少しあります</div>
+<div class="feat"><b>レディース古着</b><span>：axes femme中心のトップス・ワンピース</span></div>
+<div class="feat"><b>雑貨・インテリア</b><span>：置物・フォトフレームなど</span></div>
+<div class="feat"><b>ベビー・キッズ</b><span>用品も少しあります</span></div>
 </div>
 </section>
 
@@ -250,7 +250,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</p>
 <div class="step"><span class="n">1</span><p>イベントやお店で100円券を受け取ります（券は無料で配布しています）</p></div>
 <div class="step"><span class="n">2</span><p>OHANAメンバー（100円券が使えるお店・活動）で、お買い物のように使えます</p></div>
-<div class="step"><span class="n">3</span><p>受け取ったお店は、その券をよそのお店で使うことで、価値が地域を廻ります</p></div>
+<div class="step"><span class="n">3</span><p>受け取ったお店は、その券を他のお店で使うことで、価値が地域を廻ります</p></div>
 <p class="note">券は買うものではありません。現金への換金はしません。お釣りは出ません。</p>
 </section>
 
@@ -533,7 +533,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function hash(t){ var h = 0; for(var i = 0; i < t.length; i++){ h = (h * 31 + t.charCodeAt(i)) | 0; } return 'k' + (h >>> 0).toString(36); }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,#live-sec,#site-savebar,.ied-panel,script,style,textarea,select'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,script,style,textarea,select'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -548,7 +548,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function stampLinks(){
     linkList = [];
     document.querySelectorAll('.wrap a[href]').forEach(function(a){
-      if(a.closest('.ofabs,.opanel,.ied-panel,#site-savebar')) return;
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar')) return;
       a.setAttribute('data-lk', String(linkList.length));
       linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href')});
     });
@@ -785,6 +785,54 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     });
   }
 
+  /* ---------- tags panel ---------- */
+  var tagsWork = null;
+  function openTagsPanel(){
+    var old = $('tags-panel');
+    if(old){ old.remove(); return; }
+    buildTagsPanel();
+  }
+  function buildTagsPanel(){
+    var box = document.querySelector('.tags');
+    if(!box) return;
+    var old = $('tags-panel');
+    if(old) old.remove();
+    if(!tagsWork){
+      if(docData && Array.isArray(docData.tags) && docData.tags.length) tagsWork = docData.tags.slice();
+      else if(window.__pageTags) tagsWork = window.__pageTags();
+      else tagsWork = [];
+    }
+    var panel = document.createElement('div');
+    panel.className = 'ied-panel';
+    panel.id = 'tags-panel';
+    panel.innerHTML = '<h3>タグの編集</h3><div id="tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0"></div>' +
+      '<div style="display:flex;gap:6px"><input type="text" id="tags-input" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:16px;padding:9px;border:1.5px solid #d8c7ae;border-radius:10px"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 18px;cursor:pointer">追加</button></div>' +
+      '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">タグをクリックすると、そのタグの一覧ページへ飛びます。保存は下の「保存する」で反映されます。</p>';
+    box.parentNode.insertBefore(panel, box.nextSibling);
+    renderTagChips();
+    $('tags-add').addEventListener('click', addTagFromInput);
+    $('tags-input').addEventListener('keydown', function(ev){ if(ev.key === 'Enter'){ ev.preventDefault(); addTagFromInput(); } });
+  }
+  function renderTagChips(){
+    var box = $('tags-chips');
+    if(!box) return;
+    box.innerHTML = '';
+    tagsWork.forEach(function(t, i){
+      var chip = document.createElement('span');
+      chip.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:#f3edfa;border:1px solid #d8c7ae;border-radius:999px;padding:3px 6px 3px 12px;font-size:.88rem';
+      chip.innerHTML = esc(t) + '<button type="button" style="font-family:inherit;background:#fff;border:1px solid #d8c7ae;border-radius:50%;width:22px;height:22px;line-height:1;cursor:pointer">×</button>';
+      chip.querySelector('button').addEventListener('click', function(){ tagsWork.splice(i, 1); renderTagChips(); });
+      box.appendChild(chip);
+    });
+  }
+  function addTagFromInput(){
+    var v = $('tags-input').value.trim().replace(/^#+/, '');
+    if(!v) return;
+    if(tagsWork.indexOf(v) < 0) tagsWork.push(v);
+    $('tags-input').value = '';
+    renderTagChips();
+  }
+
   /* ---------- link panel ---------- */
   function openLinkPanel(a){
     var old = $('link-panel');
@@ -824,7 +872,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       pendingLinks = {};
       db().collection('profiles').doc(DOC).get().then(function(doc){
         docData = doc.exists ? doc.data() : {};
-        cmWork = null; cmTouched = false;
+        cmWork = null; cmTouched = false; tagsWork = null;
         buildRows(docData, true);
         currentFilmPhotos(function(list){ filmWork = list; buildFilmStrip(); });
       }).catch(function(){});
@@ -835,6 +883,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       if(pv2) pv2.removeEventListener('click', pvClick);
       var p = $('cm-panel'); if(p) p.remove();
       var lp = $('link-panel'); if(lp) lp.remove();
+      var tp = $('tags-panel'); if(tp) tp.remove();
       var fs = $('film-strip'); if(fs) fs.remove();
       var film = document.querySelector('.film');
       if(film) film.classList.remove('paused');
@@ -861,6 +910,8 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if(docData) buildRows(docData, true);
     cmWork = null;
     if($('cm-panel')) buildCmPanel();
+    tagsWork = null;
+    if($('tags-panel')) buildTagsPanel();
     var lp = $('link-panel'); if(lp) lp.remove();
     $('sb-msg').textContent = '元に戻しました';
   }
@@ -888,11 +939,13 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       prof.cmColor = $('cm-color').value;
       if(cmWork) for(var ci = 1; ci <= 3; ci++) prof['cmPhoto' + ci] = cmWork[ci - 1] || '';
     }
+    if(tagsWork) prof.tags = tagsWork.slice();
     if(Object.keys(prof).length){
       prof.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
       jobs.push(db().collection('profiles').doc(DOC).set(prof, {merge: true}).then(function(){ Object.keys(prof).forEach(function(k){ if(k !== 'updatedAt') docData[k] = prof[k]; }); }));
     }
     Promise.all(jobs).then(function(){
+      if(tagsWork && window.__renderTags) window.__renderTags(tagsWork);
       $('sb-msg').textContent = '保存しました';
       setTimeout(function(){ setEdit(false); }, 500);
     }).catch(function(){ $('sb-msg').textContent = '保存できませんでした。時間をおいて試してください。'; });
@@ -901,7 +954,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function init(){
     if(!window.firebase || !firebase.auth) return;
     var els = targets();
-    els.forEach(function(el){ el.setAttribute('data-tk', hash(el.textContent.trim())); });
+    els.forEach(function(el){ el.setAttribute('data-tk', hash(el.textContent.trim())); applied[el.getAttribute('data-tk')] = el.textContent.trim(); });
     stampLinks();
     if(firebase.firestore){
       db().collection('siteTexts').doc(PAGE).get().then(function(doc){
@@ -950,6 +1003,8 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     document.body.appendChild(ff);
     document.addEventListener('click', function(ev){
       if(!editing) return;
+      var tg = ev.target.closest ? ev.target.closest('.tags') : null;
+      if(tg){ ev.preventDefault(); openTagsPanel(); return; }
       var a = ev.target.closest ? ev.target.closest('a[href]') : null;
       if(a && a.hasAttribute('data-lk')){ ev.preventDefault(); openLinkPanel(a); }
     }, true);
@@ -960,7 +1015,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     window.__authBtn = btn;
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'display:flex;justify-content:flex-end;padding:8px 2px 0';
+    rowEl.style.cssText = 'position:fixed;top:10px;right:10px;z-index:96';
     rowEl.appendChild(btn);
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
@@ -977,6 +1032,29 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<style>.tags a.tag{text-decoration:none;color:inherit;cursor:pointer}</style>
+<script>
+(function(){
+  var LIST = '../mono.html';
+  var box = document.querySelector('.tags');
+  if(!box) return;
+  function current(){ return Array.prototype.map.call(box.querySelectorAll('.tag'), function(s){ return s.textContent.trim(); }).filter(Boolean); }
+  window.__pageTags = current;
+  function render(tags){
+    box.innerHTML = tags.map(function(t){ return '<a class="tag" href="' + LIST + '?tag=' + encodeURIComponent(t) + '">' + t.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</a>'; }).join('');
+  }
+  window.__renderTags = render;
+  render(current());
+  try{
+    if(window.firebase && firebase.firestore){
+      firebase.firestore().collection('profiles').doc('ELCzyeeoDCU4gveavc077L4jBqE3__mono').get().then(function(s){
+        if(s.exists){ var d = s.data(); if(Array.isArray(d.tags) && d.tags.length) render(d.tags); }
+      }).catch(function(){});
+    }
+  }catch(e){}
 })();
 </script>
 </body>
