@@ -124,6 +124,24 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
     <div id="p-loading"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
   </header>
+      <div class="catchips" id="cat-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:12px;margin:10px 0;text-align:left">
+        <span style="font-weight:bold">区分：</span>
+        <label><input type="radio" name="ecat" value="ヒト">ヒト</label>
+        <label><input type="radio" name="ecat" value="モノ">モノ</label>
+        <label><input type="radio" name="ecat" value="コト">コト</label>
+      
+        <div id="genre-edit" hidden style="margin-top:8px">
+        <span style="font-weight:bold">モノのジャンル：</span>
+        <select id="in-genre" style="font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae">
+          <option>ベビー・キッズ</option>
+          <option>雑貨・日用品</option>
+          <option>衣類</option>
+          <option>おもちゃ・グッズ</option>
+          <option>その他</option>
+        </select>
+        <span class="note">モノの一覧で絞り込みに使われます</span>
+      </div>
+      </div>
 <div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
 <div class="sharemenu" id="share-menu">
 <a id="share-line" target="_blank" rel="noopener">LINEで送る</a>
@@ -150,63 +168,12 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
 
   <div id="editbar" hidden>
     <p id="edit-msg" style="font-weight:bold">これはあなたのページです</p>
-    <div class="catchips" id="cat-edit" hidden>
-      <span style="font-weight:bold">区分：</span>
-      <label><input type="radio" name="ecat" value="ヒト">ヒト</label>
-      <label><input type="radio" name="ecat" value="モノ">モノ</label>
-      <label><input type="radio" name="ecat" value="コト">コト</label>
-    </div>
-    <div id="genre-edit" hidden style="margin-top:8px">
-      <span style="font-weight:bold">モノのジャンル：</span>
-      <select id="in-genre" style="font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae">
-        <option>ベビー・キッズ</option>
-        <option>雑貨・日用品</option>
-        <option>衣類</option>
-        <option>おもちゃ・グッズ</option>
-        <option>その他</option>
-      </select>
-      <span class="note">モノの一覧で絞り込みに使われます</span>
-    </div>
-    <div id="photo-edit" hidden>
-      <p style="font-weight:bold;margin-top:12px">写真</p>
-      <img id="pe-preview" alt="" style="width:130px;height:130px;object-fit:cover;border-radius:12px;display:none;margin:6px auto">
-      <input type="file" id="in-photo" accept="image/*" style="display:block;margin:8px auto;max-width:100%">
-      <p class="note" id="photo-msg">写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。</p>
-      <button type="button" id="btn-photo-del" hidden>写真を消す</button>
-    </div>
-    <div id="mono-guide" hidden style="background:#eef7ee;border:1px solid #bfe6cf;border-radius:12px;padding:12px;margin:10px 0">
-      <p style="font-weight:bold">モノのページの作り方</p>
-      <p class="sub">写真をGoogleフォトの「写真受付箱」に投げるだけでOKです。AIがタイトルと説明を作ります。1つのモノに写真が複数あるときは、まとめて入れてください（見分けてまとめます）。</p>
-      <p style="margin-top:8px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener" style="display:inline-block;background:#5d9c6b;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:9px 16px">写真受付箱を開く</a></p>
-    </div>
-    <div id="icon-edit" hidden>
-      <p style="font-weight:bold;margin-top:12px">アイコン（掲示板などで名前の横に出ます）</p>
-      <img id="ie-preview" alt="" style="width:56px;height:56px;object-fit:cover;border-radius:50%;display:none;margin:6px auto">
-      <input type="file" id="in-icon" accept="image/*" style="display:block;margin:8px auto;max-width:100%">
-      <p class="note" id="icon-msg">写真を選ぶと、丸いアイコン用に小さくして取り込みます。「保存する」を押すと反映されます。</p>
-      <button type="button" id="btn-icon-del" hidden>アイコンを消す</button>
-    </div>
-    <div id="cm-edit" hidden>
-      <p style="font-weight:bold;margin-top:14px">アニメーション（ページの上の映像）</p>
-      <p class="note">写真3枚と文字、色を変えられます。写真は自動で小さくなります。</p>
-      <p class="sub" style="font-weight:bold">色</p>
-      <input type="color" id="in-cmcolor" value="#e07b24" style="width:64px;height:36px;vertical-align:middle">
-      <span id="cm-swatches"></span>
-      <p class="sub" style="font-weight:bold;margin-top:10px">文字（1行目と2行目）</p>
-      <textarea id="in-cmt1" rows="2" placeholder="最初の画面の文字" style="width:100%"></textarea>
-      <textarea id="in-cmt2" rows="2" placeholder="写真1の文字" style="width:100%"></textarea>
-      <textarea id="in-cmt3" rows="2" placeholder="写真2の文字" style="width:100%"></textarea>
-      <textarea id="in-cmt4" rows="2" placeholder="写真3の文字" style="width:100%"></textarea>
-      <textarea id="in-cmt5" rows="2" placeholder="最後の画面の文字" style="width:100%"></textarea>
-      <p class="sub" style="font-weight:bold;margin-top:10px">写真</p>
-      <img id="cm-prev1" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none">
-      <input type="file" id="in-cmphoto1" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
-      <img id="cm-prev2" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none">
-      <input type="file" id="in-cmphoto2" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
-      <img id="cm-prev3" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none">
-      <input type="file" id="in-cmphoto3" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
-      <p class="note" id="cm-msg"></p>
-    </div>
+
+
+
+
+
+
 
     <div class="ticket-card" id="ticket-card" hidden>
       <p style="font-weight:bold"><span id="ticket-title">OHANA100円券</span></p>
@@ -224,12 +191,39 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
     <button type="button" id="btn-edit">このページを編集する</button>
     <button type="button" id="btn-save" hidden>保存する</button>
     <button type="button" id="btn-cancel" hidden>キャンセル</button>
-    <p class="note" id="edit-note" hidden>文字の部分をタップすると、その場で直せます。リンクは下の「リンク集」で直してください。</p>
+    <p class="note" id="edit-note" hidden>ページに出ているものをタップすると、その場で直せます。</p>
   </div>
 
   <div id="cm-live" class="cm-live" hidden></div>
+  <div id="cm-start" hidden style="border:2px dashed #d9b98c;border-radius:14px;padding:18px;text-align:center;font-weight:bold;color:#a35c14;cursor:pointer;margin:12px 0;background:#fffdf8">＋ アニメーションを作る</div>
+      <div id="cm-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:14px;margin:12px 0">
+        <p style="font-weight:bold;margin-top:14px">アニメーション（ページの上の映像）</p>
+        <p class="note">写真3枚と文字、色を変えられます。写真は自動で小さくなります。</p>
+        <p class="sub" style="font-weight:bold">色</p>
+        <input type="color" id="in-cmcolor" value="#e07b24" style="width:64px;height:36px;vertical-align:middle">
+        <span id="cm-swatches"></span>
+        <p class="sub" style="font-weight:bold;margin-top:10px">文字（1行目と2行目）</p>
+        <textarea id="in-cmt1" rows="2" placeholder="最初の画面の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt2" rows="2" placeholder="写真1の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt3" rows="2" placeholder="写真2の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt4" rows="2" placeholder="写真3の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt5" rows="2" placeholder="最後の画面の文字" style="width:100%"></textarea>
+        <p class="sub" style="font-weight:bold;margin-top:10px">写真</p>
+        <img id="cm-prev1" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add1" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto1" accept="image/*" hidden>
+        <img id="cm-prev2" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add2" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto2" accept="image/*" hidden>
+        <img id="cm-prev3" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add3" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto3" accept="image/*" hidden>
+        <p class="note" id="cm-msg"></p>
+      </div>
   <section id="s-film" hidden><h2>店内の様子</h2><p class="sub" id="film-sub">写真は横に流れ続けます（タップで止まります）。</p><div id="p-film" class="film"><div class="film-track" id="film-track"></div></div><div id="film-strip" hidden><div class="fstrip" id="fstrip"></div><p class="note">写真をタップすると入れ替え、＋で追加できます。説明は写真の下に書けます。</p></div><input type="file" id="in-film-any" accept="image/*" hidden></section>
-  <section id="s-photo" hidden style="padding:0;overflow:hidden"><img id="p-photo" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"></section>
+  <div id="mono-guide" hidden style="background:#eef7ee;border:1px solid #bfe6cf;border-radius:12px;padding:12px;margin:10px 0">
+        <p style="font-weight:bold">モノのページの作り方</p>
+        <p class="sub">写真をGoogleフォトの「写真受付箱」に投げるだけでOKです。AIがタイトルと説明を作ります。1つのモノに写真が複数あるときは、まとめて入れてください（見分けてまとめます）。</p>
+        <p style="margin-top:8px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener" style="display:inline-block;background:#5d9c6b;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:9px 16px">写真受付箱を開く</a></p>
+      </div>
+  <section id="s-photo" hidden style="padding:0;overflow:hidden;position:relative"><img id="p-photo" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><button type="button" id="photo-add" hidden style="width:100%;padding:34px 0;border:2px dashed #d9b98c;background:#fffdf8;color:#c2610f;font-weight:bold;font-size:1rem;cursor:pointer">＋ 写真を追加（タップ）</button><button type="button" id="photo-del" hidden style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);border:1px solid #d8c7ae;border-radius:999px;padding:6px 12px;font-weight:bold;cursor:pointer">写真を消す</button></section>
 
   <section id="s-intro" hidden><h2>紹介</h2><p id="p-intro" class="ed"></p></section>
 
@@ -578,21 +572,18 @@ function setEdit(on){
   if(on) buildSuggestions();
   document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; if(on && !el.getAttribute('data-ph')) el.setAttribute('data-ph', '（ここをタップして入力）'); });
   $('link-edit').hidden = !on;
-  $('photo-edit').hidden = !on;
-  $('icon-edit').hidden = !on;
   $('mono-guide').hidden = !(on && pageData && (pageData.categories || []).indexOf('モノ') >= 0);
-  $('cm-edit').hidden = !on;
+  $('cm-edit').hidden = true;
   if(on){
     pendingPhotoUrl = null;
-    var cur = pageData.photoUrl || '';
-    $('pe-preview').style.display = cur ? 'block' : 'none';
-    if(cur) $('pe-preview').src = cur;
-    $('btn-photo-del').hidden = !cur;
     pendingIconData = null;
-    var curIco = pageData.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
-    $('ie-preview').style.display = curIco ? 'block' : 'none';
-    if(curIco) $('ie-preview').src = curIco;
-    $('btn-icon-del').hidden = !(pageData.iconData || baseIconData);
+    var hasPhoto = !!pageData.photoUrl;
+    $('s-photo').hidden = false;
+    $('p-photo').style.display = hasPhoto ? 'block' : 'none';
+    $('photo-add').hidden = hasPhoto;
+    $('photo-del').hidden = !hasPhoto;
+    var hasCm = !!(pageData.cmPhoto1 || pageData.cmPhoto2 || pageData.cmPhoto3 || pageData.cmT1 || pageData.cmT2 || pageData.cmT3 || pageData.cmT4 || pageData.cmT5);
+    $('cm-start').hidden = hasCm;
     pendingCm = {};
     $('in-cmcolor').value = pageData.cmColor || '#e07b24';
     ['t1','t2','t3','t4','t5'].forEach(function(k, ix){ $('in-cm' + k).value = pageData['cmT' + (ix + 1)] || ''; });
@@ -602,10 +593,9 @@ function setEdit(on){
     $('film-sub').textContent = '写真をタップして入れ替え、＋で追加できます。';
     $('film-strip').hidden = false;
     loadFilmWork();
-    [1,2,3].forEach(function(n){ var pv = $('cm-prev' + n); var cur = pageData['cmPhoto' + n] || ''; pv.style.display = cur ? 'inline-block' : 'none'; if(cur) pv.src = cur; });
-    $('photo-msg').textContent = '写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。';
+    [1,2,3].forEach(function(n){ var pv = $('cm-prev' + n); var cur = pageData['cmPhoto' + n] || ''; pv.style.display = cur ? 'inline-block' : 'none'; if(cur) pv.src = cur; var ad = $('cm-add' + n); if(ad) ad.style.display = cur ? 'none' : 'inline-block'; });
   }
-  $('cat-edit').hidden = !on;
+  $('cat-edit').hidden = true;
   $('genre-edit').hidden = !(on && pageData && (pageData.categories || []).indexOf('モノ') >= 0);
   if(on && pageData){ $('in-genre').value = pageData.monoGenre || 'その他'; }
   $('edit-note').hidden = !on;
@@ -621,6 +611,9 @@ function setEdit(on){
     window.scrollTo({top: 0, behavior: 'smooth'});
   }
   if(!on){
+    $('photo-add').hidden = true;
+    $('photo-del').hidden = true;
+    $('cm-start').hidden = true;
     $('film-strip').hidden = true;
     $('p-film').style.display = '';
     $('film-sub').textContent = '写真は横に流れ続けます（タップで止まります）。';
@@ -686,29 +679,7 @@ auth.onAuthStateChanged(function(user){
     applyCatLabels(r.value);
     $('genre-edit').hidden = !(editing && r.value === 'モノ');
   }); });
-  $('in-photo').addEventListener('change', function(){
-    var f = $('in-photo').files && $('in-photo').files[0];
-    if(!f) return;
-    $('photo-msg').textContent = '取り込んでいます…';
-    var img = new Image();
-    img.onload = function(){
-      URL.revokeObjectURL(img.src);
-      var max = 900;
-      var scale = Math.min(1, max / Math.max(img.width, img.height));
-      var cv = document.createElement('canvas');
-      cv.width = Math.round(img.width * scale);
-      cv.height = Math.round(img.height * scale);
-      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
-      var url = cv.toDataURL('image/jpeg', 0.78);
-      pendingPhotoUrl = url;
-      $('pe-preview').src = url;
-      $('pe-preview').style.display = 'block';
-      $('btn-photo-del').hidden = false;
-      $('photo-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
-    };
-    img.onerror = function(){ $('photo-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; };
-    img.src = URL.createObjectURL(f);
-  });
+
 
 var qFilmSlot = 0;
 function fileToData(file, max, q, cb){
@@ -745,11 +716,35 @@ $('p-film').addEventListener('click', function(ev){
   if(isOwner && !editing && fig && fig.getAttribute('data-n')){ qFilmSlot = Number(fig.getAttribute('data-n')); $('qf-film').click(); return; }
   $('p-film').classList.toggle('paused');
 });
-$('p-icon').addEventListener('click', function(){ if(isOwner && !editing) $('qf-icon').click(); });
-$('p-letter').addEventListener('click', function(){ if(isOwner && !editing) $('qf-icon').click(); });
-$('p-photo').addEventListener('click', function(){ if(isOwner && !editing) $('qf-photo').click(); });
+$('p-icon').addEventListener('click', function(){ if(isOwner) $('qf-icon').click(); });
+$('p-letter').addEventListener('click', function(){ if(isOwner) $('qf-icon').click(); });
+$('p-photo').addEventListener('click', function(){ if(isOwner) $('qf-photo').click(); });
 $('cm-live').addEventListener('click', function(){
-  if(isOwner && !editing){ setEdit(true); setTimeout(function(){ var el = $('cm-edit'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 60); }
+  if(!isOwner) return;
+  if(!editing){ setEdit(true); setTimeout(function(){ $('cm-edit').hidden = false; $('cm-edit').scrollIntoView({behavior: 'smooth', block: 'start'}); }, 80); }
+  else { $('cm-edit').hidden = !$('cm-edit').hidden; }
+});
+$('cm-start').addEventListener('click', function(){
+  if(!isOwner) return;
+  if(!editing) setEdit(true);
+  setTimeout(function(){ $('cm-edit').hidden = false; $('cm-edit').scrollIntoView({behavior: 'smooth', block: 'start'}); }, 80);
+});
+$('p-badges').addEventListener('click', function(){
+  if(isOwner && editing){ $('cat-edit').hidden = !$('cat-edit').hidden; }
+});
+[1,2,3].forEach(function(n){
+  $('cm-prev' + n).addEventListener('click', function(){ if(editing) $('in-cmphoto' + n).click(); });
+  $('cm-add' + n).addEventListener('click', function(){ if(editing) $('in-cmphoto' + n).click(); });
+});
+$('photo-add').addEventListener('click', function(){ if(isOwner) $('qf-photo').click(); });
+$('photo-del').addEventListener('click', function(){
+  if(!isOwner) return;
+  db.collection('profiles').doc(id).set({photoUrl: '', updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}).then(function(){
+    pageData.photoUrl = '';
+    $('p-photo').style.display = 'none';
+    $('photo-add').hidden = false;
+    $('photo-del').hidden = true;
+  }).catch(function(){});
 });
 $('qf-photo').addEventListener('change', function(){
   var f = $('qf-photo').files && $('qf-photo').files[0];
@@ -759,6 +754,9 @@ $('qf-photo').addEventListener('change', function(){
       pageData.photoUrl = dataUrl;
       $('p-photo').src = dataUrl;
       $('s-photo').hidden = false;
+      $('p-photo').style.display = 'block';
+      $('photo-add').hidden = true;
+      $('photo-del').hidden = !editing;
     }).catch(function(){});
   });
 });
@@ -797,32 +795,8 @@ $('qf-icon').addEventListener('change', function(){
   img.onerror = function(){};
   img.src = URL.createObjectURL(f);
 });
-  $('in-icon').addEventListener('change', function(){
-    var f = $('in-icon').files && $('in-icon').files[0];
-    if(!f) return;
-    $('icon-msg').textContent = '取り込んでいます…';
-    var img = new Image();
-    img.onload = function(){
-      URL.revokeObjectURL(img.src);
-      var side = Math.min(img.width, img.height);
-      var cv = document.createElement('canvas');
-      cv.width = 200; cv.height = 200;
-      cv.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, 200, 200);
-      pendingIconData = cv.toDataURL('image/jpeg', 0.8);
-      $('ie-preview').src = pendingIconData;
-      $('ie-preview').style.display = 'block';
-      $('btn-icon-del').hidden = false;
-      $('icon-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
-    };
-    img.onerror = function(){ $('icon-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; };
-    img.src = URL.createObjectURL(f);
-  });
-  $('btn-icon-del').addEventListener('click', function(){
-    pendingIconData = '';
-    $('ie-preview').style.display = 'none';
-    $('btn-icon-del').hidden = true;
-    $('icon-msg').textContent = 'アイコンを消します。「保存する」を押すと反映されます。';
-  });
+
+
   [1,2,3].forEach(function(n){
     $('in-cmphoto' + n).addEventListener('change', function(){
       var f = $('in-cmphoto' + n).files && $('in-cmphoto' + n).files[0];
@@ -840,6 +814,7 @@ $('qf-icon').addEventListener('change', function(){
         pendingCm['cmPhoto' + n] = cv.toDataURL('image/jpeg', 0.72);
         var pv = $('cm-prev' + n);
         pv.src = pendingCm['cmPhoto' + n]; pv.style.display = 'inline-block';
+        $('cm-add' + n).style.display = 'none';
         $('cm-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
       };
       img.onerror = function(){ $('cm-msg').textContent = '写真を読み込めませんでした。'; };
@@ -866,12 +841,7 @@ $('qf-icon').addEventListener('change', function(){
     });
     $('in-film-any').value = '';
   });
-  $('btn-photo-del').addEventListener('click', function(){
-    pendingPhotoUrl = '';
-    $('pe-preview').style.display = 'none';
-    $('btn-photo-del').hidden = true;
-    $('photo-msg').textContent = '写真を消します。「保存する」を押すと反映されます。';
-  });
+
   $('btn-edit').addEventListener('click', function(){ setEdit(true); });
   $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
   $('btn-cancel2').addEventListener('click', function(){ setEdit(false); });

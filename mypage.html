@@ -95,13 +95,8 @@
     <div class="ticket-card">
       <p style="font-weight:bold">あなたのOHANA100円券</p>
       <p><span class="ticket-num" id="ticket-num">…</span> 枚</p>
-      <div class="ticket-btns">
-        <button type="button" id="tk-minus">使った −1</button>
-        <button type="button" id="tk-plus1">受け取った ＋1</button>
-        <button type="button" id="tk-plus5">＋5</button>
-      </div>
-      <p class="sub" style="margin-top:8px">自己申告です。使ったり受け取ったりしたら、自分で合わせてください。券は紙のまま、枚数だけここで記録します。この枚数は、ヒトのページでみんなにも見えます。</p>
-      <p class="sub" id="ticket-msg"></p>
+      <p class="sub" style="margin-top:8px">この枚数は、ヒトのページでみんなにも見えます。枚数の変更は、ヒトのページでできます。</p>
+      <p style="margin-top:6px"><a id="ticket-edit-link" href="member.html">ヒトのページで枚数を変える</a></p>
     </div>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
@@ -309,26 +304,16 @@ function createPage(cat){
 
 var myTickets = 0;
 function renderTickets(){ $('ticket-num').textContent = myTickets; }
-function saveTickets(){
-  var ref = db.collection('profiles').doc(uid);
-  ref.update({ tickets: myTickets }).catch(function(){ return ref.set({ tickets: myTickets }, { merge: true }); })
-    .then(function(){ $('ticket-msg').textContent = '記録しました'; })
-    .catch(function(){ $('ticket-msg').textContent = '記録できませんでした'; });
-}
 function loadTickets(){
   db.collection('profiles').doc(uid).get().then(function(doc){
     myTickets = (doc.exists && typeof doc.data().tickets === 'number') ? doc.data().tickets : 0;
     renderTickets();
   }).catch(function(){ renderTickets(); });
 }
-function bumpTickets(d){
-  myTickets = Math.max(0, Math.min(9999, myTickets + d));
-  renderTickets();
-  saveTickets();
-}
 auth.onAuthStateChanged(function(user){
   if(!user){ $('login-needed').hidden = false; return; }
   uid = user.uid;
+  $('ticket-edit-link').href = 'member.html?id=' + encodeURIComponent(uid);
   $('pages-area').hidden = false;
   loadPages();
   loadTickets();
@@ -336,9 +321,6 @@ auth.onAuthStateChanged(function(user){
 $('btn-logout').addEventListener('click', function(){
   auth.signOut().then(function(){ location.href = 'index.html'; });
 });
-$('tk-minus').addEventListener('click', function(){ bumpTickets(-1); });
-$('tk-plus1').addEventListener('click', function(){ bumpTickets(1); });
-$('tk-plus5').addEventListener('click', function(){ bumpTickets(5); });
 $('btn-create').addEventListener('click', function(){
   var sel = document.querySelector('input[name="newcat"]:checked');
   createPage(sel ? sel.value : 'ヒト');
