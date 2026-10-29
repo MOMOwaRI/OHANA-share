@@ -64,6 +64,13 @@
   .merit .merit-h{font-weight:bold;font-size:1rem;line-height:1.5;margin-bottom:2px}
   .see-links{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
   .see-links a{flex:1;text-align:center;background:#fff;border:1.5px solid #d8c7ae;color:#7a4b12;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 8px;font-size:.9rem;white-space:nowrap}
+
+  .first-guide{background:#fffdf7;border:1.5px solid #eadfce;border-radius:16px;padding:14px 16px;margin-top:12px;text-align:left;box-shadow:0 3px 10px rgba(140,100,40,.06)}
+  .first-guide h2{font-size:1.05rem;margin-bottom:8px}
+  .fstep{display:flex;gap:10px;align-items:flex-start;margin-top:8px}
+  .fstep-n{flex:none;width:26px;height:26px;border-radius:50%;background:#e8912d;color:#fff;font-weight:bold;text-align:center;line-height:26px;font-size:.9rem}
+  .fstep p{font-size:.93rem;line-height:1.7}
+  .fstep a{color:#b25f00;font-weight:bold}
 </style>
 </head>
 <body>
@@ -101,6 +108,12 @@
   <div id="box-home" hidden>
     <div class="logout-row"><button type="button" class="logout-btn" id="btn-logout">ログアウト</button></div>
     <p id="home-who" class="note"></p>
+    <div class="first-guide">
+      <h2>🌱 はじめの案内</h2>
+      <div class="fstep"><span class="fstep-n">1</span><p>あなたの「ヒトのページ」に、自己紹介を入れましょう。名前と、ひとことで大丈夫です。<a id="first-step-link" href="#pages-list">あなたのページを開く</a>と、そのままタップで直せます。</p></div>
+      <div class="fstep"><span class="fstep-n">2</span><p>モノ・コトのページも作れます。いきなりモノの登録からでも大丈夫です。写真を入れるだけです。</p></div>
+      <div class="fstep"><span class="fstep-n">3</span><p>できたページは、ヒト・モノ・コトの一覧に自動で出ます。</p></div>
+    </div>
     <div class="menu">
       <a href="board.html">みんなの掲示板<small>お知らせ・告知</small></a>
       <a href="help.html">困った助け合い<small>質問・相談</small></a>
@@ -365,6 +378,7 @@ auth.onAuthStateChanged(function(user){
   $('box-recruit').hidden = true;
   $('box-home').hidden = false;
   $('home-who').textContent = 'ログイン中です';
+  var fsl = $('first-step-link'); if(fsl) fsl.href = 'member.html?id=' + encodeURIComponent(uid);
   $('ticket-edit-link').href = 'member.html?id=' + encodeURIComponent(uid);
   loadPages();
   loadTickets();
