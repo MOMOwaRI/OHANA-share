@@ -228,6 +228,16 @@ function iconFor(uid, name){
   ensureIcon(uid);
   return letterIcon(name);
 }
+
+var nameCache = {};
+function ensureName(uid){
+  if(nameCache[uid] !== undefined) return Promise.resolve(nameCache[uid]);
+  nameCache[uid] = 'メンバー';
+  return db.collection('profiles').doc(uid).get().then(function(doc){
+    if(doc.exists && doc.data().nickname) nameCache[uid] = doc.data().nickname;
+    return nameCache[uid];
+  }).catch(function(){ return 'メンバー'; });
+}
 db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function(snap){
   var box = document.getElementById('live-notes');
   document.querySelectorAll('.reply-form textarea').forEach(function(t){ drafts[t.getAttribute('data-pid')] = t.value; });
@@ -256,6 +266,7 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       '<div class="replies" id="replies-' + doc.id + '"></div>' +
       '<div class="post-actions"><button type="button" class="like-btn" id="like-' + doc.id + '">♡ <span id="like-count-' + doc.id + '">0</span></button>' +
       '<button type="button" class="reply-toggle" data-pid="' + doc.id + '">返事する</button>' + (own ? '<button type="button" class="edit-toggle" data-pid="' + doc.id + '">編集</button><button type="button" class="del-btn" data-pid="' + doc.id + '">削除</button>' : '') + '</div>' +
+      '<div class="like-names" id="like-names-' + doc.id + '" style="font-size:12px;color:#b0622a;margin:2px 0 0"></div>' +
       '<div class="reply-form" id="rform-' + doc.id + '" style="display:' + (openForms[doc.id] ? 'block' : 'none') + '">' +
       '<textarea data-pid="' + doc.id + '" maxlength="300" placeholder="返事を書いてください（300文字まで）">' + esc(drafts[doc.id] || '') + '</textarea>' +
       '<button type="button" class="reply-send" data-pid="' + doc.id + '">返事を貼る</button> <span class="reply-msg" id="rmsg-' + doc.id + '"></span></div>' +
@@ -299,6 +310,17 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       var c = document.getElementById('like-count-' + pid);
       var b = document.getElementById('like-' + pid);
       if(c) c.textContent = lsnap.size;
+      var namesEl = document.getElementById('like-names-' + pid);
+      if(namesEl){
+        var uids = lsnap.docs.map(function(x){ return x.id; });
+        if(!uids.length){ namesEl.textContent = ''; }
+        else {
+          Promise.all(uids.map(function(u){ return ensureName(u); })).then(function(names){
+            var el2 = document.getElementById('like-names-' + pid);
+            if(el2) el2.textContent = '♥ ' + names.join('、') + ' さんがいいねしました';
+          });
+        }
+      }
       if(b){
         var mine = currentUser && lsnap.docs.some(function(x){ return x.id === currentUser.uid; });
         b.classList.toggle('liked', !!mine);

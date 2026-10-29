@@ -75,6 +75,15 @@
 .cm-live .cm-scene:nth-child(3){animation-delay:10s}
 .cm-live .cm-scene:nth-child(4){animation-delay:15s}
 .cm-live .cm-scene:nth-child(5){animation-delay:20s}
+
+.film{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.film-track{display:flex;width:max-content;animation:filmScroll var(--fd,30s) linear infinite}
+.film.paused .film-track{animation-play-state:paused}
+.film-set{display:flex;gap:10px;padding-right:10px}
+.film figure{flex:0 0 250px;margin:0}
+.film img{width:100%;height:300px;object-fit:cover;border-radius:12px}
+.film figcaption{font-size:12px;color:#8a7a63;text-align:center;margin-top:4px}
+@keyframes filmScroll{to{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
@@ -158,6 +167,43 @@
       <input type="file" id="in-cmphoto3" accept="image/*" style="display:block;margin:6px auto;max-width:100%">
       <p class="note" id="cm-msg"></p>
     </div>
+    <div id="film-edit" hidden>
+      <p style="font-weight:bold;margin-top:14px">店内の様子（写真スライド・最大8枚）</p>
+      <p class="note">ここで変えると、このページと、お店の紹介ページのスライドに反映されます。写真は自動で小さくなります。</p>
+<div style="margin-top:8px"><img id="film-prev1" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film1" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap1" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del1" hidden>消す</button></div>
+<div style="margin-top:8px"><img id="film-prev2" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film2" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap2" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del2" hidden>消す</button></div>
+<div style="margin-top:8px"><img id="film-prev3" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film3" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap3" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del3" hidden>消す</button></div>
+<div style="margin-top:8px"><img id="film-prev4" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film4" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap4" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del4" hidden>消す</button></div>
+<div style="margin-top:8px"><img id="film-prev5" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film5" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap5" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del5" hidden>消す</button></div>
+<div style="margin-top:8px"><img id="film-prev6" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film6" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap6" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del6" hidden>消す</button></div>
+<div style="margin-top:8px"><img id="film-prev7" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film7" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap7" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del7" hidden>消す</button></div>
+<div style="margin-top:8px"><img id="film-prev8" alt="" style="width:110px;height:82px;object-fit:cover;border-radius:8px;display:none;vertical-align:middle">
+      <input type="file" id="in-film8" accept="image/*" style="max-width:100%">
+      <input type="text" id="film-cap8" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
+      <button type="button" id="film-del8" hidden>消す</button></div>
+<p class="note" id="film-msg"></p>
+    </div>
     <button type="button" id="btn-edit">このページを編集する</button>
     <button type="button" id="btn-save" hidden>保存する</button>
     <button type="button" id="btn-cancel" hidden>キャンセル</button>
@@ -165,6 +211,7 @@
   </div>
 
   <div id="cm-live" class="cm-live" hidden></div>
+  <section id="s-film" hidden><h2>店内の様子</h2><p class="sub">写真は横に流れ続けます（タップで止まります）。</p><div id="p-film" class="film"><div class="film-track" id="film-track"></div></div></section>
   <section id="s-photo" hidden style="padding:0;overflow:hidden"><img id="p-photo" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"></section>
 
   <section id="s-intro" hidden><h2>紹介</h2><p id="p-intro" class="ed"></p></section>
@@ -250,6 +297,8 @@ var db = firebase.firestore();
 var pendingPhotoUrl = null;
 var pendingIconData = null;
 var pendingCm = {};
+var pendingFilm = {};
+var filmLoaded = {};
 var baseIconData = '';
 function $(id){ return document.getElementById(id); }
 function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -272,6 +321,26 @@ function applyCatLabels(cat){
   if(intro) intro.setAttribute('data-ph', cat === 'モノ' ? '（例：子供服 80〜120cm。状態はきれいです。イベントでお渡しできます）' : '（ここをタップして入力）');
 }
 
+
+
+function filmFigs(photos){
+  var h = '';
+  photos.forEach(function(p){ h += '<figure><img src="' + p.data + '" alt="' + esc(p.cap || '店内の様子') + '"><figcaption>' + esc(p.cap || '') + '</figcaption></figure>'; });
+  return h;
+}
+function loadFilm(pid){
+  var jobs = [];
+  for(var n = 1; n <= 8; n++){ (function(n){ jobs.push(db.collection('pagePhotos').doc(pid + '_f' + n).get().then(function(doc){ return doc.exists ? {data: doc.data().data, cap: doc.data().cap || ''} : null; }).catch(function(){ return null; })); })(n); }
+  Promise.all(jobs).then(function(list){
+    var photos = list.filter(function(x){ return !!x; });
+    var sec = $('s-film');
+    if(!photos.length){ sec.hidden = true; return; }
+    var figs = filmFigs(photos);
+    $('film-track').innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>';
+    $('p-film').style.setProperty('--fd', (photos.length * 3) + 's');
+    sec.hidden = false;
+  });
+}
 
 function renderCm(d){
   var box = $('cm-live');
@@ -309,6 +378,7 @@ function render(d, editMode){
   $('s-photo').hidden = !d.photoUrl;
   if(d.photoUrl) $('p-photo').src = d.photoUrl;
   renderCm(d);
+  loadFilm(id);
   var icoSrc = d.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
   $('p-icon').style.display = icoSrc ? 'block' : 'none';
   if(icoSrc) $('p-icon').src = icoSrc;
@@ -399,6 +469,7 @@ function setEdit(on){
   $('photo-edit').hidden = !on;
   $('icon-edit').hidden = !on;
   $('cm-edit').hidden = !on;
+  $('film-edit').hidden = !on;
   if(on){
     pendingPhotoUrl = null;
     var cur = pageData.photoUrl || '';
@@ -413,6 +484,14 @@ function setEdit(on){
     pendingCm = {};
     $('in-cmcolor').value = pageData.cmColor || '#e07b24';
     ['t1','t2','t3','t4','t5'].forEach(function(k, ix){ $('in-cm' + k).value = pageData['cmT' + (ix + 1)] || ''; });
+    pendingFilm = {}; filmLoaded = {};
+    for(var fn = 1; fn <= 8; fn++){ (function(n){
+      db.collection('pagePhotos').doc(id + '_f' + n).get().then(function(doc){
+        var pv = $('film-prev' + n);
+        if(doc.exists){ filmLoaded[n] = {data: doc.data().data, cap: doc.data().cap || ''}; pv.src = filmLoaded[n].data; pv.style.display = 'inline-block'; $('film-cap' + n).value = filmLoaded[n].cap; $('film-del' + n).hidden = false; }
+        else { pv.style.display = 'none'; $('film-cap' + n).value = ''; $('film-del' + n).hidden = true; }
+      }).catch(function(){});
+    })(fn); }
     [1,2,3].forEach(function(n){ var pv = $('cm-prev' + n); var cur = pageData['cmPhoto' + n] || ''; pv.style.display = cur ? 'inline-block' : 'none'; if(cur) pv.src = cur; });
     $('photo-msg').textContent = '写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。';
   }
@@ -470,6 +549,8 @@ else {
     img.onerror = function(){ $('photo-msg').textContent = '写真を読み込めませんでした。別の写真で試してください。'; };
     img.src = URL.createObjectURL(f);
   });
+
+$('p-film').addEventListener('click', function(){ $('p-film').classList.toggle('paused'); });
   $('in-icon').addEventListener('change', function(){
     var f = $('in-icon').files && $('in-icon').files[0];
     if(!f) return;
@@ -529,6 +610,35 @@ else {
       sw.appendChild(b);
     });
   })();
+  for(var _fn = 1; _fn <= 8; _fn++){ (function(n){
+    $('in-film' + n).addEventListener('change', function(){
+      var f = $('in-film' + n).files && $('in-film' + n).files[0];
+      if(!f) return;
+      $('film-msg').textContent = '取り込んでいます…';
+      var img = new Image();
+      img.onload = function(){
+        URL.revokeObjectURL(img.src);
+        var max = 800;
+        var scale = Math.min(1, max / Math.max(img.width, img.height));
+        var cv = document.createElement('canvas');
+        cv.width = Math.round(img.width * scale); cv.height = Math.round(img.height * scale);
+        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+        pendingFilm[n] = cv.toDataURL('image/jpeg', 0.75);
+        var pv = $('film-prev' + n);
+        pv.src = pendingFilm[n]; pv.style.display = 'inline-block';
+        $('film-del' + n).hidden = false;
+        $('film-msg').textContent = '取り込めました。「保存する」を押すと反映されます。';
+      };
+      img.onerror = function(){ $('film-msg').textContent = '写真を読み込めませんでした。'; };
+      img.src = URL.createObjectURL(f);
+    });
+    $('film-del' + n).addEventListener('click', function(){
+      pendingFilm[n] = '';
+      $('film-prev' + n).style.display = 'none';
+      $('film-del' + n).hidden = true;
+      $('film-msg').textContent = '写真を消します。「保存する」を押すと反映されます。';
+    });
+  })(_fn); }
   $('btn-photo-del').addEventListener('click', function(){
     pendingPhotoUrl = '';
     $('pe-preview').style.display = 'none';
@@ -571,6 +681,16 @@ else {
     db.collection('profiles').doc(id).set(data, {merge: true}).then(function(){
       if(pendingIconData !== null && ownerUid && ownerUid !== id){ db.collection('profiles').doc(ownerUid).set({iconData: pendingIconData}, {merge: true}).catch(function(){}); if(pendingIconData) baseIconData = pendingIconData; }
       Object.keys(data).forEach(function(k){ if(k !== 'updatedAt') pageData[k] = data[k]; });
+      Object.keys(pendingFilm).forEach(function(k){
+        var ref = db.collection('pagePhotos').doc(id + '_f' + k);
+        if(pendingFilm[k] === ''){ ref.delete().catch(function(){}); }
+        else { ref.set({data: pendingFilm[k], cap: $('film-cap' + k).value.trim(), pageId: id, idx: Number(k), updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}).catch(function(){}); }
+      });
+      [1,2,3,4,5,6,7,8].forEach(function(n){
+        if(pendingFilm[n] === undefined && filmLoaded[n] && $('film-cap' + n).value.trim() !== filmLoaded[n].cap){
+          db.collection('pagePhotos').doc(id + '_f' + n).set({cap: $('film-cap' + n).value.trim()}, {merge: true}).catch(function(){});
+        }
+      });
       setEdit(false);
       $('edit-msg').textContent = '保存しました。これはあなたのページです';
     }).catch(function(){
