@@ -42,6 +42,10 @@
   .post-actions{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
   .post-actions button{border:1.5px solid #e8b96f;background:#fff;border-radius:999px;padding:4px 14px;font-family:inherit;font-size:.82rem;cursor:pointer;font-weight:bold;color:#8a6a4f}
   .post-actions button.liked{background:#ffd9e2;border-color:#e88bb0;color:#b03a5f}
+  .edit-form{margin-top:8px}
+  .edit-form textarea{width:100%;box-sizing:border-box;min-height:64px;border:1px solid #d8cfc0;border-radius:10px;padding:8px;font-family:inherit;font-size:.92rem}
+  .edit-form button{border:1.5px solid #e8b96f;background:#fff;border-radius:999px;padding:4px 14px;font-family:inherit;font-size:.82rem;cursor:pointer;font-weight:bold;color:#8a6a4f}
+  .rdel-btn,.redit-btn{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:1px 10px;font-family:inherit;font-size:.72rem;cursor:pointer;color:#8a6a4f}
   .replies{margin-top:8px;border-top:1px dashed rgba(160,110,50,.35);padding-top:6px}
   .reply{font-size:.85rem;padding:3px 0}
   .reply .who{margin-top:0;display:inline;font-size:.72rem}
@@ -176,7 +180,8 @@ document.getElementById('post-btn').addEventListener('click', function(){
     cat: (document.getElementById('post-cat') || {}).value || 'その他',
     uid: currentUser ? currentUser.uid : null,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function(){
+  }).then(function(ref){
+    if(!currentUser && ref && ref.id) saveGuest('ohana_guest_posts', ref.id);
     ta.value = '';
     msg.textContent = '貼りました！';
   }).catch(function(e){
@@ -189,12 +194,19 @@ function fmtWhen(ts){
 }
 var replyUnsubs = {}, likeUnsubs = {};
 var openForms = {}, drafts = {};
+var editForms = {}, editDrafts = {};
+function myGuest(key){ try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e){ return []; } }
+function saveGuest(key, id){ var a = myGuest(key); if(a.indexOf(id) === -1){ a.push(id); try{ localStorage.setItem(key, JSON.stringify(a)); }catch(e){} } }
+function dropGuest(key, id){ var a = myGuest(key).filter(function(x){ return x !== id; }); try{ localStorage.setItem(key, JSON.stringify(a)); }catch(e){} }
+function ownPost(d, id){ if(d.uid){ return !!(currentUser && d.uid === currentUser.uid); } return myGuest('ohana_guest_posts').indexOf(id) !== -1; }
+function ownReply(d, key){ if(d.uid){ return !!(currentUser && d.uid === currentUser.uid); } return myGuest('ohana_guest_replies').indexOf(key) !== -1; }
 function needLogin(){
   document.getElementById('auth-status').textContent = 'いいねにはログインが必要です（質問・返事はログインなしで書けます）';
 }
 db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function(snap){
   var box = document.getElementById('live-notes');
   document.querySelectorAll('.reply-form textarea').forEach(function(t){ drafts[t.getAttribute('data-pid')] = t.value; });
+  document.querySelectorAll('.edit-form textarea').forEach(function(t){ editDrafts[t.getAttribute('data-eid')] = t.value; });
   Object.keys(replyUnsubs).forEach(function(k){ replyUnsubs[k](); });
   Object.keys(likeUnsubs).forEach(function(k){ likeUnsubs[k](); });
   replyUnsubs = {}; likeUnsubs = {};
@@ -211,10 +223,14 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
     var when = fmtWhen(d.createdAt);
     ids.push(doc.id);
     var author = d.uid ? '<a href="member.html?id=' + d.uid + '">' + esc(d.name || 'メンバー') + '</a>' : esc(d.name || 'メンバー');
-    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + (d.cat ? '【' + esc(d.cat) + '】' : '') + author + (when ? ' ・ ' + when : '') + '</p>' +
+    var own = ownPost(d, doc.id);
+    html += '<div class="note ' + COLORS[i % COLORS.length] + '"><p>' + esc(d.text || '') + '</p><p class="who">' + (d.cat ? '【' + esc(d.cat) + '】' : '') + author + (when ? ' ・ ' + when : '') + '</p>' + +
+      '<div class="edit-form" id="eform-' + doc.id + '" style="display:' + (editForms[doc.id] ? 'block' : 'none') + '">' +
+      '<textarea data-eid="' + doc.id + '" maxlength="300">' + esc(editDrafts[doc.id] != null ? editDrafts[doc.id] : (d.text || '')) + '</textarea>' +
+      '<button type="button" class="edit-save" data-pid="' + doc.id + '">保存する</button> <button type="button" class="edit-cancel" data-pid="' + doc.id + '">やめる</button> <span class="reply-msg" id="emsg-' + doc.id + '"></span></div>' +
       '<div class="replies" id="replies-' + doc.id + '"></div>' +
       '<div class="post-actions"><button type="button" class="like-btn" id="like-' + doc.id + '">♡ <span id="like-count-' + doc.id + '">0</span></button>' +
-      '<button type="button" class="reply-toggle" data-pid="' + doc.id + '">返事する</button></div>' +
+      '<button type="button" class="reply-toggle" data-pid="' + doc.id + '">返事する</button>' + (own ? '<button type="button" class="edit-toggle" data-pid="' + doc.id + '">編集</button><button type="button" class="del-btn" data-pid="' + doc.id + '">削除</button>' : '') + '</div>' +
       '<div class="reply-form" id="rform-' + doc.id + '" style="display:' + (openForms[doc.id] ? 'block' : 'none') + '">' +
       '<textarea data-pid="' + doc.id + '" maxlength="300" placeholder="返事を書いてください（300文字まで）">' + esc(drafts[doc.id] || '') + '</textarea>' +
       '<button type="button" class="reply-send" data-pid="' + doc.id + '">返事を貼る</button> <span class="reply-msg" id="rmsg-' + doc.id + '"></span></div>' +
@@ -231,9 +247,28 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
         var rd = rdoc.data();
         var rw = fmtWhen(rd.createdAt);
         var rauthor = rd.uid ? '<a href="member.html?id=' + rd.uid + '">' + esc(rd.name || 'メンバー') + '</a>' : esc(rd.name || 'メンバー');
-        rh += '<div class="reply">↪ ' + esc(rd.text || '') + ' <span class="who">' + rauthor + (rw ? ' ・ ' + rw : '') + '</span></div>';
+        var rown = ownReply(rd, pid + ':' + rdoc.id);
+        rh += '<div class="reply">↪ <span id="rtext-' + pid + '-' + rdoc.id + '">' + esc(rd.text || '') + '</span> <span class="who">' + rauthor + (rw ? ' ・ ' + rw : '') + '</span>' + (rown ? ' <button type="button" class="redit-btn" data-pid="' + pid + '" data-rid="' + rdoc.id + '">編集</button> <button type="button" class="rdel-btn" data-pid="' + pid + '" data-rid="' + rdoc.id + '">削除</button>' : '') + '</div>';
       });
       el.innerHTML = rh;
+      el.querySelectorAll('.rdel-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          if(!confirm('この返事を削除しますか？')) return;
+          var rid = btn.getAttribute('data-rid');
+          db.collection('posts').doc(pid).collection('replies').doc(rid).delete().then(function(){ dropGuest('ohana_guest_replies', pid + ':' + rid); });
+        });
+      });
+      el.querySelectorAll('.redit-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var rid = btn.getAttribute('data-rid');
+          var cur = document.getElementById('rtext-' + pid + '-' + rid).textContent;
+          var nt = prompt('返事を編集', cur);
+          if(nt == null) return;
+          nt = nt.trim();
+          if(!nt) return;
+          db.collection('posts').doc(pid).collection('replies').doc(rid).update({ text: nt });
+        });
+      });
     }, function(){});
     likeUnsubs[pid] = db.collection('posts').doc(pid).collection('likes').onSnapshot(function(lsnap){
       var c = document.getElementById('like-count-' + pid);
@@ -263,6 +298,44 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       openForms[pid] = !open;
     });
   });
+
+  document.querySelectorAll('.edit-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      var f = document.getElementById('eform-' + pid);
+      var open = f.style.display !== 'none';
+      f.style.display = open ? 'none' : 'block';
+      editForms[pid] = !open;
+    });
+  });
+  document.querySelectorAll('.edit-cancel').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      document.getElementById('eform-' + pid).style.display = 'none';
+      editForms[pid] = false;
+    });
+  });
+  document.querySelectorAll('.edit-save').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      var ta = document.querySelector('.edit-form textarea[data-eid="' + pid + '"]');
+      var msg = document.getElementById('emsg-' + pid);
+      var text = ta.value.trim();
+      if(!text){ msg.textContent = '内容を書いてください。'; return; }
+      msg.textContent = '保存しています…';
+      db.collection('posts').doc(pid).update({ text: text }).then(function(){
+        editForms[pid] = false; editDrafts[pid] = '';
+        msg.textContent = '保存しました';
+      }).catch(function(){ msg.textContent = '保存できませんでした。'; });
+    });
+  });
+  document.querySelectorAll('.del-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pid = btn.getAttribute('data-pid');
+      if(!confirm('この投稿を削除しますか？')) return;
+      db.collection('posts').doc(pid).delete().then(function(){ dropGuest('ohana_guest_posts', pid); }).catch(function(){ alert('削除できませんでした。'); });
+    });
+  });
   document.querySelectorAll('.reply-send').forEach(function(btn){
     btn.addEventListener('click', function(){
       var pid = btn.getAttribute('data-pid');
@@ -278,7 +351,8 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
         kind: 'help',
         uid: currentUser ? currentUser.uid : null,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(function(){
+      }).then(function(ref){
+        if(!currentUser && ref && ref.id) saveGuest('ohana_guest_replies', pid + ':' + ref.id);
         ta.value = '';
         drafts[pid] = '';
         msg.textContent = '貼りました！';

@@ -1538,15 +1538,20 @@ log.scrollTop = log.scrollHeight;
 return d;
 }
 function addFallback(){
-var d = addMsg("ごめんなさい、その質問にはここでは答えられませんでした。詳しくはLINEオープンチャットで聞いてみてください。", 'bot');
+var d = addMsg("ごめんなさい、その質問にはここでは答えられませんでした。こちらで探したり、聞いたりできます。", 'bot');
+function mk(href, label, green){
 var a = document.createElement('a');
 a.className = 'oc-link';
-a.href = OC_URL;
-a.target = '_blank';
-a.rel = 'noopener';
-a.textContent = 'オープンチャットで聞く';
+a.href = href;
+a.textContent = label;
+if (!green){ a.style.background = '#fff'; a.style.color = '#c2610f'; a.style.border = '1.5px solid #e0a458'; a.style.marginRight = '6px'; }
+if (href.indexOf('http') === 0){ a.target = '_blank'; a.rel = 'noopener'; }
 d.appendChild(document.createElement('br'));
 d.appendChild(a);
+}
+mk('help.html', '困った助け合い（FAQ）を見る');
+mk('board.html', 'みんなの掲示板を見る');
+mk(OC_URL, 'オープンチャットで聞く', true);
 }
 function has(text, words){
 for (var i = 0; i < words.length; i++){ if (text.indexOf(words[i]) !== -1) return true; }
