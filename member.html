@@ -468,12 +468,20 @@ function loadFilmWork(){
   });
 }
 
+function defCmColor(){
+  if(!id) return '#e07b24';
+  if(id.slice(-6) === '__koto') return '#8a5fb0';
+  if(id.slice(-9) === '__pelua01') return '#e07b24';
+  if(id.slice(-11) === '__pmahalo01') return '#2e6da4';
+  if(id.slice(-6) === '__mono') return '#5d9c6b';
+  return '#e07b24';
+}
 function renderCm(d){
   var box = $('cm-live');
   var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
   var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
   if(!photos.length && !texts.some(function(x){ return !!x; })){ box.hidden = true; box.innerHTML = ''; return; }
-  var color = d.cmColor || '#e07b24';
+  var color = d.cmColor || defCmColor();
   var html = '';
   html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
   for(var i = 0; i < 3; i++){
@@ -646,7 +654,7 @@ function setEdit(on){
     var hasCm = !!(pageData.cmPhoto1 || pageData.cmPhoto2 || pageData.cmPhoto3 || pageData.cmT1 || pageData.cmT2 || pageData.cmT3 || pageData.cmT4 || pageData.cmT5);
     $('cm-start').hidden = hasCm;
     pendingCm = {};
-    $('in-cmcolor').value = pageData.cmColor || '#e07b24';
+    $('in-cmcolor').value = pageData.cmColor || defCmColor();
     ['t1','t2','t3','t4','t5'].forEach(function(k, ix){ $('in-cm' + k).value = pageData['cmT' + (ix + 1)] || ''; });
     filmWork = null;
     $('s-film').hidden = false;
