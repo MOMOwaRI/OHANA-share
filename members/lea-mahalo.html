@@ -106,6 +106,8 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 @keyframes filmScroll{to{transform:translateX(-50%)}}
 .film-note{font-size:12px;color:#8a7a63;margin:4px 2px 0}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
 </head>
 <body>
 <div class="wrap">
@@ -411,7 +413,7 @@ function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.inde
 function answerFor(text){
 if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
 if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
-if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「メンバー登録」ボタンから登録すると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。"; }
 if (has(text, ["掲示板", "告知", "書き込", "投稿"])) { window.__ct = '掲示板'; window.__lk = 'board'; return QA[9].a; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
