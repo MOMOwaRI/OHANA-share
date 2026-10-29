@@ -332,7 +332,10 @@
 .olog{display:flex;flex-direction:column;gap:8px;margin:12px 0;max-height:min(46vh,380px);overflow-y:auto}
 .omsg{background:#fdf3e3;border:1px solid #f3ddc4;border-radius:14px;border-bottom-left-radius:4px;padding:8px 12px;font-size:.9rem;align-self:flex-start;max-width:92%;line-height:1.6}
 .omsg.user{background:#ffe9d2;border-bottom-left-radius:14px;border-bottom-right-radius:4px;align-self:flex-end}
-.omsg .oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
+.omsg .qlinks{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}
+.qlinks a{flex:1;text-align:center;margin-top:0;white-space:nowrap}
+.qlinks a.alt{background:#fff;color:#c2610f;border:1.5px solid #e0a458}
+.oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
 .ochips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .ochip{border:1.5px solid #e0a458;background:#fff;color:#c2610f;border-radius:999px;padding:5px 12px;font-size:.8rem;cursor:pointer;font-family:inherit;font-weight:700}
 .oform{display:flex;gap:8px}
@@ -344,6 +347,7 @@
 </div>
 <div class="opanel" id="opanel" hidden>
 <div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA案内ボット</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
+<div class="qlinks"><a class="oc-link alt" href="../board.html">みんなの掲示板</a><a class="oc-link alt" href="../help.html">困った助け合い</a><a class="oc-link" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャット</a></div>
 <div class="olog" id="olog"><div class="omsg">こんにちは。OHANAシェア＊プロジェクトの案内ボットです。気になることを下のボタンから選ぶか、入力して聞いてください。</div></div>
 <div class="ochips" id="ochips"></div>
 <form class="oform" id="oform"><input id="oinput" type="text" placeholder="質問を入力してください" autocomplete="off"><button type="submit">送信</button></form>
