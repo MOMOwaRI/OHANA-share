@@ -41,6 +41,7 @@
   .film.paused .film-track{animation-play-state:paused}
   .film-set{display:flex;gap:10px;padding-right:10px}
   .film figure{flex:0 0 220px;margin:0}
+  .film a{display:block;text-decoration:none;color:inherit}
   .film img{width:100%;height:220px;object-fit:cover;border-radius:12px}
   .film figcaption{font-size:12px;color:var(--soft);text-align:center;margin-top:4px}
   @keyframes filmScroll{to{transform:translateX(-50%)}}
@@ -55,8 +56,8 @@
   </header>
   <section style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:18px">
     <h2 style="font-size:1.05rem;margin-bottom:6px">写真受付箱のスライドショー</h2>
-    <p class="sub">Googleフォトの写真受付箱に入った写真です。写真は横に流れ続けます（タップで止まります）。</p>
-    <div class="film" id="album-film"><div class="film-track"><div class="film-set"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></div></div></div>
+    <p class="sub">Googleフォトの写真受付箱に入った写真です。写真は横に流れ続けます。タップすると、そのモノのページへ行けます。</p>
+    <div class="film" id="album-film"><div class="film-track"><div class="film-set"><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></a></div><div class="film-set" aria-hidden="true"><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></a></div></div></div>
   </section>
   <div class="grid" id="grid">
     <a class="item" href="members/lea-mahalo.html">
@@ -256,8 +257,5 @@ if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = do
 })();
 </script>
 
-<script>
-document.getElementById('album-film').addEventListener('click', function(){ this.classList.toggle('paused'); });
-</script>
 </body>
 </html>
