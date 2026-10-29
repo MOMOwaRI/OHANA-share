@@ -854,6 +854,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <a href="koto.html" style="flex:1;min-width:96px;text-align:center;background:#fbe38e;color:#4a3418;font-weight:bold;border-radius:999px;padding:13px 6px;text-decoration:none">コト</a>
 </div>
 
+<p style="margin-top:10px">モノは、写真を投げるだけでも始められます。<a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">写真受付箱を開く</a>（メンバー登録はあとからでもOKです）</p>
 <p style="margin-top:12px">メンバーはこれから増えていきます。お店・団体の無料掲載に興味のある方は、<a href="mypage.html" target="_blank" rel="noopener">マイページで作る</a>からご連絡ください。</p>
 <p>100円券が使えたら嬉しいなと思うヒト・モノ・コトへお声がけください。輪を広げていきましょう♪</p>
 <p style="text-align:center;margin-top:14px"><a href="login.html" style="display:inline-block;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;text-decoration:none;border-radius:999px;padding:11px 24px">OHANAメンバーログイン</a><br><span style="font-size:.8rem;color:#8a6a4f">登録済みのOHANAメンバー専用です</span></p>
@@ -1565,7 +1566,7 @@ return false;
 function answerFor(text){
 if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
 if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
-if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「メンバー登録」ボタンから登録すると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。"; }
 if (has(text, ["掲示板", "告知", "書き込", "投稿"])) { window.__ct = '掲示板'; window.__lk = 'board'; return QA[9].a; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) { window.__ct = QA[8].q; return QA[8].a; }
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) { window.__ct = QA[6].q; return QA[6].a; }
