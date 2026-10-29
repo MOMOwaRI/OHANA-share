@@ -84,6 +84,11 @@
 .film img{width:100%;height:300px;object-fit:cover;border-radius:12px}
 .film figcaption{font-size:12px;color:#8a7a63;text-align:center;margin-top:4px}
 @keyframes filmScroll{to{transform:translateX(-50%)}}
+
+.ticket-card{background:#fff8ec;border:1px solid #f0d9ae;border-radius:14px;padding:14px;margin:18px 0}
+.ticket-num{font-size:1.7rem;font-weight:bold}
+.ticket-btns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.ticket-btns button{font-family:inherit;font-weight:bold;border:1.5px solid #e0a458;background:#fff;color:#a35c14;border-radius:999px;padding:8px 14px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -203,6 +208,19 @@
       <input type="text" id="film-cap8" placeholder="写真の説明（任意）" maxlength="30" style="width:180px">
       <button type="button" id="film-del8" hidden>消す</button></div>
 <p class="note" id="film-msg"></p>
+    </div>
+    <div class="ticket-card" id="ticket-card" hidden>
+      <p style="font-weight:bold"><span id="ticket-title">OHANA100円券</span></p>
+      <p><span class="ticket-num" id="ticket-num">…</span> 枚 持っています</p>
+      <div id="ticket-owner" hidden>
+      <div class="ticket-btns">
+        <button type="button" id="tk-minus">使った −1</button>
+        <button type="button" id="tk-plus1">受け取った ＋1</button>
+        <button type="button" id="tk-plus5">＋5</button>
+      </div>
+      <p class="sub" style="margin-top:8px">自己申告です。使ったり受け取ったりしたら、自分で合わせてください。券は紙のまま、枚数だけここで記録します。この枚数は、みんなにも見えます。</p>
+      <p class="sub" id="ticket-msg"></p>
+      </div>
     </div>
     <button type="button" id="btn-edit">このページを編集する</button>
     <button type="button" id="btn-save" hidden>保存する</button>
@@ -379,6 +397,7 @@ function render(d, editMode){
   if(d.photoUrl) $('p-photo').src = d.photoUrl;
   renderCm(d);
   loadFilm(id);
+  setupTickets();
   var icoSrc = d.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
   $('p-icon').style.display = icoSrc ? 'block' : 'none';
   if(icoSrc) $('p-icon').src = icoSrc;
@@ -520,8 +539,46 @@ else {
   }).catch(function(){
     $('p-loading').hidden = true; $('p-notfound').hidden = false;
   });
-  auth.onAuthStateChanged(function(user){
-    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; tryEdit(); }
+  
+var myTickets = 0;
+function renderTickets(){ var el = $('ticket-num'); if(el) el.textContent = myTickets; }
+function saveTickets(){
+  var ref = db.collection('profiles').doc(ownerUid);
+  ref.update({ tickets: myTickets }).catch(function(){ return ref.set({ tickets: myTickets }, { merge: true }); })
+    .then(function(){ $('ticket-msg').textContent = '記録しました'; })
+    .catch(function(){ $('ticket-msg').textContent = '記録できませんでした'; });
+}
+function loadTickets(){
+  db.collection('profiles').doc(ownerUid).get().then(function(doc){
+    myTickets = (doc.exists && typeof doc.data().tickets === 'number') ? doc.data().tickets : 0;
+    renderTickets();
+  }).catch(function(){ renderTickets(); });
+}
+function bumpTickets(d){
+  myTickets = Math.max(0, Math.min(9999, myTickets + d));
+  renderTickets();
+  saveTickets();
+}
+var ticketsShown = false;
+var ownerWired = false;
+function setupTickets(){
+  if(!pageData || !pageData.categories || pageData.categories.indexOf('ヒト') < 0) return;
+  if(!ticketsShown){
+    ticketsShown = true;
+    $('ticket-card').hidden = false;
+    loadTickets();
+  }
+  if(isOwner && !ownerWired){
+    ownerWired = true;
+    $('ticket-title').textContent = 'あなたのOHANA100円券';
+    $('ticket-owner').hidden = false;
+    $('tk-minus').addEventListener('click', function(){ bumpTickets(-1); });
+    $('tk-plus1').addEventListener('click', function(){ bumpTickets(1); });
+    $('tk-plus5').addEventListener('click', function(){ bumpTickets(5); });
+  }
+}
+auth.onAuthStateChanged(function(user){
+    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; setupTickets(); tryEdit(); }
   });
   document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){
     applyCatLabels(r.value);
