@@ -71,7 +71,7 @@
     <button type="button" class="gchip" data-g="その他">その他</button>
   </div>
   <div class="grid" id="grid">
-    <a class="item" data-genre="雑貨・日用品" href="members/lea-mahalo.html">
+    <a class="item" data-genre="雑貨・日用品" data-tags="松山市 雑貨屋 OHANAメンバー" href="members/lea-mahalo.html">
       <img src="images/shop/zakka-1.jpg" alt="雑貨屋 Lea Mahaloの店内">
       <span class="body">
         <span class="name">雑貨屋 Lea Mahalo</span>
@@ -79,7 +79,7 @@
         <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" data-genre="おもちゃ・グッズ" href="members/momowari-mono.html">
+    <a class="item" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ ゲームグッズ OHANAメンバー" href="members/momowari-mono.html">
       <img src="images/shop/plush-2.jpg" alt="ぬいぐるみとグッズ（MOMOwaRI）">
       <span class="body">
         <span class="name">MOMOwaRIのモノ</span>
@@ -137,6 +137,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     var d = it.d;
     var a = document.createElement('a');
     a.className = 'item';
+    a.setAttribute('data-tags', ((d.tags || []).join(' ') + ' ' + (d.area || '') + ' ' + (d.nickname || '') + ' OHANAメンバー'));
     a.setAttribute('data-genre', d.monoGenre || 'その他');
     a.href = 'member.html?id=' + encodeURIComponent(it.id);
     var ph = d.photoUrl ? '<img src="' + esc(d.photoUrl) + '" alt="">' : '<span class="nophoto">写真はまだ</span>';
@@ -311,7 +312,7 @@ if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = do
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'display:flex;justify-content:flex-end;padding:8px 2px 0';
+    rowEl.style.cssText = 'position:fixed;top:10px;right:10px;z-index:96';
     rowEl.appendChild(btn);
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
@@ -339,6 +340,33 @@ if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = do
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<script>
+(function(){
+  var tag = new URLSearchParams(location.search).get('tag');
+  if(!tag) return;
+  var grid = document.getElementById('grid');
+  if(!grid) return;
+  var bar = document.createElement('div');
+  bar.style.cssText = 'background:#fdf3e3;border:1.5px solid #e0a458;border-radius:12px;padding:10px 14px;margin:0 0 12px;font-size:.92rem';
+  grid.parentNode.insertBefore(bar, grid);
+  function escT(t){ return (t||'').replace(/</g,'&lt;'); }
+  function apply(){
+    var n = 0;
+    grid.querySelectorAll('.item').forEach(function(it){
+      var hay = (it.getAttribute('data-tags') || '') + ' ' + it.textContent;
+      var hit = hay.indexOf(tag) >= 0;
+      it.style.display = hit ? '' : 'none';
+      if(hit) n++;
+    });
+    var join = grid.querySelector('.join');
+    if(join) join.style.display = 'none';
+    bar.innerHTML = 'タグ「<b>' + escT(tag) + '</b>」のページ：' + n + '件　<a href="' + location.pathname.split('/').pop() + '">すべて表示する</a>';
+  }
+  apply();
+  new MutationObserver(function(){ apply(); }).observe(grid, {childList: true});
 })();
 </script>
 </body>

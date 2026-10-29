@@ -20,6 +20,7 @@
   .sub{color:var(--soft);font-size:.92rem;margin-top:2px}
   .tags{margin:10px 0 2px}
   .tag{display:inline-block;background:#fdeeda;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
+  .tags a.tag{text-decoration:none;color:inherit;cursor:pointer}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
   h2{font-size:1.18rem;color:var(--orange-dark);margin-bottom:10px;border-left:5px solid var(--orange);padding-left:10px;letter-spacing:.04em}
   .chip{display:inline-block;border-radius:999px;padding:2px 14px;margin:2px;font-weight:bold;font-size:.88rem;color:#4a3418}
@@ -506,6 +507,20 @@ function render(d, editMode){
   $('p-badges').innerHTML = bh;
   $('p-no').textContent = d.memberNo ? ('No.' + d.memberNo) : '';
   $('p-no').style.display = d.memberNo ? '' : 'none';
+  var tbox = document.querySelector('.tags');
+  if(tbox){
+    tbox.querySelectorAll('a.tag, span.tag:not(#p-no)').forEach(function(n){ n.remove(); });
+    var dtags = (Array.isArray(d.tags) && d.tags.length) ? d.tags : ['OHANAメンバー'];
+    var tgtMap = {'ヒト': 'hito', 'モノ': 'mono', 'コト': 'koto'};
+    var tgt = tgtMap[dcats[0]] || 'hito';
+    dtags.forEach(function(t){
+      var a = document.createElement('a');
+      a.className = 'tag';
+      a.href = tgt + '.html?tag=' + encodeURIComponent(t);
+      a.textContent = t;
+      tbox.insertBefore(a, $('p-no'));
+    });
+  }
   $('p-name').textContent = d.nickname || '新しいページ';
   document.title = (d.nickname || '新しいページ') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
   $('p-area').textContent = d.area || '';
