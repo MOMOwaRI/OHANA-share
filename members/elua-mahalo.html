@@ -172,7 +172,8 @@
 
 <section>
 <h2>店内の様子</h2>
-<div class="film" style="--fd:24s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div></div></div><p class="film-note">写真は横に流れ続けます（タップで止まります）</p>
+<p class="sub">elua Mahaloの店内と施術の様子です。写真は横に流れ続けます（タップで止まります）。</p>
+<div class="film" style="--fd:24s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div></div></div>
 <p class="note">横にスライドできます。</p>
 </section>
 <section>
@@ -435,6 +436,29 @@ if (ans){ addMsg(ans, 'bot'); } else { addFallback(); }
 document.querySelectorAll('.film').forEach(function(f){
 f.addEventListener('click', function(){ f.classList.toggle('paused'); });
 });
+</script>
+
+<script>
+(function(){
+  if(!window.firebase) return;
+  var db;
+  try{ db = firebase.firestore(); }catch(e){ return; }
+  var pid = "ELCzyeeoDCU4gveavc077L4jBqE3__pelua01";
+  var jobs = [];
+  for(var n = 1; n <= 8; n++){ (function(n){ jobs.push(db.collection('pagePhotos').doc(pid + '_f' + n).get().then(function(doc){ return doc.exists ? doc.data() : null; }).catch(function(){ return null; })); })(n); }
+  Promise.all(jobs).then(function(list){
+    var photos = list.filter(function(x){ return !!x && x.data; });
+    if(!photos.length) return;
+    var film = document.querySelector('.film');
+    if(!film) return;
+    function esc(t){ return (t || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    var figs = '';
+    photos.forEach(function(p){ figs += '<figure><img src="' + p.data + '" alt="' + esc(p.cap || '店内の様子') + '"><figcaption>' + esc(p.cap || '') + '</figcaption></figure>'; });
+    var track = film.querySelector('.film-track');
+    if(track){ track.innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>'; }
+    film.style.setProperty('--fd', (photos.length * 3) + 's');
+  });
+})();
 </script>
 </body>
 </html>
