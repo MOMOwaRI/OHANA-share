@@ -379,8 +379,12 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = 'ログイン';
-    btn.style.cssText = 'position:fixed;top:10px;right:12px;z-index:90;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
-    document.body.appendChild(btn);
+    btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
+    var wrapEl = document.querySelector('.wrap') || document.body;
+    var rowEl = document.createElement('div');
+    rowEl.style.cssText = 'display:flex;justify-content:flex-end;padding:10px 2px 0';
+    rowEl.appendChild(btn);
+    wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
       if(!u){ firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){}); }
