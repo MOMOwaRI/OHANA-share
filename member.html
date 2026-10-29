@@ -42,6 +42,8 @@
   #btn-edit,#btn-save{background:var(--orange);color:#fff}
   #btn-cancel{background:#fff;color:var(--orange-dark);border:2px solid var(--orange) !important}
   .ed[contenteditable="true"]{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px;min-height:1.5em}
+  body.is-owner:not(.editing) .ed{cursor:pointer}
+  body.is-owner:not(.editing) .ed:hover{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px}
   body.editing .ed:empty::before{content:attr(data-ph);color:var(--soft)}
   .linkedit label{display:block;font-weight:bold;margin:12px 0 4px;text-align:left}
   .linkedit input,.linkedit textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;font-family:inherit;background:#fffdf9}
@@ -115,7 +117,7 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
     <div id="p-head" hidden>
       <div id="p-badges"></div>
       <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span></h1>
-      <p id="owner-hint" class="note" hidden>写真・アイコン・アニメーションは、クリックするとその場で変えられます。</p>
+      <p id="owner-hint" class="note" hidden>このページがそのまま編集画面です。文字はクリックして書き換え、写真・アイコン・アニメーションはクリックで変更できます。</p>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
     </div>
@@ -708,6 +710,22 @@ function fileToData(file, max, q, cb){
   img.onerror = function(){};
   img.src = URL.createObjectURL(file);
 }
+document.addEventListener('click', function(ev){
+  if(!isOwner || editing) return;
+  var t = ev.target;
+  var ed = (t && t.closest) ? t.closest('.ed') : null;
+  if(ed && ed.id){
+    var tid = ed.id;
+    setEdit(true);
+    setTimeout(function(){ var n = document.getElementById(tid); if(n){ n.focus(); } }, 90);
+  }
+});
+$('s-links').addEventListener('click', function(ev){
+  if(!isOwner || editing) return;
+  if(ev.target && ev.target.closest && ev.target.closest('a')) return;
+  setEdit(true);
+  setTimeout(function(){ var el = $('link-edit'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 60);
+});
 $('p-film').addEventListener('click', function(ev){
   var fig = ev.target && ev.target.closest ? ev.target.closest('figure') : null;
   if(isOwner && !editing && fig && fig.getAttribute('data-n')){ qFilmSlot = Number(fig.getAttribute('data-n')); $('qf-film').click(); return; }
