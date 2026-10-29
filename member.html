@@ -87,7 +87,9 @@
 .film figcaption{font-size:12px;color:#8a7a63;text-align:center;margin-top:4px}
 @keyframes filmScroll{to{transform:translateX(-50%)}}
 
-.ticket-card{background:#fff8ec;border:1px solid #f0d9ae;border-radius:14px;padding:14px;margin:18px 0}
+.ticket-card{position:relative;background:linear-gradient(120deg,#fff6df,#ffe9bd);border:2px solid #e8b96f;border-radius:16px;padding:16px 20px 16px 66px;margin:18px 0;transform:rotate(-.6deg);box-shadow:0 6px 16px rgba(190,130,40,.16);text-align:left;overflow:hidden}
+.ticket-card::before{content:"OHANA 100円券";writing-mode:vertical-rl;position:absolute;left:0;top:0;bottom:0;width:46px;display:flex;align-items:center;justify-content:center;font-weight:bold;letter-spacing:.28em;color:#a35c14;font-size:.8rem;border-right:2px dashed #d9a75e;background:rgba(255,255,255,.45)}
+.ticket-card::after{content:"券";position:absolute;top:10px;right:12px;width:34px;height:34px;border:2px solid rgba(194,97,15,.5);border-radius:50%;color:rgba(194,97,15,.7);display:flex;align-items:center;justify-content:center;font-weight:bold;transform:rotate(12deg);font-size:.95rem;background:rgba(255,255,255,.35)}
 .ticket-num{font-size:1.7rem;font-weight:bold}
 .ticket-btns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 .ticket-btns button{font-family:inherit;font-weight:bold;border:1.5px solid #e0a458;background:#fff;color:#a35c14;border-radius:999px;padding:8px 14px;cursor:pointer}
@@ -108,6 +110,8 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
 .fcell .fdel{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:14px;cursor:pointer;line-height:1}
 .fcell input{width:110px;margin-top:4px;font-family:inherit;font-size:.8rem;padding:4px 6px;border:1px solid #e8cdb0;border-radius:6px}
 .fadd{width:110px;height:110px;border:2px dashed #d9b98c;border-radius:10px;background:#fffdf8;font-size:2.2rem;color:#e07b24;cursor:pointer;font-family:inherit}
+.cm-hint{display:none;position:absolute;top:10px;right:10px;z-index:5;background:rgba(255,255,255,.94);border:1px solid #d8c7ae;border-radius:999px;padding:5px 11px;font-weight:bold;font-size:.78rem;color:#7a4b12}
+body.is-owner .cm-hint{display:block}
 </style>
 </head>
 <body>
@@ -166,6 +170,7 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
 </script>
 
 
+  <p id="static-link" hidden style="text-align:center;margin:4px 0 10px"><a id="static-a" href="">紹介ページ（公開ページ）を見る →</a></p>
   <div id="editbar" hidden>
     <p id="edit-msg" style="font-weight:bold">これはあなたのページです</p>
 
@@ -323,7 +328,7 @@ var pageData = null;
 var editing = false;
 var wantEdit = new URLSearchParams(location.search).get('edit') === '1';
 var isOwner = false;
-function tryEdit(){ if(wantEdit && isOwner && pageData && !editing) setEdit(true); }
+function tryEdit(){ if(wantEdit && isOwner && pageData && !editing){ setEdit(true); if(/[?&]cm=1/.test(location.search + location.hash)){ setTimeout(function(){ var ce = $('cm-edit'); if(ce){ ce.hidden = false; ce.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 200); } } }
 
 function applyCatLabels(cat){
   var fm = $('fld-menu');
@@ -367,6 +372,15 @@ function siblingPhoto(docId){
   var map = {'__mono': 'images/shop/zakka-1.jpg', '__koto': 'images/shop/eyes-room.jpg', '__pelua01': 'images/shop/elua-mirror.jpg', '__pmahalo01': 'images/shop/salon-chairs.jpg', '': 'momowari-icon.png'};
   if(ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' && map[suffix] !== undefined) return map[suffix];
   return '';
+}
+function showStaticLink(){
+  var smap = {};
+  smap[ownerUid] = 'members/momowari.html';
+  smap[ownerUid + '__mono'] = 'members/lea-mahalo.html';
+  smap[ownerUid + '__koto'] = 'members/eyes-mahalo.html';
+  smap[ownerUid + '__pelua01'] = 'members/elua-mahalo.html';
+  smap[ownerUid + '__pmahalo01'] = 'members/mahalo.html';
+  if(smap[id]){ $('static-link').hidden = false; $('static-a').href = smap[id]; }
 }
 function loadSiblings(){
   db.collection('profiles').get().then(function(snap){
@@ -458,8 +472,8 @@ function renderCm(d){
     if(photos[i]){ html += '<div class="cm-scene photo"><img src="' + photos[i] + '" alt=""><div class="band">' + esc(texts[i + 1] || '') + '</div></div>'; }
   }
   html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
-  box.innerHTML = html;
-  var kids = box.children;
+  box.innerHTML = html + '<div class="cm-hint">✎ タップで編集</div>';
+  var kids = box.querySelectorAll('.cm-scene');
   var total = kids.length * 5;
   for(var k = 0; k < kids.length; k++){ kids[k].style.animationDuration = total + 's'; kids[k].style.animationDelay = (k * 5) + 's'; }
   box.hidden = false;
@@ -484,7 +498,7 @@ function render(d, editMode){
   renderCm(d);
   loadFilm(id);
   setupTickets();
-  loadSiblings();
+  loadSiblings(); showStaticLink();
   var icoSrc = d.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
   if(icoSrc){ $('p-icon').src = icoSrc; $('p-icon').style.display = 'inline-block'; $('p-letter').style.display = 'none'; }
   else { $('p-icon').style.display = 'none'; var lt = $('p-letter'); lt.textContent = (d.nickname || 'メ').charAt(0); lt.style.background = icoColor(d.nickname); lt.style.display = 'inline-flex'; }
