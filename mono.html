@@ -27,6 +27,9 @@
   .item .meta{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
   .ticket{background:#e5f3e8;color:var(--green);border:1px solid #bfe6cf;border-radius:999px;padding:0 10px;font-size:.75rem;font-weight:bold}
   .area{font-size:.78rem;color:var(--soft)}
+  .gchips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+  .gchip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:bold;cursor:pointer;color:var(--ink);font-size:.92rem}
+  .gchip.on{background:#5d9c6b;border-color:#5d9c6b;color:#fff}
   .join{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:2px dashed #d9b98c;border-radius:14px;background:#fffdf8;text-decoration:none;color:var(--ink);padding:18px 12px;min-height:100%}
   .join .plus{font-size:2rem;color:#e07b24;line-height:1}
   .join .jt{font-weight:bold;margin-top:6px}
@@ -59,8 +62,16 @@
     <p class="sub">Googleフォトの写真受付箱に入った写真です。写真は横に流れ続けます。タップすると、そのモノのページへ行けます。</p>
     <div class="film" id="album-film"><div class="film-track"><div class="film-set"><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></a></div><div class="film-set" aria-hidden="true"><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-1.jpg" alt="白いウサギのぬいぐるみ"><figcaption>白いウサギのぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-2.jpg" alt="千鳥格子の大きなクマ"><figcaption>千鳥格子の大きなクマ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-3.jpg" alt="クマのタグ"><figcaption>クマのタグ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-4.jpg" alt="黄色いクマと仲間たち"><figcaption>黄色いクマと仲間たち</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-5.jpg" alt="青いぬいぐるみ"><figcaption>青いぬいぐるみ</figcaption></figure></a><a href="members/momowari-mono.html"><figure><img src="images/shop/plush-6.jpg" alt="マインクラフトのグッズ"><figcaption>マインクラフトのグッズ</figcaption></figure></a></div></div></div>
   </section>
+  <div class="gchips" id="gchips">
+    <button type="button" class="gchip on" data-g="all">すべて</button>
+    <button type="button" class="gchip" data-g="ベビー・キッズ">ベビー・キッズ</button>
+    <button type="button" class="gchip" data-g="雑貨・日用品">雑貨・日用品</button>
+    <button type="button" class="gchip" data-g="衣類">衣類</button>
+    <button type="button" class="gchip" data-g="おもちゃ・グッズ">おもちゃ・グッズ</button>
+    <button type="button" class="gchip" data-g="その他">その他</button>
+  </div>
   <div class="grid" id="grid">
-    <a class="item" href="members/lea-mahalo.html">
+    <a class="item" data-genre="雑貨・日用品" href="members/lea-mahalo.html">
       <img src="images/shop/zakka-1.jpg" alt="雑貨屋 Lea Mahaloの店内">
       <span class="body">
         <span class="name">雑貨屋 Lea Mahalo</span>
@@ -68,7 +79,7 @@
         <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" href="members/momowari-mono.html">
+    <a class="item" data-genre="おもちゃ・グッズ" href="members/momowari-mono.html">
       <img src="images/shop/plush-2.jpg" alt="ぬいぐるみとグッズ（MOMOwaRI）">
       <span class="body">
         <span class="name">MOMOwaRIのモノ</span>
@@ -126,6 +137,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     var d = it.d;
     var a = document.createElement('a');
     a.className = 'item';
+    a.setAttribute('data-genre', d.monoGenre || 'その他');
     a.href = 'member.html?id=' + encodeURIComponent(it.id);
     var ph = d.photoUrl ? '<img src="' + esc(d.photoUrl) + '" alt="">' : '<span class="nophoto">写真はまだ</span>';
     var desc = (d.intro || '').slice(0, 60);
@@ -133,6 +145,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
       '<span class="meta">' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
     grid.insertBefore(a, join);
+    if(window.__applyGenre) window.__applyGenre();
   });
 }).catch(function(){});
 </script>
@@ -257,5 +270,25 @@ if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = do
 })();
 </script>
 
+<script>
+(function(){
+  var cur = 'all';
+  function apply(){
+    document.querySelectorAll('#grid .item').forEach(function(t){
+      var g = t.getAttribute('data-genre') || 'その他';
+      t.style.display = (cur === 'all' || g === cur) ? '' : 'none';
+    });
+  }
+  window.__applyGenre = apply;
+  document.querySelectorAll('#gchips .gchip').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#gchips .gchip').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      cur = b.getAttribute('data-g');
+      apply();
+    });
+  });
+})();
+</script>
 </body>
 </html>

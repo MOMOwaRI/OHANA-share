@@ -156,6 +156,17 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
       <label><input type="radio" name="ecat" value="モノ">モノ</label>
       <label><input type="radio" name="ecat" value="コト">コト</label>
     </div>
+    <div id="genre-edit" hidden style="margin-top:8px">
+      <span style="font-weight:bold">モノのジャンル：</span>
+      <select id="in-genre" style="font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae">
+        <option>ベビー・キッズ</option>
+        <option>雑貨・日用品</option>
+        <option>衣類</option>
+        <option>おもちゃ・グッズ</option>
+        <option>その他</option>
+      </select>
+      <span class="note">モノの一覧で絞り込みに使われます</span>
+    </div>
     <div id="photo-edit" hidden>
       <p style="font-weight:bold;margin-top:12px">写真</p>
       <img id="pe-preview" alt="" style="width:130px;height:130px;object-fit:cover;border-radius:12px;display:none;margin:6px auto">
@@ -595,6 +606,8 @@ function setEdit(on){
     $('photo-msg').textContent = '写真を選ぶと、自動で小さくして取り込みます。「保存する」を押すとページに反映されます。';
   }
   $('cat-edit').hidden = !on;
+  $('genre-edit').hidden = !(on && pageData && (pageData.categories || []).indexOf('モノ') >= 0);
+  if(on && pageData){ $('in-genre').value = pageData.monoGenre || 'その他'; }
   $('edit-note').hidden = !on;
   $('btn-edit').hidden = on;
   $('btn-save').hidden = !on;
@@ -671,6 +684,7 @@ auth.onAuthStateChanged(function(user){
   });
   document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){
     applyCatLabels(r.value);
+    $('genre-edit').hidden = !(editing && r.value === 'モノ');
   }); });
   $('in-photo').addEventListener('change', function(){
     var f = $('in-photo').files && $('in-photo').files[0];
@@ -888,6 +902,7 @@ $('qf-icon').addEventListener('change', function(){
       menuUrl: $('in-menu').value.trim(),
       snsLinks: $('in-sns').value.trim(),
       categories: catEl ? [catEl.value] : (pageData.categories || []),
+      monoGenre: (catEl && catEl.value === 'モノ') ? $('in-genre').value : (pageData.monoGenre || ''),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     $('edit-msg').textContent = '保存しています…';
