@@ -18,9 +18,15 @@
   .sub{color:var(--soft);font-size:.92rem}
   .badge{display:inline-block;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;color:#4a3418}
   .cat-hito{background:#f6c3d5}.cat-mono{background:#bfe6cf}.cat-koto{background:#fbe38e}
-  .page-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .page-card .nm{font-weight:bold;font-size:1.1rem;flex:1;min-width:140px}
-  .page-card .no{color:var(--soft);font-size:.88rem}
+  #pages-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:14px}
+  .page-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+  .page-card .tile{display:block;text-decoration:none;color:var(--ink)}
+  .page-card .timg{width:100%;height:120px;object-fit:cover;display:block}
+  .page-card .tletter{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:bold;color:#a35c14;background:#f6ead2}
+  .page-card .tn{display:block;padding:9px 11px 2px;font-weight:bold}
+  .page-card .tc{display:block;padding:0 11px 8px}
+  .page-card .no{color:var(--soft);font-size:.8rem;font-weight:normal}
+  .page-card .tdel{margin:0 11px 11px;align-self:flex-start;background:none;border:none;color:#b03a3a;cursor:pointer;font-family:inherit;font-size:.8rem;padding:2px 0;text-decoration:underline}
   .open-btn{background:var(--orange);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 20px}
   .create-card{background:#fffdf9;border:2px dashed #e8b96f;border-radius:16px;padding:16px 20px;margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .create-card .nm{flex:1;min-width:140px;color:var(--soft)}
@@ -156,14 +162,26 @@ function pageName(d){
   if(cats.indexOf('モノ') >= 0) return 'モノのページ（写真待ち）';
   return '（タイトル未設定）';
 }
+function tilePhoto(docId, d){
+  if(d.photoUrl) return d.photoUrl;
+  if(docId === uid) return d.iconData || 'momowari-icon.png';
+  if(docId === uid + '__mono') return 'images/shop/zakka-1.jpg';
+  if(docId === uid + '__koto') return 'images/shop/eyes-room.jpg';
+  if(docId.slice(-9) === '__pelua01') return 'images/shop/elua-mirror.jpg';
+  if(docId.slice(-11) === '__pmahalo01') return 'images/shop/salon-chairs.jpg';
+  return d.iconData || '';
+}
 function card(docId, d){
   var cats = d.categories || (d.category ? [d.category] : []);
   var bh = '';
   cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
-  return '<div class="page-card">' + bh + '<span class="nm">' + esc(pageName(d)) + '</span>' +
-    (d.memberNo ? '<span class="no">No.' + d.memberNo + '</span>' : '') +
-    '<a class="open-btn" href="member.html?id=' + encodeURIComponent(docId) + '&edit=1">このページを編集</a>' +
-    '<button type="button" class="del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '">削除</button></div>';
+  var photo = tilePhoto(docId, d);
+  var img = photo ? '<img class="timg" src="' + esc(photo) + '" alt="">' : '<span class="tletter">' + esc(pageName(d).slice(0, 1)) + '</span>';
+  return '<div class="page-card">' +
+    '<a class="tile" href="member.html?id=' + encodeURIComponent(docId) + '">' + img +
+    '<span class="tn">' + esc(pageName(d)) + (d.memberNo ? ' <span class="no">No.' + d.memberNo + '</span>' : '') + '</span>' +
+    '<span class="tc">' + bh + '</span></a>' +
+    '<button type="button" class="tdel del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '">削除</button></div>';
 }
 function trashCard(docId, d){
   var cats = d.categories || (d.category ? [d.category] : []);
