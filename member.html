@@ -527,9 +527,9 @@ function render(d, editMode){
 
 var SUGGSETS = {
   lea: [['ホームページ','hp','https://momowari.github.io/Lea-Mahalo/'],['SNS（メルカリ）','sns','https://jp.mercari.com/user/profile/256767561']],
-  eyes: [['ホームページ','hp','https://momowari.github.io/Eyes-MAHALO/'],['メニュー・料金','menu','https://momowari.github.io/Eyes-MAHALO/'],['SNS（公式LINE）','sns','https://lin.ee/q8vBvt1']],
-  mahalo: [['ホームページ','hp','https://www.hair-mahalo.com/']],
-  elua: [['ホームページ','hp','https://www.hair-mahalo.com/mahalo-1f']],
+  eyes: [['ホームページ','hp','https://momowari.github.io/Eyes-MAHALO/'],['メニュー・料金','menu','https://momowari.github.io/Eyes-MAHALO/'],['SNS（公式LINE）','sns','https://lin.ee/q8vBvt1'],['SNS（公式HP）','sns','https://www.hair-mahalo.com/mahalo-1f']],
+  mahalo: [['ホームページ','hp','https://www.hair-mahalo.com/'],['メニュー・料金','menu','https://www.hair-mahalo.com/mahalo-2f'],['SNS（LINE）','sns','https://line.me/R/ti/p/%40mahalo.hair']],
+  elua: [['ホームページ','hp','https://www.hair-mahalo.com/mahalo-1f'],['メニュー・料金','menu','https://www.hair-mahalo.com/mahalo-1f'],['SNS（LINE）','sns','https://line.me/R/ti/p/%40elua']],
   momo: [['ホームページ','hp','https://lit.link/momowari'],['SNS（Instagram）','sns','https://www.instagram.com/momowari/'],['SNS（X）','sns','https://twitter.com/Lea_Mahalo'],['SNS（note）','sns','https://note.com/momo2025'],['SNS（YouTube）','sns','https://youtube.com/@00LeaMahalo00'],['SNS（ジモティー）','sns','https://jmty.jp/profiles/5c00d902adce5e534b9fee98'],['掲載（エールラボえひめ）','sns','https://yell-lab.ehime.jp/interview/298.php']]
 };
 function buildSuggestions(){
@@ -546,22 +546,16 @@ function buildSuggestions(){
     else if(cats.indexOf('コト') >= 0){ sets.push(['Eyes MAHALO', SUGGSETS.eyes]); sets.push(['hair ID salon MAHALO', SUGGSETS.mahalo]); sets.push(['elua Mahalo', SUGGSETS.elua]); }
     else sets.push(['MOMOwaRI', SUGGSETS.momo]);
   }
-  var box = $('sugg-btns');
-  box.innerHTML = '';
+  var filled = false;
   sets.forEach(function(pair){
     pair[1].forEach(function(it){
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = pair[0] + '・' + it[0];
-      b.addEventListener('click', function(){
-        if(it[1] === 'hp') $('in-hp').value = it[2];
-        else if(it[1] === 'menu') $('in-menu').value = it[2];
-        else { var cur = $('in-sns').value.trim(); $('in-sns').value = cur ? cur + '\n' + it[2] : it[2]; }
-      });
-      box.appendChild(b);
+      if(it[1] === 'hp'){ if(!$('in-hp').value.trim()){ $('in-hp').value = it[2]; filled = true; } }
+      else if(it[1] === 'menu'){ var mv = $('in-menu'); if(mv && !mv.value.trim()){ mv.value = it[2]; filled = true; } }
+      else { var cur = $('in-sns').value; if(cur.indexOf(it[2]) < 0){ $('in-sns').value = cur.trim() ? cur.replace(/\s+$/, '') + '\n' + it[2] : it[2]; filled = true; } }
     });
   });
-  $('link-suggest').hidden = false;
+  $('link-suggest').hidden = true;
+  if(filled){ var ln = $('link-note'); if(ln) ln.textContent = 'リンクは候補をあらかじめ入れてあります。違うものは消してから保存してください。'; }
 }
 
 function setEdit(on){
