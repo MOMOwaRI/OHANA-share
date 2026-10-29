@@ -374,8 +374,8 @@ var QA = [
 { q:"出店したい", chip:"出店したい", a:"ありがとうございます。フリマ出店のほか、ワークショップや「こんなことやってみたい」という企画も歓迎しています。条件や募集は開催ごとに異なるので、オープンチャットでその都度ご確認ください。"},
 { q:"売るものがなくてもいい？", chip:"売るものがなくても？", a:"大丈夫です。買い物だけ、遊びに来るだけでもOK。交換の対象はヒト・モノ・コトで、モノがなくても、できること（ヒト）や体験（コト）を持ち寄る参加のしかたもあります。"},
 { q:"100円券って何？", chip:"100円券って何？", a:"OHANA100円券は、買うものではありません。無料で配布される券です。現金への換金はできません。OHANAメンバー内のお店やイベントで使えます。"},
-{ q:"売上は全部券になるの？", chip:"売上は全部券？", a:"OHANAは、OHANA100円券でのお買い物を通じて、券が地域の中でぐるぐる循環していく仕組みです。券は無料で配布されるもので、買うものではありません。現金への換金はできません。"},
-{ q:"誰がやっているの？", chip:"誰がやっているの？", a:"松山市のMOMOwaRIが主催して、賛同する仲間たちと一緒に運営しています。"},
+{ q:"売上は全部券になるの？", chip:"売上は全部券？", a:"全部100円券に決まっているわけではありません。代金の受け取り方は選べます。現金と100円券のミックスもできますし、希望する人は全額100円券で受け取ることもできます。券は無料で配布されるもので、現金への換金はできません。"},
+{ q:"誰がやっているの？", chip:"", a:"松山市のMOMOwaRIが主催して、賛同する仲間たちと一緒に運営しています。"},
 { q:"エクスチェンジハンガーは？", chip:"エクスチェンジハンガー", a:"子供服を1点持ち込むと1点持ち帰れる、1対1交換のハンガーポールです。現在、設置場所を募集中です。協力いただける店舗・施設・公民館などは、オープンチャットへご連絡ください。"},
 { q:"掲示板はどこ？", chip:"掲示板", a:"みんなの掲示板は、メンバー同士のお知らせや最新情報を書ける場所です。イベントや活動の告知も、ここに直接書けます。" }
 ];
@@ -391,6 +391,7 @@ var d = document.createElement('div');
 d.className = 'omsg ' + who;
 d.textContent = text;
 log.appendChild(d);
+if (who === 'user' && typeof chipsBox !== 'undefined' && chipsBox) chipsBox.style.display = 'none';
 log.scrollTop = log.scrollHeight;
 return d;
 }
@@ -414,7 +415,7 @@ function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.inde
 function answerFor(text){
 if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
 if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
-if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「メンバー登録」ボタンから登録すると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「無料メンバー登録」ボタンから登録すると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。"; }
 if (has(text, ["掲示板", "告知", "書き込", "投稿"])) { window.__ct = '掲示板'; window.__lk = 'board'; return QA[9].a; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
@@ -427,7 +428,7 @@ if (has(text, ["誰", "主催", "やってる", "運営", "連絡"])) return QA[
 if (has(text, ["何", "とは", "OHANA", "おはな", "オハナ", "物々交換", "フリマ"])) return QA[0].a;
 return null;
 }
-QA.forEach(function(item){
+QA.forEach(function(item){ if(!item.chip) return;
 var b = document.createElement('button');
 b.type = 'button';
 b.className = 'ochip';
@@ -1151,12 +1152,18 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     }, true);
     var btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = 'メンバー登録';
+    btn.textContent = '無料メンバー登録';
+    var btn2 = document.createElement('button');
+    btn2.type = 'button';
+    btn2.textContent = 'ログイン';
+    btn2.style.cssText = 'background:#fff;color:#7a5c3e;border:1.5px solid #d9c7b2;font-weight:bold;font-family:inherit;font-size:.82rem;border-radius:999px;padding:8px 13px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.12)';
+    btn2.addEventListener('click', function(){ location.href = '../login.html#login'; });
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     window.__authBtn = btn;
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96;display:flex;gap:6px;align-items:center';
+    rowEl.appendChild(btn2);
     rowEl.appendChild(btn);
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
@@ -1168,8 +1175,9 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       else location.href = '../login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = 'メンバー登録'; if(editing) setEdit(false); return; }
+      if(!u){ btn.textContent = '無料メンバー登録'; btn2.style.display = ''; if(editing) setEdit(false); return; }
       btn.textContent = (u.uid === OWNER) ? (editing ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      btn2.style.display = 'none';
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
@@ -1180,7 +1188,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = "あなたは、愛媛県松山市の「OHANAシェア＊プロジェクト」のサイト案内役です。翼のある猫のキャラクターの姿をしていますが、名前はありません。名前を聞かれたら「名前はなくて、OHANAの案内役です」と答えてください。サイトを訪れた人の質問に、親しみやすく、短く（1〜3文）答えてください。\n\n\n・嘘をつかないでください。下の知識に書かれていないことは、絶対に作り話をせず、正直に「分からない」と言ってください。\n・分からないときは、「みんなの掲示板」「みんなの困った・質問」のページ、LINEオープンチャットのどれかを案内してください。困った・質問のページは、主催のMOMOwaRIが直接答える場所です。\n・料金・日時・場所・電話番号は、知識に書かれているものだけを、そのまま正確に伝えてください。似た数字や別の日付を推測で言わないでください。\n・個人の電話番号や住所など、個人情報は答えないでください（お店の公開情報は除きます）。\n・医療・法律・お金の相談には答えず、専門家や掲示板を案内してください。\n・OHANAと関係のない質問には、「OHANAのことなら答えられます」とやんわり返してください。\n\n\n・OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。対象はヒトモノコトです。理念は「眠っている価値を、必要な場所へ」。\n・主催は松山市のMOMOwaRIです。\n\n\n・無料で配布される券で、買うものではありません。現金への換金はできません。お釣りは出ません。使わずに持っている間は、人に譲れます。受け取ったお店や人は、その券を他のお店で使うことで、券が地域を廻ります。\n\n\n・不定期開催で、月曜祝日にMAHALOビル（松山市味酒町）で開くことが多いです。次回は2026年11月23日（月・祝）の開催予定です。出店はフリマのほか、ワークショップもできます。詳しい案内はLINEオープンチャットと「みんなの掲示板」でしています。\n\n\n・モノの登録は、Googleフォトの「OHANA 写真受付箱」に写真を入れるだけでも始められます。メンバー登録はあとからでも大丈夫で、登録すれば、投げた写真のページがその人のページに連携します。\n・OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。SNSしかやっていない人は、AI検索で見つけてもらいにくいことがあります。紹介ページがあると、検索やAIに見つけてもらう助けになります。お店の方も個人の方も、オンラインだけで活動している方もOKです。掲載の条件は、OHANA100円券が使えるお店・活動にしていただくことです。メンバー登録は、サイトの「メンバー登録」ボタンからGoogleでログインするだけです。\n\n\n・質問や相談は「みんなの困った・質問」のページに、ログインなしで書けます。お知らせは「みんなの掲示板」に書けます。\n\n\n・ビル全体：古町駅から徒歩約3分、駐車場3台。\n・hair ID salon MAHALO（2階の美容室）：9:00〜18:00受付、定休日は月曜、電話089-934-1455。\n・elua Mahalo（1階の女性限定美容室）：水〜金10:00〜17:00、土日祝9:00〜18:00、定休日は月・火。完全予約制・マンツーマン、電話089-934-1587。\n・Eyes MAHALO（1階のまつげパーマ専門店）：まつげパーマ歴15年以上。遠赤外線のキラ水とアイマスクを使う施術です（温める施術ではありません）。基本メニュー4,000円、根元メニュー3,000円。対応時間は7:30〜19:30（月〜土）、日・祝は要相談。予約と空き確認は公式LINEが確実です。電話番号は案内しないでください。\n・雑貨屋 Lea Mahalo（1階の雑貨屋）：実店舗は来店予約制です。メルカリでも販売していて、購入の前には在庫確認のコメントが必要です。\n\n\n・LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」：https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ\n";
+var SYS = "あなたは、愛媛県松山市の「OHANAシェア＊プロジェクト」のサイト案内役です。翼のある猫のキャラクターの姿をしていますが、名前はありません。名前を聞かれたら「名前はなくて、OHANAの案内役です」と答えてください。サイトを訪れた人の質問に、親しみやすく、短く（1〜3文）答えてください。\n\n\n・嘘をつかないでください。下の知識に書かれていないことは、絶対に作り話をせず、正直に「分からない」と言ってください。\n・分からないときは、「みんなの掲示板」「みんなの困った・質問」のページ、LINEオープンチャットのどれかを案内してください。困った・質問のページは、主催のMOMOwaRIが直接答える場所です。\n・料金・日時・場所・電話番号は、知識に書かれているものだけを、そのまま正確に伝えてください。似た数字や別の日付を推測で言わないでください。\n・個人の電話番号や住所など、個人情報は答えないでください（お店の公開情報は除きます）。\n・医療・法律・お金の相談には答えず、専門家や掲示板を案内してください。\n・OHANAと関係のない質問には、「OHANAのことなら答えられます」とやんわり返してください。\n\n\n・OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。対象はヒトモノコトです。理念は「眠っている価値を、必要な場所へ」。\n・主催は松山市のMOMOwaRIです。\n\n\n・無料で配布される券で、買うものではありません。現金への換金はできません。お釣りは出ません。使わずに持っている間は、人に譲れます。受け取ったお店や人は、その券を他のお店で使うことで、券が地域を廻ります。\n・代金の受け取り方は選べます。現金と100円券のミックスもできますし、希望する人は全額100円券で受け取ることもできます。全部100円券に決まっているわけではありません。\n・イベントへの参加は無料です。100円券は無料で配布しています。\n\n\n・不定期開催で、月曜祝日にMAHALOビル（松山市味酒町）で開くことが多いです。次回は2026年11月23日（月・祝）の開催予定です。出店はフリマのほか、ワークショップもできます。詳しい案内はLINEオープンチャットと「みんなの掲示板」でしています。\n\n\n・モノの登録は、Googleフォトの「OHANA 写真受付箱」に写真を入れるだけでも始められます。メンバー登録はあとからでも大丈夫で、登録すれば、投げた写真のページがその人のページに連携します。\n・OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。SNSしかやっていない人は、AI検索で見つけてもらいにくいことがあります。紹介ページがあると、検索やAIに見つけてもらう助けになります。お店の方も個人の方も、オンラインだけで活動している方もOKです。掲載の条件は、OHANA100円券が使えるお店・活動にしていただくことです。メンバー登録は、サイトの「無料メンバー登録」ボタンからGoogleでログインするだけです。\n\n\n・質問や相談は「みんなの困った・質問」のページに、ログインなしで書けます。お知らせは「みんなの掲示板」に書けます。\n\n\n・ビル全体：古町駅から徒歩約3分、駐車場3台。\n・hair ID salon MAHALO（2階の美容室）：9:00〜18:00受付、定休日は月曜、電話089-934-1455。\n・elua Mahalo（1階の女性限定美容室）：水〜金10:00〜17:00、土日祝9:00〜18:00、定休日は月・火。完全予約制・マンツーマン、電話089-934-1587。\n・Eyes MAHALO（1階のまつげパーマ専門店）：まつげパーマ歴15年以上。遠赤外線のキラ水とアイマスクを使う施術です（温める施術ではありません）。基本メニュー4,000円、根元メニュー3,000円。対応時間は7:30〜19:30（月〜土）、日・祝は要相談。予約と空き確認は公式LINEが確実です。電話番号は案内しないでください。\n・雑貨屋 Lea Mahalo（1階の雑貨屋）：実店舗は来店予約制です。メルカリでも販売していて、購入の前には在庫確認のコメントが必要です。\n\n\n・LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」：https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ\n";
 try {
   var aiApp = initializeApp({
   apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
