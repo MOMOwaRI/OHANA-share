@@ -142,6 +142,8 @@ var profileName = '';
 function refreshAuthLabel(){
   if(!currentUser) return;
   document.getElementById('auth-status').textContent = (profileName || 'メンバー') + ' さんとしてログイン中です';
+  var nm = document.getElementById('post-name');
+  if(nm && profileName) nm.value = profileName;
 }
 function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 auth.onAuthStateChanged(function(user){
@@ -156,7 +158,7 @@ auth.onAuthStateChanged(function(user){
     st.textContent = (profileName || 'メンバー') + ' さんとしてログイン中です';
     document.getElementById('login-cta').style.display = 'none';
     var nm = document.getElementById('post-name');
-    if(nm) nm.value = profileName || '';
+    if(nm && profileName) nm.value = profileName;
   } else {
     st.textContent = 'ログインなしでも書けます';
     document.getElementById('login-cta').style.display = 'block';
