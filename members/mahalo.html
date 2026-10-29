@@ -1163,11 +1163,10 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     }
     var bar = document.createElement('div');
     bar.id = 'site-savebar';
-    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-undo">元に戻す</button><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">やめる</button>';
+    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">キャンセル</button>';
     document.body.appendChild(bar);
-    $('sb-undo').addEventListener('click', undoEdit);
     $('sb-save').addEventListener('click', saveAll);
-    $('sb-cancel').addEventListener('click', function(){ setEdit(false); });
+    $('sb-cancel').addEventListener('click', function(){ undoEdit(); setEdit(false); });
     var cf = document.createElement('input');
     cf.type = 'file'; cf.accept = 'image/*'; cf.id = 'cm-file'; cf.style.display = 'none';
     cf.addEventListener('change', function(){
