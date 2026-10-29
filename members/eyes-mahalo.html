@@ -873,6 +873,22 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   }
   function pvClick(){ if(editing){ var p = $('cm-panel'); if(p) p.remove(); else buildCmPanel(); } }
 
+  /* ---------- undo (back to last saved state, stay in edit mode) ---------- */
+  function undoEdit(){
+    if(!confirm('保存していない変更を、元に戻しますか？')) return;
+    targets().forEach(function(el){ var k = el.getAttribute('data-tk'); if(k && applied[k] !== undefined) el.textContent = applied[k]; });
+    linkList.forEach(function(L, i){
+      var saved = applied['lnk' + i];
+      if(saved){ try{ applyLink(i, JSON.parse(saved)); }catch(e){} }
+      else { L.el.textContent = L.text; L.el.setAttribute('href', L.href); }
+    });
+    if(docData) buildRows(docData, true);
+    cmWork = null;
+    if($('cm-panel')) buildCmPanel();
+    var lp = $('link-panel'); if(lp) lp.remove();
+    $('sb-msg').textContent = '元に戻しました';
+  }
+
   function saveAll(){
     $('sb-msg').textContent = '保存しています…';
     var jobs = [];
@@ -925,8 +941,9 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     }
     var bar = document.createElement('div');
     bar.id = 'site-savebar';
-    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">やめる</button>';
+    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-undo">元に戻す</button><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">やめる</button>';
     document.body.appendChild(bar);
+    $('sb-undo').addEventListener('click', undoEdit);
     $('sb-save').addEventListener('click', saveAll);
     $('sb-cancel').addEventListener('click', function(){ setEdit(false); });
     var cf = document.createElement('input');
