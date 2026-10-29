@@ -92,8 +92,8 @@
 .sharemenu.open{display:flex}
 .sharemenu a,.sharemenu button{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:7px 14px;font-size:.85rem;text-decoration:none;color:#3a2e25;cursor:pointer;font-family:inherit}
 
-  .hero-pv{max-width:560px}
-  @media (max-width:520px){.hero-pv{max-width:100%}}
+  .hero-pv{max-width:330px}
+  @media (max-width:520px){.hero-pv{max-width:290px}}
   .film figure{flex:0 0 88%}
   .film img{height:300px}
   body{font-size:17px}
@@ -493,6 +493,7 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
 
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
+body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
 body.site-editing .hero-pv{outline:2px dashed rgba(224,123,36,.55);outline-offset:3px;cursor:pointer}
 #site-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;background:#fff;border:1.5px solid #e0a458;border-radius:999px;box-shadow:0 8px 24px rgba(120,70,10,.25);padding:8px 10px;display:none;gap:8px;align-items:center}
 #site-savebar.on{display:flex}
@@ -514,6 +515,9 @@ body.site-editing .hero-pv{outline:2px dashed rgba(224,123,36,.55);outline-offse
 .film-strip .th img{width:100%;height:100%;object-fit:cover;display:block}
 .film-strip .th .x{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid #d8c7ae;font-size:.8rem;line-height:1;cursor:pointer}
 .film-strip .add{display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#c2610f;font-weight:bold}
+.film-strip .th .mv{position:absolute;bottom:2px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid #d8c7ae;font-size:.78rem;line-height:1;cursor:pointer;color:#a35c14}
+.film-strip .th .mv.l{left:2px}
+.film-strip .th .mv.r{right:2px}
 body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px;min-height:1.5em}
 </style>
 <script>
@@ -521,18 +525,45 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   var DOC = 'ELCzyeeoDCU4gveavc077L4jBqE3__pelua01';
   var PAGE = 'members-elua';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
-  var SEL = 'h1,h2,h3,.catch,.sub,.step p';
+  var DEFCOLOR = '#e07b24';
   var editing = false;
   var docData = null;
   var applied = {};
   var cmPending = {};
   var cmTouched = false;
+  var linkList = [];
+  var pendingLinks = {};
   function $(id){ return document.getElementById(id); }
   function esc(t){ return String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function hash(t){ var h = 0; for(var i = 0; i < t.length; i++){ h = (h * 31 + t.charCodeAt(i)) | 0; } return 'k' + (h >>> 0).toString(36); }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function targets(){ var out = []; document.querySelectorAll(SEL).forEach(function(el){ if(pureText(el) && !el.closest('.film,.ofabs,.opanel,.sns,#live-sec,#site-savebar,.ied-panel')) out.push(el); }); return out; }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,#live-sec,#site-savebar,.ied-panel,script,style,textarea,select'); }
+  function targets(){
+    var out = [];
+    document.querySelectorAll('.wrap *').forEach(function(el){
+      if(el.tagName === 'A') return;
+      if(el.closest('a')) return;
+      if(!pureText(el)) return;
+      if(excluded(el)) return;
+      out.push(el);
+    });
+    return out;
+  }
+  function stampLinks(){
+    linkList = [];
+    document.querySelectorAll('.wrap a[href]').forEach(function(a){
+      if(a.closest('.ofabs,.opanel,.ied-panel,#site-savebar')) return;
+      a.setAttribute('data-lk', String(linkList.length));
+      linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href')});
+    });
+  }
+  function applyLink(i, v){
+    var L = linkList[i];
+    if(!L || !v) return;
+    if(typeof v.t === 'string') L.el.textContent = v.t;
+    if(typeof v.h === 'string') L.el.setAttribute('href', v.h);
+  }
 
   /* ---------- animation (CM) rendering ---------- */
   function renderCm(d){
@@ -541,7 +572,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if(!(d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
     var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
     var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
-    var color = d.cmColor || '#e07b24';
+    var color = d.cmColor || DEFCOLOR;
     var html = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
     for(var i = 0; i < 3; i++){ if(photos[i]){ html += '<div class="cm-scene photo"><img src="' + photos[i] + '" alt=""><div class="band">' + esc(texts[i + 1] || '') + '</div></div>'; } }
     html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -667,6 +698,18 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       x.type = 'button'; x.className = 'x'; x.textContent = '×';
       x.addEventListener('click', function(ev){ ev.stopPropagation(); filmWork.splice(i, 1); saveFilm(); buildFilmStrip(); });
       th.appendChild(x);
+      if(i > 0){
+        var bl = document.createElement('button');
+        bl.type = 'button'; bl.className = 'mv l'; bl.textContent = '◀';
+        bl.addEventListener('click', function(ev){ ev.stopPropagation(); var t = filmWork[i - 1]; filmWork[i - 1] = filmWork[i]; filmWork[i] = t; saveFilm(); buildFilmStrip(); });
+        th.appendChild(bl);
+      }
+      if(i < filmWork.length - 1){
+        var br = document.createElement('button');
+        br.type = 'button'; br.className = 'mv r'; br.textContent = '▶';
+        br.addEventListener('click', function(ev){ ev.stopPropagation(); var t = filmWork[i + 1]; filmWork[i + 1] = filmWork[i]; filmWork[i] = t; saveFilm(); buildFilmStrip(); });
+        th.appendChild(br);
+      }
       th.addEventListener('click', function(){ pickFilmPhoto(i); });
       strip.appendChild(th);
     });
@@ -701,7 +744,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       h += '<div class="th" data-cmn="' + n + '">' + (cur ? '<img src="' + cur + '" alt="">' : '<span style="display:flex;align-items:center;justify-content:center;height:100%;color:#c2610f;font-weight:bold">＋写真' + n + '</span>') + '</div>';
     }
     h += '</div>';
-    h += '<label>色 <input type="color" id="cm-color" value="' + esc(d.cmColor || '#e07b24') + '"></label>';
+    h += '<label>色 <input type="color" id="cm-color" value="' + esc(d.cmColor || DEFCOLOR) + '"></label>';
     var labels = ['最初の画面の文字', '写真1の文字', '写真2の文字', '写真3の文字', '最後の画面の文字'];
     for(var t = 1; t <= 5; t++){
       h += '<label>' + labels[t - 1] + '<textarea id="cm-t' + t + '" rows="2">' + esc(d['cmT' + t] || '') + '</textarea></label>';
@@ -718,6 +761,32 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     panel.querySelectorAll('textarea, input').forEach(function(el){ el.addEventListener('input', function(){ cmTouched = true; }); });
   }
 
+  /* ---------- link panel ---------- */
+  function openLinkPanel(a){
+    var old = $('link-panel');
+    if(old) old.remove();
+    var i = parseInt(a.getAttribute('data-lk'), 10);
+    var L = linkList[i];
+    if(!L) return;
+    var cur = pendingLinks[i] || {t: a.textContent.trim(), h: a.getAttribute('href')};
+    var panel = document.createElement('div');
+    panel.className = 'ied-panel';
+    panel.id = 'link-panel';
+    panel.innerHTML = '<h3>リンクの編集</h3>' +
+      '<label>表示する文字<textarea id="lp-text" rows="2">' + esc(cur.t) + '</textarea></label>' +
+      '<label>リンク先（URL）<input type="text" id="lp-href" value="' + esc(cur.h) + '"></label>' +
+      '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">保存は下の「保存する」でまとめて反映されます。</p>' +
+      '<p style="margin-top:8px"><button type="button" id="lp-close" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 16px;cursor:pointer">閉じる</button></p>';
+    a.parentNode.insertBefore(panel, a.nextSibling);
+    function upd(){
+      pendingLinks[i] = {t: $('lp-text').value, h: $('lp-href').value};
+      a.textContent = $('lp-text').value;
+    }
+    $('lp-text').addEventListener('input', upd);
+    $('lp-href').addEventListener('input', upd);
+    $('lp-close').addEventListener('click', function(){ panel.remove(); });
+  }
+
   /* ---------- edit mode ---------- */
   function setEdit(on){
     editing = on;
@@ -728,6 +797,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
     targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
     if(on){
+      pendingLinks = {};
       db().collection('profiles').doc(DOC).get().then(function(doc){
         docData = doc.exists ? doc.data() : {};
         cmPending = {}; cmTouched = false;
@@ -740,10 +810,16 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       var pv2 = document.querySelector('.hero-pv');
       if(pv2) pv2.removeEventListener('click', pvClick);
       var p = $('cm-panel'); if(p) p.remove();
+      var lp = $('link-panel'); if(lp) lp.remove();
       var fs = $('film-strip'); if(fs) fs.remove();
       var film = document.querySelector('.film');
       if(film) film.classList.remove('paused');
       targets().forEach(function(el){ var k = el.getAttribute('data-tk'); if(k && applied[k] !== undefined) el.textContent = applied[k]; });
+      linkList.forEach(function(L, i){
+        var saved = applied['lnk' + i];
+        if(saved){ try{ applyLink(i, JSON.parse(saved)); }catch(e){} }
+        else { L.el.textContent = L.text; L.el.setAttribute('href', L.href); }
+      });
       if(docData) { buildRows(docData, false); renderCm(docData); }
     }
   }
@@ -760,6 +836,9 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       if(applied[k] !== undefined && applied[k] !== v) upd[k] = v;
       else if(applied[k] === undefined && v) upd[k] = v;
     });
+    Object.keys(pendingLinks).forEach(function(i){
+      upd['lnk' + i] = JSON.stringify(pendingLinks[i]);
+    });
     if(Object.keys(upd).length) jobs.push(db().collection('siteTexts').doc(PAGE).set(upd, {merge: true}).then(function(){ Object.keys(upd).forEach(function(k){ applied[k] = upd[k]; }); }));
     var prof = {};
     document.querySelectorAll('#live-rows p[data-f]').forEach(function(p){ prof[p.getAttribute('data-f')] = p.textContent.trim(); });
@@ -768,8 +847,6 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       for(var t = 1; t <= 5; t++) prof['cmT' + t] = $('cm-t' + t).value;
       prof.cmColor = $('cm-color').value;
       Object.keys(cmPending).forEach(function(k){ prof[k] = cmPending[k]; });
-    } else if(cmTouched){
-      // panel closed after edits: nothing pending
     }
     if(Object.keys(prof).length){
       prof.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
@@ -783,25 +860,27 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
 
   function init(){
     if(!window.firebase || !firebase.auth) return;
-    /* stamp text keys and apply published overrides */
     var els = targets();
     els.forEach(function(el){ el.setAttribute('data-tk', hash(el.textContent.trim())); });
+    stampLinks();
     if(firebase.firestore){
       db().collection('siteTexts').doc(PAGE).get().then(function(doc){
         if(!doc.exists) return;
         var data = doc.data() || {};
         els.forEach(function(el){ var v = data[el.getAttribute('data-tk')]; if(typeof v === 'string'){ el.textContent = v; applied[el.getAttribute('data-tk')] = v; } });
         els.forEach(function(el){ var k = el.getAttribute('data-tk'); if(applied[k] === undefined) applied[k] = el.textContent.trim(); });
+        linkList.forEach(function(L, i){
+          var v = data['lnk' + i];
+          if(typeof v === 'string'){ applied['lnk' + i] = v; try{ applyLink(i, JSON.parse(v)); }catch(e){} }
+        });
       }).catch(function(){});
     }
-    /* save bar */
     var bar = document.createElement('div');
     bar.id = 'site-savebar';
     bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">やめる</button>';
     document.body.appendChild(bar);
     $('sb-save').addEventListener('click', saveAll);
     $('sb-cancel').addEventListener('click', function(){ setEdit(false); });
-    /* hidden file inputs */
     var cf = document.createElement('input');
     cf.type = 'file'; cf.accept = 'image/*'; cf.id = 'cm-file'; cf.style.display = 'none';
     cf.addEventListener('change', function(){
@@ -828,7 +907,11 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       ff.value = '';
     });
     document.body.appendChild(ff);
-    /* button */
+    document.addEventListener('click', function(ev){
+      if(!editing) return;
+      var a = ev.target.closest ? ev.target.closest('a[href]') : null;
+      if(a && a.hasAttribute('data-lk')){ ev.preventDefault(); openLinkPanel(a); }
+    }, true);
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = 'ログイン';
@@ -855,6 +938,5 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
-
 </body>
 </html>
