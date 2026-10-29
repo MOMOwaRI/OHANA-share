@@ -262,9 +262,11 @@ if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = do
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'display:flex;justify-content:flex-end;padding:10px 2px 0';
+    rowEl.style.cssText = 'display:flex;justify-content:flex-end;padding:8px 2px 0';
     rowEl.appendChild(btn);
-    wrapEl.insertBefore(rowEl, wrapEl.firstChild);
+    var hdr = wrapEl.querySelector('header');
+    if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
+    else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
       if(!u){ firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){}); }
