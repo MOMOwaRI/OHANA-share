@@ -110,8 +110,9 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
 .fcell .fdel{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:14px;cursor:pointer;line-height:1}
 .fcell input{width:110px;margin-top:4px;font-family:inherit;font-size:.8rem;padding:4px 6px;border:1px solid #e8cdb0;border-radius:6px}
 .fadd{width:110px;height:110px;border:2px dashed #d9b98c;border-radius:10px;background:#fffdf8;font-size:2.2rem;color:#e07b24;cursor:pointer;font-family:inherit}
-.cm-hint{display:none;position:absolute;top:10px;right:10px;z-index:5;background:rgba(255,255,255,.94);border:1px solid #d8c7ae;border-radius:999px;padding:5px 11px;font-weight:bold;font-size:.78rem;color:#7a4b12}
-body.is-owner .cm-hint{display:block}
+.sns-fields .sns-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.sns-fields .sns-row span{width:64px;font-weight:bold;flex:none}
+.sns-fields .sns-row input,.sns-fields .sns-row textarea{flex:1}
 </style>
 </head>
 <body>
@@ -251,8 +252,15 @@ body.is-owner .cm-hint{display:block}
       <label for="in-menu">メニュー・料金ページのURL</label>
       <input type="url" id="in-menu" placeholder="https://">
       </div>
-      <label for="in-sns">SNSのリンク（URLを貼る・複数OK）</label>
-      <textarea id="in-sns" rows="3" placeholder="https://"></textarea>
+      <label>SNSのリンク</label>
+      <div class="sns-fields">
+        <div class="sns-row"><span>インスタ</span><input type="url" id="in-sns-instagram" placeholder="https://"></div>
+        <div class="sns-row"><span>LINE</span><input type="url" id="in-sns-line" placeholder="https://"></div>
+        <div class="sns-row"><span>X</span><input type="url" id="in-sns-x" placeholder="https://"></div>
+        <div class="sns-row"><span>YouTube</span><input type="url" id="in-sns-youtube" placeholder="https://"></div>
+        <div class="sns-row"><span>note</span><input type="url" id="in-sns-note" placeholder="https://"></div>
+        <div class="sns-row"><span>その他</span><textarea id="in-sns-other" rows="2" placeholder="https://"></textarea></div>
+      </div>
       <div id="link-suggest" hidden>
         <label>リンクの候補（タップで入ります）</label>
         <div class="sugg" id="sugg-btns"></div>
@@ -472,7 +480,7 @@ function renderCm(d){
     if(photos[i]){ html += '<div class="cm-scene photo"><img src="' + photos[i] + '" alt=""><div class="band">' + esc(texts[i + 1] || '') + '</div></div>'; }
   }
   html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
-  box.innerHTML = html + '<div class="cm-hint">✎ タップで編集</div>';
+  box.innerHTML = html;
   var kids = box.querySelectorAll('.cm-scene');
   var total = kids.length * 5;
   for(var k = 0; k < kids.length; k++){ kids[k].style.animationDuration = total + 's'; kids[k].style.animationDelay = (k * 5) + 's'; }
@@ -529,14 +537,59 @@ function render(d, editMode){
   if(d.menuUrl) links += '<a href="' + esc(d.menuUrl) + '" target="_blank" rel="noopener"><b>メニュー・料金ページ</b></a>';
   if(d.snsLinks){
     d.snsLinks.split(/\s+/).forEach(function(u){
-      if(u.indexOf('http') === 0) links += '<a href="' + esc(u) + '" target="_blank" rel="noopener"><b>SNSリンク</b></a>';
+      if(u.indexOf('http') === 0) links += '<a href="' + esc(u) + '" target="_blank" rel="noopener"><b>' + snsLabel(u) + '</b></a>';
     });
   }
   $('s-links').hidden = !(links || editMode);
   $('p-links').innerHTML = links;
   $('in-hp').value = d.hpUrl || '';
   $('in-menu').value = d.menuUrl || '';
-  $('in-sns').value = d.snsLinks || '';
+  distributeSns(d.snsLinks || '');
+}
+
+function snsKind(u){
+  if(/instagram\.com/.test(u)) return 'instagram';
+  if(/line\.me|lin\.ee/.test(u)) return 'line';
+  if(/twitter\.com|x\.com/.test(u)) return 'x';
+  if(/youtube\.com|youtu\.be/.test(u)) return 'youtube';
+  if(/note\.com/.test(u)) return 'note';
+  return 'other';
+}
+function snsLabel(u){
+  if(/instagram\.com/.test(u)) return 'Instagram';
+  if(/line\.me|lin\.ee/.test(u)) return 'LINE';
+  if(/twitter\.com|x\.com/.test(u)) return 'X';
+  if(/youtube\.com|youtu\.be/.test(u)) return 'YouTube';
+  if(/note\.com/.test(u)) return 'note';
+  if(/mercari/.test(u)) return 'メルカリ';
+  if(/jmty/.test(u)) return 'ジモティー';
+  if(/facebook/.test(u)) return 'Facebook';
+  if(/threads/.test(u)) return 'Threads';
+  return 'SNSリンク';
+}
+function distributeSns(text){
+  ['instagram','line','x','youtube','note'].forEach(function(k){ $('in-sns-' + k).value = ''; });
+  $('in-sns-other').value = '';
+  (text || '').split(/\s+/).forEach(function(u){
+    if(!u) return;
+    var k = snsKind(u);
+    if(k !== 'other' && !$('in-sns-' + k).value) $('in-sns-' + k).value = u;
+    else { var cur = $('in-sns-other').value; $('in-sns-other').value = cur ? cur + '\n' + u : u; }
+  });
+}
+function collectSns(){
+  var out = [];
+  ['instagram','line','x','youtube','note'].forEach(function(k){ var v = $('in-sns-' + k).value.trim(); if(v) out.push(v); });
+  $('in-sns-other').value.split(/\s+/).forEach(function(u){ if(u) out.push(u); });
+  return out.join('\n');
+}
+function addSnsUrl(u){
+  if(collectSns().indexOf(u) >= 0) return false;
+  var k = snsKind(u);
+  if(k !== 'other' && !$('in-sns-' + k).value.trim()){ $('in-sns-' + k).value = u; return true; }
+  var cur = $('in-sns-other').value.trim();
+  $('in-sns-other').value = cur ? cur + '\n' + u : u;
+  return true;
 }
 
 var SUGGSETS = {
@@ -565,7 +618,7 @@ function buildSuggestions(){
     pair[1].forEach(function(it){
       if(it[1] === 'hp'){ if(!$('in-hp').value.trim()){ $('in-hp').value = it[2]; filled = true; } }
       else if(it[1] === 'menu'){ var mv = $('in-menu'); if(mv && !mv.value.trim()){ mv.value = it[2]; filled = true; } }
-      else { var cur = $('in-sns').value; if(cur.indexOf(it[2]) < 0){ $('in-sns').value = cur.trim() ? cur.replace(/\s+$/, '') + '\n' + it[2] : it[2]; filled = true; } }
+      else { if(addSnsUrl(it[2])) filled = true; }
     });
   });
   $('link-suggest').hidden = true;
@@ -878,7 +931,7 @@ $('qf-icon').addEventListener('change', function(){
       cmPhoto3: pendingCm.cmPhoto3 || pageData.cmPhoto3 || '',
       hpUrl: $('in-hp').value.trim(),
       menuUrl: $('in-menu').value.trim(),
-      snsLinks: $('in-sns').value.trim(),
+      snsLinks: collectSns(),
       categories: catEl ? [catEl.value] : (pageData.categories || []),
       monoGenre: (catEl && catEl.value === 'モノ') ? $('in-genre').value : (pageData.monoGenre || ''),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
