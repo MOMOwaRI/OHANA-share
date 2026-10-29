@@ -80,6 +80,10 @@
   .ptiles img{width:100%;height:110px;object-fit:cover;display:block}
   .ptiles .pn{display:block;padding:8px 10px;font-weight:bold;font-size:.92rem}
   .ptiles .pc{display:block;padding:0 10px 8px;font-size:.75rem;color:var(--soft)}
+  .ticket-card{position:relative;background:linear-gradient(120deg,#fff6df,#ffe9bd);border:2px solid #e8b96f;border-radius:16px;padding:16px 20px 16px 66px;margin:18px 0;transform:rotate(-.6deg);box-shadow:0 6px 16px rgba(190,130,40,.16);text-align:left;overflow:hidden}
+  .ticket-card::before{content:"OHANA 100円券";writing-mode:vertical-rl;position:absolute;left:0;top:0;bottom:0;width:46px;display:flex;align-items:center;justify-content:center;font-weight:bold;letter-spacing:.28em;color:#a35c14;font-size:.8rem;border-right:2px dashed #d9a75e;background:rgba(255,255,255,.45)}
+  .ticket-card::after{content:"券";position:absolute;top:10px;right:12px;width:34px;height:34px;border:2px solid rgba(194,97,15,.5);border-radius:50%;color:rgba(194,97,15,.7);display:flex;align-items:center;justify-content:center;font-weight:bold;transform:rotate(12deg);font-size:.95rem;background:rgba(255,255,255,.35)}
+  .ticket-num{font-size:2rem;font-weight:bold;color:#c2610f}
 </style>
 </head>
 <body>
@@ -130,8 +134,10 @@
   </section>
 
   <section id="ticket-sec" style="display:none">
-    <h2>OHANA100円券</h2>
-    <p><span id="tk-num" style="font-size:1.6rem;font-weight:bold">…</span> 枚 持っています</p>
+    <div class="ticket-card">
+      <p style="font-weight:bold">OHANA100円券</p>
+      <p><span class="ticket-num" id="tk-num">…</span> 枚 持っています</p>
+    </div>
   </section>
 
   <section>
