@@ -69,7 +69,7 @@
 .sharemenu.open{display:flex}
 .sharemenu a,.sharemenu button{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:7px 14px;font-size:.85rem;text-decoration:none;color:#3a2e25;cursor:pointer;font-family:inherit}
 
-  .hero-pv{max-width:520px}
+  .hero-pv{max-width:560px}
   @media (max-width:520px){.hero-pv{max-width:100%}}
   .film figure{flex:0 0 88%}
   .film img{height:300px}
@@ -285,7 +285,7 @@ log.scrollTop = log.scrollHeight;
 return d;
 }
 function addFallback(){
-var d = addMsg("ごめんなさい、その質問にはここでは答えられませんでした。こちらで探したり、聞いたりできます。", 'bot');
+var d = addMsg("ごめんなさい、まだその質問には答えられませんでした。知りたいことは、下のボタンから探したり、聞いたりできます。", 'bot');
 function mk(href, label, green){
 var a = document.createElement('a');
 a.className = 'oc-link';
@@ -302,6 +302,9 @@ mk(OC_URL, 'オープンチャットで聞く', true);
 }
 function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.indexOf(words[i]) !== -1) return true; } return false; }
 function answerFor(text){
+if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
+if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。"; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
 if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) return QA[3].a;
@@ -335,5 +338,21 @@ if (ans){ addMsg(ans, 'bot'); } else { addFallback(); }
 })();
 </script>
 
+
+<script>
+(function(){
+document.querySelectorAll('.film').forEach(function(f){
+var lastTouch = 0;
+f.addEventListener('pointerdown', function(){ lastTouch = Date.now(); }, {passive:true});
+f.addEventListener('wheel', function(){ lastTouch = Date.now(); }, {passive:true});
+setInterval(function(){
+if (Date.now() - lastTouch < 6000) return;
+var step = f.clientWidth * 0.88;
+if (f.scrollLeft + f.clientWidth >= f.scrollWidth - 10){ f.scrollTo({left: 0, behavior: 'smooth'}); }
+else { f.scrollBy({left: step, behavior: 'smooth'}); }
+}, 3200);
+});
+})();
+</script>
 </body>
 </html>

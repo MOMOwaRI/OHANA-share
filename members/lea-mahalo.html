@@ -91,11 +91,20 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 .sharemenu.open{display:flex}
 .sharemenu a,.sharemenu button{border:1px solid #ddd3c2;background:#fff;border-radius:999px;padding:7px 14px;font-size:.85rem;text-decoration:none;color:#3a2e25;cursor:pointer;font-family:inherit}
 
-  .hero-pv{max-width:520px}
+  .hero-pv{max-width:560px}
   @media (max-width:520px){.hero-pv{max-width:100%}}
   .film figure{flex:0 0 88%}
   .film img{height:300px}
   body{font-size:17px}
+
+.film{overflow:hidden;display:block;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.film-track{display:flex;width:max-content;animation:filmScroll var(--fd,30s) linear infinite}
+.film.paused .film-track{animation-play-state:paused}
+.film-set{display:flex;gap:10px;padding-right:10px}
+.film figure{flex:0 0 250px;margin:0}
+.film img{width:100%;height:300px;object-fit:cover;border-radius:12px}
+@keyframes filmScroll{to{transform:translateX(-50%)}}
+.film-note{font-size:12px;color:#8a7a63;margin:4px 2px 0}
 </style>
 </head>
 <body>
@@ -163,7 +172,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 
 <section>
 <h2>店内の様子</h2>
-<div class="film"><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film2.jpg" alt="マハロビルの外観"><figcaption>マハロビルの外観</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film6.jpg" alt="雑貨の並ぶ店内"><figcaption>雑貨の並ぶ店内</figcaption></figure><figure><img src="../images/shop/lea-film7.jpg" alt="店先のワゴン"><figcaption>店先のワゴン</figcaption></figure><figure><img src="../images/shop/lea-film8.jpg" alt="階段と店先"><figcaption>階段と店先</figcaption></figure><figure><img src="../images/shop/lea-film10.jpg" alt="洋服いろいろ"><figcaption>洋服いろいろ</figcaption></figure><figure><img src="../images/shop/lea-film11.jpg" alt="絵本と雑貨"><figcaption>絵本と雑貨</figcaption></figure><figure><img src="../images/shop/lea-film12.jpg" alt="洋服ラック"><figcaption>洋服ラック</figcaption></figure></div>
+<div class="film" style="--fd:33s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film2.jpg" alt="マハロビルの外観"><figcaption>マハロビルの外観</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film6.jpg" alt="雑貨の並ぶ店内"><figcaption>雑貨の並ぶ店内</figcaption></figure><figure><img src="../images/shop/lea-film7.jpg" alt="店先のワゴン"><figcaption>店先のワゴン</figcaption></figure><figure><img src="../images/shop/lea-film8.jpg" alt="階段と店先"><figcaption>階段と店先</figcaption></figure><figure><img src="../images/shop/lea-film10.jpg" alt="洋服いろいろ"><figcaption>洋服いろいろ</figcaption></figure><figure><img src="../images/shop/lea-film11.jpg" alt="絵本と雑貨"><figcaption>絵本と雑貨</figcaption></figure><figure><img src="../images/shop/lea-film12.jpg" alt="洋服ラック"><figcaption>洋服ラック</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film2.jpg" alt="マハロビルの外観"><figcaption>マハロビルの外観</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film6.jpg" alt="雑貨の並ぶ店内"><figcaption>雑貨の並ぶ店内</figcaption></figure><figure><img src="../images/shop/lea-film7.jpg" alt="店先のワゴン"><figcaption>店先のワゴン</figcaption></figure><figure><img src="../images/shop/lea-film8.jpg" alt="階段と店先"><figcaption>階段と店先</figcaption></figure><figure><img src="../images/shop/lea-film10.jpg" alt="洋服いろいろ"><figcaption>洋服いろいろ</figcaption></figure><figure><img src="../images/shop/lea-film11.jpg" alt="絵本と雑貨"><figcaption>絵本と雑貨</figcaption></figure><figure><img src="../images/shop/lea-film12.jpg" alt="洋服ラック"><figcaption>洋服ラック</figcaption></figure></div></div></div><p class="film-note">写真は横に流れ続けます（タップで止まります）</p>
 <p class="note">横にスライドできます。</p>
 </section>
 <section>
@@ -363,7 +372,7 @@ log.scrollTop = log.scrollHeight;
 return d;
 }
 function addFallback(){
-var d = addMsg("ごめんなさい、その質問にはここでは答えられませんでした。こちらで探したり、聞いたりできます。", 'bot');
+var d = addMsg("ごめんなさい、まだその質問には答えられませんでした。知りたいことは、下のボタンから探したり、聞いたりできます。", 'bot');
 function mk(href, label, green){
 var a = document.createElement('a');
 a.className = 'oc-link';
@@ -380,6 +389,9 @@ mk(OC_URL, 'オープンチャットで聞く', true);
 }
 function has(text, words){ for (var i = 0; i < words.length; i++){ if (text.indexOf(words[i]) !== -1) return true; } return false; }
 function answerFor(text){
+if (has(text, ["こんにちは", "こんばんは", "おはよう", "はじめまして", "おいおい", "こんにちわ", "やあ"])) { window.__ct = 'あいさつ'; return "こんにちは！OHANAの案内ボットです。知りたいことを聞いてください。上のボタンからも選べます。"; }
+if (has(text, ["ありがとう", "助かり", "わかった", "分かった"])) { window.__ct = 'お礼'; return "どういたしまして！また何かあれば聞いてください。"; }
+if (has(text, ["登録", "メンバーになり", "仲間に", "掲載", "ページが欲しい", "ページを作", "自分のページ", "会員"])) { window.__ct = '登録'; return "OHANAメンバーへの登録は無料です。このサイトの「ログイン」からアカウントを作ると、マイページで自分の紹介ページが持てます。AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。"; }
 if (has(text, ["ハンガー", "子供服", "子ども服"])) return QA[8].a;
 if (has(text, ["売上", "全額", "ぜんぶ券", "全部券"])) return QA[6].a;
 if (has(text, ["出店", "売りたい", "出したい", "ワークショップ"])) return QA[3].a;
@@ -413,5 +425,11 @@ if (ans){ addMsg(ans, 'bot'); } else { addFallback(); }
 })();
 </script>
 
+
+<script>
+document.querySelectorAll('.film').forEach(function(f){
+f.addEventListener('click', function(){ f.classList.toggle('paused'); });
+});
+</script>
 </body>
 </html>
