@@ -729,36 +729,65 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   }
 
   /* ---------- CM panel ---------- */
+  var cmWork = null;
   function buildCmPanel(){
     var old = $('cm-panel');
     if(old){ old.remove(); }
     var pv = document.querySelector('.hero-pv');
     if(!pv) return;
     var d = docData || {};
+    if(!cmWork) cmWork = [d.cmPhoto1 || '', d.cmPhoto2 || '', d.cmPhoto3 || ''];
     var panel = document.createElement('div');
     panel.className = 'ied-panel';
     panel.id = 'cm-panel';
-    var h = '<h3>アニメーションの編集</h3><div class="ied-thumbs">';
-    for(var n = 1; n <= 3; n++){
-      var cur = cmPending['cmPhoto' + n] !== undefined ? cmPending['cmPhoto' + n] : (d['cmPhoto' + n] || '');
-      h += '<div class="th" data-cmn="' + n + '">' + (cur ? '<img src="' + cur + '" alt="">' : '<span style="display:flex;align-items:center;justify-content:center;height:100%;color:#c2610f;font-weight:bold">＋写真' + n + '</span>') + '</div>';
-    }
-    h += '</div>';
+    var h = '<h3>アニメーションの編集</h3><div class="ied-thumbs" id="cm-thumbs"></div>';
     h += '<label>色 <input type="color" id="cm-color" value="' + esc(d.cmColor || DEFCOLOR) + '"></label>';
     var labels = ['最初の画面の文字', '写真1の文字', '写真2の文字', '写真3の文字', '最後の画面の文字'];
     for(var t = 1; t <= 5; t++){
       h += '<label>' + labels[t - 1] + '<textarea id="cm-t' + t + '" rows="2">' + esc(d['cmT' + t] || '') + '</textarea></label>';
     }
-    h += '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真はタップで入れ替え。保存は下の「保存する」でまとめて反映されます。</p>';
+    h += '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真はタップで入れ替え、×で削除、◀▶で順番を変えられます。保存は下の「保存する」でまとめて反映されます。</p>';
     panel.innerHTML = h;
     pv.parentNode.insertBefore(panel, pv.nextSibling);
-    panel.querySelectorAll('.th').forEach(function(th){
+    renderCmThumbs();
+    panel.querySelectorAll('textarea, input').forEach(function(el){ el.addEventListener('input', function(){ cmTouched = true; }); });
+  }
+  function renderCmThumbs(){
+    var box = $('cm-thumbs');
+    if(!box) return;
+    box.innerHTML = '';
+    cmWork.forEach(function(src, i){
+      var th = document.createElement('div');
+      th.className = 'th';
+      if(src){
+        th.innerHTML = '<img src="' + src + '" alt="">';
+        var x = document.createElement('button');
+        x.type = 'button'; x.className = 'x'; x.textContent = '×';
+        x.addEventListener('click', function(ev){ ev.stopPropagation(); cmWork[i] = ''; cmTouched = true; renderCmThumbs(); });
+        th.appendChild(x);
+        if(i > 0){
+          var bl = document.createElement('button');
+          bl.type = 'button'; bl.className = 'x'; bl.textContent = '◀';
+          bl.style.cssText = 'right:auto;left:2px';
+          bl.addEventListener('click', function(ev){ ev.stopPropagation(); var t = cmWork[i - 1]; cmWork[i - 1] = cmWork[i]; cmWork[i] = t; cmTouched = true; renderCmThumbs(); });
+          th.appendChild(bl);
+        }
+        if(i < cmWork.length - 1){
+          var br = document.createElement('button');
+          br.type = 'button'; br.className = 'x'; br.textContent = '▶';
+          br.style.cssText = 'top:auto;bottom:2px';
+          br.addEventListener('click', function(ev){ ev.stopPropagation(); var t = cmWork[i + 1]; cmWork[i + 1] = cmWork[i]; cmWork[i] = t; cmTouched = true; renderCmThumbs(); });
+          th.appendChild(br);
+        }
+      } else {
+        th.innerHTML = '<span style="display:flex;align-items:center;justify-content:center;height:100%;color:#c2610f;font-weight:bold">＋写真' + (i + 1) + '</span>';
+      }
       th.addEventListener('click', function(){
-        $('cm-file').setAttribute('data-n', th.getAttribute('data-cmn'));
+        $('cm-file').setAttribute('data-n', String(i + 1));
         $('cm-file').click();
       });
+      box.appendChild(th);
     });
-    panel.querySelectorAll('textarea, input').forEach(function(el){ el.addEventListener('input', function(){ cmTouched = true; }); });
   }
 
   /* ---------- link panel ---------- */
@@ -800,7 +829,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       pendingLinks = {};
       db().collection('profiles').doc(DOC).get().then(function(doc){
         docData = doc.exists ? doc.data() : {};
-        cmPending = {}; cmTouched = false;
+        cmWork = null; cmTouched = false;
         buildRows(docData, true);
         currentFilmPhotos(function(list){ filmWork = list; buildFilmStrip(); });
       }).catch(function(){});
@@ -846,7 +875,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if(panel){
       for(var t = 1; t <= 5; t++) prof['cmT' + t] = $('cm-t' + t).value;
       prof.cmColor = $('cm-color').value;
-      Object.keys(cmPending).forEach(function(k){ prof[k] = cmPending[k]; });
+      if(cmWork) for(var ci = 1; ci <= 3; ci++) prof['cmPhoto' + ci] = cmWork[ci - 1] || '';
     }
     if(Object.keys(prof).length){
       prof.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
@@ -887,9 +916,9 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       var f = cf.files[0];
       var n = cf.getAttribute('data-n');
       if(f && n) fileToCm(f, function(data){
-        cmPending['cmPhoto' + n] = data;
+        if(cmWork) cmWork[parseInt(n, 10) - 1] = data;
         cmTouched = true;
-        buildCmPanel();
+        renderCmThumbs();
       });
       cf.value = '';
     });
