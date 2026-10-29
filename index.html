@@ -1604,6 +1604,7 @@ function useRule(){
 if (typing) typing.remove();
 var ans = answerFor(text);
 logChat(ans ? (window.__ct || 'その他') : '答えられなかった質問', 'text'); window.__ct = null;
+if (window.__logBot) window.__logBot(text, ans || '（答えられなかった質問）');
 if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = document.createElement('a'); _a.className = 'oc-link'; _a.href = 'board.html'; _a.textContent = 'みんなの掲示板を見る'; _m.appendChild(document.createElement('br')); _m.appendChild(_a); } window.__lk = null; } else { addFallback(); }
 }
 if (window.__ohanaKunAsk){
@@ -1697,8 +1698,12 @@ try {
       return n;
     } catch(e){ return 1; }
   }
+
+  window.__logBot = function(q, a){
+    try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
+  };
   window.__ohanaKunAsk = function(text){
-    if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。続きは「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットでも聞けますよ。そちらも使ってみてくださいね。');
+    if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
     function attempt(){
       if (!chat) chat = model.startChat({ history: [] });
       return chat.sendMessage(text).then(function(res){ return res.response.text(); });

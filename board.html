@@ -33,6 +33,12 @@
   footer{text-align:center;margin-top:22px;font-size:.82rem;color:#8a6a4f}
 
   .live-title{font-size:1.15rem;margin:26px 0 4px;text-align:center}
+.faq-sec{margin-top:30px}
+.faq-sec h2{font-size:1.15rem;text-align:center;margin-bottom:6px}
+.faq-sec .faq-sub{text-align:center;font-size:.88rem;color:#8a6a4f;margin-bottom:12px}
+.faq-sec details{background:#fffdf7;border:1.5px solid #eadfce;border-radius:14px;padding:12px 16px;margin:0 0 10px}
+.faq-sec summary{font-weight:bold;cursor:pointer}
+.faq-sec details p{margin-top:8px;font-size:.94rem;line-height:1.7}
   .postbox{background:#fff;border:1.5px dashed #e8b96f;border-radius:14px;padding:14px;margin-top:12px}
   .postbox textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;min-height:76px;font-family:inherit}
   .postbox button{background:var(--orange);color:#fff;font-weight:bold;border:none;border-radius:999px;padding:11px 26px;font-size:.95rem;cursor:pointer;margin-top:8px}
@@ -115,6 +121,43 @@
       </div>
     </div>
   </div>
+
+  <section class="faq-sec">
+    <h2>よくある質問</h2>
+    <p class="faq-sub">OHANA君（サイトの案内bot）によく来る質問を、ここにまとめています。</p>
+    <details>
+      <summary>OHANAって何ですか？</summary>
+      <p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。対象はヒトモノコト。理念は「眠っている価値を、必要な場所へ」です。</p>
+    </details>
+    <details>
+      <summary>OHANA100円券って何ですか？</summary>
+      <p>無料で配布される券で、買うものではありません。現金への換金はできません。お釣りは出ません。受け取ったお店や人は、その券を他のお店で使うことで、券が地域を廻ります。</p>
+    </details>
+    <details>
+      <summary>どうやって参加しますか？</summary>
+      <p>まずはLINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」に参加してください。開催の案内や出店の募集は、そこでしています。見るだけ・質問だけでも大丈夫です。</p>
+    </details>
+    <details>
+      <summary>次回はいつ・どこで開催ですか？</summary>
+      <p>不定期開催で、月曜祝日にMAHALOビル（松山市味酒町）で開くことが多いです。次回は11月23日（月・祝）の開催予定です。</p>
+    </details>
+    <details>
+      <summary>出店したいです</summary>
+      <p>フリマ出店のほか、ワークショップの開催も歓迎しています。条件や募集は開催ごとに違うので、LINEオープンチャットでその都度ご確認ください。</p>
+    </details>
+    <details>
+      <summary>売るものがなくても行けますか？</summary>
+      <p>大丈夫です。買い物だけ、遊びに来るだけでもOKです。モノがなくても、できること（ヒト）や体験（コト）を持ち寄る参加のしかたもあります。</p>
+    </details>
+    <details>
+      <summary>メンバーになると何ができますか？</summary>
+      <p>AIがあなたの紹介ページを無料で作ります。お店の方も個人の方も、オンラインだけで活動している方もOKです。登録は<a href="login.html">マイページ</a>からGoogleでログインするだけです。掲載の条件は、OHANA100円券が使えるお店・活動にしていただくことです。</p>
+    </details>
+    <details>
+      <summary>質問したい・困っていることがあります</summary>
+      <p><a href="help.html">みんなの困った・質問</a>のページに、ログインなしで書けます。主催のMOMOwaRIが直接お答えします。</p>
+    </details>
+  </section>
 
   <h2 class="live-title">メンバーの書き込み</h2>
   <p class="statusline" id="auth-status">ログイン状態を確認しています…</p>
@@ -543,6 +586,7 @@ function useRule(){
 if (typing) typing.remove();
 var ans = answerFor(text);
 logChat(ans ? (window.__ct || 'その他') : '答えられなかった質問', 'text'); window.__ct = null;
+if (window.__logBot) window.__logBot(text, ans || '（答えられなかった質問）');
 if (ans){ var _m = addMsg(ans, 'bot'); if (window.__lk === 'board'){ var _a = document.createElement('a'); _a.className = 'oc-link'; _a.href = 'board.html'; _a.textContent = 'みんなの掲示板を見る'; _m.appendChild(document.createElement('br')); _m.appendChild(_a); } window.__lk = null; } else { addFallback(); }
 }
 if (window.__ohanaKunAsk){
@@ -585,8 +629,12 @@ try {
       return n;
     } catch(e){ return 1; }
   }
+
+  window.__logBot = function(q, a){
+    try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
+  };
   window.__ohanaKunAsk = function(text){
-    if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。続きは「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットでも聞けますよ。そちらも使ってみてくださいね。');
+    if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
     function attempt(){
       if (!chat) chat = model.startChat({ history: [] });
       return chat.sendMessage(text).then(function(res){ return res.response.text(); });
