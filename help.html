@@ -141,7 +141,7 @@ var currentUser = null;
 var profileName = '';
 function refreshAuthLabel(){
   if(!currentUser) return;
-  document.getElementById('auth-status').textContent = (profileName || currentUser.displayName || 'メンバー') + ' さんとしてログイン中です';
+  document.getElementById('auth-status').textContent = (profileName || 'メンバー') + ' さんとしてログイン中です';
 }
 function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 auth.onAuthStateChanged(function(user){
@@ -153,17 +153,17 @@ auth.onAuthStateChanged(function(user){
   }
   var st = document.getElementById('auth-status');
   if(user){
-    st.textContent = (profileName || user.displayName || 'メンバー') + ' さんとしてログイン中です';
+    st.textContent = (profileName || 'メンバー') + ' さんとしてログイン中です';
     document.getElementById('login-cta').style.display = 'none';
     var nm = document.getElementById('post-name');
-    if(nm) nm.value = profileName || user.displayName || '';
+    if(nm) nm.value = profileName || '';
   } else {
     st.textContent = 'ログインなしでも書けます';
     document.getElementById('login-cta').style.display = 'block';
   }
 });
 function posterName(){
-  if(currentUser) return profileName || currentUser.displayName || 'メンバー';
+  if(currentUser) return profileName || 'メンバー';
   var v = (document.getElementById('post-name') || {}).value || '';
   return v.trim() || 'ゲスト';
 }

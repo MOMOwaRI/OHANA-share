@@ -153,7 +153,7 @@ var currentUser = null;
 var profileName = '';
 function refreshAuthLabel(){
   if(!currentUser) return;
-  document.getElementById('auth-status').textContent = (profileName || currentUser.displayName || 'メンバー') + ' さんとしてログイン中です';
+  document.getElementById('auth-status').textContent = (profileName || 'メンバー') + ' さんとしてログイン中です';
 }
 function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 auth.onAuthStateChanged(function(user){
@@ -165,7 +165,7 @@ auth.onAuthStateChanged(function(user){
   }
   var st = document.getElementById('auth-status');
   if(user){
-    st.textContent = (profileName || user.displayName || 'メンバー') + ' さんとしてログイン中です';
+    st.textContent = (profileName || 'メンバー') + ' さんとしてログイン中です';
     document.getElementById('postbox').style.display = 'block';
     document.getElementById('login-cta').style.display = 'none';
   } else {
@@ -183,7 +183,7 @@ document.getElementById('post-btn').addEventListener('click', function(){
   msg.textContent = '投稿しています…';
   db.collection('posts').add({
     text: text,
-    name: profileName || currentUser.displayName || 'メンバー',
+    name: profileName || 'メンバー',
     uid: currentUser.uid,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
@@ -353,7 +353,7 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       msg.textContent = '投稿しています…';
       db.collection('posts').doc(pid).collection('replies').add({
         text: text,
-        name: profileName || currentUser.displayName || 'メンバー',
+        name: profileName || 'メンバー',
         uid: currentUser.uid,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }).then(function(){
