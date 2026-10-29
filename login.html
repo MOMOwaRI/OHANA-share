@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OHANAメンバーログイン｜OHANAシェア＊プロジェクト</title>
-<meta name="description" content="OHANAメンバーのログインページ。自分の紹介ページの編集や、みんなの掲示板が使えます。">
+<title>マイページ（ログイン）｜OHANAシェア＊プロジェクト</title>
+<meta name="description" content="OHANAメンバーのマイページ。ログインすると、自分の紹介ページが並びます。ページの作成・削除もここからできます。">
 <link rel="canonical" href="https://momowari.github.io/OHANA-share/login.html">
 <link rel="icon" href="favicon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
 <style>
-  :root{--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f;--accent:#e07b24}
+  :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f;--accent:#e07b24}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
@@ -21,34 +21,63 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:16px;box-shadow:0 2px 8px rgba(160,100,40,.08)}
   .card h2{font-size:1.1rem;margin-bottom:6px}
   .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#fff;border:1.5px solid #dadce0;border-radius:999px;padding:13px;font-size:1rem;font-weight:bold;color:#3c4043;cursor:pointer;font-family:inherit}
-  .gbtn:disabled{opacity:.55;cursor:default}
   .note{font-size:.88rem;color:var(--soft);margin-top:10px}
   .menu{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
   .menu a{display:flex;flex-direction:column;gap:2px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px;text-decoration:none;color:var(--ink);font-weight:bold}
   .menu a small{font-weight:normal;color:var(--soft);font-size:.78rem}
-  .outbtn{display:block;width:100%;margin-top:16px;background:#fff;color:#b3541e;border:2px solid var(--accent);border-radius:999px;padding:11px;font-weight:bold;cursor:pointer;font-family:inherit}
   .back{display:block;text-align:center;margin-top:22px;background:var(--accent);color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:13px}
   footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
   [hidden]{display:none !important}
+  .badge{display:inline-block;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;color:#4a3418}
+  .cat-hito{background:#f6c3d5}.cat-mono{background:#bfe6cf}.cat-koto{background:#fbe38e}
+  #pages-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:14px}
+  .page-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+  .page-card .tile{display:block;text-decoration:none;color:var(--ink)}
+  .page-card .timg{width:100%;height:120px;object-fit:cover;display:block}
+  .page-card .tletter{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:bold;color:#a35c14;background:#f6ead2}
+  .page-card .tn{display:block;padding:9px 11px 2px;font-weight:bold}
+  .page-card .tc{display:block;padding:0 11px 8px}
+  .page-card .no{color:var(--soft);font-size:.8rem;font-weight:normal}
+  .page-card .tdel{margin:0 11px 11px;align-self:flex-start;background:none;border:none;color:#b03a3a;cursor:pointer;font-family:inherit;font-size:.8rem;padding:2px 0;text-decoration:underline}
+  .create-card{background:#fffdf9;border:2px dashed #e8b96f;border-radius:16px;padding:16px 20px;margin-top:14px}
+  .create-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;border-radius:999px;padding:9px 20px;cursor:pointer;font-family:inherit;font-size:.95rem}
+  .del-btn{background:#fff;color:#b03a3a;border:1.5px solid #d99;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .trash-card{background:#faf3ea;border:1px dashed #d9c3a5;border-radius:16px;padding:14px 20px;margin-top:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--soft)}
+  .restore-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);border-radius:999px;padding:8px 18px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .trash-h{font-size:1.05rem;margin-top:26px;color:var(--soft)}
+  .catchips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .catchips label{border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
+  section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
+  .logout-row{text-align:right;margin-top:10px}
+  .logout-btn{background:#fff;color:#8a6a4f;border:1.5px solid #d9c3a5;border-radius:999px;padding:7px 18px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .ticket-card{position:relative;background:linear-gradient(120deg,#fff6df,#ffe9bd);border:2px solid #e8b96f;border-radius:16px;padding:16px 20px 16px 66px;margin:18px 0;transform:rotate(-.6deg);box-shadow:0 6px 16px rgba(190,130,40,.16);text-align:left;overflow:hidden}
+  .ticket-card::before{content:"OHANA 100円券";writing-mode:vertical-rl;position:absolute;left:0;top:0;bottom:0;width:46px;display:flex;align-items:center;justify-content:center;font-weight:bold;letter-spacing:.28em;color:#a35c14;font-size:.8rem;border-right:2px dashed #d9a75e;background:rgba(255,255,255,.45)}
+  .ticket-card::after{content:"券";position:absolute;top:10px;right:12px;width:34px;height:34px;border:2px solid rgba(194,97,15,.5);border-radius:50%;color:rgba(194,97,15,.7);display:flex;align-items:center;justify-content:center;font-weight:bold;transform:rotate(12deg);font-size:.95rem;background:rgba(255,255,255,.35)}
+  .ticket-num{font-size:2rem;font-weight:bold;color:#c2610f}
+  .recruit li{margin-left:1.2em}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <a href="index.html"><img class="banner" src="member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ"></a>
-    <h1>OHANAメンバーログイン</h1>
-    <p class="sub">OHANAメンバーのための入口です。</p>
+    <h1>マイページ</h1>
+    <p class="sub">OHANAメンバーの入口です。ログインすると、あなたのページが並びます。</p>
   </header>
 
-  <div class="card" id="box-prep">
-    <h2>ただいま接続の準備中です</h2>
-    <p>ログイン機能は、まもなく使えるようになります。準備ができたら、このページからGoogleアカウントでログインできるようになります。</p>
-    <p class="note">メンバー登録がまだの方は、先に登録フォームからご連絡ください。</p>
-    <div class="menu">
-      <a href="mypage.html" target="_blank" rel="noopener">自分のページ<small>ページを作る・見る</small></a>
-      <a href="board.html">みんなの掲示板<small>お知らせ・告知</small></a>
-    </div>
-  </div>
+  <section class="recruit" id="box-recruit" hidden>
+    <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーになりませんか</p>
+    <p>AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。</p>
+    <p style="margin-top:8px">メンバーになると、こんなことができます。</p>
+    <ul>
+      <li>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</li>
+      <li>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</li>
+      <li>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</li>
+      <li>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</li>
+      <li>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</li>
+    </ul>
+    <p style="margin-top:8px">下のボタンからログイン（Googleアカウント）すると、そのままメンバー登録になります。</p>
+  </section>
 
   <div class="card" id="box-login" hidden>
     <h2>ログイン</h2>
@@ -57,25 +86,68 @@
     <p class="note">ログインすると、自分の紹介ページの編集や、掲示板への投稿ができます。</p>
   </div>
 
-  <div class="card" id="box-home" hidden>
-    <h2 id="home-title">マイページ</h2>
+  <div id="box-home" hidden>
+    <div class="logout-row"><button type="button" class="logout-btn" id="btn-logout">ログアウト</button></div>
     <p id="home-who" class="note"></p>
     <div class="menu">
-      <a href="mypage.html">自分のページ<small>ページが並んでいます</small></a>
       <a href="board.html">みんなの掲示板<small>お知らせ・告知</small></a>
       <a href="help.html">困った助け合い<small>質問・相談</small></a>
       <a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット<small>みんなの会話</small></a>
+      <a href="index.html">OHANAトップ<small>サイトの入口</small></a>
     </div>
-    <button class="outbtn" id="btn-logout" type="button">ログアウト</button>
+    <section class="recruit">
+      <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーのマイページです</p>
+      <details>
+        <summary style="cursor:pointer;font-weight:bold;margin-top:6px">メンバーの案内を見る</summary>
+        <p style="margin-top:8px">AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。</p>
+        <ul>
+          <li>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</li>
+          <li>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</li>
+          <li>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</li>
+          <li>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</li>
+          <li>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</li>
+        </ul>
+      </details>
+      <ul style="margin-top:6px">
+        <li>下の「新しいページを作る」から、ページが作れます（1人で複数OK）。ページを開くと、その場で文字を直して編集できます</li>
+      </ul>
+    </section>
+    <div class="ticket-card">
+      <p style="font-weight:bold">あなたの分</p>
+      <p><span class="ticket-num" id="ticket-num">…</span> 枚</p>
+      <p class="sub" style="margin-top:8px">この枚数は、ヒトのページでみんなにも見えます。枚数の変更は、ヒトのページでできます。</p>
+      <p style="margin-top:6px"><a id="ticket-edit-link" href="member.html">ヒトのページで枚数を変える</a></p>
+    </div>
+    <div class="create-card" style="display:block">
+      <p style="font-weight:bold">新しいページを作る</p>
+      <p class="sub">区分を選んでください。ページはいくつでも作れます。</p>
+      <div class="catchips">
+        <label><input type="radio" name="newcat" value="ヒト" checked>ヒト</label>
+        <label><input type="radio" name="newcat" value="モノ">モノ</label>
+        <label><input type="radio" name="newcat" value="コト">コト</label>
+      </div>
+      <button type="button" class="create-btn" id="btn-create" style="margin-top:10px">この区分でページを作る</button>
+      <p class="sub" style="margin-top:8px">モノのページは、写真を<a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">Googleフォトの写真受付箱</a>に投げると、AIがタイトルと説明を作ります。</p>
+    </div>
+    <div id="pages-list"></div>
+    <div id="trash-area" hidden>
+      <h2 class="trash-h">削除したページ</h2>
+      <p class="sub">「元に戻す」を押すと、ページ一覧に戻ります。</p>
+      <div id="trash-list"></div>
+    </div>
+    <p class="sub" id="hub-msg" style="margin-top:12px"></p>
   </div>
 
   <a class="back" href="index.html">トップページへ戻る</a>
+  <p style="text-align:center;font-size:.85rem;color:var(--soft);margin-top:14px">「こうしたら？」のアイディア・ご意見は<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqJe0WA/viewform" target="_blank" rel="noopener">こちらへ</a></p>
   <footer>OHANAシェア＊プロジェクト</footer>
 </div>
 
-<script type="module">
-// Firebase設定は接続後にここへ入ります（null の間は「準備中」表示）
-const FIREBASE_CONFIG = {
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+var firebaseConfig = {
   apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
   authDomain: "ohana-share.firebaseapp.com",
   projectId: "ohana-share",
@@ -83,37 +155,214 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "825904150210",
   appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
 };
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth();
+var db = firebase.firestore();
+function $(id){ return document.getElementById(id); }
+function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function catCls(c){ return c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto'; }
+var uid = null;
 
-const boxPrep = document.getElementById('box-prep');
-const boxLogin = document.getElementById('box-login');
-const boxHome = document.getElementById('box-home');
-
-if (FIREBASE_CONFIG) {
-  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-  const { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } =
-    await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
-  const app = initializeApp(FIREBASE_CONFIG);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-
-  boxPrep.hidden = true;
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      boxLogin.hidden = true;
-      boxHome.hidden = false;
-      document.getElementById('home-who').textContent =
-        'ログイン中です';
-    } else {
-      boxHome.hidden = true;
-      boxLogin.hidden = false;
-    }
-  });
-  document.getElementById('btn-google').addEventListener('click', async () => {
-    try { await signInWithPopup(auth, provider); }
-    catch (e) { alert('ログインできませんでした。もう一度お試しください。'); }
-  });
-  document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
+function pageName(d){
+  if(d.nickname) return d.nickname;
+  var cats = d.categories || (d.category ? [d.category] : []);
+  if(cats.indexOf('モノ') >= 0) return 'モノのページ（写真待ち）';
+  return '（タイトル未設定）';
 }
+function tilePhoto(docId, d){
+  if(d.photoUrl) return d.photoUrl;
+  if(docId === uid) return d.iconData || 'momowari-icon.png';
+  if(docId === uid + '__mono') return 'images/shop/zakka-1.jpg';
+  if(docId === uid + '__koto') return 'images/shop/eyes-tech.jpg';
+  if(docId.slice(-9) === '__pelua01') return 'images/shop/elua-mirror.jpg';
+  if(docId.slice(-11) === '__pmahalo01') return 'images/shop/salon-chairs.jpg';
+  return d.iconData || '';
+}
+function card(docId, d){
+  var cats = d.categories || (d.category ? [d.category] : []);
+  var bh = '';
+  cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
+  var photo = tilePhoto(docId, d);
+  var img = photo ? '<img class="timg" src="' + esc(photo) + '" alt="">' : '<span class="tletter">' + esc(pageName(d).slice(0, 1)) + '</span>';
+  return '<div class="page-card">' +
+    '<a class="tile" href="member.html?id=' + encodeURIComponent(docId) + '">' + img +
+    '<span class="tn">' + esc(pageName(d)) + ((docId === uid && d.memberNo) ? ' <span class="no">No.' + d.memberNo + '</span>' : '') + '</span>' +
+    '<span class="tc">' + bh + '</span></a>' +
+    '<button type="button" class="tdel del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '">削除</button></div>';
+}
+function trashCard(docId, d){
+  var cats = d.categories || (d.category ? [d.category] : []);
+  var bh = '';
+  cats.forEach(function(c){ bh += '<span class="badge ' + catCls(c) + '">' + esc(c) + '</span> '; });
+  return '<div class="trash-card">' + bh + '<span style="flex:1;min-width:140px">' + esc(pageName(d)) + '</span>' +
+    '<button type="button" class="restore-btn" data-doc="' + esc(docId) + '">元に戻す</button></div>';
+}
+function bindDeleteButtons(){
+  document.querySelectorAll('.del-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ deletePage(btn.getAttribute('data-doc'), btn.getAttribute('data-name')); });
+  });
+  document.querySelectorAll('.restore-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ restorePage(btn.getAttribute('data-doc')); });
+  });
+}
+function deletePage(docId, nm){
+  if(!confirm('「' + nm + '」のページを削除しますか？\nあとで「削除したページ」から元に戻せます。メンバーNo.は繰り上がります。')) return;
+  $('hub-msg').textContent = '削除しています…';
+  var pageRef = db.collection('profiles').doc(docId);
+  pageRef.get().then(function(pdoc){
+    var no = pdoc.exists ? pdoc.data().memberNo : null;
+    return db.collection('profiles').get().then(function(snap){
+      var batch = db.batch();
+      if(no){
+        snap.forEach(function(d){
+          if(d.id === docId) return;
+          if(d.id.split('__')[0] !== uid) return;
+          if(d.data().deleted) return;
+          var mno = d.data().memberNo;
+          if(mno && mno > no) batch.update(d.ref, {memberNo: mno - 1});
+        });
+      }
+      batch.update(pageRef, {
+        deleted: true,
+        prevNo: no || null,
+        memberNo: firebase.firestore.FieldValue.delete(),
+        deletedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      return batch.commit();
+    });
+  }).then(function(){
+    $('hub-msg').textContent = '削除しました。「削除したページ」から元に戻せます。';
+    loadPages();
+  }).catch(function(){
+    $('hub-msg').textContent = '削除できませんでした。時間をおいて試してください。';
+  });
+}
+function restorePage(docId){
+  $('hub-msg').textContent = '元に戻しています…';
+  var pageRef = db.collection('profiles').doc(docId);
+  pageRef.get().then(function(pdoc){
+    if(!pdoc.exists) return null;
+    var prevNo = pdoc.data().prevNo || null;
+    return db.collection('profiles').get().then(function(snap){
+      var maxNo = 0;
+      snap.forEach(function(d){
+        if(d.id.split('__')[0] !== uid) return;
+        if(d.data().deleted) return;
+        var mno = d.data().memberNo;
+        if(mno && mno > maxNo) maxNo = mno;
+      });
+      var newNo = prevNo ? Math.min(prevNo, maxNo + 1) : maxNo + 1;
+      var batch = db.batch();
+      snap.forEach(function(d){
+        if(d.id === docId) return;
+        if(d.id.split('__')[0] !== uid) return;
+        if(d.data().deleted) return;
+        var mno = d.data().memberNo;
+        if(mno && mno >= newNo) batch.update(d.ref, {memberNo: mno + 1});
+      });
+      batch.update(pageRef, {
+        deleted: false,
+        memberNo: newNo,
+        prevNo: firebase.firestore.FieldValue.delete(),
+        deletedAt: firebase.firestore.FieldValue.delete()
+      });
+      return batch.commit();
+    });
+  }).then(function(){
+    $('hub-msg').textContent = '元に戻しました。';
+    loadPages();
+  }).catch(function(){
+    $('hub-msg').textContent = '戻せませんでした。時間をおいて試してください。';
+  });
+}
+
+function loadPages(){
+  var slotIds = [uid, uid + '__hito', uid + '__mono', uid + '__koto'];
+  var actives = [];
+  var trashed = [];
+  function push(docId, d){ (d.deleted ? trashed : actives).push({id: docId, d: d}); }
+  var jobs = slotIds.map(function(docId){
+    return db.collection('profiles').doc(docId).get().then(function(doc){
+      if(doc.exists) push(docId, doc.data());
+    });
+  });
+  var q = db.collection('profiles')
+    .where(firebase.firestore.FieldPath.documentId(), '>=', uid + '__p')
+    .where(firebase.firestore.FieldPath.documentId(), '<', uid + '__p\uf8ff')
+    .get().then(function(snap){
+      snap.forEach(function(doc){ push(doc.id, doc.data()); });
+    }).catch(function(){});
+  Promise.all(jobs.concat([q])).then(function(){
+    actives.sort(function(a, b){ return (a.d.memberNo || 999) - (b.d.memberNo || 999); });
+    var cards = '';
+    actives.forEach(function(p){ cards += card(p.id, p.d); });
+    $('pages-list').innerHTML = cards || '<section><p>まだページがありません。下から作ってください。</p></section>';
+    var tcards = '';
+    trashed.forEach(function(p){ tcards += trashCard(p.id, p.d); });
+    $('trash-area').hidden = !trashed.length;
+    $('trash-list').innerHTML = tcards;
+    bindDeleteButtons();
+  });
+}
+
+function createPage(cat){
+  $('hub-msg').textContent = cat + 'のページを作っています…';
+  db.collection('profiles').get().then(function(snap){
+    var maxNo = 0;
+    snap.forEach(function(d){ var mno = d.data().memberNo; if(mno && mno > maxNo) maxNo = mno; });
+    var no = maxNo + 1;
+    var newDocId = uid + '__p' + Date.now().toString(36);
+    return db.collection('profiles').doc(newDocId).set({
+      nickname: '', area: '', categories: [cat], intro: '',
+      seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
+      offeringHito: '', offeringMono: '', offeringKoto: '',
+      hpUrl: '', menuUrl: '', snsLinks: '',
+      memberNo: no,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      $('hub-msg').textContent = 'No.' + no + ' で作りました。ページへ移動します…';
+      location.href = 'member.html?id=' + encodeURIComponent(newDocId) + '&edit=1';
+    });
+  }).catch(function(){
+    $('hub-msg').textContent = '作れませんでした。時間をおいて試してください。';
+  });
+}
+
+var myTickets = 0;
+function renderTickets(){ $('ticket-num').textContent = myTickets; }
+function loadTickets(){
+  db.collection('profiles').doc(uid).get().then(function(doc){
+    myTickets = (doc.exists && typeof doc.data().tickets === 'number') ? doc.data().tickets : 0;
+    renderTickets();
+  }).catch(function(){ renderTickets(); });
+}
+auth.onAuthStateChanged(function(user){
+  if(!user){
+    $('box-home').hidden = true;
+    $('box-login').hidden = false;
+    $('box-recruit').hidden = false;
+    return;
+  }
+  uid = user.uid;
+  $('box-login').hidden = true;
+  $('box-recruit').hidden = true;
+  $('box-home').hidden = false;
+  $('home-who').textContent = 'ログイン中です';
+  $('ticket-edit-link').href = 'member.html?id=' + encodeURIComponent(uid);
+  loadPages();
+  loadTickets();
+});
+$('btn-google').addEventListener('click', function(){
+  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){
+    alert('ログインできませんでした。もう一度お試しください。');
+  });
+});
+$('btn-logout').addEventListener('click', function(){ auth.signOut(); });
+$('btn-create').addEventListener('click', function(){
+  var sel = document.querySelector('input[name="newcat"]:checked');
+  createPage(sel ? sel.value : 'ヒト');
+});
 </script>
 <style>
 .ofabs{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
