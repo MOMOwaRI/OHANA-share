@@ -336,7 +336,7 @@
     if(pv && (d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)){
       var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
       var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
-      var color = d.cmColor || '#e07b24';
+      var color = d.cmColor || '#8a5fb0';
       var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
       for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
       cmh += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -560,7 +560,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if(!(d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
     var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
     var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
-    var color = d.cmColor || '#e07b24';
+    var color = d.cmColor || '#8a5fb0';
     var html = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
     for(var i = 0; i < 3; i++){ if(photos[i]){ html += '<div class="cm-scene photo"><img src="' + photos[i] + '" alt=""><div class="band">' + esc(texts[i + 1] || '') + '</div></div>'; } }
     html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -720,7 +720,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       h += '<div class="th" data-cmn="' + n + '">' + (cur ? '<img src="' + cur + '" alt="">' : '<span style="display:flex;align-items:center;justify-content:center;height:100%;color:#c2610f;font-weight:bold">＋写真' + n + '</span>') + '</div>';
     }
     h += '</div>';
-    h += '<label>色 <input type="color" id="cm-color" value="' + esc(d.cmColor || '#e07b24') + '"></label>';
+    h += '<label>色 <input type="color" id="cm-color" value="' + esc(d.cmColor || '#8a5fb0') + '"></label>';
     var labels = ['最初の画面の文字', '写真1の文字', '写真2の文字', '写真3の文字', '最後の画面の文字'];
     for(var t = 1; t <= 5; t++){
       h += '<label>' + labels[t - 1] + '<textarea id="cm-t' + t + '" rows="2">' + esc(d['cmT' + t] || '') + '</textarea></label>';
