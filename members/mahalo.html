@@ -369,7 +369,7 @@ OHANAシェア＊プロジェクト OHANAメンバーページ<br>
       var photos = [d.cmPhoto1 || DP[0], d.cmPhoto2 || DP[1], d.cmPhoto3 || DP[2]].filter(function(x){ return !!x; });
       var texts = [d.cmT1 || DT[0], d.cmT2 || DT[1], d.cmT3 || DT[2], d.cmT4 || DT[3], d.cmT5 || DT[4]];
       var color = d.cmColor || '#0068B7';
-      try{ var rt = document.documentElement.style; rt.setProperty('--accent', color); rt.setProperty('--orange', color); var hx = String(color).replace('#', ''); if(hx.length === 6){ function sh(i){ return Math.max(0, Math.min(255, Math.round(parseInt(hx.substr(i, 2), 16) * 0.78))); } rt.setProperty('--orange-dark', 'rgb(' + sh(0) + ',' + sh(2) + ',' + sh(4) + ')'); } }catch(e){}
+      try{ var rt = document.documentElement.style; function _hx(h){ return String(h).replace('#', ''); } function _p(h, i){ return parseInt(_hx(h).substr(i, 2), 16); } function _sh(h, f){ function c(i){ return Math.max(0, Math.min(255, Math.round(_p(h, i) * f))); } return 'rgb(' + c(0) + ',' + c(2) + ',' + c(4) + ')'; } function _mx(a, b, f){ function c(i){ return Math.round(_p(a, i) * (1 - f) + _p(b, i) * f); } return 'rgb(' + c(0) + ',' + c(2) + ',' + c(4) + ')'; } rt.setProperty('--accent', color); rt.setProperty('--accent-dark', _sh(color, 0.72)); rt.setProperty('--orange', color); rt.setProperty('--orange-dark', _sh(color, 0.72)); rt.setProperty('--ink', _sh(color, 0.30)); rt.setProperty('--paper', _mx(color, '#ffffff', 0.95)); rt.setProperty('--line', _mx(color, '#ffffff', 0.78)); rt.setProperty('--soft', _mx(color, '#777777', 0.45)); }catch(e){}
       var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
       for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
       cmh += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -860,12 +860,24 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     function c(i){ return Math.max(0, Math.min(255, Math.round(parseInt(hx.substr(i, 2), 16) * f))); }
     return 'rgb(' + c(0) + ',' + c(2) + ',' + c(4) + ')';
   }
+  function mixHex(a, b, f){
+    var ha = String(a || '').replace('#', ''), hb = String(b || '').replace('#', '');
+    if(ha.length !== 6 || hb.length !== 6) return a;
+    function c(h, i){ return parseInt(h.substr(i, 2), 16); }
+    function m(i){ return Math.round(c(ha, i) * (1 - f) + c(hb, i) * f); }
+    return 'rgb(' + m(0) + ',' + m(2) + ',' + m(4) + ')';
+  }
   function applyTheme(c){
     if(!c) return;
     var r = document.documentElement.style;
     r.setProperty('--accent', c);
+    r.setProperty('--accent-dark', shade(c, 0.72));
     r.setProperty('--orange', c);
-    r.setProperty('--orange-dark', shade(c, 0.78));
+    r.setProperty('--orange-dark', shade(c, 0.72));
+    r.setProperty('--ink', shade(c, 0.30));
+    r.setProperty('--paper', mixHex(c, '#ffffff', 0.95));
+    r.setProperty('--line', mixHex(c, '#ffffff', 0.78));
+    r.setProperty('--soft', mixHex(c, '#777777', 0.45));
   }
   function buildColorButton(){
     if($('theme-btn')) return;
