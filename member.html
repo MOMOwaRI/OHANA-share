@@ -339,8 +339,8 @@ var editing = false;
 var wantEdit = new URLSearchParams(location.search).get('edit') === '1';
 /* STATIC_PAGE: shops with a static page are edited on that page itself */
 (function(){
-  var M = {'__koto': 'members/eyes-mahalo.html', '__mono': 'members/lea-mahalo.html', '__pelua01': 'members/elua-mahalo.html', '__pmahalo01': 'members/mahalo.html'};
-  if(id && id.indexOf('ELCzyeeoDCU4gveavc077L4jBqE3__') === 0){
+  var M = {'': 'members/momowari.html', '__koto': 'members/eyes-mahalo.html', '__mono': 'members/lea-mahalo.html', '__pelua01': 'members/elua-mahalo.html', '__pmahalo01': 'members/mahalo.html'};
+  if(id && id.indexOf('ELCzyeeoDCU4gveavc077L4jBqE3') === 0){
     var suf = id.slice('ELCzyeeoDCU4gveavc077L4jBqE3'.length);
     if(M[suf]) location.replace(M[suf]);
   }

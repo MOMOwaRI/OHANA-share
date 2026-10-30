@@ -434,8 +434,8 @@ auth.onAuthStateChanged(function(user){
   $('box-home').hidden = false;
   $('page-title').textContent = 'マイページ';
   $('home-who').textContent = 'ログイン中です';
-  var fsl = $('first-step-link'); if(fsl) fsl.href = 'member.html?id=' + encodeURIComponent(uid);
-  $('ticket-edit-link').href = 'member.html?id=' + encodeURIComponent(uid);
+  var fsl = $('first-step-link'); if(fsl) fsl.href = editHref(uid);
+  $('ticket-edit-link').href = pageHref(uid);
   loadPages();
   loadTickets();
 });
