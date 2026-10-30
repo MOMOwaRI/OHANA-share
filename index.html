@@ -632,6 +632,10 @@ html{scroll-behavior:auto}
 html.js .reveal{opacity:1;transform:none;transition:none}
 }
 
+
+.chat-panel .chat{display:flex;flex-direction:column;overflow:hidden;max-height:min(72vh,560px);max-height:min(72dvh,560px)}
+.chat-panel .chat-log{flex:1 1 auto;min-height:0;max-height:none}
+.chat-panel .chat-head,.chat-panel .qlinks,.chat-panel .chips,.chat-panel form{flex:none}
 </style>
 <link rel="canonical" href="https://momowari.github.io/OHANA-share/"><meta property="og:title" content="OHANAシェア＊プロジェクト｜松山の選べる物々交換フリマ">
 <meta property="og:description" content="OHANAシェア＊プロジェクトは、愛媛・松山市のフリマ型の物々交換プロジェクト。100円券でお買い物ができる「選べる物々交換」です。ヒト・モノ・コトをつなぎ、理念は「眠っている価値を、必要な場所へ」。開催は不定期で、LINEオープンチャットで案内します。">
@@ -1409,7 +1413,7 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <div class="name">OHANA</div>
 <div class="desc">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div>
 </div>
-<button class="chat-close" id="chat-close" type="button" aria-label="チャットを閉じる">×</button>
+<button class="chat-end" id="chat-end" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="chat-close" id="chat-close" type="button" aria-label="チャットを閉じる">×</button>
 </div>
 <div class="qlinks"><a class="oc-link alt" href="board.html">みんなの掲示板</a><a class="oc-link alt" href="help.html">困った助け合い</a><a class="oc-link" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャット</a></div>
 <div class="chat-log" id="chat-log">
@@ -1537,6 +1541,17 @@ fabBot.addEventListener('click', function(){ setPanel(panel.hidden); });
 document.getElementById('chat-close').addEventListener('click', function(){ setPanel(false); });
 var log = document.getElementById('chat-log');
 var chipsBox = document.getElementById('chips');
+  var __greet0 = log.innerHTML;
+  var __endBtn = document.getElementById('chat-end');
+  if (__endBtn) __endBtn.addEventListener('click', function(){
+    try { log.innerHTML = __greet0; } catch(e){}
+    try { if (chipsBox) chipsBox.style.display = ''; } catch(e){}
+    try { if (window.__ohanaKunReset) window.__ohanaKunReset(); } catch(e){}
+    setPanel(false);
+  });
+  document.addEventListener('click', function(ev){
+    try { if (!panel.hidden && !panel.contains(ev.target) && !fabBot.contains(ev.target)) setPanel(false); } catch(e){}
+  });
 function addMsg(text, who){
 var d = document.createElement('div');
 d.className = 'msg ' + who;
@@ -1711,6 +1726,7 @@ try {
   window.__logBot = function(q, a){
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
   };
+  window.__ohanaKunReset = function(){ chat = null; };
   window.__ohanaKunAsk = function(text){
     if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
     function attempt(){
