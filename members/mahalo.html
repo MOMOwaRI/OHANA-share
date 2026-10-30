@@ -367,7 +367,7 @@ OHANAシェア＊プロジェクト OHANAメンバーページ<br>
     if(pv && (d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)){
       var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
       var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
-      var color = d.cmColor || '#2e6da4';
+      var color = d.cmColor || '#0068B7';
       var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
       for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
       cmh += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -556,6 +556,7 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <style>
+.cm-scene{white-space:pre-line}
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
 body.site-editing .hero-pv{outline:2px dashed rgba(224,123,36,.55);outline-offset:3px;cursor:pointer}
@@ -589,9 +590,9 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   var DOC = 'ELCzyeeoDCU4gveavc077L4jBqE3__pmahalo01';
   var PAGE = 'members-mahalo';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
-  function memberKnown(){ try{ return !!localStorage.getItem('ohana_member'); }catch(e){ return false; } }
-  function memberLabel(){ return memberKnown() ? 'ログイン' : '無料メンバー登録'; }
-  var DEFCOLOR = '#2e6da4';
+  var DEFCOLOR = '#0068B7';
+  var DEFPHOTOS = ["../images/shop/salon-official-long.jpg", "../images/shop/salon-film6.jpg", "../images/shop/salon-film5.jpg"];
+  var DEFTEXTS = ["すべては、感謝の心から。\n松山市味酒町・トータルビューティーサロン", "街の中の森のような\n風と光と緑の空間", "アレルギーで\nカラーを諦めないで", "黄色と青の椅子が\n目印です", "MAHALO\nhair ID salon"];
   var editing = false;
   var docData = null;
   var applied = {};
@@ -693,8 +694,8 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     var pv = document.querySelector('.hero-pv');
     if(!pv) return;
     if(!(d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
-    var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
-    var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
+    var photos = [d.cmPhoto1 || DEFPHOTOS[0], d.cmPhoto2 || DEFPHOTOS[1], d.cmPhoto3 || DEFPHOTOS[2]].filter(function(x){ return !!x; });
+    var texts = [d.cmT1 || DEFTEXTS[0], d.cmT2 || DEFTEXTS[1], d.cmT3 || DEFTEXTS[2], d.cmT4 || DEFTEXTS[3], d.cmT5 || DEFTEXTS[4]];
     var color = d.cmColor || DEFCOLOR;
     var html = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
     for(var i = 0; i < 3; i++){ if(photos[i]){ html += '<div class="cm-scene photo"><img src="' + photos[i] + '" alt=""><div class="band">' + esc(texts[i + 1] || '') + '</div></div>'; } }
@@ -858,7 +859,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     var pv = document.querySelector('.hero-pv');
     if(!pv) return;
     var d = docData || {};
-    if(!cmWork) cmWork = [d.cmPhoto1 || '', d.cmPhoto2 || '', d.cmPhoto3 || ''];
+    if(!cmWork) cmWork = [d.cmPhoto1 || DEFPHOTOS[0], d.cmPhoto2 || DEFPHOTOS[1], d.cmPhoto3 || DEFPHOTOS[2]];
     var panel = document.createElement('div');
     panel.className = 'ied-panel';
     panel.id = 'cm-panel';
@@ -866,7 +867,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     h += '<label>色 <input type="color" id="cm-color" value="' + esc(d.cmColor || DEFCOLOR) + '"></label>';
     var labels = ['最初の画面の文字', '写真1の文字', '写真2の文字', '写真3の文字', '最後の画面の文字'];
     for(var t = 1; t <= 5; t++){
-      h += '<label>' + labels[t - 1] + '<textarea id="cm-t' + t + '" rows="2">' + esc(d['cmT' + t] || '') + '</textarea></label>';
+      h += '<label>' + labels[t - 1] + '<textarea id="cm-t' + t + '" rows="2">' + esc(d['cmT' + t] || DEFTEXTS[t - 1]) + '</textarea></label>';
     }
     h += '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真はタップで入れ替え、×で削除、◀▶で順番を変えられます。</p>';
     h += '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="cm-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">アニメーションを保存</button><button type="button" id="cm-undo2" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="cm-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
@@ -1205,7 +1206,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     }, true);
     var btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = '無料メンバー登録';
+    btn.textContent = 'メンバー登録';
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     window.__authBtn = btn;
     var wrapEl = document.querySelector('.wrap') || document.body;
@@ -1217,69 +1218,17 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
-      if(!u){ location.href = memberKnown() ? '../login.html#login' : '../login.html'; }
+      if(!u){ location.href = '../login.html'; }
       else if(u.uid === OWNER){ setEdit(!editing); }
       else location.href = '../login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = memberLabel(); if(editing) setEdit(false); return; }
+      if(!u){ btn.textContent = 'メンバー登録'; if(editing) setEdit(false); return; }
       btn.textContent = (u.uid === OWNER) ? (editing ? '編集を終わる' : '✎ 編集する') : 'マイページ';
-      try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
-</script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
-import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = "あなたは、愛媛県松山市の「OHANAシェア＊プロジェクト」のOHANAです。サイトを訪れた人の質問に、親しみやすく、短く（1〜3文）答えてください。名前を聞かれたら「OHANAです」と答えてください。\n\n\n・嘘をつかないでください。下の知識に書かれていないことは、絶対に作り話をせず、正直に「分からない」と言ってください。\n・分からないときは、「みんなの掲示板」「みんなの困った・質問」のページ、LINEオープンチャットのどれかを案内してください。困った・質問のページは、主催のMOMOwaRIが直接答える場所です。\n・料金・日時・場所・電話番号は、知識に書かれているものだけを、そのまま正確に伝えてください。似た数字や別の日付を推測で言わないでください。\n・個人の電話番号や住所など、個人情報は答えないでください（お店の公開情報は除きます）。\n・医療・法律・お金の相談には答えず、専門家や掲示板を案内してください。\n・OHANAと関係のない質問には、「OHANAのことなら答えられます」とやんわり返してください。\n・「なんで？」「どうして？」「それは？」のような短い追加の質問は、直前の話題について聞かれているものとして答えてください。\n\n\n・OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。対象はヒトモノコトです。理念は「眠っている価値を、必要な場所へ」。\n・主催は松山市のMOMOwaRIです。\n\n\n・無料で配布される券で、買うものではありません。現金への換金はできません。お釣りは出ません。使わずに持っている間は、人に譲れます。受け取ったお店や人は、その券を他のお店で使うことで、券が地域を廻ります。\n・代金の受け取り方は選べます。現金と100円券のミックスもできますし、希望する人は全額100円券で受け取ることもできます。全部100円券に決まっているわけではありません。\n・イベントへの参加は無料です。100円券は無料で配布しています。\n・100円券は、イベントの当日に会場で無料で配布します。「どうやったらもらえるの？」と聞かれたら、そのことを答えてください。\n・なぜ無料なのか聞かれたら：メンバー登録もイベント参加も無料です。紹介ページ作りや最新情報の見回りをAIが担っているので、手間と費用をかけずに運営でき、その分を無料にしています。\n\n\n・不定期開催で、月曜祝日にMAHALOビル（松山市味酒町）で開くことが多いです。次回は2026年11月23日（月・祝）の開催予定です。出店はフリマのほか、ワークショップもできます。詳しい案内はLINEオープンチャットと「みんなの掲示板」でしています。\n\n\n・モノの登録は、Googleフォトの「OHANA 写真受付箱」に写真を入れるだけでも始められます。メンバー登録はあとからでも大丈夫で、登録すれば、投げた写真のページがその人のページに連携します。\n・OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。SNSしかやっていない人は、AI検索で見つけてもらいにくいことがあります。紹介ページがあると、検索やAIに見つけてもらう助けになります。お店の方も個人の方も、オンラインだけで活動している方もOKです。掲載の条件は、OHANA100円券が使えるお店・活動にしていただくことです。メンバー登録は、サイトの「無料メンバー登録」ボタンからGoogleでログインするだけです。\n\n\n・質問や相談は「みんなの困った・質問」のページに、ログインなしで書けます。お知らせは「みんなの掲示板」に書けます。\n\n\n・ビル全体：古町駅から徒歩約3分、駐車場3台。\n・hair ID salon MAHALO（2階の美容室）：9:00〜18:00受付、定休日は月曜、電話089-934-1455。\n・elua Mahalo（1階の女性限定美容室）：水〜金10:00〜17:00、土日祝9:00〜18:00、定休日は月・火。完全予約制・マンツーマン、電話089-934-1587。\n・Eyes MAHALO（1階のまつげパーマ専門店）：まつげパーマ歴15年以上。遠赤外線のキラ水とアイマスクを使う施術です（温める施術ではありません）。基本メニュー4,000円、根元メニュー3,000円。対応時間は7:30〜19:30（月〜土）、日・祝は要相談。予約と空き確認は公式LINEが確実です。電話番号は案内しないでください。\n・雑貨屋 Lea Mahalo（1階の雑貨屋）：実店舗は来店予約制です。メルカリでも販売していて、購入の前には在庫確認のコメントが必要です。\n\n\n・LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」：https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ\n";
-try {
-  var aiApp = initializeApp({
-  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
-  authDomain: "ohana-share.firebaseapp.com",
-  projectId: "ohana-share",
-  storageBucket: "ohana-share.firebasestorage.app",
-  messagingSenderId: "825904150210",
-  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
-}, 'ohana-ai');
-  initializeAppCheck(aiApp, { provider: new ReCaptchaEnterpriseProvider('6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv'), isTokenAutoRefreshEnabled: true });
-  var aiDb = getFirestore(aiApp);
-  var ai = getAI(aiApp, { backend: new GoogleAIBackend() });
-  var model = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: SYS });
-  var chat = null;
-  function kunUsed(){
-    try {
-      var d = new Date();
-      var key = 'ohana_kun_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-      var n = parseInt(localStorage.getItem(key) || '0', 10) + 1;
-      localStorage.setItem(key, String(n));
-      return n;
-    } catch(e){ return 1; }
-  }
-
-  window.__logBot = function(q, a){
-    try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
-  };
-  window.__ohanaKunAsk = function(text){
-    if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
-    function attempt(){
-      if (!chat) chat = model.startChat({ history: [] });
-      return chat.sendMessage(text).then(function(res){ return res.response.text(); });
-    }
-    var p = attempt().catch(function(){ chat = null; return attempt(); });
-    var timeout = new Promise(function(res){ setTimeout(function(){ res(null); }, 15000); });
-    return Promise.race([p, timeout]).then(function(ans){
-      if (ans) {
-        try { addDoc(collection(aiDb, 'botLogs'), { q: text, a: String(ans).slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
-        return String(ans);
-      }
-      return null;
-    }).catch(function(){ return null; });
-  };
-} catch(e){}
 </script>
 
 <script>

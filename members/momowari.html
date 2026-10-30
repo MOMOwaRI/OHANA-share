@@ -243,6 +243,44 @@
     if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
     if(rows){ document.getElementById('live-rows').innerHTML = rows; document.getElementById('live-sec').style.display = ''; }
     if(typeof d.tickets === 'number'){ document.getElementById('tk-num').textContent = d.tickets; document.getElementById('ticket-sec').style.display = ''; }
+    var h1img = document.querySelector('h1 img');
+    if(d.iconData && h1img) h1img.src = d.iconData;
+    firebase.auth().onAuthStateChanged(function(u){
+      if(!u || u.uid !== "ELCzyeeoDCU4gveavc077L4jBqE3") return;
+      var ref = firebase.firestore().collection('profiles').doc("ELCzyeeoDCU4gveavc077L4jBqE3");
+      var sec = document.getElementById('ticket-sec');
+      if(typeof d.tickets !== 'number'){ document.getElementById('tk-num').textContent = '0'; sec.style.display = ''; }
+      var hint = document.createElement('p');
+      hint.style.cssText = 'font-size:.8rem;color:#a3805a;margin-top:6px';
+      hint.textContent = '【あなただけ表示】券のカードをタップで枚数を変更／上のアイコンをタップで写真を変更できます';
+      sec.appendChild(hint);
+      var card = sec.querySelector('.ticket-card');
+      if(card){ card.style.cursor = 'pointer'; card.addEventListener('click', function(){
+        var cur = document.getElementById('tk-num').textContent;
+        var v = prompt('OHANA100円券の枚数（0〜9999）', cur);
+        if(v === null) return;
+        var n = parseInt(v, 10);
+        if(isNaN(n) || n < 0 || n > 9999){ alert('0〜9999の数字で入れてください'); return; }
+        ref.update({tickets: n}).then(function(){ document.getElementById('tk-num').textContent = n; });
+      }); }
+      if(h1img){ h1img.style.cursor = 'pointer'; h1img.title = 'アイコンを変更';
+        var fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/*'; fi.style.display = 'none'; document.body.appendChild(fi);
+        h1img.addEventListener('click', function(){ fi.click(); });
+        fi.addEventListener('change', function(){
+          var f = fi.files && fi.files[0]; if(!f) return;
+          var rd = new FileReader();
+          rd.onload = function(){ var im = new Image(); im.onload = function(){
+            var c = document.createElement('canvas'); c.width = 200; c.height = 200;
+            var x = c.getContext('2d'); var sc = Math.max(200 / im.width, 200 / im.height);
+            var w = im.width * sc, h = im.height * sc;
+            x.drawImage(im, (200 - w) / 2, (200 - h) / 2, w, h);
+            var url = c.toDataURL('image/jpeg', 0.8);
+            ref.update({iconData: url}).then(function(){ h1img.src = url; });
+          }; im.src = rd.result; };
+          rd.readAsDataURL(f);
+        });
+      }
+    });
   }).catch(function(){});
 })();
 </script>
