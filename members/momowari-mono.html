@@ -112,7 +112,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><span><span aria-hidden="true">🐾</span><span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -173,6 +173,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
         snap.forEach(function(doc){ jobs.push(db.collection('profiles').doc(doc.id).get().then(function(p){ return chip(doc.id, p.exists ? p.data() : null); }).catch(function(){ return chip(doc.id, null); })); });
         Promise.all(jobs).then(function(chips){
           row.innerHTML = '<span>' + label + '</span>' + chips.join('');
+          row.dataset.has = '1';
           row.style.display = 'flex';
         });
       }).catch(function(){});
@@ -180,6 +181,14 @@ footer img{width:90px;display:block;margin:0 auto 8px}
     function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ いいねした人'); }
     function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
     loadLikers(); loadFeet();
+    var feetBtn = document.getElementById('istat-feet');
+    if(feetBtn){ feetBtn.addEventListener('click', function(){
+      var row = document.getElementById('ifeet');
+      if(!row) return;
+      if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
+      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+    }); }
+
     if(firebase.auth){
       firebase.auth().onAuthStateChanged(function(u){
         me = u ? u.uid : null;

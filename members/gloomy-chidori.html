@@ -114,7 +114,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><span><span aria-hidden="true">🐾</span><span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -175,6 +175,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
         snap.forEach(function(doc){ jobs.push(db.collection('profiles').doc(doc.id).get().then(function(p){ return chip(doc.id, p.exists ? p.data() : null); }).catch(function(){ return chip(doc.id, null); })); });
         Promise.all(jobs).then(function(chips){
           row.innerHTML = '<span>' + label + '</span>' + chips.join('');
+          row.dataset.has = '1';
           row.style.display = 'flex';
         });
       }).catch(function(){});
@@ -182,6 +183,14 @@ footer img{width:90px;display:block;margin:0 auto 8px}
     function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ いいねした人'); }
     function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
     loadLikers(); loadFeet();
+    var feetBtn = document.getElementById('istat-feet');
+    if(feetBtn){ feetBtn.addEventListener('click', function(){
+      var row = document.getElementById('ifeet');
+      if(!row) return;
+      if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
+      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+    }); }
+
     if(firebase.auth){
       firebase.auth().onAuthStateChanged(function(u){
         me = u ? u.uid : null;
@@ -872,6 +881,116 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     $('sb-cancel').addEventListener('click', function(){ if(confirm('保存していない変更を、元に戻しますか？')){ undoEdit(); setEdit(false); } });
     window.__toggleSiteEdit = function(){ setEdit(!editing); };
     window.__isSiteEditing = function(){ return editing; };
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<!-- item photos: gallery + editor (owner) -->
+<style>
+.iph-thumbs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px}
+.iph-thumbs img{width:64px;height:64px;object-fit:cover;border-radius:10px;border:2px solid #e8e3da;cursor:pointer}
+.iph-thumbs img.on{border-color:#e07b24}
+#iph-panel{position:fixed;left:50%;transform:translateX(-50%);bottom:74px;z-index:97;background:#fff;border:1.5px solid #e0a458;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.2);padding:12px;width:min(92vw,430px);display:none}
+#iph-panel .iph-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+#iph-panel .iph-cell{position:relative;width:64px;height:64px}
+#iph-panel .iph-cell img{width:64px;height:64px;object-fit:cover;border-radius:10px}
+#iph-panel .iph-cell button{position:absolute;border:none;border-radius:999px;cursor:pointer;font-weight:bold;line-height:1}
+#iph-panel .iph-del{top:-6px;right:-6px;background:#c0392b;color:#fff;width:20px;height:20px}
+#iph-panel .iph-mv{bottom:-6px;background:#fff;border:1.5px solid #d8c7ae !important;width:20px;height:20px;color:#8a6a4f}
+</style>
+<script>
+(function(){
+  var ITEM = 'gloomy-chidori';
+  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var DEFAULTS = ["../images/shop/plush-2.jpg", "../images/shop/plush-4.jpg"];
+  var work = null, savedPhotos = null;
+  function db(){ return firebase.firestore(); }
+  function heroImg(){ return document.querySelector('.hero-pv img'); }
+  function renderGallery(photos){
+    var h = heroImg(); if(!h) return;
+    var old = document.getElementById('iph-thumbs'); if(old) old.remove();
+    if(!photos || !photos.length){ var pv = document.querySelector('.hero-pv'); if(pv) pv.style.display = 'none'; return; }
+    document.querySelector('.hero-pv').style.display = '';
+    h.src = photos[0];
+    if(photos.length > 1){
+      var box = document.createElement('div');
+      box.className = 'iph-thumbs'; box.id = 'iph-thumbs';
+      photos.forEach(function(src, i){
+        var im = document.createElement('img');
+        im.src = src; if(i === 0) im.className = 'on';
+        im.addEventListener('click', function(){ h.src = src; box.querySelectorAll('img').forEach(function(x){ x.classList.remove('on'); }); im.classList.add('on'); });
+        box.appendChild(im);
+      });
+      document.querySelector('.hero-pv').after(box);
+    }
+    if(ITEM === 'gloomy-chidori'){
+      document.querySelectorAll('figure img').forEach(function(im){ if((im.getAttribute('src') || '').indexOf('plush-4') >= 0){ var f = im.closest('figure'); if(f) f.style.display = 'none'; } });
+    }
+  }
+  function loadPhotos(){
+    db().collection('itemPhotos').doc(ITEM).get().then(function(doc){
+      if(doc.exists && doc.data() && Array.isArray(doc.data().photos)){ savedPhotos = doc.data().photos; renderGallery(savedPhotos); }
+    }).catch(function(){});
+  }
+  function compress(file, cb){
+    var img = new Image(); var url = URL.createObjectURL(file);
+    img.onload = function(){ URL.revokeObjectURL(url); var scale = Math.min(1, 800 / img.width, 800 / img.height); var w = Math.round(img.width * scale), hgt = Math.round(img.height * scale); var c = document.createElement('canvas'); c.width = w; c.height = hgt; c.getContext('2d').drawImage(img, 0, 0, w, hgt); cb(c.toDataURL('image/jpeg', 0.72)); };
+    img.src = url;
+  }
+  function buildPanel(){
+    if(document.getElementById('iph-panel')) return;
+    var p = document.createElement('div');
+    p.id = 'iph-panel';
+    p.innerHTML = '<p style="font-weight:bold">📷 写真</p><p style="font-size:.8rem;color:#8a6a4f">×で削除、＋で追加できます。いちばん左がメイン写真です。</p><div class="iph-row" id="iph-row"></div><p style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" id="iph-add" style="font-family:inherit;font-weight:bold;background:#fff;color:#b3541e;border:1.5px solid #e0a458;border-radius:999px;padding:7px 14px;cursor:pointer">＋ 写真を追加</button><button type="button" id="iph-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:7px 16px;cursor:pointer">保存</button><button type="button" id="iph-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 14px;cursor:pointer">元に戻す</button></p><p id="iph-msg" style="font-size:.82rem;color:#8a6a4f;margin-top:6px"></p><input type="file" id="iph-file" accept="image/*" style="display:none">';
+    document.body.appendChild(p);
+    function draw(){
+      var row = document.getElementById('iph-row');
+      row.innerHTML = '';
+      (work || []).forEach(function(src, i){
+        var cell = document.createElement('span'); cell.className = 'iph-cell';
+        cell.innerHTML = '<img src="' + src + '"><button type="button" class="iph-del" title="削除">×</button>' + (i > 0 ? '<button type="button" class="iph-mv" style="left:-6px" title="前へ">◀</button>' : '') + (i < work.length - 1 ? '<button type="button" class="iph-mv" style="right:-6px" title="次へ">▶</button>' : '');
+        cell.querySelector('.iph-del').addEventListener('click', function(){ work.splice(i, 1); draw(); });
+        var mv = cell.querySelectorAll('.iph-mv');
+        mv.forEach(function(b){ b.addEventListener('click', function(){ var j = b.title === '前へ' ? i - 1 : i + 1; var t = work[i]; work[i] = work[j]; work[j] = t; draw(); }); });
+        row.appendChild(cell);
+      });
+      if(!work || !work.length) row.innerHTML = '<span style="font-size:.85rem;color:#8a6a4f">写真がありません</span>';
+    }
+    p.__draw = draw;
+    document.getElementById('iph-add').addEventListener('click', function(){ document.getElementById('iph-file').click(); });
+    document.getElementById('iph-file').addEventListener('change', function(){
+      var f = this.files && this.files[0]; this.value = '';
+      if(!f) return;
+      if((work || []).length >= 6){ document.getElementById('iph-msg').textContent = '写真は6枚までです'; return; }
+      compress(f, function(d){ work.push(d); draw(); });
+    });
+    document.getElementById('iph-save').addEventListener('click', function(){
+      var msg = document.getElementById('iph-msg');
+      msg.textContent = '保存しています…';
+      db().collection('itemPhotos').doc(ITEM).set({photos: work, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
+        savedPhotos = work.slice(); renderGallery(savedPhotos); msg.textContent = '保存しました';
+      }).catch(function(){ msg.textContent = '保存できませんでした。時間をおいて試してください。'; });
+    });
+    document.getElementById('iph-undo').addEventListener('click', function(){ work = (savedPhotos || DEFAULTS).slice(); draw(); document.getElementById('iph-msg').textContent = '元に戻しました'; });
+  }
+  function syncPanel(){
+    var u = firebase.auth().currentUser;
+    var on = document.body.classList.contains('site-editing') && u && u.uid === OWNER;
+    var p = document.getElementById('iph-panel');
+    if(on){
+      buildPanel();
+      p = document.getElementById('iph-panel');
+      if(p.style.display === 'none' || !p.style.display){ work = (savedPhotos || DEFAULTS).slice(); p.__draw(); }
+      p.style.display = 'block';
+    } else if(p){ p.style.display = 'none'; }
+  }
+  function init(){
+    if(!window.firebase || !firebase.firestore) return;
+    try{ if(!firebase.apps.length){ return; } }catch(e){ return; }
+    loadPhotos();
+    if(firebase.auth){ firebase.auth().onAuthStateChanged(syncPanel); }
+    setInterval(syncPanel, 1200);
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
