@@ -336,9 +336,10 @@
     row('提供できるコト','#fbe38e', d.offeringKoto);
     if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
     var pv = document.querySelector('.hero-pv');
-    if(pv && (d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)){
-      var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
-      var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
+    if(pv && (d.cmColor || d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)){
+      var DP = ["../images/shop/eyes-room.jpg", "../images/shop/eyes-5.jpg", "../images/shop/eyes-film5.jpg"], DT = ["遠赤外線×キラ水で\n根元から、しっかり。", "負担を抑えて、\n立ち上がるカール", "朝7:30から、\n夜・月曜日も相談できます", "まつげパーマの\n施術の様子", "Eyes MAHALO\neyelash salon"];
+      var photos = [d.cmPhoto1 || DP[0], d.cmPhoto2 || DP[1], d.cmPhoto3 || DP[2]].filter(function(x){ return !!x; });
+      var texts = [d.cmT1 || DT[0], d.cmT2 || DT[1], d.cmT3 || DT[2], d.cmT4 || DT[3], d.cmT5 || DT[4]];
       var color = d.cmColor || '#8a5fb0';
       var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
       for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
@@ -665,7 +666,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function renderCm(d){
     var pv = document.querySelector('.hero-pv');
     if(!pv) return;
-    if(!(d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
+    if(!(d.cmColor || d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
     var photos = [d.cmPhoto1 || DEFPHOTOS[0], d.cmPhoto2 || DEFPHOTOS[1], d.cmPhoto3 || DEFPHOTOS[2]].filter(function(x){ return !!x; });
     var texts = [d.cmT1 || DEFTEXTS[0], d.cmT2 || DEFTEXTS[1], d.cmT3 || DEFTEXTS[2], d.cmT4 || DEFTEXTS[3], d.cmT5 || DEFTEXTS[4]];
     var color = d.cmColor || DEFCOLOR;

@@ -6,7 +6,7 @@
 <title>雑貨屋 Lea Mahalo｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/lea-mahalo.html">
 <link rel="icon" href="../favicon.png">
 <style>
-:root{--accent:#8a5a2b;--accent-dark:#3f7a4d;--ink:#2f3a30;--paper:#f6faf3;--card:#ffffff;--line:#cfe3c8;--soft:#75917a;--orange:#e07b24}
+:root{--accent:#967a00;--accent-dark:#3f7a4d;--ink:#2f3a30;--paper:#f6faf3;--card:#ffffff;--line:#cfe3c8;--soft:#75917a;--orange:#e07b24}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
@@ -312,10 +312,11 @@ OHANAシェア＊プロジェクト OHANAメンバーページ<br>
     row('提供できるコト','#fbe38e', d.offeringKoto);
     if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
     var pv = document.querySelector('.hero-pv');
-    if(pv && (d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)){
-      var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
-      var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
-      var color = d.cmColor || '#8a5a2b';
+    if(pv && (d.cmColor || d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)){
+      var DP = ["../images/shop/lea-film4.jpg", "../images/shop/lea-film5.jpg", "../images/shop/lea-film6.jpg"], DT = ["眠っている価値を、\n必要な場所へ", "店主セレクトの\n古着と雑貨", "ハンドメイドの\n委託雑貨も", "雑貨の並ぶ\n明るい店内", "雑貨屋 Lea Mahalo\nselect shop"];
+      var photos = [d.cmPhoto1 || DP[0], d.cmPhoto2 || DP[1], d.cmPhoto3 || DP[2]].filter(function(x){ return !!x; });
+      var texts = [d.cmT1 || DT[0], d.cmT2 || DT[1], d.cmT3 || DT[2], d.cmT4 || DT[3], d.cmT5 || DT[4]];
+      var color = d.cmColor || '#967a00';
       var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
       for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
       cmh += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -538,7 +539,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   var DOC = 'ELCzyeeoDCU4gveavc077L4jBqE3__mono';
   var PAGE = 'members-lea';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
-  var DEFCOLOR = '#8a5a2b';
+  var DEFCOLOR = '#967a00';
   var DEFPHOTOS = ["../images/shop/lea-film4.jpg", "../images/shop/lea-film5.jpg", "../images/shop/lea-film6.jpg"];
   var DEFTEXTS = ["眠っている価値を、\n必要な場所へ", "店主セレクトの\n古着と雑貨", "ハンドメイドの\n委託雑貨も", "雑貨の並ぶ\n明るい店内", "雑貨屋 Lea Mahalo\nselect shop"];
   var editing = false;
@@ -641,7 +642,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function renderCm(d){
     var pv = document.querySelector('.hero-pv');
     if(!pv) return;
-    if(!(d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
+    if(!(d.cmColor || d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)) return;
     var photos = [d.cmPhoto1 || DEFPHOTOS[0], d.cmPhoto2 || DEFPHOTOS[1], d.cmPhoto3 || DEFPHOTOS[2]].filter(function(x){ return !!x; });
     var texts = [d.cmT1 || DEFTEXTS[0], d.cmT2 || DEFTEXTS[1], d.cmT3 || DEFTEXTS[2], d.cmT4 || DEFTEXTS[3], d.cmT5 || DEFTEXTS[4]];
     var color = d.cmColor || DEFCOLOR;
