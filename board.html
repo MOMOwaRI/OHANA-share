@@ -63,6 +63,13 @@
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
+<style>
+/* ===== motion-pack: scroll reveal ===== */
+/* ===== motion-pack: scroll reveal (OHANAトップ方式) ===== */
+html.js .mrv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+html.js .mrv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){html.js .mrv{opacity:1;transform:none;transition:none}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -909,5 +916,20 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 })();
 </script>
 
+
+<script>
+/* motion-pack: scroll reveal */
+(function(){
+document.documentElement.classList.add('js');
+if(!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+var list = Array.prototype.slice.call(document.querySelectorAll('section, footer, .wrap > div, .wrap > header'));
+list = list.filter(function(el){ return !list.some(function(o){ return o !== el && el.contains(o); }); });
+list.forEach(function(el){ el.classList.add('mrv'); });
+var io = new IntersectionObserver(function(entries){
+entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold: 0, rootMargin: '0px 0px 15% 0px'});
+list.forEach(function(el){ io.observe(el); });
+})();
+</script>
 </body>
 </html>

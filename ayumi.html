@@ -43,6 +43,13 @@ h2.era{font-size:1.2rem;margin:34px 0 4px;padding-left:10px;border-left:5px soli
 .story-img{width:100%;border-radius:12px;display:block;margin:0 0 10px}
 footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
 </style>
+<style>
+/* ===== motion-pack: scroll reveal ===== */
+/* ===== motion-pack: scroll reveal (OHANAトップ方式) ===== */
+html.js .mrv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+html.js .mrv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){html.js .mrv{opacity:1;transform:none;transition:none}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -54,9 +61,9 @@ footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 
 <div class="photo-row">
-<img src="img-2cf76acd95.jpg" alt="物々交換イベントで衣類を交換する参加者" loading="lazy">
-<img src="img-5b048d6a96.jpg" alt="フリマの出品テーブル" loading="lazy">
-<img src="img-e61a7ccbb5.jpg" alt="イベントで子どもたちと話す様子" loading="lazy">
+<img src="ayumi-row1.jpg" alt="MAHALO美容室の階段前で開かれるフリマの様子" loading="lazy">
+<img src="ayumi-row2.jpg" alt="elua Mahalo入口に並ぶおもちゃ" loading="lazy">
+<img src="ayumi-row3.jpg" alt="店内に並ぶ子ども服のボックス" loading="lazy">
 </div>
 <p class="photo-cap">物々交換・フリマイベントの様子</p>
 
@@ -64,7 +71,7 @@ footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
 <p class="era-note">現在のOHANAの形です。</p>
 
 <div class="story">
-<img class="story-img" src="img-6defdb0cf7.jpg" alt="室内での物々交換イベント全体の様子" loading="lazy">
+<img class="story-img" src="ayumi-now.jpg" alt="MAHALO美容室前で開かれる現在のフリマの様子" loading="lazy">
 <span class="date">2026年9月23日</span>
 <h3>フリマでエクスチェンジ★｜100円券から始まる「価値循環」</h3>
 <p>現在の形「フリマ型の選べる物々交換」の出発点になった記事。100円券でお買い物する仕組みと、「シェア秘密基地」構想まで。</p>
@@ -630,5 +637,20 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 })();
 </script>
 
+
+<script>
+/* motion-pack: scroll reveal */
+(function(){
+document.documentElement.classList.add('js');
+if(!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+var list = Array.prototype.slice.call(document.querySelectorAll('section, footer, .wrap > div, .wrap > header'));
+list = list.filter(function(el){ return !list.some(function(o){ return o !== el && el.contains(o); }); });
+list.forEach(function(el){ el.classList.add('mrv'); });
+var io = new IntersectionObserver(function(entries){
+entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold: 0, rootMargin: '0px 0px 15% 0px'});
+list.forEach(function(el){ io.observe(el); });
+})();
+</script>
 </body>
 </html>
