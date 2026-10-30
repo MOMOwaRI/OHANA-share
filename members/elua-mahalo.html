@@ -322,6 +322,7 @@
       var photos = [d.cmPhoto1 || DP[0], d.cmPhoto2 || DP[1], d.cmPhoto3 || DP[2]].filter(function(x){ return !!x; });
       var texts = [d.cmT1 || DT[0], d.cmT2 || DT[1], d.cmT3 || DT[2], d.cmT4 || DT[3], d.cmT5 || DT[4]];
       var color = d.cmColor || '#e07b24';
+      try{ var rt = document.documentElement.style; rt.setProperty('--accent', color); rt.setProperty('--orange', color); var hx = String(color).replace('#', ''); if(hx.length === 6){ function sh(i){ return Math.max(0, Math.min(255, Math.round(parseInt(hx.substr(i, 2), 16) * 0.78))); } rt.setProperty('--orange-dark', 'rgb(' + sh(0) + ',' + sh(2) + ',' + sh(4) + ')'); } }catch(e){}
       var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
       for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
       cmh += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -805,6 +806,51 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     $('film-file').click();
   }
 
+  /* ---------- page theme color ---------- */
+  function shade(hex, f){
+    var hx = String(hex || '').replace('#', '');
+    if(hx.length !== 6) return hex;
+    function c(i){ return Math.max(0, Math.min(255, Math.round(parseInt(hx.substr(i, 2), 16) * f))); }
+    return 'rgb(' + c(0) + ',' + c(2) + ',' + c(4) + ')';
+  }
+  function applyTheme(c){
+    if(!c) return;
+    var r = document.documentElement.style;
+    r.setProperty('--accent', c);
+    r.setProperty('--orange', c);
+    r.setProperty('--orange-dark', shade(c, 0.78));
+  }
+  function buildColorButton(){
+    if($('theme-btn')) return;
+    var b = document.createElement('button');
+    b.type = 'button'; b.id = 'theme-btn'; b.textContent = '🎨 色';
+    b.style.cssText = 'position:fixed;top:10px;left:max(10px, calc(50% - 350px));z-index:96;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
+    document.body.appendChild(b);
+    var panel = document.createElement('div');
+    panel.id = 'theme-panel';
+    panel.style.cssText = 'position:fixed;top:56px;left:max(10px, calc(50% - 350px));z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:14px;padding:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);display:none;width:250px';
+    panel.innerHTML = '<p style="font-weight:bold;margin-bottom:6px">ページの色</p><p style="font-size:.8rem;color:#8a6a4f;margin-bottom:8px">このページ全体の色になります（アニメーションの色も同じです）</p><p style="display:flex;gap:8px;align-items:center"><input type="color" id="theme-color" value="' + DEFCOLOR + '" style="width:56px;height:36px;border:none;background:none;cursor:pointer"><button type="button" id="theme-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">保存</button><button type="button" id="theme-cancel" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer">閉じる</button></p><p id="theme-msg" style="font-size:.82rem;color:#8a6a4f;margin-top:6px"></p>';
+    document.body.appendChild(panel);
+    b.addEventListener('click', function(){
+      if(panel.style.display !== 'none'){ panel.style.display = 'none'; return; }
+      panel.style.display = '';
+      db().collection('profiles').doc(DOC).get().then(function(doc){
+        docData = doc.exists ? doc.data() : {};
+        $('theme-color').value = docData.cmColor || DEFCOLOR;
+      }).catch(function(){});
+    });
+    $('theme-cancel').addEventListener('click', function(){ panel.style.display = 'none'; });
+    $('theme-save').addEventListener('click', function(){
+      var v = $('theme-color').value;
+      saveProfilePart({cmColor: v}, $('theme-msg')).then(function(){
+        if(docData) docData.cmColor = v;
+        applyTheme(v);
+        if(docData) renderCm(docData);
+        $('theme-msg').textContent = '保存しました';
+      });
+    });
+  }
+
   /* ---------- CM panel ---------- */
   var cmWork = null;
   function buildCmPanel(){
@@ -834,7 +880,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       for(var t = 1; t <= 5; t++) prof['cmT' + t] = $('cm-t' + t).value;
       prof.cmColor = $('cm-color').value;
       if(cmWork) for(var ci = 1; ci <= 3; ci++) prof['cmPhoto' + ci] = cmWork[ci - 1] || '';
-      saveProfilePart(prof, $('cm-msg')).then(function(){ renderCm(docData); });
+      saveProfilePart(prof, $('cm-msg')).then(function(){ applyTheme(prof.cmColor); renderCm(docData); });
     });
     $('cm-undo2').addEventListener('click', function(){ cmWork = null; buildCmPanel(); });
   }
@@ -984,6 +1030,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
       decorateSns(true);
       db().collection('profiles').doc(DOC).get().then(function(doc){
         docData = doc.exists ? doc.data() : {};
+        applyTheme(docData.cmColor);
         cmWork = null; cmTouched = false; tagsWork = null;
         buildRows(docData, true);
         addRowsActions();
@@ -1179,6 +1226,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = 'メンバー登録'; if(editing) setEdit(false); return; }
       btn.textContent = (u.uid === OWNER) ? (editing ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      if(u.uid === OWNER) buildColorButton();
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
