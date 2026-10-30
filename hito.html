@@ -29,10 +29,9 @@
   .item{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);display:block;box-shadow:0 2px 8px rgba(160,100,40,.08)}
   .item img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f6ead9}
   .item .nophoto{width:100%;aspect-ratio:1/1;background:#f6ead9;color:var(--soft);display:flex;align-items:center;justify-content:center;font-size:.85rem}
-  .item .ph{width:100%;aspect-ratio:1/1;background:#f6ead9;display:flex;align-items:center;justify-content:center}
-  .item .ph img.fill{width:100%;height:100%;object-fit:cover;display:block}
-  .item .ph img.circle{width:64%;aspect-ratio:1/1;border-radius:50%;object-fit:cover;display:block}
-  .item .ph .bigletter{width:64%;aspect-ratio:1/1;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:bold}
+  .item .ph{position:relative;display:block;width:100%;height:0;padding-top:100%;background:#f6ead9;overflow:hidden}
+  .item .ph img.fill{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
+  .item .ph .bigletter{position:absolute;top:0;left:0;width:100%;height:100%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2.6rem;font-weight:bold}
   .item .body{display:block;padding:10px 12px 12px}
   .item .name{display:block;font-weight:bold;font-size:1rem;line-height:1.4}
   .item .desc{font-size:.84rem;color:var(--soft);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -61,7 +60,7 @@
   </header>
   <div class="grid" id="grid">
     <a class="item" data-tags="松山市 OHANAメンバー" href="members/momowari.html">
-      <span class="ph"><img class="circle" src="momowari-icon.png" alt="MOMOwaRI"></span>
+      <span class="ph"><img class="fill" src="momowari-icon.png" alt="MOMOwaRI"></span>
       <span class="body">
         <span class="name"><img class="tic" src="momowari-icon.png" alt="">MOMOwaRI</span>
         <span class="desc">まつげパーマ（Eyes MAHALO）、ヒトモノコトをつなぐこと、イベント企画・開催。</span>
@@ -119,7 +118,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     a.href = 'member.html?id=' + encodeURIComponent(it.id);
     var ph;
     if(d.photoUrl) ph = '<span class="ph"><img class="fill" src="' + esc(d.photoUrl) + '" alt=""></span>';
-    else if(d.iconData) ph = '<span class="ph"><img class="circle" src="' + esc(d.iconData) + '" alt=""></span>';
+    else if(d.iconData) ph = '<span class="ph"><img class="fill" src="' + esc(d.iconData) + '" alt=""></span>';
     else ph = '<span class="ph"><span class="bigletter" style="background:' + icoColor(d.nickname) + '">' + esc((d.nickname || 'メ').charAt(0)) + '</span></span>';
     var desc = (d.intro || '').slice(0, 60);
     a.innerHTML = ph + '<span class="body"><span class="name">' + tileIcon(d) + esc(d.nickname) + '</span>' +
