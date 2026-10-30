@@ -94,6 +94,13 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "プーさん・リラックマ・クマ顔クッション 3点セット", "image": "https://momowari.github.io/OHANA-share/images/shop/plush-3.jpg", "description": "くまのプーさん（ハニーポット付き）、リラックマ、クリーム色のクマ顔クッションの3点セット。", "category": "ぬいぐるみ"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "セット内容は？", "acceptedAnswer": {"@type": "Answer", "text": "くまのプーさん（ハニーポット付き）、リラックマ、クリーム色のクマ顔クッションの3点セットです。"}}, {"@type": "Question", "name": "1つだけでも大丈夫ですか？", "acceptedAnswer": {"@type": "Answer", "text": "このページでは3点セットで出しています。相談は掲示板やオープンチャットでMOMOwaRIへどうぞ。"}}, {"@type": "Question", "name": "状態はどうですか？", "acceptedAnswer": {"@type": "Answer", "text": "詳しくは写真をご覧ください。気になるところは掲示板やオープンチャットで聞いてください。"}}, {"@type": "Question", "name": "どうやったら手に入りますか？", "acceptedAnswer": {"@type": "Answer", "text": "OHANAのイベントや、みんなの掲示板・LINEオープンチャットでMOMOwaRIに相談してください。OHANA100円券でお買い物できます。"}}]}</script>
+<style>
+/* ===== motion-pack: scroll reveal ===== */
+/* ===== motion-pack: scroll reveal (OHANAトップ方式) ===== */
+html.js .mrv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+html.js .mrv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){html.js .mrv{opacity:1;transform:none;transition:none}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -984,5 +991,20 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 })();
 </script>
 
+
+<script>
+/* motion-pack: scroll reveal */
+(function(){
+document.documentElement.classList.add('js');
+if(!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+var list = Array.prototype.slice.call(document.querySelectorAll('section, footer'));
+list = list.filter(function(el){ return !list.some(function(o){ return o !== el && el.contains(o); }); });
+list.forEach(function(el){ el.classList.add('mrv'); });
+var io = new IntersectionObserver(function(entries){
+entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold: 0, rootMargin: '0px 0px 15% 0px'});
+list.forEach(function(el){ io.observe(el); });
+})();
+</script>
 </body>
 </html>
