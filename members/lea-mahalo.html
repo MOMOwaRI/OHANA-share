@@ -1248,6 +1248,57 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
+import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+var SYS = "あなたは、愛媛県松山市の「OHANAシェア＊プロジェクト」のOHANAです。サイトを訪れた人の質問に、親しみやすく、短く（1〜3文）答えてください。名前を聞かれたら「OHANAです」と答えてください。\n\n\n・嘘をつかないでください。下の知識に書かれていないことは、絶対に作り話をせず、正直に「分からない」と言ってください。\n・分からないときは、「みんなの掲示板」「みんなの困った・質問」のページ、LINEオープンチャットのどれかを案内してください。困った・質問のページは、主催のMOMOwaRIが直接答える場所です。\n・料金・日時・場所・電話番号は、知識に書かれているものだけを、そのまま正確に伝えてください。似た数字や別の日付を推測で言わないでください。\n・個人の電話番号や住所など、個人情報は答えないでください（お店の公開情報は除きます）。\n・医療・法律・お金の相談には答えず、専門家や掲示板を案内してください。\n・OHANAと関係のない質問には、「OHANAのことなら答えられます」とやんわり返してください。\n・「なんで？」「どうして？」「それは？」のような短い追加の質問は、直前の話題について聞かれているものとして答えてください。\n・ただし、会話の流れからも意味が決められない短い質問（例：「どこから」だけ、「いつ」だけ）は、決めつけて答えず、候補を2つほど示して聞き返してください。例：「どこから」と聞かれたら「登録はどこからか、ですか？それとも、場所（最寄り駅）からの行き方ですか？」のように聞き返します。\n\n\n・OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。対象はヒトモノコトです。理念は「眠っている価値を、必要な場所へ」。\n・主催は松山市のMOMOwaRIです。\n\n\n・無料で配布される券で、買うものではありません。現金への換金はできません。お釣りは出ません。使わずに持っている間は、人に譲れます。受け取ったお店や人は、その券を他のお店で使うことで、券が地域を廻ります。\n・代金の受け取り方は選べます。現金と100円券のミックスもできますし、希望する人は全額100円券で受け取ることもできます。全部100円券に決まっているわけではありません。\n・イベントへの参加は無料です。100円券は無料で配布しています。\n・100円券は、イベントの当日に会場で無料で配布します。「どうやったらもらえるの？」と聞かれたら、そのことを答えてください。\n・なぜ無料なのか聞かれたら：メンバー登録もイベント参加も無料です。紹介ページ作りや最新情報の見回りをAIが担っているので、手間と費用をかけずに運営でき、その分を無料にしています。\n\n\n・不定期開催で、月曜祝日にMAHALOビル（松山市味酒町）で開くことが多いです。次回は2026年11月23日（月・祝）の開催予定です。出店はフリマのほか、ワークショップもできます。詳しい案内はLINEオープンチャットと「みんなの掲示板」でしています。\n\n\n・モノの登録は、Googleフォトの「OHANA 写真受付箱」に写真を入れるだけでも始められます。メンバー登録はあとからでも大丈夫で、登録すれば、投げた写真のページがその人のページに連携します。\n・OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。SNSしかやっていない人は、AI検索で見つけてもらいにくいことがあります。紹介ページがあると、検索やAIに見つけてもらう助けになります。お店の方も個人の方も、オンラインだけで活動している方もOKです。掲載の条件は、OHANA100円券が使えるお店・活動にしていただくことです。メンバー登録は、サイトの「無料メンバー登録」ボタンからGoogleでログインするだけです。\n\n\n・質問や相談は「みんなの困った・質問」のページに、ログインなしで書けます。お知らせは「みんなの掲示板」に書けます。\n\n\n・ビル全体：古町駅から徒歩約3分、駐車場3台。\n・hair ID salon MAHALO（2階の美容室）：9:00〜18:00受付、定休日は月曜、電話089-934-1455。\n・elua Mahalo（1階の女性限定美容室）：水〜金10:00〜17:00、土日祝9:00〜18:00、定休日は月・火。完全予約制・マンツーマン、電話089-934-1587。\n・Eyes MAHALO（1階のまつげパーマ専門店）：まつげパーマ歴15年以上。遠赤外線のキラ水とアイマスクを使う施術です（温める施術ではありません）。基本メニュー4,000円、根元メニュー3,000円。対応時間は7:30〜19:30（月〜土）、日・祝は要相談。予約と空き確認は公式LINEが確実です。電話番号は案内しないでください。\n・雑貨屋 Lea Mahalo（1階の雑貨屋）：実店舗は来店予約制です。メルカリでも販売していて、購入の前には在庫確認のコメントが必要です。\n\n\n・LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」：https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ\n";
+try {
+  var aiApp = initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}, 'ohana-ai');
+  initializeAppCheck(aiApp, { provider: new ReCaptchaEnterpriseProvider('6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv'), isTokenAutoRefreshEnabled: true });
+  var aiDb = getFirestore(aiApp);
+  var ai = getAI(aiApp, { backend: new GoogleAIBackend() });
+  var model = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: SYS });
+  var chat = null;
+  function kunUsed(){
+    try {
+      var d = new Date();
+      var key = 'ohana_kun_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var n = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+      localStorage.setItem(key, String(n));
+      return n;
+    } catch(e){ return 1; }
+  }
+
+  window.__logBot = function(q, a){
+    try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
+  };
+  window.__ohanaKunAsk = function(text){
+    if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
+    function attempt(){
+      if (!chat) chat = model.startChat({ history: [] });
+      return chat.sendMessage(text).then(function(res){ return res.response.text(); });
+    }
+    var p = attempt().catch(function(){ chat = null; return attempt(); });
+    var timeout = new Promise(function(res){ setTimeout(function(){ res(null); }, 15000); });
+    return Promise.race([p, timeout]).then(function(ans){
+      if (ans) {
+        try { addDoc(collection(aiDb, 'botLogs'), { q: text, a: String(ans).slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
+        return String(ans);
+      }
+      return null;
+    }).catch(function(){ return null; });
+  };
+} catch(e){}
+</script>
 
 <script>
 (function(){
