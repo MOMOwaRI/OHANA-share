@@ -38,6 +38,7 @@
   .page-card .tn{display:block;padding:9px 11px 2px;font-weight:bold}
   .page-card .tc{display:block;padding:0 11px 8px}
   .page-card .no{color:var(--soft);font-size:.8rem;font-weight:normal}
+  .page-card .tedit{margin:0 11px 6px;align-self:flex-start;background:#fff;color:#b3541e;border:1.5px solid #e07b24;border-radius:999px;padding:5px 14px;font-weight:bold;font-size:.82rem;text-decoration:none}
   .page-card .tdel{margin:0 11px 11px;align-self:flex-start;background:none;border:none;color:#b03a3a;cursor:pointer;font-family:inherit;font-size:.8rem;padding:2px 0;text-decoration:underline}
   .create-card{background:#fffdf9;border:2px dashed #e8b96f;border-radius:16px;padding:16px 20px;margin-top:14px}
   .create-btn{background:#fff;color:var(--orange-dark);border:2px solid var(--orange);font-weight:bold;border-radius:999px;padding:9px 20px;cursor:pointer;font-family:inherit;font-size:.95rem}
@@ -215,6 +216,10 @@ function pageHref(docId){
   }
   return 'member.html?id=' + encodeURIComponent(docId);
 }
+function editHref(docId){
+  var h = pageHref(docId);
+  return h + (h.indexOf('?') >= 0 ? '&' : '?') + 'edit=1';
+}
 function card(docId, d){
   var cats = d.categories || (d.category ? [d.category] : []);
   var bh = '';
@@ -225,6 +230,7 @@ function card(docId, d){
     '<a class="tile" href="' + pageHref(docId) + '">' + img +
     '<span class="tn">' + esc(pageName(d)) + ((docId === uid && d.memberNo) ? ' <span class="no">No.' + d.memberNo + '</span>' : '') + '</span>' +
     '<span class="tc">' + bh + '</span></a>' +
+    '<a class="tedit" href="' + editHref(docId) + '">✎ 編集する</a>' +
     '<button type="button" class="tdel del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '">削除</button></div>';
 }
 function trashCard(docId, d){
