@@ -93,7 +93,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
   .pgrid img{height:210px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "LOVEうさぎ ぬいぐるみ・マスコット セット", "image": "https://momowari.github.io/OHANA-share/images/shop/plush-6.jpg", "description": "耳にLOVEの刺繍が入った白・黒のウサギのぬいぐるみとマスコット多数のセット。かご入り、タグ付き。", "category": "ぬいぐるみ"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "どうやったら手に入りますか？", "acceptedAnswer": {"@type": "Answer", "text": "OHANAのイベントや、みんなの掲示板・LINEオープンチャットでMOMOwaRIに相談してください。OHANA100円券でお買い物できます。"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "セット内容は？", "acceptedAnswer": {"@type": "Answer", "text": "耳にLOVEの刺繍が入ったウサギのぬいぐるみ（白・黒）と、マスコット多数のセットです。写真はかごに入った状態で撮っています。"}}, {"@type": "Question", "name": "タグは付いていますか？", "acceptedAnswer": {"@type": "Answer", "text": "はい、タグ付きです。状態は写真をご覧ください。"}}, {"@type": "Question", "name": "どうやったら手に入りますか？", "acceptedAnswer": {"@type": "Answer", "text": "OHANAのイベントや、みんなの掲示板・LINEオープンチャットでMOMOwaRIに相談してください。OHANA100円券でお買い物できます。"}}]}</script>
 </head>
 <body>
 <div class="wrap">
@@ -229,10 +229,6 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <h2>このモノのこと</h2>
 <p>耳に「LOVE」の刺繍が入ったウサギのぬいぐるみとマスコットのセットです。白・黒のぬいぐるみと小さいマスコットが、かごに入った状態でたくさんあります。タグが付いています。</p>
 </section>
-<section>
-<h2>写真</h2>
-<div class="film"><div class="film-track" style="--fd:12s"><div class="film-set"><figure><img src="../images/shop/plush-6.jpg" alt="LOVEうさぎのぬいぐるみとマスコット"></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/plush-6.jpg" alt=""></figure></div></div></div>
-</section>
 <div class="ticket"><span class="tk-big">OHANA100円券でお買い物できます</span><span class="tk-note">券は無料で配布しています。現金への換金はしません。お釣りは出ません</span></div>
 <section>
 <h2>商品情報</h2>
@@ -246,8 +242,9 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 </section>
 <section>
 <h2>よくある質問</h2>
+<div class="qa"><p class="q">セット内容は？</p><p class="a">耳にLOVEの刺繍が入ったウサギのぬいぐるみ（白・黒）と、マスコット多数のセットです。写真はかごに入った状態で撮っています。</p></div>
+<div class="qa"><p class="q">タグは付いていますか？</p><p class="a">はい、タグ付きです。状態は写真をご覧ください。</p></div>
 <div class="qa"><p class="q">どうやったら手に入りますか？</p><p class="a">OHANAのイベントや、みんなの掲示板・LINEオープンチャットでMOMOwaRIに相談してください。OHANA100円券でお買い物できます。</p></div>
-<div class="qa"><p class="q">1つだけでも大丈夫ですか？</p><p class="a">このページはセットで出しています。相談は掲示板やオープンチャットで聞いてください。</p></div>
 </section>
 
 <section>
@@ -634,9 +631,16 @@ try {
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96;display:flex;gap:8px';
     rowEl.appendChild(btn);
     window.__authBtn = btn;
+    var btn2 = document.createElement('button');
+    btn2.type = 'button';
+    btn2.textContent = 'マイページ';
+    btn2.style.cssText = btn.style.cssText;
+    btn2.style.display = 'none';
+    btn2.addEventListener('click', function(){ location.href = '../login.html'; });
+    rowEl.insertBefore(btn2, btn);
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
@@ -648,8 +652,9 @@ try {
       else location.href = '../login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = memberLabel(); return; }
+      if(!u){ btn.textContent = memberLabel(); btn2.style.display = 'none'; return; }
       btn.textContent = (u.uid === OWNER && (DOC || window.__toggleSiteEdit)) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      btn2.style.display = (u.uid === OWNER && window.__toggleSiteEdit) ? '' : 'none';
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       if(u.uid === OWNER && DOC){
         var pv = document.querySelector('.hero-pv');

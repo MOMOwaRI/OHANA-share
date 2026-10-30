@@ -619,9 +619,16 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96;display:flex;gap:8px';
     rowEl.appendChild(btn);
     window.__authBtn = btn;
+    var btn2 = document.createElement('button');
+    btn2.type = 'button';
+    btn2.textContent = 'マイページ';
+    btn2.style.cssText = btn.style.cssText;
+    btn2.style.display = 'none';
+    btn2.addEventListener('click', function(){ location.href = '../login.html'; });
+    rowEl.insertBefore(btn2, btn);
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
@@ -633,8 +640,9 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
       else location.href = '../login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = memberLabel(); return; }
+      if(!u){ btn.textContent = memberLabel(); btn2.style.display = 'none'; return; }
       btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      btn2.style.display = (u.uid === OWNER && window.__toggleSiteEdit) ? '' : 'none';
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       if(u.uid === OWNER && DOC){
         var pv = document.querySelector('.hero-pv');
