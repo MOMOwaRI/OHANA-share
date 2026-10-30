@@ -107,13 +107,14 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 .istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
 .istats .lkbtn{font-family:inherit;font-weight:bold;border:1.5px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 16px;cursor:pointer}
 .istats .lkbtn.on{background:#fde8ef;border-color:#e58bb1;color:#c2437e}
+.cateye{width:1.1em;height:1.1em;vertical-align:-.18em;margin-right:2px}
 .irow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 0;font-size:.8rem;color:#a3805a}
 .irow .ip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #f0e2cd;border-radius:999px;padding:2px 9px 2px 3px}
 .irow .ip img{width:22px;height:22px;border-radius:50%;object-fit:cover}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><span>👁 <span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button></div>
+<div class="istats"><span><svg class="cateye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12c3-4.5 6.5-7 10-7s7 2.5 10 7c-3 4.5-6.5 7-10 7S5 16.5 2 12z" fill="#fff" stroke="#a3805a" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="4.6" ry="5.4" fill="#8fce62"/><ellipse cx="12" cy="12" rx="1.6" ry="4.6" fill="#3a2c1c"/><circle cx="13.6" cy="9.4" r="1.3" fill="#fff"/></svg><span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -278,6 +279,112 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 <a class="cta" href="../index.html">OHANAトップへ戻る</a>
 
 <a href="../index.html"><img class="banner-sm" src="../member-banner.png" alt="OHANAシェア＊プロジェクト OHANAメンバー紹介ページ"></a>
+
+<!-- item-comments -->
+<style>
+.icomments{margin:26px 0 6px;text-align:left}
+.icomments h2{font-size:1.05rem;margin-bottom:8px}
+.ic-item{display:flex;gap:9px;margin:10px 0;align-items:flex-start}
+.ic-item img.icface{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none}
+.ic-item .ini{width:34px;height:34px;border-radius:50%;color:#fff;font-weight:bold;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.ic-body{background:#fff;border:1px solid #f0e2cd;border-radius:12px;padding:8px 12px;flex:1;min-width:0}
+.ic-name{font-weight:bold;font-size:.85rem}
+.ic-date{color:#b39b78;font-size:.75rem;margin-left:6px;font-weight:normal}
+.ic-text{font-size:.95rem;white-space:pre-wrap;word-break:break-word}
+.ic-del{border:none;background:none;color:#c2610f;font-size:.78rem;cursor:pointer;padding:2px 4px}
+.ic-form textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px 12px;border:1.5px solid #e8cfa5;border-radius:12px;background:#fffdf8;min-height:64px}
+.ic-form .postbtn{margin-top:8px;background:#e07b24;color:#fff;border:none;font-weight:bold;font-family:inherit;border-radius:999px;padding:10px 22px;cursor:pointer}
+.ic-login{display:block;text-align:center;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:11px;margin-top:10px}
+.ic-empty{color:#a3805a;font-size:.9rem}
+.irelated{margin:26px 0 6px;text-align:left}
+.irelated h2{font-size:1.05rem;margin-bottom:8px}
+.irel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.irel-grid a{display:block;background:#fff;border:1px solid #f0e2cd;border-radius:12px;overflow:hidden;text-decoration:none;color:inherit}
+.irel-grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.irel-grid span{display:block;padding:7px 9px;font-size:.83rem;font-weight:bold}
+</style>
+<section class="irelated"><h2>ほかのモノ</h2><div class="irel-grid"><a href="gloomy-chidori.html"><img src="../images/shop/plush-2.jpg" alt=""><span>グル〜ミ〜 ぬいぐるみ 特大サイズ 千鳥格子2体セット</span></a><a href="totoro.html"><img src="../images/shop/plush-1.jpg" alt=""><span>中トトロ ぬいぐるみ</span></a><a href="pooh-rilakkuma-set.html"><img src="../images/shop/plush-3.jpg" alt=""><span>プーさん・リラックマ・クマ顔クッション 3点セット</span></a><a href="love-usagi-set.html"><img src="../images/shop/plush-6.jpg" alt=""><span>LOVEうさぎ ぬいぐるみ・マスコット セット</span></a></div></section>
+
+<section class="icomments" id="icomments">
+  <h2>💬 コメント</h2>
+  <div id="ic-list"><p class="ic-empty">読み込み中…</p></div>
+  <div class="ic-form" id="ic-form"></div>
+</section>
+<script>
+(function(){
+  var ITEM = 'minecraft-goods-set';
+  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var LOGIN = '../login.html';
+  var COLORS = ['#e58bb1','#7fb069','#e0a458','#8a5fb0','#5d9c6b','#e07b24','#4a90c2','#c2610f'];
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  var tries = 0;
+  function init(){
+    if(tries++ > 40) return;
+    if(!window.firebase || !firebase.firestore){ setTimeout(init, 400); return; }
+    try{ if(!firebase.apps.length) firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}); }catch(e){}
+    var db = firebase.firestore();
+    var me = null;
+    var profCache = {};
+    function prof(uid){
+      if(profCache[uid]) return profCache[uid];
+      profCache[uid] = db.collection('profiles').doc(uid).get().then(function(p){ return p.exists ? p.data() : null; }).catch(function(){ return null; });
+      return profCache[uid];
+    }
+    function face(uid, p){
+      var name = p && p.nickname ? p.nickname : 'メンバー';
+      if(p && p.iconData) return '<img class="icface" src="' + p.iconData + '" alt="">';
+      var h = 0; for(var i = 0; i < uid.length; i++) h = (h * 31 + uid.charCodeAt(i)) % 997;
+      return '<span class="ini" style="background:' + COLORS[h % COLORS.length] + '">' + esc(name.slice(0, 1)) + '</span>';
+    }
+    var listEl = document.getElementById('ic-list');
+    db.collection('itemComments').doc(ITEM).collection('comments').orderBy('ts', 'asc').limit(100).onSnapshot(function(snap){
+      if(snap.empty){ listEl.innerHTML = '<p class="ic-empty">まだコメントはありません。最初のコメントをどうぞ。</p>'; return; }
+      var jobs = [];
+      snap.forEach(function(dc){ jobs.push(prof(dc.data().uid).then(function(p){ return {id: dc.id, d: dc.data(), p: p}; })); });
+      Promise.all(jobs).then(function(rows){
+        listEl.innerHTML = rows.map(function(r){
+          var name = r.p && r.p.nickname ? r.p.nickname : 'メンバー';
+          var date = r.d.ts ? new Date(r.d.ts) : null;
+          var ds = date ? (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()) : '';
+          var del = me && (me === r.d.uid || me === OWNER) ? '<button type="button" class="ic-del" data-del="' + r.id + '">削除</button>' : '';
+          return '<div class="ic-item">' + face(r.d.uid, r.p) + '<div class="ic-body"><span class="ic-name">' + esc(name) + '<span class="ic-date">' + ds + '</span></span> ' + del + '<div class="ic-text">' + esc(r.d.text) + '</div></div></div>';
+        }).join('');
+        listEl.querySelectorAll('[data-del]').forEach(function(b){
+          b.addEventListener('click', function(){
+            db.collection('itemComments').doc(ITEM).collection('comments').doc(b.getAttribute('data-del')).delete().catch(function(){});
+          });
+        });
+      });
+    }, function(){ listEl.innerHTML = '<p class="ic-empty">コメントを読み込めませんでした。</p>'; });
+    var formEl = document.getElementById('ic-form');
+    function drawForm(){
+      if(me){
+        formEl.innerHTML = '<textarea id="ic-ta" maxlength="300" placeholder="コメントを書く（300字まで）"></textarea><button type="button" class="postbtn" id="ic-post">コメントする</button>';
+        document.getElementById('ic-post').addEventListener('click', function(){
+          var ta = document.getElementById('ic-ta');
+          var text = ta.value.trim();
+          if(!text) return;
+          db.collection('itemComments').doc(ITEM).collection('comments').add({uid: me, text: text, ts: Date.now()}).then(function(){ ta.value = ''; }).catch(function(){});
+        });
+      } else {
+        formEl.innerHTML = '<a class="ic-login" href="' + LOGIN + '">コメントするにはメンバー登録（無料）</a>';
+      }
+    }
+    if(firebase.auth){
+      firebase.auth().onAuthStateChanged(function(u){ me = u ? u.uid : null; drawForm(); });
+    } else drawForm();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
 <footer>
 <img src="../img-992cf83a89.png" alt="OHANAキャラクター">
 OHANAシェア＊プロジェクト OHANAメンバー紹介ページ<br>
@@ -609,6 +716,184 @@ try {
         }
       }
     });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<style>
+body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
+body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;background:#fff;border:1.5px solid #e0a458;border-radius:999px;box-shadow:0 8px 24px rgba(120,70,10,.25);padding:8px 10px;display:none;gap:8px;align-items:center}
+#site-savebar.on{display:flex}
+#site-savebar button{font-family:inherit;font-weight:bold;border-radius:999px;padding:9px 18px;cursor:pointer}
+#sb-save{background:#e07b24;color:#fff;border:none}
+#sb-cancel{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
+#sb-msg{font-size:.82rem;color:#8a6a4f}
+.ied-panel{background:#fff;border:1.5px solid #e0a458;border-radius:14px;padding:14px;margin:12px 0;text-align:left}
+.ied-panel h3{font-size:1rem;margin-bottom:8px}
+.ied-panel label{display:block;font-size:.85rem;font-weight:bold;margin-top:10px}
+.ied-panel input[type="text"],.ied-panel textarea{width:100%;font-family:inherit;font-size:1rem;padding:9px 11px;border:1.5px solid #e8cfa5;border-radius:10px;background:#fffdf8}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  var PAGE = 'members-minecraft-goods-set';
+  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var editing = false;
+  var applied = {};
+  var linkList = [];
+  var pendingLinks = {};
+  function $(id){ return document.getElementById(id); }
+  function esc(t){ return String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function hash(t){ var h = 0; for(var i = 0; i < t.length; i++){ h = (h * 31 + t.charCodeAt(i)) | 0; } return 'k' + (h >>> 0).toString(36); }
+  function ensureApp(){ try{ if(window.firebase && !firebase.apps.length){ firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}); } }catch(e){} }
+  function db(){ return firebase.firestore(); }
+  function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,script,style,textarea,select,.authbar-row,.istats,.irow,.icomments,.irelated,.pagenav3'); }
+  function targets(){
+    var out = [];
+    document.querySelectorAll('.wrap *').forEach(function(el){
+      if(el.tagName === 'A') return;
+      if(el.closest('a')) return;
+      if(!pureText(el)) return;
+      if(excluded(el)) return;
+      out.push(el);
+    });
+    return out;
+  }
+  function stampLinks(){
+    linkList = [];
+    document.querySelectorAll('.wrap a[href]').forEach(function(a){
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar')) return;
+      a.setAttribute('data-lk', String(linkList.length));
+      linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML});
+    });
+  }
+  function applyLink(i, v){
+    var L = linkList[i];
+    if(!L || !v) return;
+    if(typeof v.t === 'string') L.el.textContent = v.t;
+    if(typeof v.h === 'string') L.el.setAttribute('href', v.h);
+  }
+  function openLinkPanel(a){
+    var old = $('link-panel');
+    if(old) old.remove();
+    var i = parseInt(a.getAttribute('data-lk'), 10);
+    var L = linkList[i];
+    if(!L) return;
+    var cur = pendingLinks[i] || {t: a.textContent.trim(), h: a.getAttribute('href')};
+    var panel = document.createElement('div');
+    panel.className = 'ied-panel';
+    panel.id = 'link-panel';
+    panel.innerHTML = '<h3>リンクの編集</h3>' +
+      '<label>表示する文字<textarea id="lp-text" rows="2">' + esc(cur.t) + '</textarea></label>' +
+      '<label>リンク先（URL）<input type="text" id="lp-href" value="' + esc(cur.h) + '"></label>' +
+      '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="lp-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:7px 16px;cursor:pointer">このリンクを保存</button><button type="button" id="lp-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 16px;cursor:pointer">元に戻す</button><button type="button" id="lp-close" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 16px;cursor:pointer">閉じる</button><span id="lp-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
+    a.parentNode.insertBefore(panel, a.nextSibling);
+    function upd(){
+      pendingLinks[i] = {t: $('lp-text').value, h: $('lp-href').value};
+      a.textContent = $('lp-text').value;
+    }
+    $('lp-text').addEventListener('input', upd);
+    $('lp-href').addEventListener('input', upd);
+    $('lp-close').addEventListener('click', function(){ panel.remove(); });
+    $('lp-save').addEventListener('click', function(){
+      var upd2 = {};
+      upd2['lnk' + i] = JSON.stringify({t: $('lp-text').value, h: $('lp-href').value});
+      db().collection('siteTexts').doc(PAGE).set(upd2, {merge: true}).then(function(){
+        applied['lnk' + i] = upd2['lnk' + i];
+        delete pendingLinks[i];
+        $('lp-msg').textContent = '保存しました';
+      }).catch(function(){ $('lp-msg').textContent = '保存できませんでした'; });
+    });
+    $('lp-undo').addEventListener('click', function(){
+      delete pendingLinks[i];
+      var saved = applied['lnk' + i];
+      if(saved){ try{ applyLink(i, JSON.parse(saved)); }catch(e){} }
+      else { a.innerHTML = L.html; a.setAttribute('href', L.href); }
+      panel.remove();
+    });
+  }
+  function setEdit(on){
+    editing = on;
+    document.body.classList.toggle('site-editing', on);
+    var bar = $('site-savebar');
+    if(bar) bar.classList.toggle('on', on);
+    if($('sb-msg')) $('sb-msg').textContent = '';
+    var btn = window.__authBtn;
+    if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
+    targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
+    if(on) pendingLinks = {};
+    if(!on){ var lp = $('link-panel'); if(lp) lp.remove(); }
+  }
+  function undoEdit(){
+    targets().forEach(function(el){ var k = el.getAttribute('data-tk'); if(k && applied[k] !== undefined) el.textContent = applied[k]; });
+    linkList.forEach(function(L, i){
+      var saved = applied['lnk' + i];
+      if(saved){ try{ applyLink(i, JSON.parse(saved)); }catch(e){} }
+      else { L.el.innerHTML = L.html; L.el.setAttribute('href', L.href); }
+    });
+    pendingLinks = {};
+    var lp = $('link-panel'); if(lp) lp.remove();
+    if($('sb-msg')) $('sb-msg').textContent = '元に戻しました';
+  }
+  function saveAll(){
+    $('sb-msg').textContent = '保存しています…';
+    var upd = {};
+    targets().forEach(function(el){
+      var k = el.getAttribute('data-tk');
+      if(!k) return;
+      var v = el.textContent.trim();
+      if(applied[k] !== undefined && applied[k] !== v) upd[k] = v;
+      else if(applied[k] === undefined && v) upd[k] = v;
+    });
+    Object.keys(pendingLinks).forEach(function(i){ upd['lnk' + i] = JSON.stringify(pendingLinks[i]); });
+    var job = Object.keys(upd).length ? db().collection('siteTexts').doc(PAGE).set(upd, {merge: true}).then(function(){ Object.keys(upd).forEach(function(k){ applied[k] = upd[k]; }); }) : Promise.resolve();
+    job.then(function(){
+      $('sb-msg').textContent = '保存しました';
+      setTimeout(function(){ setEdit(false); }, 500);
+    }).catch(function(){ $('sb-msg').textContent = '保存できませんでした。時間をおいて試してください。'; });
+  }
+  document.addEventListener('click', function(ev){
+    if(!editing) return;
+    var a = ev.target.closest ? ev.target.closest('a[href]') : null;
+    if(a && a.hasAttribute('data-lk')){ ev.preventDefault(); openLinkPanel(a); }
+  }, true);
+  function init(){
+    if(!window.firebase || !firebase.auth) return;
+    ensureApp();
+    var els = targets();
+    els.forEach(function(el){ el.setAttribute('data-tk', hash(el.textContent.trim())); applied[el.getAttribute('data-tk')] = el.textContent.trim(); });
+    stampLinks();
+    if(firebase.firestore){
+      db().collection('siteTexts').doc(PAGE).get().then(function(doc){
+        if(!doc.exists) return;
+        var data = doc.data() || {};
+        els.forEach(function(el){ var v = data[el.getAttribute('data-tk')]; if(typeof v === 'string'){ el.textContent = v; applied[el.getAttribute('data-tk')] = v; } });
+        els.forEach(function(el){ var k = el.getAttribute('data-tk'); if(applied[k] === undefined) applied[k] = el.textContent.trim(); });
+        linkList.forEach(function(L, i){
+          var v = data['lnk' + i];
+          if(typeof v === 'string'){ applied['lnk' + i] = v; try{ applyLink(i, JSON.parse(v)); }catch(e){} }
+        });
+      }).catch(function(){});
+    }
+    var bar = document.createElement('div');
+    bar.id = 'site-savebar';
+    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">キャンセル</button>';
+    document.body.appendChild(bar);
+    $('sb-save').addEventListener('click', saveAll);
+    $('sb-cancel').addEventListener('click', function(){ if(confirm('保存していない変更を、元に戻しますか？')){ undoEdit(); setEdit(false); } });
+    window.__toggleSiteEdit = function(){ setEdit(!editing); };
+    window.__isSiteEditing = function(){ return editing; };
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
