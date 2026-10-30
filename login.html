@@ -141,6 +141,11 @@
       <p class="sub" style="margin-top:8px">この枚数は、ヒトのページでみんなにも見えます。枚数の変更は、ヒトのページでできます。</p>
       <p style="margin-top:6px"><a id="ticket-edit-link" href="member.html">ヒトのページで枚数を変える</a></p>
     </div>
+    <div class="create-card" id="match-card" style="display:block">
+      <p style="font-weight:bold">合いそうな人</p>
+      <p class="sub">あなたの「探している」と、みんなの「提供している」を見比べて出しています。連絡先は出ません。ページから声をかけてみてください。</p>
+      <div id="match-list"><p class="sub">見ています…</p></div>
+    </div>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
       <p class="sub">区分を選んでください。ページはいくつでも作れます。</p>
@@ -307,6 +312,45 @@ function restorePage(docId){
   });
 }
 
+function matchTokens(text){
+  if(!text) return [];
+  return String(text).split(/[、,・\s／/｜|\n]+/).map(function(t){ return t.trim(); }).filter(function(t){ return t.length >= 2; });
+}
+function loadMatches(mine){
+  var box = $('match-list');
+  if(!box) return;
+  var mySeek = [], myOffer = [];
+  (mine || []).forEach(function(p){
+    mySeek = mySeek.concat(matchTokens(p.d.seekingHito), matchTokens(p.d.seekingMono), matchTokens(p.d.seekingKoto), matchTokens(p.d.seeking));
+    myOffer = myOffer.concat(matchTokens(p.d.offeringHito), matchTokens(p.d.offeringMono), matchTokens(p.d.offeringKoto), matchTokens(p.d.offering));
+  });
+  db.collection('profiles').get().then(function(snap){
+    var found = [];
+    snap.forEach(function(doc){
+      var d = doc.data();
+      if(!d || d.deleted || !d.nickname) return;
+      if(doc.id === uid || doc.id.indexOf(uid + '__') === 0) return;
+      var theirOffer = [d.offering || '', d.offeringHito || '', d.offeringMono || '', d.offeringKoto || '', d.intro || '', (d.tags || []).join(' ')].join(' ');
+      var theirSeek = [d.seeking || '', d.seekingHito || '', d.seekingMono || '', d.seekingKoto || ''].join(' ');
+      var reasons = [];
+      mySeek.forEach(function(t){ if(theirOffer.indexOf(t) >= 0 && reasons.length < 4) reasons.push('「' + t + '」を提供しています'); });
+      myOffer.forEach(function(t){ if(theirSeek.indexOf(t) >= 0 && reasons.length < 4) reasons.push('「' + t + '」を探しています'); });
+      if(reasons.length) found.push({id: doc.id, d: d, reasons: reasons, score: reasons.length});
+    });
+    found.sort(function(a, b){ return b.score - a.score; });
+    if(!found.length){
+      box.innerHTML = '<p class="sub">いまは、まだ見つかっていません。あなたのページに「探している」を書くと、ここに出やすくなります。</p>';
+      return;
+    }
+    var h = '';
+    found.slice(0, 6).forEach(function(m){
+      var d = m.d;
+      var img = d.iconData || d.photoUrl || '';
+      h += '<p style="margin-top:10px"><a href="' + pageHref(m.id) + '" style="font-weight:bold;color:#b3541e;text-decoration:none">' + (img ? '<img src="' + img + '" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;vertical-align:-7px;margin-right:6px">' : '') + esc(d.nickname) + '</a><br><span class="sub">' + esc(m.reasons.slice(0, 2).join('、')) + '</span></p>';
+    });
+    box.innerHTML = h;
+  }).catch(function(){ box.innerHTML = '<p class="sub">うまく読めませんでした。</p>'; });
+}
 function loadPages(){
   var slotIds = [uid, uid + '__hito', uid + '__mono', uid + '__koto'];
   var actives = [];
@@ -328,6 +372,7 @@ function loadPages(){
     var cards = '';
     actives.forEach(function(p){ cards += card(p.id, p.d); });
     $('pages-list').innerHTML = cards || '<section><p>まだページがありません。下から作ってください。</p></section>';
+    loadMatches(actives);
     var tcards = '';
     trashed.forEach(function(p){ tcards += trashCard(p.id, p.d); });
     $('trash-area').hidden = !trashed.length;
