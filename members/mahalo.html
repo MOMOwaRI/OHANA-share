@@ -390,13 +390,13 @@ OHANAシェア＊プロジェクト OHANAメンバーページ<br>
 .ofab-line{display:inline-flex;align-items:center;gap:7px;background:#06c755;color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px rgba(6,199,85,.35)}
 .ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c2610f;border:1.5px solid #e0a458;font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 .ofab-bot img{width:auto;height:38px;object-fit:contain}
-.opanel{position:fixed;right:14px;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:71;width:min(360px,calc(100vw - 28px));background:#fffdf8;border:1px solid #f3ddc4;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:14px}
+.opanel{position:fixed;right:14px;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:71;width:min(360px,calc(100vw - 28px));background:#fffdf8;border:1px solid #f3ddc4;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:14pxmax-height:calc(100vh - 170px);max-height:calc(100dvh - 170px);display:flex;flex-direction:column;overflow:hidden;}
 .ohead{display:flex;align-items:center;gap:10px}
 .ohead img{height:56px;width:auto}
 .ohead .nm{font-weight:700}
 .ohead .ds{font-size:.78rem;color:#8a6a4f;line-height:1.4}
 .oclose{margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid #f3ddc4;background:#fff;cursor:pointer;font-size:1rem;flex:none}
-.olog{display:flex;flex-direction:column;gap:8px;margin:12px 0;max-height:min(46vh,380px);overflow-y:auto}
+.olog{display:flex;flex-direction:column;gap:8px;margin:12px 0;max-height:min(46vh,380px);overflow-y:autoflex:1 1 auto;min-height:0;}
 .omsg{background:#fdf3e3;border:1px solid #f3ddc4;border-radius:14px;border-bottom-left-radius:4px;padding:8px 12px;font-size:.9rem;align-self:flex-start;max-width:92%;line-height:1.6}
 .omsg.user{background:#ffe9d2;border-bottom-left-radius:14px;border-bottom-right-radius:4px;align-self:flex-end}
 .omsg .qlinks{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}
@@ -413,7 +413,7 @@ OHANAシェア＊プロジェクト OHANAメンバーページ<br>
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
 <div class="opanel" id="opanel" hidden>
-<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
+<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oend" id="oend" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
 <div class="qlinks"><a class="oc-link alt" href="../board.html">みんなの掲示板</a><a class="oc-link alt" href="../help.html">困った助け合い</a><a class="oc-link" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャット</a></div>
 <div class="olog" id="olog"><div class="omsg">こんにちは。OHANAです。気になることを下のボタンから選ぶか、入力して聞いてください。</div></div>
 <div class="ochips" id="ochips"></div>
@@ -442,6 +442,17 @@ fabBot.addEventListener('click', function(){ setPanel(panel.hidden); });
 document.getElementById('oclose').addEventListener('click', function(){ setPanel(false); });
 var log = document.getElementById('olog');
 var chipsBox = document.getElementById('ochips');
+  var __greet0 = log.innerHTML;
+  var __endBtn = document.getElementById('oend');
+  if (__endBtn) __endBtn.addEventListener('click', function(){
+    try { log.innerHTML = __greet0; } catch(e){}
+    try { if (chipsBox) chipsBox.style.display = ''; } catch(e){}
+    try { if (window.__ohanaKunReset) window.__ohanaKunReset(); } catch(e){}
+    setPanel(false);
+  });
+  document.addEventListener('click', function(ev){
+    try { if (!panel.hidden && !panel.contains(ev.target) && !fabBot.contains(ev.target)) setPanel(false); } catch(e){}
+  });
 function addMsg(text, who){
 var d = document.createElement('div');
 d.className = 'omsg ' + who;
@@ -1333,6 +1344,7 @@ try {
   window.__logBot = function(q, a){
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
   };
+  window.__ohanaKunReset = function(){ chat = null; };
   window.__ohanaKunAsk = function(text){
     if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
     function attempt(){
