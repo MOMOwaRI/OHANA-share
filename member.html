@@ -632,6 +632,8 @@ var SUGGSETS = {
   momo: [['ホームページ','hp','https://lit.link/momowari'],['SNS（Instagram）','sns','https://www.instagram.com/momowari/'],['SNS（X）','sns','https://twitter.com/Lea_Mahalo'],['SNS（note）','sns','https://note.com/momo2025'],['SNS（YouTube）','sns','https://youtube.com/@00LeaMahalo00'],['SNS（ジモティー）','sns','https://jmty.jp/profiles/5c00d902adce5e534b9fee98'],['掲載（エールラボえひめ）','sns','https://yell-lab.ehime.jp/interview/298.php']]
 };
 function buildSuggestions(){
+  var pageOwner = id ? String(id).split('__')[0] : '';
+  if(pageOwner !== 'ELCzyeeoDCU4gveavc077L4jBqE3'){ return; }
   var name = (pageData && pageData.nickname) || '';
   var cats = (pageData && pageData.categories) || (pageData && pageData.category ? [pageData.category] : []);
   var sets = [];
