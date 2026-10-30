@@ -137,12 +137,6 @@
         <li>下の「新しいページを作る」から、ページが作れます（1人で複数OK）。ページを開くと、その場で文字を直して編集できます</li>
       </ul>
     </section>
-    <div class="ticket-card">
-      <p style="font-weight:bold">あなたの分</p>
-      <p><span class="ticket-num" id="ticket-num">…</span> 枚</p>
-      <p class="sub" style="margin-top:8px">この枚数は、ヒトのページでみんなにも見えます。枚数の変更は、ヒトのページでできます。</p>
-      <p style="margin-top:6px"><a id="ticket-edit-link" href="member.html">ヒトのページで枚数を変える</a></p>
-    </div>
     <div class="create-card" id="match-card" style="display:block">
       <p style="font-weight:bold">合いそうな人</p>
       <p class="sub">あなたの「探している」と、みんなの「提供している」を見比べて出しています。連絡先は出ません。ページから声をかけてみてください。</p>
@@ -427,14 +421,6 @@ function createPage(cat){
   });
 }
 
-var myTickets = 0;
-function renderTickets(){ $('ticket-num').textContent = myTickets; }
-function loadTickets(){
-  db.collection('profiles').doc(uid).get().then(function(doc){
-    myTickets = (doc.exists && typeof doc.data().tickets === 'number') ? doc.data().tickets : 0;
-    renderTickets();
-  }).catch(function(){ renderTickets(); });
-}
 auth.onAuthStateChanged(function(user){
   if(!user){
     $('box-home').hidden = true;
@@ -450,9 +436,7 @@ auth.onAuthStateChanged(function(user){
   $('page-title').textContent = 'マイページ';
   $('home-who').textContent = 'ログイン中です';
   var fsl = $('first-step-link'); if(fsl) fsl.href = editHref(uid);
-  $('ticket-edit-link').href = pageHref(uid);
   loadPages();
-  loadTickets();
 });
 $('btn-google').addEventListener('click', function(){
   auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){

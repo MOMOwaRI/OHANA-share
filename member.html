@@ -130,6 +130,29 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
     <div id="p-loading"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
   </header>
+  <div id="cm-live" class="cm-live" hidden></div>
+  <div id="cm-start" hidden style="border:2px dashed #d9b98c;border-radius:14px;padding:18px;text-align:center;font-weight:bold;color:#a35c14;cursor:pointer;margin:12px 0;background:#fffdf8">＋ アニメーションを作る</div>
+      <div id="cm-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:14px;margin:12px 0">
+        <p style="font-weight:bold;margin-top:14px">アニメーション（ページの上の映像）</p>
+        <p class="note">写真3枚と文字、色を変えられます。写真は自動で小さくなります。</p>
+        <p class="sub" style="font-weight:bold">色</p>
+        <input type="color" id="in-cmcolor" value="#e07b24" style="width:64px;height:36px;vertical-align:middle">
+        <span id="cm-swatches"></span>
+        <p class="sub" style="font-weight:bold;margin-top:10px">文字（1行目と2行目）</p>
+        <textarea id="in-cmt1" rows="2" placeholder="最初の画面の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt2" rows="2" placeholder="写真1の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt3" rows="2" placeholder="写真2の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt4" rows="2" placeholder="写真3の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt5" rows="2" placeholder="最後の画面の文字" style="width:100%"></textarea>
+        <p class="sub" style="font-weight:bold;margin-top:10px">写真</p>
+        <img id="cm-prev1" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add1" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto1" accept="image/*" hidden>
+        <img id="cm-prev2" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add2" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto2" accept="image/*" hidden>
+        <img id="cm-prev3" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add3" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto3" accept="image/*" hidden>
+        <p class="note" id="cm-msg"></p>
+      </div>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
       <div class="catchips" id="cat-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:12px;margin:10px 0;text-align:left">
         <span style="font-weight:bold">区分：</span>
@@ -202,29 +225,6 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
     <p class="note" id="edit-note" hidden>ページに出ているものをタップすると、その場で直せます。</p>
   </div>
 
-  <div id="cm-live" class="cm-live" hidden></div>
-  <div id="cm-start" hidden style="border:2px dashed #d9b98c;border-radius:14px;padding:18px;text-align:center;font-weight:bold;color:#a35c14;cursor:pointer;margin:12px 0;background:#fffdf8">＋ アニメーションを作る</div>
-      <div id="cm-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:14px;margin:12px 0">
-        <p style="font-weight:bold;margin-top:14px">アニメーション（ページの上の映像）</p>
-        <p class="note">写真3枚と文字、色を変えられます。写真は自動で小さくなります。</p>
-        <p class="sub" style="font-weight:bold">色</p>
-        <input type="color" id="in-cmcolor" value="#e07b24" style="width:64px;height:36px;vertical-align:middle">
-        <span id="cm-swatches"></span>
-        <p class="sub" style="font-weight:bold;margin-top:10px">文字（1行目と2行目）</p>
-        <textarea id="in-cmt1" rows="2" placeholder="最初の画面の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt2" rows="2" placeholder="写真1の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt3" rows="2" placeholder="写真2の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt4" rows="2" placeholder="写真3の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt5" rows="2" placeholder="最後の画面の文字" style="width:100%"></textarea>
-        <p class="sub" style="font-weight:bold;margin-top:10px">写真</p>
-        <img id="cm-prev1" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add1" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
-        <input type="file" id="in-cmphoto1" accept="image/*" hidden>
-        <img id="cm-prev2" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add2" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
-        <input type="file" id="in-cmphoto2" accept="image/*" hidden>
-        <img id="cm-prev3" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add3" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
-        <input type="file" id="in-cmphoto3" accept="image/*" hidden>
-        <p class="note" id="cm-msg"></p>
-      </div>
   <section id="s-film" hidden><h2>店内の様子</h2><p class="sub" id="film-sub">写真は横に流れ続けます（タップで止まります）。</p><div id="p-film" class="film"><div class="film-track" id="film-track"></div></div><div id="film-strip" hidden><div class="fstrip" id="fstrip"></div><p class="note">写真をタップすると入れ替え、＋で追加できます。説明は写真の下に書けます。</p></div><input type="file" id="in-film-any" accept="image/*" hidden></section>
   <div id="mono-guide" hidden style="background:#eef7ee;border:1px solid #bfe6cf;border-radius:12px;padding:12px;margin:10px 0">
         <p style="font-weight:bold">モノのページの作り方</p>
@@ -943,6 +943,9 @@ $('qf-icon').addEventListener('change', function(){
   $('btn-save2').addEventListener('click', function(){ $('btn-save').click(); });
   $('btn-save').addEventListener('click', function(){
     if(!pageData) return;
+    var nickEl = $('p-name');
+    var nickVal = nickEl ? nickEl.innerText.replace(/\s+/g, ' ').trim() : '';
+    if(nickVal.toLowerCase() === 'momowari' && (!ownerUid || ownerUid !== 'ELCzyeeoDCU4gveavc077L4jBqE3')){ $('edit-msg').textContent = 'その名前は主催者用なので使えません。別の名前にしてください。'; return; }
     function txt(elid){ var el = $(elid); return el ? el.innerText.replace(/ /g,' ').trim() : ''; }
     var catEl = document.querySelector('input[name="ecat"]:checked');
     var data = {

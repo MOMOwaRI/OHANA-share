@@ -101,7 +101,7 @@
   <p style="text-align:center;margin:4px 0 10px"><a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener" style="display:inline-block;background:#06c755;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 24px">アイディアはLINEオープンチャットでも出せます</a></p>
   <p class="statusline" id="auth-status">ログイン状態を確認しています…</p>
   <div class="postbox" id="postbox">
-    <div style="margin-bottom:8px"><label style="font-size:.85rem">お名前（任意）：<input id="post-name" type="text" maxlength="20" value="MOMOwaRI" autocomplete="off" name="ohana-display-name" style="font-size:.9rem;padding:4px 8px;border:1px solid #d8cfc0;border-radius:8px"></label></div>
+    <div style="margin-bottom:8px"><label style="font-size:.85rem">お名前（任意）：<input id="post-name" type="text" maxlength="20" placeholder="名前（任意）" autocomplete="off" name="ohana-display-name" style="font-size:.9rem;padding:4px 8px;border:1px solid #d8cfc0;border-radius:8px"></label></div>
     <div style="margin-bottom:8px"><label style="font-size:.85rem">種類：<select id="post-cat"><option>イベント</option><option>サイト・ページ</option><option>100円券・仕組み</option><option>集め方・広め方</option><option>その他</option></select></label></div>
     <textarea id="post-text" maxlength="300" placeholder="「こうしたら？」のアイディアを書いてください（300文字まで）"></textarea>
     <div style="text-align:right"><button id="post-btn" type="button">アイディアを貼る</button></div>
@@ -163,6 +163,11 @@ auth.onAuthStateChanged(function(user){
     document.getElementById('login-cta').style.display = 'block';
   }
 });
+function nameBlocked(){
+  if(currentUser) return false;
+  var v = ((document.getElementById('post-name') || {}).value || '').trim().toLowerCase();
+  return v === 'momowari';
+}
 function posterName(){
   if(currentUser) return profileName || 'メンバー';
   var v = (document.getElementById('post-name') || {}).value || '';
@@ -173,6 +178,7 @@ document.getElementById('post-btn').addEventListener('click', function(){
   var msg = document.getElementById('post-msg');
   var text = ta.value.trim();
   if(!text){ msg.textContent = '内容を書いてください。'; return; }
+  if(nameBlocked()){ msg.textContent = 'その名前は主催者用なので使えません。別の名前か、空欄にしてください。'; return; }
   msg.textContent = '投稿しています…';
   db.collection('posts').add({
     text: text,
@@ -396,6 +402,7 @@ db.collection('posts').orderBy('createdAt','desc').limit(60).onSnapshot(function
       var msg = document.getElementById('rmsg-' + pid);
       var text = ta.value.trim();
       if(!text){ msg.textContent = '内容を書いてください。'; return; }
+      if(nameBlocked()){ msg.textContent = 'その名前は主催者用なので使えません。別の名前か、空欄にしてください。'; return; }
       msg.textContent = '投稿しています…';
       db.collection('posts').doc(pid).collection('replies').add({
         text: text,
