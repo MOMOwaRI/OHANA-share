@@ -139,6 +139,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
 .ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c2610f;border:1.5px solid #e0a458;font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 .ofab-bot img{width:auto;height:38px;object-fit:contain}
 .opanel{position:fixed;right:14px;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:71;width:min(360px,calc(100vw - 28px));background:#fffdf8;border:1px solid #f3ddc4;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:14pxmax-height:calc(100vh - 170px);max-height:calc(100dvh - 170px);display:flex;flex-direction:column;overflow:hidden;}
+.opanel[hidden]{display:none!important}
 .ohead{display:flex;align-items:center;gap:10px}
 .ohead img{height:56px;width:auto}
 .ohead .nm{font-weight:700}
