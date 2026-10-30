@@ -1247,7 +1247,7 @@ try {
       if(!h1) return;
       var row = document.createElement('div');
       row.className = 'istats';
-      row.innerHTML = '<span><span aria-hidden="true">🐾</span><span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button>';
+      row.innerHTML = '<button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button>';
       h1.parentNode.insertBefore(row, h1.nextSibling);
       var rowL = document.createElement('div');
       rowL.className = 'irow'; rowL.id = 'ilikers'; rowL.style.display = 'none';
@@ -1293,6 +1293,7 @@ try {
           snap.forEach(function(dc){ jobs.push(db.collection('profiles').doc(dc.id).get().then(function(p){ return chip(dc.id, p.exists ? p.data() : null); }).catch(function(){ return chip(dc.id, null); })); });
           Promise.all(jobs).then(function(chips){
             r.innerHTML = '<span>' + label + '</span>' + chips.join('');
+            r.dataset.has = '1';
             r.style.display = 'flex';
           });
         }).catch(function(){});
@@ -1300,6 +1301,14 @@ try {
       function loadLikers(){ loadRow('itemLikes', 'users', 'ilikers', '♥ いいねした人'); }
       function loadFeet(){ loadRow('itemFootprints', 'visitors', 'ifeet', '🐾 あしあと'); }
       loadLikers(); loadFeet();
+      var feetBtn = document.getElementById('istat-feet');
+      if(feetBtn){ feetBtn.addEventListener('click', function(){
+        var row = document.getElementById('ifeet');
+        if(!row) return;
+        if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
+        else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      }); }
+
       if(firebase.auth){
         firebase.auth().onAuthStateChanged(function(u){
           me = u ? u.uid : null;
