@@ -392,7 +392,8 @@ function loadPages(){
     actives.sort(function(a, b){ return (a.d.memberNo || 999) - (b.d.memberNo || 999); });
     var cards = '';
     actives.forEach(function(p){ cards += card(p.id, p.d); });
-    $('pages-list').innerHTML = cards || '<section><p>まだページがありません。下から作ってください。</p></section>';
+    var fg = document.querySelector('.first-guide'); if(fg && actives.length) fg.style.display = 'none';
+    $('pages-list').innerHTML = cards || '<section><p>まだページがありません。上の「新しいページを作る」から作ってください。</p></section>';
     loadMatches(actives);
     var tcards = '';
     trashed.forEach(function(p){ tcards += trashCard(p.id, p.d); });
