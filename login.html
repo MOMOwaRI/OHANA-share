@@ -323,6 +323,7 @@ function matchTokens(text){
   if(!text) return [];
   return String(text).split(/[、,・\s／/｜|\n]+/).map(function(t){ return t.trim(); }).filter(function(t){ return t.length >= 2; });
 }
+var STATIC_ITEMS = {'totoro': '中トトロ ぬいぐるみ', 'gloomy-chidori': 'グル〜ミ〜 ぬいぐるみ', 'pooh-rilakkuma-set': 'プーさん・リラックマ・クッションのセット', 'minecraft-goods-set': 'マインクラフト グッズ一式', 'love-usagi-set': 'LOVEうさぎ ぬいぐるみセット', 'momowari-mono': 'MOMOwaRIのモノ'};
 function loadMatches(mine){
   var box = $('match-list');
   if(!box) return;
@@ -331,6 +332,16 @@ function loadMatches(mine){
     mySeek = mySeek.concat(matchTokens(p.d.seekingHito), matchTokens(p.d.seekingMono), matchTokens(p.d.seekingKoto), matchTokens(p.d.seeking));
     myOffer = myOffer.concat(matchTokens(p.d.offeringHito), matchTokens(p.d.offeringMono), matchTokens(p.d.offeringKoto), matchTokens(p.d.offering));
   });
+  var myItems = [];
+  (mine || []).forEach(function(p){ if((p.d.categories || []).indexOf('モノ') >= 0) myItems.push({id: p.id, title: p.d.nickname || 'モノ'}); });
+  if(uid === 'ELCzyeeoDCU4gveavc077L4jBqE3'){ Object.keys(STATIC_ITEMS).forEach(function(k){ myItems.push({id: k, title: STATIC_ITEMS[k]}); }); }
+  var likerMap = {};
+  var likeJobs = myItems.map(function(it){
+    return db.collection('itemLikes').doc(it.id).collection('users').limit(12).get().then(function(snap){
+      snap.forEach(function(u){ if(u.id !== uid && !likerMap[u.id]) likerMap[u.id] = it.title; });
+    }).catch(function(){});
+  });
+  Promise.all(likeJobs).then(function(){
   db.collection('profiles').get().then(function(snap){
     var found = [];
     snap.forEach(function(doc){
@@ -342,7 +353,9 @@ function loadMatches(mine){
       var reasons = [];
       mySeek.forEach(function(t){ if(theirOffer.indexOf(t) >= 0 && reasons.length < 4) reasons.push('「' + t + '」を提供しています'); });
       myOffer.forEach(function(t){ if(theirSeek.indexOf(t) >= 0 && reasons.length < 4) reasons.push('「' + t + '」を探しています'); });
-      if(reasons.length) found.push({id: doc.id, d: d, reasons: reasons, score: reasons.length});
+      var likedTitle = (doc.id.indexOf('__') < 0) ? likerMap[doc.id] : null;
+      if(likedTitle){ reasons.unshift('あなたの「' + likedTitle + '」にいいねしました'); }
+      if(reasons.length) found.push({id: doc.id, d: d, reasons: reasons, score: reasons.length + (likedTitle ? 10 : 0)});
     });
     found.sort(function(a, b){ return b.score - a.score; });
     if(!found.length){
@@ -357,6 +370,7 @@ function loadMatches(mine){
     });
     box.innerHTML = h;
   }).catch(function(){ box.innerHTML = '<p class="sub">うまく読めませんでした。</p>'; });
+  });
 }
 function loadPages(){
   var slotIds = [uid, uid + '__hito', uid + '__mono', uid + '__koto'];

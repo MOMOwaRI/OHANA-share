@@ -1247,7 +1247,7 @@ try {
       if(!h1) return;
       var row = document.createElement('div');
       row.className = 'istats';
-      row.innerHTML = '<span><svg class="cateye" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20 L11 8 L19 15 Q24 13 29 15 L37 8 L40 20 Q45 25 45 30 a21 13 0 1 1 -42 0 Q3 25 8 20 Z" fill="#fff6e8" stroke="#b08954" stroke-width="2.6"/><ellipse cx="17" cy="29" rx="3.4" ry="5" fill="#57a8dc"/><ellipse cx="17" cy="29" rx="1.4" ry="4.2" fill="#3a2c1c"/><circle cx="18.2" cy="26.6" r="1.1" fill="#fff"/><ellipse cx="31" cy="29" rx="3.4" ry="5" fill="#57a8dc"/><ellipse cx="31" cy="29" rx="1.4" ry="4.2" fill="#3a2c1c"/><circle cx="32.2" cy="26.6" r="1.1" fill="#fff"/></svg><span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button>';
+      row.innerHTML = '<span><span aria-hidden="true">🐾</span><span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button>';
       h1.parentNode.insertBefore(row, h1.nextSibling);
       var rowL = document.createElement('div');
       rowL.className = 'irow'; rowL.id = 'ilikers'; rowL.style.display = 'none';
