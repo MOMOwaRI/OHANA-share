@@ -107,14 +107,24 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 .istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
 .istats .lkbtn{font-family:inherit;font-weight:bold;border:1.5px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 16px;cursor:pointer}
 .istats .lkbtn.on{background:#fde8ef;border-color:#e58bb1;color:#c2437e}
+.irow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 0;font-size:.8rem;color:#a3805a}
+.irow .ip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #f0e2cd;border-radius:999px;padding:2px 9px 2px 3px}
+.irow .ip img{width:22px;height:22px;border-radius:50%;object-fit:cover}
+.irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
 <div class="istats"><span>👁 <span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button></div>
+<div class="irow" id="ilikers" style="display:none"></div>
+<div class="irow" id="ifeet" style="display:none"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script>
 (function(){
   var ITEM = 'love-usagi-set';
+  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var COLORS = ['#e58bb1','#7fb069','#e0a458','#8a5fb0','#5d9c6b','#e07b24','#4a90c2','#c2610f'];
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function init(){
     if(!window.firebase || !firebase.firestore) return;
     try{ if(!firebase.apps.length) firebase.initializeApp({
@@ -149,6 +159,36 @@ footer img{width:90px;display:block;margin:0 auto 8px}
         });
       }).then(function(d){ render(d); try{ sessionStorage.setItem('iv_' + ITEM, '1'); }catch(e){} }).catch(function(){});
     }
+    var me = null;
+    function chip(uid, prof){
+      var name = prof && prof.nickname ? prof.nickname : 'メンバー';
+      var h = 0; for(var i = 0; i < uid.length; i++) h = (h * 31 + uid.charCodeAt(i)) % 997;
+      var face = prof && prof.iconData ? '<img src="' + prof.iconData + '" alt="">' : '<span class="ini" style="background:' + COLORS[h % COLORS.length] + '">' + esc(name.slice(0, 1)) + '</span>';
+      return '<span class="ip">' + face + esc(name) + '</span>';
+    }
+    function loadRow(coll, rowId, label){
+      db.collection(coll).doc(ITEM).collection(coll === 'itemLikes' ? 'users' : 'visitors').orderBy('ts', 'desc').limit(12).get().then(function(snap){
+        var row = document.getElementById(rowId);
+        if(snap.empty){ row.style.display = 'none'; return; }
+        var jobs = [];
+        snap.forEach(function(doc){ jobs.push(db.collection('profiles').doc(doc.id).get().then(function(p){ return chip(doc.id, p.exists ? p.data() : null); }).catch(function(){ return chip(doc.id, null); })); });
+        Promise.all(jobs).then(function(chips){
+          row.innerHTML = '<span>' + label + '</span>' + chips.join('');
+          row.style.display = 'flex';
+        });
+      }).catch(function(){});
+    }
+    function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ いいねした人'); }
+    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
+    loadLikers(); loadFeet();
+    if(firebase.auth){
+      firebase.auth().onAuthStateChanged(function(u){
+        me = u ? u.uid : null;
+        if(me && me !== OWNER){
+          db.collection('itemFootprints').doc(ITEM).collection('visitors').doc(me).set({ts: Date.now()}).then(loadFeet).catch(function(){});
+        }
+      });
+    }
     btn.addEventListener('click', function(){
       var delta = liked ? -1 : 1;
       db.runTransaction(function(tx){
@@ -163,6 +203,11 @@ footer img{width:90px;display:block;margin:0 auto 8px}
         liked = !liked;
         try{ if(liked) localStorage.setItem('il_' + ITEM, '1'); else localStorage.removeItem('il_' + ITEM); }catch(e){}
         paint(); render(d);
+        if(me){
+          var myRef = db.collection('itemLikes').doc(ITEM).collection('users').doc(me);
+          if(liked) myRef.set({ts: Date.now()}).then(loadLikers).catch(function(){});
+          else myRef.delete().then(loadLikers).catch(function(){});
+        }
       }).catch(function(){});
     });
   }
