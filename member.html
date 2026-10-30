@@ -1213,5 +1213,76 @@ try {
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
+<!-- item-stats (mono pages only) -->
+<style>
+.istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
+.istats .lkbtn{font-family:inherit;font-weight:bold;border:1.5px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 16px;cursor:pointer}
+.istats .lkbtn.on{background:#fde8ef;border-color:#e58bb1;color:#c2437e}
+</style>
+<script>
+(function(){
+  var ITEM = new URLSearchParams(location.search).get('id');
+  if(!ITEM) return;
+  var tries = 0;
+  function wait(){
+    if(tries++ > 30) return;
+    if(!window.firebase || !firebase.firestore || !firebase.apps || !firebase.apps.length){ setTimeout(wait, 500); return; }
+    var db = firebase.firestore();
+    db.collection('profiles').doc(ITEM).get().then(function(doc){
+      if(!doc.exists) return;
+      var d = doc.data();
+      var cats = d.categories || [];
+      if(cats.indexOf('モノ') < 0 && ITEM.indexOf('__mono') < 0) return;
+      var h1 = document.querySelector('h1');
+      if(!h1) return;
+      var row = document.createElement('div');
+      row.className = 'istats';
+      row.innerHTML = '<span>👁 <span id="istat-views">…</span></span><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button>';
+      h1.parentNode.insertBefore(row, h1.nextSibling);
+      var ref = db.collection('itemStats').doc(ITEM);
+      function render(dd){
+        document.getElementById('istat-views').textContent = dd && dd.views != null ? dd.views : 0;
+        document.getElementById('istat-likes').textContent = dd && dd.likes != null ? dd.likes : 0;
+      }
+      var liked = false;
+      try{ liked = !!localStorage.getItem('il_' + ITEM); }catch(e){}
+      var btn = document.getElementById('istat-like');
+      function paint(){ btn.classList.toggle('on', liked); btn.textContent = liked ? '♥ いいね済み' : '♥ いいね'; }
+      paint();
+      ref.get().then(function(doc2){ render(doc2.exists ? doc2.data() : null); }).catch(function(){});
+      var counted = false;
+      try{ counted = !!sessionStorage.getItem('iv_' + ITEM); }catch(e){}
+      if(!counted){
+        db.runTransaction(function(tx){
+          return tx.get(ref).then(function(doc2){
+            var v = doc2.exists ? (doc2.data().views || 0) : 0;
+            var l = doc2.exists ? (doc2.data().likes || 0) : 0;
+            tx.set(ref, {views: v + 1, likes: l});
+            return {views: v + 1, likes: l};
+          });
+        }).then(function(dd){ render(dd); try{ sessionStorage.setItem('iv_' + ITEM, '1'); }catch(e){} }).catch(function(){});
+      }
+      btn.addEventListener('click', function(){
+        var delta = liked ? -1 : 1;
+        db.runTransaction(function(tx){
+          return tx.get(ref).then(function(doc2){
+            var v = doc2.exists ? (doc2.data().views || 0) : 0;
+            var l = doc2.exists ? (doc2.data().likes || 0) : 0;
+            var nl = Math.max(0, l + delta);
+            tx.set(ref, {views: v, likes: nl});
+            return {views: v, likes: nl};
+          });
+        }).then(function(dd){
+          liked = !liked;
+          try{ if(liked) localStorage.setItem('il_' + ITEM, '1'); else localStorage.removeItem('il_' + ITEM); }catch(e){}
+          paint(); render(dd);
+        }).catch(function(){});
+      });
+    }).catch(function(){});
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wait); else wait();
+})();
+</script>
 </body>
 </html>
