@@ -301,7 +301,7 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
   <footer>
     <img src="img-992cf83a89.png" alt="OHANAキャラクター">
     OHANAシェア＊プロジェクト OHANAメンバー紹介ページ
-  <p style="text-align:center;font-size:.85rem;color:var(--soft);margin-top:10px">「こうしたら？」のアイディア・ご意見は<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">こちら</a>へお寄せください</p>
+  <p style="text-align:center;font-size:.85rem;color:var(--soft);margin-top:10px">「こうしたら？」のアイディア・ご意見は<a href="idea.html" target="_blank" rel="noopener">こちら</a>へお寄せください</p>
 </footer>
 </div>
 
@@ -336,6 +336,14 @@ var ownerUid = id ? id.split('__')[0] : '';
 var pageData = null;
 var editing = false;
 var wantEdit = new URLSearchParams(location.search).get('edit') === '1';
+/* STATIC_PAGE: shops with a static page are edited on that page itself */
+(function(){
+  var M = {'__koto': 'members/eyes-mahalo.html', '__mono': 'members/lea-mahalo.html', '__pelua01': 'members/elua-mahalo.html', '__pmahalo01': 'members/mahalo.html'};
+  if(id && id.indexOf('ELCzyeeoDCU4gveavc077L4jBqE3__') === 0){
+    var suf = id.slice('ELCzyeeoDCU4gveavc077L4jBqE3'.length);
+    if(M[suf]) location.replace(M[suf]);
+  }
+})();
 var isOwner = false;
 function tryEdit(){ if(wantEdit && isOwner && pageData && !editing){ setEdit(true); if(/[?&]cm=1/.test(location.search + location.hash)){ setTimeout(function(){ var ce = $('cm-edit'); if(ce){ ce.hidden = false; ce.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 200); } } }
 
@@ -378,7 +386,7 @@ function siblingHref(docId){
 }
 function siblingPhoto(docId){
   var suffix = docId.slice(ownerUid.length);
-  var map = {'__mono': 'images/shop/zakka-1.jpg', '__koto': 'images/shop/eyes-room.jpg', '__pelua01': 'images/shop/elua-mirror.jpg', '__pmahalo01': 'images/shop/salon-chairs.jpg', '': 'momowari-icon.png'};
+  var map = {'__mono': 'images/shop/zakka-1.jpg', '__koto': 'images/shop/eyes-room.jpg', '__pelua01': 'images/shop/elua-2.jpg', '__pmahalo01': 'images/shop/salon-main.jpg', '': 'momowari-icon.png'};
   if(ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' && map[suffix] !== undefined) return map[suffix];
   return '';
 }
