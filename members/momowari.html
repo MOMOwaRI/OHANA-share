@@ -693,5 +693,22 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 })();
 </script>
 
+
+<script>
+(function(){
+  if(!/[?&]edit=1(&|$)/.test(location.search)) return;
+  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var n = 0;
+  var iv = setInterval(function(){
+    n++;
+    if(n > 40){ clearInterval(iv); return; }
+    if(!window.firebase || !firebase.auth || !window.__toggleSiteEdit) return;
+    var u = firebase.auth().currentUser;
+    if(!u) return;
+    clearInterval(iv);
+    if(u.uid === OWNER && !document.body.classList.contains('site-editing')) window.__toggleSiteEdit();
+  }, 500);
+})();
+</script>
 </body>
 </html>
