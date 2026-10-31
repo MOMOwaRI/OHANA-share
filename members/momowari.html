@@ -165,14 +165,6 @@ html.js .mrv.in{opacity:1;transform:none}
   <p class="note">この欄は、本人がマイページで更新しています。</p>
 </section>
 <section>
-    <h2>リンク集</h2>
-    <div class="sns">
-      <a href="https://lit.link/momowari" target="_blank" rel="noopener"><b>lit.link</b><span>最新情報のハブはこちら</span></a>
-      <a href="https://note.com/momo2025" target="_blank" rel="noopener"><b>note（公式記録・発信）</b><span>活動の記録はこちら</span></a>
-    </div>
-  </section>
-
-  <section>
     <h2>この人のモノ・コト</h2>
     <div class="ptiles">
       <a href="mahalo.html"><img src="../images/shop/salon-chairs.jpg" alt="hair ID salon MAHALOの店内"><span class="pn">hair ID salon MAHALO</span><span class="pc">コト｜美容室（2階）</span></a>
@@ -180,6 +172,14 @@ html.js .mrv.in{opacity:1;transform:none}
       <a href="eyes-mahalo.html"><img src="../images/shop/eyes-room.jpg" alt="Eyes MAHALOの施術スペース"><span class="pn">Eyes MAHALO</span><span class="pc">コト｜まつげパーマ専門（1階）</span></a>
       <a href="lea-mahalo.html"><img src="../images/shop/zakka-1.jpg" alt="雑貨屋 Lea Mahaloの店内"><span class="pn">雑貨屋 Lea Mahalo</span><span class="pc">モノ｜雑貨屋（1階）</span></a>
       <a href="momowari-mono.html"><img src="../images/shop/plush-2.jpg" alt="MOMOwaRIのモノ"><span class="pn">MOMOwaRIのモノ</span><span class="pc">モノ｜ぬいぐるみ・グッズ</span></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>リンク集</h2>
+    <div class="sns">
+      <a href="https://lit.link/momowari" target="_blank" rel="noopener"><b>lit.link</b><span>最新情報のハブはこちら</span></a>
+      <a href="https://note.com/momo2025" target="_blank" rel="noopener"><b>note（公式記録・発信）</b><span>活動の記録はこちら</span></a>
     </div>
   </section>
 
@@ -943,6 +943,55 @@ var io = new IntersectionObserver(function(entries){
 entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
 }, {threshold: 0, rootMargin: '0px 0px -10% 0px'});
 list.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<style>
+.doorfx{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;animation:doorFade 3.1s ease forwards}
+.doorfx .dl{transform-box:fill-box;transform-origin:left center;animation:doorOpen 3.1s cubic-bezier(.6,.05,.3,1) forwards}
+.doorfx .dr{transform-box:fill-box;transform-origin:right center;animation:doorOpen 3.1s cubic-bezier(.6,.05,.3,1) forwards}
+@keyframes doorOpen{0%,16%{transform:scaleX(1)}52%,100%{transform:scaleX(.05)}}
+@keyframes doorFade{0%,72%{opacity:1}96%,100%{opacity:0}}
+</style>
+<script>
+(function(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function build(){
+    var hero = document.querySelector('.hero-pv');
+    if(!hero || hero.querySelector('.doorfx')) return;
+    var rect = hero.classList.contains('cm-live-x');
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'doorfx');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    var acc = 'var(--accent,#b3541e)';
+    var L, R;
+    if(rect){
+      svg.setAttribute('viewBox', '0 0 300 400');
+      L = '<path d="M4,4 L150,4 L150,396 L4,396 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
+          '<rect x="26" y="58" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
+          '<rect x="26" y="218" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
+          '<circle cx="137" cy="203" r="6.5" style="fill:' + acc + '"/>';
+      R = '<path d="M296,4 L150,4 L150,396 L296,396 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
+          '<rect x="172" y="58" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
+          '<rect x="172" y="218" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
+          '<circle cx="163" cy="203" r="6.5" style="fill:' + acc + '"/>';
+      svg.innerHTML = '<g class="dl">' + L + '</g><g class="dr">' + R + '</g>';
+    } else {
+      svg.setAttribute('viewBox', '0 0 300 400');
+      L = '<path d="M0,400 L0,150 A150,150 0 0 1 150,0 L150,400 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
+          '<path d="M16,384 L16,158 A134,134 0 0 1 150,24 L150,384 Z" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
+          '<circle cx="137" cy="215" r="6.5" style="fill:' + acc + '"/>';
+      R = '<path d="M300,400 L300,150 A150,150 0 0 0 150,0 L150,400 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
+          '<path d="M284,384 L284,158 A134,134 0 0 0 150,24 L150,384 Z" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
+          '<circle cx="163" cy="215" r="6.5" style="fill:' + acc + '"/>';
+      svg.innerHTML = '<defs><clipPath id="doorClip"><path d="M22,400 L278,400 Q300,400 300,378 L300,150 A150,150 0 0 0 0,150 L0,378 Q0,400 22,400 Z"/></clipPath></defs><g clip-path="url(#doorClip)"><g class="dl">' + L + '</g><g class="dr">' + R + '</g></g>';
+    }
+    hero.appendChild(svg);
+    setTimeout(function(){ if(svg.parentNode) svg.remove(); }, 3400);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(build, 450); });
+  else setTimeout(build, 450);
 })();
 </script>
 </body>
