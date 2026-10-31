@@ -199,7 +199,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
   var items = [];
   snap.forEach(function(doc){
     var d = doc.data();
-    if(d.deleted || !d.nickname) return;
+    if(d.deleted) return;
     if(d.nickname.indexOf('Lea Mahalo') >= 0) return;
     items.push({id: doc.id, d: d});
   });
@@ -217,7 +217,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     a.href = 'member.html?id=' + encodeURIComponent(it.id);
     var ph = d.photoUrl ? '<img src="' + esc(d.photoUrl) + '" alt="">' : '<span class="nophoto">写真はまだ</span>';
     var desc = (d.intro || '').slice(0, 60);
-    a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname) + '</span>' +
+    a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname || '名前未設定') + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
       '<span class="meta">' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span>' +
       '<span class="stats"><span class="lk">♥ 0</span>　<span class="vw"><span aria-hidden="true">🐾</span><span class="vwn">0</span></span></span></span>';

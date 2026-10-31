@@ -116,7 +116,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
   var items = [];
   snap.forEach(function(doc){
     var d = doc.data();
-    if(d.deleted || !d.nickname) return;
+    if(d.deleted) return;
     if(SKIP_IDS[doc.id]) return;
     items.push({id: doc.id, d: d});
   });
@@ -134,7 +134,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     else if(d.iconData) ph = '<span class="ph"><img class="fill" src="' + esc(d.iconData) + '" alt=""></span>';
     else ph = '<span class="ph"><span class="bigletter" style="background:#cf9455">' + esc((d.nickname || 'メ').charAt(0)) + '</span></span>';
     var desc = (d.intro || '').slice(0, 60);
-    a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname) + '</span>' +
+    a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname || '名前未設定') + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
       '<span class="meta">' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
     grid.insertBefore(a, join);
