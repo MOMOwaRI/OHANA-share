@@ -1236,16 +1236,13 @@ list.forEach(function(el){ io.observe(el); });
       firebase.firestore().collection('islandUsers').doc(u.uid).get().then(function(s){
         var link = '<a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#1a7a6d;color:#fff;font-weight:bold;border-radius:999px;padding:8px 16px;text-decoration:none">🏝 島へ行く</a>';
         if(!s.exists){
-          body.innerHTML = '<p style="margin:2px 0">OHANA島は、もうひとつの松山を歩ける場所です。同じGoogleログインでそのまま入れます。ログインした日が、星として残ります。</p>' + link;
+          body.innerHTML = '<p style="margin:2px 0">OHANA島は、もうひとつの松山を歩ける場所です。同じGoogleログインでそのまま入れます。入って歩くだけで大丈夫です。</p>' + link;
           return;
         }
         var d = s.data() || {};
-        var days = Array.isArray(d.days) ? d.days : [];
-        var last = days.length ? days.slice().sort()[days.length - 1] : '';
-        var av = d.photoData || catImg(d.cat);
+        var av = d.avaUrl || d.photoData || catImg(d.cat);
         body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img src="' + esc(av) + '" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da"><div>' +
-          '<p style="margin:2px 0">島の名前：<b>' + esc(d.nickname || '（未設定）') + '</b></p>' +
-          '<p style="margin:2px 0">⭐ 星 × ' + days.length + (last ? '（最後に島へ行った日：' + fmtDay(last) + '）' : '') + '</p></div></div>' + link;
+          '<p style="margin:2px 0">島の名前：<b>' + esc(d.nickname || '（未設定）') + '</b></p></div></div>' + link;
       }).catch(function(){
         body.innerHTML = '<p style="margin:2px 0">OHANA島の情報が読み込めませんでした。</p><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#1a7a6d;color:#fff;font-weight:bold;border-radius:999px;padding:8px 16px;text-decoration:none">🏝 島へ行く</a>';
       });
