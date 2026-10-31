@@ -1473,7 +1473,7 @@ list.forEach(function(el){ io.observe(el); });
       a.setAttribute('data-island-done', '1');
       db.collection('islandUsers').doc(uid).get().then(function(s){
         if(!s.exists) return;
-        var pd = (s.data() || {}).avaUrl || (s.data() || {}).photoData;
+        var pd = (s.data() || {}).avaUrl;
         if(pd) ph.innerHTML = '<img class="fill" src="' + pd + '" alt="">';
       }).catch(function(){});
     });

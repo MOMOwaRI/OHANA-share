@@ -548,7 +548,7 @@ function render(d, editMode){
     db.collection('islandUsers').doc(ownerUid).get().then(function(isd){
       if(!isd.exists) return;
       var idata = isd.data() || {};
-      var av = idata.avaUrl || idata.photoData;
+      var av = idata.avaUrl;
       if(av){
         $('p-icon').src = av; $('p-icon').style.display = 'inline-block'; $('p-letter').style.display = 'none';
       }

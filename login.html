@@ -745,7 +745,7 @@ list.forEach(function(el){ io.observe(el); });
           return;
         }
         var d = s.data() || {};
-        var av = d.avaUrl || d.photoData || catImg(d.cat);
+        var av = d.avaUrl || catImg(d.cat);
         body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img src="' + esc(av) + '" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da"><div>' +
           '<p style="margin:2px 0">島の名前：<b>' + esc(d.nickname || '（未設定）') + '</b></p></div></div>' + link;
       }).catch(function(){
