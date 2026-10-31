@@ -1798,5 +1798,85 @@ list.forEach(function(el){ io.observe(el); });
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- island-trail: OHANA island footprints + avatar priority for a hito page.
+     Bake ELCzyeeoDCU4gveavc077L4jBqE3 and {
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+} at injection. -->
+<style>
+.island-trail{background:#f2faf7;border:1.5px solid #bfe6da;border-radius:16px;padding:14px 16px;margin:14px 0}
+.island-trail h2{margin-top:0}
+.island-trail .it-row{display:flex;gap:12px;align-items:center}
+.island-trail .it-av{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da}
+.island-trail .it-link{display:inline-block;margin-top:8px;background:#1a7a6d;color:#fff;font-weight:bold;border-radius:999px;padding:8px 16px;text-decoration:none}
+</style>
+<script>
+(function(){
+  var TARGET_UID = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function ensure(){
+    if(!window.firebase || !firebase.firestore) return false;
+    try{ if(!firebase.apps.length) firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}); }catch(e){}
+    return true;
+  }
+  function fmtDay(d){
+    var p = String(d || '').split('-');
+    return p.length === 3 ? (p[0] + '年' + Number(p[1]) + '月' + Number(p[2]) + '日') : String(d || '');
+  }
+  function catImg(cat){
+    var ok = ['black', 'calico', 'muse', 'tabby', 'white'];
+    if(ok.indexOf(cat) < 0) cat = 'muse';
+    return 'https://momowari.github.io/ohana-jima/cat-' + cat + '-sit.png';
+  }
+  function run(){
+    if(!ensure()){ setTimeout(run, 900); return; }
+    var db = firebase.firestore();
+    db.collection('islandUsers').doc(TARGET_UID).get().then(function(s){
+      if(!s.exists) return;
+      var d = s.data() || {};
+      var days = Array.isArray(d.days) ? d.days : [];
+      var last = days.length ? days.slice().sort()[days.length - 1] : '';
+      if(d.photoData){
+        var h1img = document.querySelector('h1 img');
+        if(h1img) h1img.src = d.photoData;
+        setTimeout(function(){ var im2 = document.querySelector('h1 img'); if(im2 && im2.src !== d.photoData) im2.src = d.photoData; }, 2600);
+      }
+      var sec = document.createElement('section');
+      sec.className = 'island-trail';
+      var av = d.photoData || catImg(d.cat);
+      sec.innerHTML = '<h2>🏝 OHANA島の足跡</h2>' +
+        '<div class="it-row"><img class="it-av" src="' + esc(av) + '" alt="">' +
+        '<div><p style="margin:2px 0">島の名前：<b>' + esc(d.nickname || '（未設定）') + '</b></p>' +
+        '<p style="margin:2px 0">⭐ 星 × ' + days.length + (last ? '（最後に島へ行った日：' + fmtDay(last) + '）' : '') + '</p>' +
+        '<p style="margin:2px 0" class="it-notes"></p></div></div>' +
+        '<a class="it-link" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 島で会う</a>';
+      var anchor = document.getElementById('ticket-sec');
+      if(anchor && anchor.parentNode) anchor.parentNode.insertBefore(sec, anchor.nextSibling);
+      else {
+        var wrap = document.querySelector('.wrap');
+        if(wrap) wrap.appendChild(sec);
+      }
+      db.collection('parkNotes').where('toUid', '==', TARGET_UID).limit(500).get().then(function(q){
+        if(q.size > 0){
+          var el = sec.querySelector('.it-notes');
+          if(el) el.textContent = '島で届いたコメント：' + q.size + '件';
+        }
+      }).catch(function(){});
+    }).catch(function(){});
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+})();
+</script>
 </body>
 </html>
