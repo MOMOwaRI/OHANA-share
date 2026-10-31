@@ -151,7 +151,8 @@ html.js .mrv.in{opacity:1;transform:none}
     </div>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
-      <p class="sub">区分を選んでください。ページはいくつでも作れます。</p>
+      <p class="sub">名前と区分を選んでください。ページはいくつでも作れます。</p>
+      <p style="margin:8px 0"><input type="text" id="new-name" placeholder="名前（ニックネーム）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
       <div class="catchips">
         <label><input type="radio" name="newcat" value="ヒト" checked>ヒト</label>
         <label><input type="radio" name="newcat" value="モノ">モノ</label>
@@ -404,7 +405,7 @@ function loadPages(){
   });
 }
 
-function createPage(cat){
+function createPage(cat, name){
   $('hub-msg').textContent = cat + 'のページを作っています…';
   db.collection('profiles').get().then(function(snap){
     var maxNo = 0;
@@ -412,7 +413,7 @@ function createPage(cat){
     var no = maxNo + 1;
     var newDocId = uid + '__p' + Date.now().toString(36);
     return db.collection('profiles').doc(newDocId).set({
-      nickname: '', area: '', categories: [cat], intro: '',
+      nickname: name || '', area: '', categories: [cat], intro: '',
       seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
       offeringHito: '', offeringMono: '', offeringKoto: '',
       hpUrl: '', menuUrl: '', snsLinks: '',
@@ -453,7 +454,8 @@ $('btn-google').addEventListener('click', function(){
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });
 $('btn-create').addEventListener('click', function(){
   var sel = document.querySelector('input[name="newcat"]:checked');
-  createPage(sel ? sel.value : 'ヒト');
+  var nm = $('new-name') ? $('new-name').value.trim() : '';
+  createPage(sel ? sel.value : 'ヒト', nm);
 });
 </script>
 <style>

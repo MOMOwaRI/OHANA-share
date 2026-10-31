@@ -43,7 +43,10 @@
   #btn-edit,#btn-save{background:var(--orange);color:#fff}
   #btn-cancel{background:#fff;color:var(--orange-dark);border:2px solid var(--orange) !important}
   .ed[contenteditable="true"]{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px;min-height:1.5em}
-  body.is-owner:not(.editing) .ed{cursor:pointer}
+  body.is-owner:not(.editing) .ed{cursor:pointer;border-bottom:2px dotted #d9b98c}
+  body.editing .ed{outline:2px dashed #e0a458;outline-offset:3px;border-radius:6px}
+  h1{display:flex;align-items:center;gap:10px}
+  #p-icon,#p-letter{flex:none;margin-right:0 !important;vertical-align:baseline !important}
   body.is-owner:not(.editing) .ed:hover{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px}
   body.editing .ed:empty::before{content:attr(data-ph);color:var(--soft)}
   .linkedit label{display:block;font-weight:bold;margin:12px 0 4px;text-align:left}
@@ -208,7 +211,7 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
 
     <div class="ticket-card" id="ticket-card" hidden>
       <p style="font-weight:bold"><span id="ticket-title">OHANA100円券</span></p>
-      <p><span class="ticket-num" id="ticket-num">…</span> 枚 持っています</p>
+      <p><span class="ticket-num" id="ticket-num">0</span> 枚 持っています</p>
       <div id="ticket-owner" hidden>
       <div class="ticket-btns">
         <button type="button" id="tk-minus">使った −1</button>
@@ -530,8 +533,8 @@ function render(d, editMode){
       tbox.insertBefore(a, $('p-no'));
     });
   }
-  $('p-name').textContent = d.nickname || '新しいページ';
-  document.title = (d.nickname || '新しいページ') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
+  $('p-name').textContent = d.nickname || '名前未設定';
+  document.title = (d.nickname || '名前未設定') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
   $('p-area').textContent = d.area || '';
   $('s-photo').hidden = !d.photoUrl;
   if(d.photoUrl) $('p-photo').src = d.photoUrl;
@@ -659,8 +662,10 @@ function buildSuggestions(){
   if(filled){ var ln = $('link-note'); if(ln) ln.textContent = 'リンクは候補をあらかじめ入れてあります。違うものは消してから保存してください。'; }
 }
 
+window.__memberToggleEdit = function(){ setEdit(!editing); };
 function setEdit(on){
   editing = on;
+  if(window.__authBtn && isOwner) window.__authBtn.textContent = on ? '編集を終わる' : '✎ 編集する';
   document.body.classList.toggle('editing', on);
   $('savebar').hidden = !on;
   render(pageData, on);
@@ -749,6 +754,14 @@ function bumpTickets(d){
   renderTickets();
   saveTickets();
 }
+function toast(msg){
+  var t = document.getElementById('toast');
+  if(!t){ t = document.createElement('div'); t.id = 'toast'; t.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:120;background:#4a3418;color:#fff;font-weight:bold;font-size:.92rem;border-radius:999px;padding:11px 20px;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:calc(100vw - 32px);text-align:center'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._tm);
+  t._tm = setTimeout(function(){ t.style.display = 'none'; }, 3400);
+}
 var ticketsShown = false;
 var ownerWired = false;
 function setupTickets(){
@@ -777,7 +790,7 @@ auth.onAuthStateChanged(function(user){
 
 
 var qFilmSlot = 0;
-function fileToData(file, max, q, cb){
+function fileToData(file, max, q, cb, errCb){
   var img = new Image();
   img.onload = function(){
     URL.revokeObjectURL(img.src);
@@ -787,7 +800,7 @@ function fileToData(file, max, q, cb){
     cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
     cb(cv.toDataURL('image/jpeg', q));
   };
-  img.onerror = function(){};
+  img.onerror = function(){ if(errCb) errCb(); };
   img.src = URL.createObjectURL(file);
 }
 document.addEventListener('click', function(ev){
@@ -844,6 +857,7 @@ $('photo-del').addEventListener('click', function(){
 $('qf-photo').addEventListener('change', function(){
   var f = $('qf-photo').files && $('qf-photo').files[0];
   if(!f) return;
+  toast('写真を読み込んでいます…');
   fileToData(f, 900, 0.78, function(dataUrl){
     db.collection('profiles').doc(id).set({photoUrl: dataUrl, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}).then(function(){
       pageData.photoUrl = dataUrl;
@@ -852,8 +866,9 @@ $('qf-photo').addEventListener('change', function(){
       $('p-photo').style.display = 'block';
       $('photo-add').hidden = true;
       $('photo-del').hidden = !editing;
-    }).catch(function(){});
-  });
+      toast('写真を保存しました ✓');
+    }).catch(function(){ toast('写真を保存できませんでした。時間をおいて試してください'); });
+  }, function(){ toast('この写真は読み込めませんでした。別の写真（JPEGやPNG）で試してください'); });
 });
 $('qf-film').addEventListener('change', function(){
   var f = $('qf-film').files && $('qf-film').files[0];
@@ -864,7 +879,7 @@ $('qf-film').addEventListener('change', function(){
     ref.get().then(function(doc){
       var cap = doc.exists ? (doc.data().cap || '') : '';
       return ref.set({data: dataUrl, cap: cap, pageId: id, idx: slot, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true});
-    }).then(function(){ loadFilm(id); }).catch(function(){});
+    }).then(function(){ loadFilm(id); toast('写真を保存しました ✓'); }).catch(function(){ toast('写真を保存できませんでした'); });
   });
 });
 $('qf-icon').addEventListener('change', function(){
@@ -987,8 +1002,10 @@ $('qf-icon').addEventListener('change', function(){
       }
       setEdit(false);
       $('edit-msg').textContent = '保存しました。これはあなたのページです';
+      toast('保存しました ✓');
     }).catch(function(){
       $('edit-msg').textContent = '保存できませんでした。時間をおいて試してください。';
+      toast('保存できませんでした。時間をおいて試してください');
     });
   });
 }
@@ -1218,14 +1235,18 @@ try {
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
+    var pageOwner = '';
+    try{ pageOwner = (new URLSearchParams(location.search).get('id') || '').split('__')[0]; }catch(e){}
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
-      if(!u){ location.href = memberKnown() ? 'login.html#login' : 'login.html'; }
-      else location.href = 'login.html';
+      if(!u){ location.href = memberKnown() ? 'login.html#login' : 'login.html'; return; }
+      if(pageOwner && u.uid === pageOwner && window.__memberToggleEdit){ window.__memberToggleEdit(); return; }
+      location.href = 'login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
+      if(pageOwner && u.uid === pageOwner){ btn.textContent = document.body.classList.contains('editing') ? '編集を終わる' : '✎ 編集する'; return; }
       btn.textContent = 'マイページ';
     });
   }
