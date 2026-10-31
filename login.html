@@ -704,7 +704,7 @@ list = list.filter(function(el){ return !list.some(function(o){ return o !== el 
 list.forEach(function(el){ el.classList.add('mrv'); });
 var io = new IntersectionObserver(function(entries){
 entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-}, {threshold: 0, rootMargin: '0px 0px 15% 0px'});
+}, {threshold: 0, rootMargin: '0px 0px -10% 0px'});
 list.forEach(function(el){ io.observe(el); });
 })();
 </script>
