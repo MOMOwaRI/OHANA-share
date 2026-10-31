@@ -111,6 +111,7 @@ html.js .mrv.in{opacity:1;transform:none}
     <h2>ログイン</h2>
     <p>Googleアカウントでログインしてください。連絡先は公開されません。</p>
     <p style="margin-top:12px"><button class="gbtn" id="btn-google" type="button">Googleでログイン</button></p>
+    <p id="login-msg" style="color:#b3541e;font-size:.88rem;min-height:1.2em;margin:6px 0 0"></p>
     <p class="note">ログインすると、自分の紹介ページの編集や、掲示板への投稿ができます。</p>
     <div style="background:#f2faf7;border:1.5px solid #bfe6da;border-radius:12px;padding:10px 12px;margin-top:12px">
       <p style="margin:0"><b>🏝 OHANA島から来た方へ</b></p>
@@ -456,9 +457,24 @@ auth.onAuthStateChanged(function(user){
   var fsl = $('first-step-link'); if(fsl) fsl.href = editHref(uid);
   loadPages();
 });
+function loginMsg(t){ var m = $('login-msg'); if(m) m.textContent = t || ''; }
+auth.getRedirectResult().then(function(res){
+  if(res && res.user){ loginMsg('ログインしました。'); }
+}).catch(function(){
+  loginMsg('ログインできませんでした。もう一度お試しください。');
+});
 $('btn-google').addEventListener('click', function(){
-  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){
-    alert('ログインできませんでした。もう一度お試しください。');
+  loginMsg('Googleログインを開いています…');
+  var provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).then(function(){
+    loginMsg('');
+  }).catch(function(err){
+    var code = err && err.code ? err.code : '';
+    if(code === 'auth/popup-closed-by-user'){ loginMsg('ログインがキャンセルされました。'); return; }
+    loginMsg('Googleログインへ移動します…');
+    auth.signInWithRedirect(provider).catch(function(){
+      loginMsg('ログインできませんでした。ブラウザを変えて（Safariなど）もう一度お試しください。');
+    });
   });
 });
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });
