@@ -805,7 +805,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 }); } }catch(e){} }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,.icomments,.irelated,.istats,.irow'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,.icomments,.irelated,.istats,.irow'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -834,7 +834,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   function stampLinks(){
     linkList = [];
     document.querySelectorAll('.wrap a[href]').forEach(function(a){
-      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3,footer,.fab-line,.ptiles,.matchbtns,[data-lock]')) return;
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock]')) return;
       if(commonLink(a)) return;
       a.setAttribute('data-lk', String(linkList.length));
       linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML});
@@ -1260,6 +1260,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 
 
+
 <script>
 /* motion-pack: scroll reveal */
 (function(){
@@ -1342,5 +1343,125 @@ list.forEach(function(el){ io.observe(el); });
   else arm();
 })();
 </script>
+<!-- page-comments: guest comment / Q&A section for a member page.
+     Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
+     or bake them in by replacing momowari-mono / ELCzyeeoDCU4gveavc077L4jBqE3. -->
+<style>
+.pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:#b3541e;border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
+.pcomments .pc-send{font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer}
+.pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px}
+.pcomments .pc-item .pc-name{font-weight:bold}
+.pcomments .pc-badge{background:#fde8ef;border:1px solid #e58bb1;color:#c2437e;border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
+.pcomments .pc-date{color:#a3805a;font-size:.8rem;margin-left:6px}
+.pcomments .pc-del{font-family:inherit;font-size:.78rem;background:#fff;color:#b03a2e;border:1px solid #d8a49e;border-radius:999px;padding:3px 10px;cursor:pointer;margin-left:8px}
+.pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px;margin-top:8px;background:#fff}
+</style>
+<script>
+(function(){
+  var PAGE_ID = window.__PC_PAGE_ID || 'momowari-mono';
+  var TARGET_UID = window.__PC_TARGET_UID || 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var ADMIN_UID = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  if(!PAGE_ID || PAGE_ID.indexOf('__PAGE') === 0) return;
+  var sec = document.createElement('section');
+  sec.className = 'pcomments';
+  sec.id = 'pcomments';
+  sec.innerHTML = '<h2>コメント・質問</h2>' +
+    '<p class="sub">このページの持ち主への質問やコメントが書けます。ログインなしで、名前とコメントだけで書けます。</p>' +
+    '<p><button type="button" class="pc-btn" id="pc-toggle">コメント・質問を見る</button></p>' +
+    '<div id="pc-list" hidden></div>' +
+    '<form id="pc-form" hidden>' +
+    '<input type="text" id="pc-name" maxlength="30" placeholder="お名前（ニックネーム可）">' +
+    '<textarea id="pc-text" maxlength="500" rows="3" placeholder="この方への質問・コメント"></textarea>' +
+    '<p style="margin-top:8px"><button type="submit" class="pc-send">投稿する</button> <span id="pc-msg" class="sub"></span></p>' +
+    '</form>';
+  var anchor = document.getElementById('editbar');
+  if(!anchor){
+    var secs = document.querySelectorAll('section');
+    for(var i = 0; i < secs.length; i++){
+      var h = secs[i].querySelector('h2');
+      if(h && h.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[i]; break; }
+    }
+  }
+  if(!anchor) anchor = document.querySelector('footer');
+  if(anchor && anchor.parentNode) anchor.parentNode.insertBefore(sec, anchor);
+  else if(document.querySelector('.wrap')) document.querySelector('.wrap').appendChild(sec);
+  else document.body.appendChild(sec);
+
+  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function $(id){ return document.getElementById(id); }
+  function ensure(){
+    if(!window.firebase || !firebase.firestore) return false;
+    try{
+      if(!firebase.apps.length) firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+});
+    }catch(e){}
+    return true;
+  }
+  var currentUser = null;
+  function fmtDate(iso){ return (iso || '').slice(0, 10); }
+  function loadComments(){
+    var list = $('pc-list');
+    if(!list || !ensure()) return;
+    firebase.firestore().collection('pageComments').where('pageId', '==', PAGE_ID).limit(200).get().then(function(s){
+      if(s.empty){ list.innerHTML = '<p class="sub">まだコメントがありません。最初の質問をどうぞ。</p>'; return; }
+      var docs = [];
+      s.forEach(function(d){ docs.push(d); });
+      docs.sort(function(a, b){ return String(a.data().createdAt || '').localeCompare(String(b.data().createdAt || '')); });
+      var html = '';
+      docs.forEach(function(d){
+        var c = d.data();
+        var badge = (c.fromUid && c.fromUid === TARGET_UID) ? '<span class="pc-badge">本人</span>' : '';
+        var del = (currentUser && (currentUser.uid === TARGET_UID || currentUser.uid === ADMIN_UID)) ? '<button type="button" class="pc-del" data-pcdel="' + d.id + '">削除</button>' : '';
+        html += '<div class="pc-item"><p style="margin:0"><span class="pc-name">' + esc(c.name || 'ゲスト') + '</span>' + badge + '<span class="pc-date">' + esc(fmtDate(c.createdAt)) + '</span>' + del + '</p><p style="margin:3px 0 0">' + esc(c.text || '') + '</p></div>';
+      });
+      list.innerHTML = html;
+      list.querySelectorAll('[data-pcdel]').forEach(function(b){
+        b.addEventListener('click', function(){
+          if(!confirm('このコメントを削除しますか？')) return;
+          firebase.firestore().collection('pageComments').doc(b.getAttribute('data-pcdel')).delete().then(function(){ loadComments(); }).catch(function(){});
+        });
+      });
+    }).catch(function(){ list.innerHTML = '<p class="sub">読み込めませんでした。</p>'; });
+  }
+  function init(){
+    if(!ensure()) return;
+    if(firebase.auth) firebase.auth().onAuthStateChanged(function(u){ currentUser = u; });
+    var btn = $('pc-toggle');
+    btn.addEventListener('click', function(){
+      var list = $('pc-list'), form = $('pc-form');
+      var open = list.hidden;
+      list.hidden = !open; form.hidden = !open;
+      btn.textContent = open ? 'コメント・質問を閉じる' : 'コメント・質問を見る';
+      if(open) loadComments();
+    });
+    $('pc-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      var name = $('pc-name').value.trim();
+      var text = $('pc-text').value.trim();
+      var msg = $('pc-msg');
+      if(!name || !text){ msg.textContent = 'お名前とコメントを入れてください。'; return; }
+      if(name.toLowerCase() === 'momowari' && !(currentUser && currentUser.uid === ADMIN_UID)){ msg.textContent = 'その名前は主催者用なので使えません。別の名前でお願いします。'; return; }
+      msg.textContent = '投稿しています…';
+      firebase.firestore().collection('pageComments').add({
+        pageId: PAGE_ID, targetUid: TARGET_UID, name: name, text: text,
+        fromUid: currentUser ? currentUser.uid : '',
+        createdAt: new Date().toISOString()
+      }).then(function(){
+        $('pc-text').value = '';
+        msg.textContent = '投稿しました。';
+        loadComments();
+      }).catch(function(){ msg.textContent = '投稿できませんでした。時間をおいて試してください。'; });
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
 </body>
 </html>
