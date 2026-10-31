@@ -599,7 +599,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function hash(t){ var h = 0; for(var i = 0; i < t.length; i++){ h = (h * 31 + t.charCodeAt(i)) | 0; } return 'k' + (h >>> 0).toString(36); }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,script,style,textarea,select'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,.pagenav3,script,style,textarea,select'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -614,7 +614,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function stampLinks(){
     linkList = [];
     document.querySelectorAll('.wrap a[href]').forEach(function(a){
-      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar')) return;
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3')) return;
       a.setAttribute('data-lk', String(linkList.length));
       linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML});
     });
@@ -898,14 +898,23 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
         $('theme-color').value = docData.cmColor || DEFCOLOR;
       }).catch(function(){});
     });
-    $('theme-cancel').addEventListener('click', function(){ panel.style.display = 'none'; });
+    $('theme-color').addEventListener('input', function(){
+      applyTheme($('theme-color').value);
+      $('theme-msg').textContent = 'プレビュー中（まだ保存していません）';
+    });
+    $('theme-cancel').addEventListener('click', function(){
+      panel.style.display = 'none';
+      applyTheme((docData && docData.cmColor) || DEFCOLOR);
+      if(docData) renderCm(docData);
+    });
     $('theme-save').addEventListener('click', function(){
       var v = $('theme-color').value;
+      $('theme-msg').textContent = '保存しています…';
       saveProfilePart({cmColor: v}, $('theme-msg')).then(function(){
         if(docData) docData.cmColor = v;
         applyTheme(v);
         if(docData) renderCm(docData);
-        $('theme-msg').textContent = '保存しました';
+        $('theme-msg').textContent = '保存しました ✓ 来た人にもこの色で見えます';
       });
     });
   }
@@ -1358,21 +1367,6 @@ try {
     clearInterval(iv);
     if(u.uid === OWNER && !document.body.classList.contains('site-editing')) window.__authBtn.click();
   }, 500);
-})();
-</script>
-
-<script>
-/* motion-pack: scroll reveal */
-(function(){
-document.documentElement.classList.add('js');
-if(!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-var list = Array.prototype.slice.call(document.querySelectorAll('section, footer'));
-list = list.filter(function(el){ return !list.some(function(o){ return o !== el && el.contains(o); }); });
-list.forEach(function(el){ el.classList.add('mrv'); });
-var io = new IntersectionObserver(function(entries){
-entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-}, {threshold: 0, rootMargin: '0px 0px 15% 0px'});
-list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 </body>

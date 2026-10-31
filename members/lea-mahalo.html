@@ -6,7 +6,7 @@
 <title>雑貨屋 Lea Mahalo｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/lea-mahalo.html">
 <link rel="icon" href="../favicon.png">
 <style>
-:root{--accent:#967a00;--accent-dark:#3f7a4d;--ink:#2f3a30;--paper:#f6faf3;--card:#ffffff;--line:#cfe3c8;--soft:#75917a;--orange:#e07b24}
+:root{--accent:#967a00;--accent-dark:#6c5800;--ink:#2d2500;--paper:#faf8f2;--card:#ffffff;--line:#e8e2c7;--soft:#887936;--orange:#967a00;--orange-dark:#6c5800}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
@@ -32,7 +32,7 @@ body{counter-reset:feat}
 .step p{flex:1}
 .matchbtns{display:flex;gap:8px;flex-wrap:wrap}
 .matchbtns a{flex:1;min-width:100px;text-align:center;padding:12px 6px;border-radius:999px;font-weight:bold;text-decoration:none;color:#4a3418}
-.badge{display:inline-block;background:#bfe6cf;color:#22522f;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;margin-top:16px}
+.badge{display:inline-block;background:#e8e2c7;color:#2d2500;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;margin-top:16px}
 h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
 .ename{font-size:.95rem;letter-spacing:.22em;color:var(--accent-dark);font-weight:bold;margin-top:2px}
 .sub{color:var(--soft);font-size:.92rem;margin-top:2px}
@@ -269,7 +269,7 @@ html.js .mrv.in{opacity:1;transform:none}
 <p>OHANAメンバーはこれから増えていきます。探したいもの・出会いたい人はこちらから。</p>
 <div class="matchbtns">
 <a href="../hito.html" style="background:#f6c3d5">ヒトを探す</a>
-<a href="../mono.html" style="background:#bfe6cf">モノを探す</a>
+<a href="../mono.html" style="background:#e8e2c7">モノを探す</a>
 <a href="../koto.html" style="background:#fbe38e">コトを探す</a>
 </div>
 <p style="margin-top:10px"><a href="../mypage.html" target="_blank" rel="noopener">自分のページを作る（マイページ）→</a></p>
@@ -312,10 +312,10 @@ OHANAシェア＊プロジェクト OHANAメンバーページ<br>
     function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
     function row(label, color, text){ if(text && String(text).trim()){ rows += '<div class="lrow"><span class="lchip" style="background:'+color+'">'+label+'</span><p>'+esc(text)+'</p></div>'; } }
     row('探しているヒト','#f6c3d5', d.seekingHito);
-    row('探しているモノ','#bfe6cf', d.seekingMono);
+    row('探しているモノ','#e8e2c7', d.seekingMono);
     row('探しているコト','#fbe38e', d.seekingKoto);
     row('提供できるヒト','#f6c3d5', d.offeringHito);
-    row('提供できるモノ','#bfe6cf', d.offeringMono);
+    row('提供できるモノ','#e8e2c7', d.offeringMono);
     row('提供できるコト','#fbe38e', d.offeringKoto);
     if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
     var pv = document.querySelector('.hero-pv');
@@ -575,7 +575,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function hash(t){ var h = 0; for(var i = 0; i < t.length; i++){ h = (h * 31 + t.charCodeAt(i)) | 0; } return 'k' + (h >>> 0).toString(36); }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,script,style,textarea,select'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,.pagenav3,script,style,textarea,select'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -590,7 +590,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function stampLinks(){
     linkList = [];
     document.querySelectorAll('.wrap a[href]').forEach(function(a){
-      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar')) return;
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3')) return;
       a.setAttribute('data-lk', String(linkList.length));
       linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML});
     });
@@ -874,14 +874,23 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
         $('theme-color').value = docData.cmColor || DEFCOLOR;
       }).catch(function(){});
     });
-    $('theme-cancel').addEventListener('click', function(){ panel.style.display = 'none'; });
+    $('theme-color').addEventListener('input', function(){
+      applyTheme($('theme-color').value);
+      $('theme-msg').textContent = 'プレビュー中（まだ保存していません）';
+    });
+    $('theme-cancel').addEventListener('click', function(){
+      panel.style.display = 'none';
+      applyTheme((docData && docData.cmColor) || DEFCOLOR);
+      if(docData) renderCm(docData);
+    });
     $('theme-save').addEventListener('click', function(){
       var v = $('theme-color').value;
+      $('theme-msg').textContent = '保存しています…';
       saveProfilePart({cmColor: v}, $('theme-msg')).then(function(){
         if(docData) docData.cmColor = v;
         applyTheme(v);
         if(docData) renderCm(docData);
-        $('theme-msg').textContent = '保存しました';
+        $('theme-msg').textContent = '保存しました ✓ 来た人にもこの色で見えます';
       });
     });
   }
@@ -1334,21 +1343,6 @@ try {
     clearInterval(iv);
     if(u.uid === OWNER && !document.body.classList.contains('site-editing')) window.__authBtn.click();
   }, 500);
-})();
-</script>
-
-<script>
-/* motion-pack: scroll reveal */
-(function(){
-document.documentElement.classList.add('js');
-if(!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-var list = Array.prototype.slice.call(document.querySelectorAll('section, footer'));
-list = list.filter(function(el){ return !list.some(function(o){ return o !== el && el.contains(o); }); });
-list.forEach(function(el){ el.classList.add('mrv'); });
-var io = new IntersectionObserver(function(entries){
-entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-}, {threshold: 0, rootMargin: '0px 0px 15% 0px'});
-list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 </body>
