@@ -715,7 +715,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 .ied-panel h3{font-size:1rem;margin-bottom:8px}
 .ied-panel label{display:block;font-size:.85rem;font-weight:bold;margin-top:10px}
 .ied-panel input[type="text"],.ied-panel textarea{width:100%;font-family:inherit;font-size:1rem;padding:9px 11px;border:1.5px solid #e8cfa5;border-radius:10px;background:#fffdf8}
-#color-fab{position:fixed;top:10px;left:10px;z-index:96;display:none;background:#fff;border:1.5px solid #e0a458;color:#8a6a4f;border-radius:999px;padding:8px 14px;font-family:inherit;font-weight:bold;font-size:.9rem;cursor:pointer;box-shadow:0 4px 14px rgba(120,70,10,.18)}
+#color-fab{position:fixed;top:58px;right:max(10px, calc(50% - 350px));z-index:96;display:none;background:#fff;border:1.5px solid #e0a458;color:#8a6a4f;border-radius:999px;padding:8px 14px;font-family:inherit;font-weight:bold;font-size:.9rem;cursor:pointer;box-shadow:0 4px 14px rgba(120,70,10,.18)}
 #color-fab.on{display:block}
 #color-panel{position:fixed;top:56px;left:10px;z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:14px;box-shadow:0 10px 28px rgba(120,70,10,.25);padding:14px;width:250px;display:none}
 #color-panel.on{display:block}
@@ -750,7 +750,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 }); } }catch(e){} }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,script,style,textarea,select,.authbar-row,.istats,.irow,.icomments,.irelated,.pagenav3'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,.istats,.irow,.icomments,.irelated,.pagenav3'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -762,10 +762,25 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     });
     return out;
   }
+  function commonLink(a){
+    var h = a.getAttribute('href') || '';
+    if(h.indexOf('line.me/ti/g2/') >= 0) return true;
+    if(h.indexOf('1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA') >= 0) return true;
+    if(a.classList.contains('cta') && /index\.html$/.test(h)) return true;
+    return false;
+  }
+  function lockCommonSections(){
+    if(PAGE.indexOf('members-') !== 0) return;
+    document.querySelectorAll('section').forEach(function(sec){
+      var h = sec.querySelector('h2');
+      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集/.test(h.textContent)) sec.setAttribute('data-lock', '1');
+    });
+  }
   function stampLinks(){
     linkList = [];
     document.querySelectorAll('.wrap a[href]').forEach(function(a){
-      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3')) return;
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3,footer,.fab-line,.ptiles,.matchbtns,[data-lock]')) return;
+      if(commonLink(a)) return;
       a.setAttribute('data-lk', String(linkList.length));
       linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML});
     });
@@ -797,6 +812,16 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     }
     $('lp-text').addEventListener('input', upd);
     $('lp-href').addEventListener('input', upd);
+    var delBtn = document.createElement('button');
+    delBtn.type = 'button'; delBtn.textContent = 'このリンクを削除';
+    delBtn.style.cssText = 'font-family:inherit;font-weight:bold;background:#fff;color:#b03a2e;border:1.5px solid #d8a49e;border-radius:999px;padding:7px 16px;cursor:pointer';
+    delBtn.addEventListener('click', function(){
+      L.del = true;
+      if(L.added){ if(a.parentNode) a.remove(); }
+      else { pendingLinks[i] = {del: 1}; a.style.display = 'none'; }
+      panel.remove();
+    });
+    $('lp-close').parentNode.insertBefore(delBtn, $('lp-close'));
     $('lp-close').addEventListener('click', function(){ panel.remove(); });
     $('lp-save').addEventListener('click', function(){
       var upd2 = {};
@@ -910,8 +935,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     });
     if(!tagsWork.length) box.innerHTML = '<span style="font-size:.85rem;color:#8a6a4f">タグはまだありません。下から追加できます。</span>';
   }
-  /* ---------- 探している・提供している editing ---------- */
-  var ROWF = [['seekingHito','探しているヒト'],['seekingMono','探しているモノ'],['seekingKoto','探しているコト'],['offeringHito','提供できるヒト'],['offeringMono','提供できるモノ'],['offeringKoto','提供できるコト'],['offering','提供している（まとめて）']];
+  /* ---------- 探している・提供している (direct editing) ---------- */
+  var ROWF = [['seekingHito','探しているヒト'],['seekingMono','探しているモノ'],['seekingKoto','探しているコト'],['offeringHito','提供できるヒト'],['offeringMono','提供できるモノ'],['offeringKoto','提供できるコト'],['offering','提供している']];
   function profileDocId(){
     var m = document.documentElement.innerHTML.match(/collection\('profiles'\)\.doc\("([^"]+)"\)/);
     return m ? m[1] : null;
@@ -929,38 +954,149 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     var box = document.getElementById('live-rows');
     if(box && rows){ box.innerHTML = rows; document.getElementById('live-sec').style.display = ''; if(themeColor) applyThemeVars(themeColor); }
   }
-  function buildRowsPanel(){
+  var rowsOrig = null, rowsPid = null;
+  function rowColor(f){ return f.indexOf('Hito') >= 0 ? '#f6c3d5' : (f.indexOf('Mono') >= 0 ? '#bfe6cf' : (f.indexOf('Koto') >= 0 ? '#fbe38e' : '#e8e3da')); }
+  function renderRowsEdit(d){
+    var box = document.getElementById('live-rows'); if(!box) return;
+    var fields = ROWF.slice(0, 6);
+    if(!d.offeringHito && !d.offeringMono && !d.offeringKoto) fields.push(ROWF[6]);
+    var html = '';
+    fields.forEach(function(f){
+      html += '<div class="lrow"><span class="lchip" style="background:' + rowColor(f[0]) + '">' + f[1] + '</span><p data-rowf="' + f[0] + '" contenteditable="true">' + esc(d[f[0]] || '') + '</p></div>';
+    });
+    box.innerHTML = html;
+    document.getElementById('live-sec').style.display = '';
+    if(themeColor) applyThemeVars(themeColor);
+  }
+  function enterRowsEdit(){
     var sec = document.getElementById('live-sec'); if(!sec) return;
-    var pid = profileDocId(); if(!pid) return;
-    if($('rows-open')) return;
-    var btn = document.createElement('button');
-    btn.type = 'button'; btn.id = 'rows-open'; btn.textContent = '✎ 探している・提供している を編集';
-    btn.style.cssText = 'font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer;margin-top:8px';
-    sec.appendChild(btn);
-    btn.addEventListener('click', function(){
-      if($('rows-panel')){ $('rows-panel').remove(); return; }
-      var panel = document.createElement('div');
-      panel.className = 'ied-panel'; panel.id = 'rows-panel';
-      panel.innerHTML = '<h3>探している・提供している</h3><p style="font-size:.85rem;color:#8a6a4f">読み込んでいます…</p>';
-      sec.appendChild(panel);
-      db().collection('profiles').doc(pid).get().then(function(snap){
-        var d = snap.exists ? (snap.data() || {}) : {};
-        var h = '<h3>探している・提供している</h3>';
-        ROWF.forEach(function(f){
-          h += '<label style="display:block;font-size:.85rem;font-weight:bold;margin:8px 0 3px">' + f[1] + '</label><textarea id="rowf-' + f[0] + '" rows="2" style="width:100%;font-family:inherit;padding:8px;border:1.5px solid #d8c7ae;border-radius:8px;box-sizing:border-box">' + esc(d[f[0]] || '') + '</textarea>';
+    rowsPid = profileDocId(); if(!rowsPid) return;
+    if(rowsOrig){ renderRowsEdit(rowsOrig); return; }
+    db().collection('profiles').doc(rowsPid).get().then(function(snap){
+      rowsOrig = snap.exists ? (snap.data() || {}) : {};
+      if(editing) renderRowsEdit(rowsOrig);
+    }).catch(function(){});
+  }
+  function collectRowsUpd(){
+    if(!rowsOrig || !rowsPid) return null;
+    var upd = {};
+    document.querySelectorAll('[data-rowf]').forEach(function(p){
+      var f = p.getAttribute('data-rowf');
+      var v = p.textContent.trim();
+      if((rowsOrig[f] || '') !== v) upd[f] = v;
+    });
+    return Object.keys(upd).length ? upd : null;
+  }
+
+  /* ---------- added links / sns order ---------- */
+  var addedOrig = null, snsMoved = false, snsSnapshot = null;
+  function snapshotSns(){
+    snsSnapshot = [];
+    document.querySelectorAll('.sns').forEach(function(c){ snsSnapshot.push(Array.prototype.slice.call(c.querySelectorAll('a[href]'))); });
+  }
+  function currentSnsOrder(){
+    var seq = [];
+    document.querySelectorAll('.sns').forEach(function(c){
+      c.querySelectorAll('a[href]').forEach(function(a){ if(a.hasAttribute('data-lk')) seq.push(parseInt(a.getAttribute('data-lk'), 10)); });
+    });
+    return seq;
+  }
+  function applySnsOrder(seq){
+    document.querySelectorAll('.sns').forEach(function(c){
+      var as = Array.prototype.slice.call(c.querySelectorAll('a[href]'));
+      as.sort(function(x, y){
+        var xi = seq.indexOf(parseInt(x.getAttribute('data-lk'), 10));
+        var yi = seq.indexOf(parseInt(y.getAttribute('data-lk'), 10));
+        return (xi < 0 ? 999 : xi) - (yi < 0 ? 999 : yi);
+      });
+      as.forEach(function(a){ c.appendChild(a); });
+    });
+  }
+  function restoreSnsOrder(){
+    if(!snsSnapshot) return;
+    snsSnapshot.forEach(function(list){ list.forEach(function(a){ if(a.parentNode) a.parentNode.appendChild(a); }); });
+  }
+  function decorateSns(on){
+    document.querySelectorAll('.ord-btn').forEach(function(b){ b.remove(); });
+    if(!on) return;
+    document.querySelectorAll('.sns').forEach(function(c){
+      if(c.closest('footer,[data-lock]')) return;
+      c.querySelectorAll('a[href]').forEach(function(a){
+        if(!a.hasAttribute('data-lk')) return;
+        a.style.position = 'relative';
+        [[-1, '↑'], [1, '↓']].forEach(function(pair){
+          var b = document.createElement('span');
+          b.className = 'ord-btn';
+          b.textContent = pair[1];
+          b.style.cssText = 'position:absolute;top:4px;' + (pair[0] < 0 ? 'right:30px' : 'right:4px') + ';z-index:5;background:#e07b24;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)';
+          b.addEventListener('click', function(ev){
+            ev.preventDefault(); ev.stopPropagation();
+            var sib = pair[0] < 0 ? a.previousElementSibling : a.nextElementSibling;
+            if(!sib || sib.tagName !== 'A') return;
+            if(pair[0] < 0) c.insertBefore(a, sib); else c.insertBefore(sib, a);
+            snsMoved = true;
+          });
+          a.appendChild(b);
         });
-        h += '<p style="display:flex;gap:8px;margin-top:10px;align-items:center"><button type="button" id="rows-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">保存</button><span id="rows-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
-        panel.innerHTML = h;
-        $('rows-save').addEventListener('click', function(){
-          var upd = {};
-          ROWF.forEach(function(f){ upd[f[0]] = $('rowf-' + f[0]).value; });
-          $('rows-msg').textContent = '保存しています…';
-          db().collection('profiles').doc(pid).set(upd, {merge: true}).then(function(){
-            renderLiveRows(upd);
-            $('rows-msg').textContent = '保存しました ✓ 来た人にもこの内容で見えます';
-          }).catch(function(){ $('rows-msg').textContent = '保存できませんでした。時間をおいて試してください。'; });
-        });
-      }).catch(function(){ panel.innerHTML = '<h3>探している・提供している</h3><p style="font-size:.85rem;color:#8a6a4f">読み込めませんでした。</p>'; });
+      });
+    });
+  }
+  function addLinkEl(t, h){
+    var sns = document.querySelector('.sns:not([data-lock])');
+    if(!sns) return null;
+    var a = document.createElement('a');
+    a.setAttribute('href', h || 'https://');
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener');
+    a.textContent = t || '新しいリンク';
+    sns.appendChild(a);
+    var idx = linkList.length;
+    a.setAttribute('data-lk', String(idx));
+    var rec = {el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML, added: true};
+    linkList.push(rec);
+    return rec;
+  }
+  function currentAdded(){
+    return linkList.filter(function(L){ return L.added && !L.del; }).map(function(L){ return {t: L.el.textContent.trim(), h: L.el.getAttribute('href')}; });
+  }
+  function buildAddLinkBtn(){
+    if($('addlink-btn')) return;
+    var sns = document.querySelector('.sns:not([data-lock])');
+    if(!sns) return;
+    var b = document.createElement('button');
+    b.type = 'button'; b.id = 'addlink-btn'; b.textContent = '＋ リンクを追加';
+    b.style.cssText = 'font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer;margin-top:8px';
+    sns.parentNode.insertBefore(b, sns.nextSibling);
+    b.addEventListener('click', function(){
+      var rec = addLinkEl('新しいリンク', 'https://');
+      if(rec){ decorateSns(true); openLinkPanel(rec.el); }
+    });
+  }
+  /* ---------- map address editing ---------- */
+  var mapFrame = null, mapPending = null, mapEditSrc = '';
+  function mapQFromSrc(src){
+    var m = /[?&]q=([^&]*)/.exec(src || '');
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function mapUrl(q){ return 'https://maps.google.com/maps?q=' + encodeURIComponent(q) + '&t=&z=16&ie=UTF8&iwloc=&output=embed'; }
+  function findMap(){
+    var f = document.querySelector('iframe.map');
+    if(f) return f;
+    var all = document.querySelectorAll('iframe');
+    for(var i = 0; i < all.length; i++){ var src = all[i].getAttribute('src') || ''; if(src.indexOf('output=embed') >= 0 && src.indexOf('maps/d/embed') < 0) return all[i]; }
+    return null;
+  }
+  function buildMapPanel(){
+    if(!mapFrame || $('map-panel')) return;
+    mapEditSrc = mapFrame.src;
+    var panel = document.createElement('div');
+    panel.className = 'ied-panel'; panel.id = 'map-panel';
+    panel.innerHTML = '<h3>地図の場所</h3><p style="display:flex;gap:6px"><input type="text" id="map-q" value="' + esc(mapQFromSrc(mapFrame.src)) + '" style="flex:1;font-family:inherit;padding:8px;border:1.5px solid #d8c7ae;border-radius:8px"><button type="button" id="map-apply" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">地図に反映</button></p><p style="font-size:.8rem;color:#8a6a4f;margin-top:6px">住所を変えて「地図に反映」を押すと、その場所の地図になります。保存は下の「保存する」で一緒に行われます。</p>';
+    mapFrame.parentNode.insertBefore(panel, mapFrame.nextSibling);
+    $('map-apply').addEventListener('click', function(){
+      var v = $('map-q').value.trim(); if(!v) return;
+      mapPending = v;
+      mapFrame.src = mapUrl(v);
     });
   }
   function setEdit(on){
@@ -972,17 +1108,25 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     var btn = window.__authBtn;
     if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
     targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
-    if(on){ pendingLinks = {}; buildTagsPanel(); buildRowsPanel(); }
-    if(!on){ var lp = $('link-panel'); if(lp) lp.remove(); var tp = $('tags-panel'); if(tp) tp.remove(); var rp = $('rows-panel'); if(rp) rp.remove(); var ro = $('rows-open'); if(ro) ro.remove(); tagsWork = null; }
+    if(on){ pendingLinks = {}; buildTagsPanel(); enterRowsEdit(); decorateSns(true); buildAddLinkBtn(); buildMapPanel(); }
+    if(!on){ var lp = $('link-panel'); if(lp) lp.remove(); var tp = $('tags-panel'); if(tp) tp.remove(); var mp = $('map-panel'); if(mp) mp.remove(); var ab = $('addlink-btn'); if(ab) ab.remove(); decorateSns(false); tagsWork = null; if(rowsOrig) renderLiveRows(rowsOrig); if(mapFrame && mapEditSrc) mapFrame.src = mapEditSrc; }
   }
   function undoEdit(){
     targets().forEach(function(el){ var k = el.getAttribute('data-tk'); if(k && applied[k] !== undefined) el.textContent = applied[k]; });
     linkList.forEach(function(L, i){
+      L.del = false;
+      if(L.added){ if(L.el.parentNode) L.el.remove(); return; }
+      L.el.style.display = '';
       var saved = applied['lnk' + i];
-      if(saved){ try{ applyLink(i, JSON.parse(saved)); }catch(e){} }
+      if(saved){ try{ var sv = JSON.parse(saved); if(!sv.del) applyLink(i, sv); else { L.el.innerHTML = L.html; L.el.setAttribute('href', L.href); } }catch(e){} }
       else { L.el.innerHTML = L.html; L.el.setAttribute('href', L.href); }
     });
+    linkList = linkList.filter(function(L){ return !L.added; });
+    if(addedOrig){ JSON.parse(addedOrig).forEach(function(it){ addLinkEl(it.t, it.h); }); }
     pendingLinks = {};
+    snsMoved = false; restoreSnsOrder();
+    if(rowsOrig && editing) renderRowsEdit(rowsOrig);
+    if(mapFrame && mapEditSrc){ mapFrame.src = mapEditSrc; mapPending = null; var mi = $('map-q'); if(mi) mi.value = mapQFromSrc(mapEditSrc); }
     var lp = $('link-panel'); if(lp) lp.remove();
     if($('sb-msg')) $('sb-msg').textContent = '元に戻しました';
   }
@@ -997,8 +1141,14 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
       else if(applied[k] === undefined && v) upd[k] = v;
     });
     Object.keys(pendingLinks).forEach(function(i){ upd['lnk' + i] = JSON.stringify(pendingLinks[i]); });
-    var job = Object.keys(upd).length ? db().collection('siteTexts').doc(PAGE).set(upd, {merge: true}).then(function(){ Object.keys(upd).forEach(function(k){ applied[k] = upd[k]; }); }) : Promise.resolve();
-    job.then(function(){
+    var addedNow = JSON.stringify(currentAdded());
+    if(addedNow !== (addedOrig || '[]')) upd['addedlinks'] = addedNow;
+    if(snsMoved) upd['linkorder'] = JSON.stringify(currentSnsOrder());
+    if(mapPending) upd['mapq'] = mapPending;
+    var rowsUpd = collectRowsUpd();
+    var job = Object.keys(upd).length ? db().collection('siteTexts').doc(PAGE).set(upd, {merge: true}).then(function(){ Object.keys(upd).forEach(function(k){ applied[k] = upd[k]; }); if(upd['addedlinks']) addedOrig = upd['addedlinks']; snsMoved = false; }) : Promise.resolve();
+    var rowsJob = rowsUpd ? db().collection('profiles').doc(rowsPid).set(rowsUpd, {merge: true}).then(function(){ Object.keys(rowsUpd).forEach(function(k){ rowsOrig[k] = rowsUpd[k]; }); }) : Promise.resolve();
+    job.then(function(){ return rowsJob; }).then(function(){
       $('sb-msg').textContent = '保存しました';
       setTimeout(function(){ setEdit(false); }, 500);
     }).catch(function(){ $('sb-msg').textContent = '保存できませんでした。時間をおいて試してください。'; });
@@ -1011,9 +1161,12 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   function init(){
     if(!window.firebase || !firebase.auth) return;
     ensureApp();
+    lockCommonSections();
+    mapFrame = findMap();
     var els = targets();
     els.forEach(function(el){ el.setAttribute('data-tk', hash(el.textContent.trim())); applied[el.getAttribute('data-tk')] = el.textContent.trim(); });
     stampLinks();
+    snapshotSns();
     if(firebase.firestore){
       db().collection('siteTexts').doc(PAGE).get().then(function(doc){
         if(!doc.exists) return;
@@ -1021,10 +1174,16 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
         els.forEach(function(el){ var v = data[el.getAttribute('data-tk')]; if(typeof v === 'string'){ el.textContent = v; applied[el.getAttribute('data-tk')] = v; } });
         els.forEach(function(el){ var k = el.getAttribute('data-tk'); if(applied[k] === undefined) applied[k] = el.textContent.trim(); });
         if(typeof data.tagsjson === 'string' && window.__renderTags){ try{ var tj = JSON.parse(data.tagsjson); if(Array.isArray(tj)) window.__renderTags(tj); }catch(e){} }
+        if(typeof data.addedlinks === 'string'){
+          applied['addedlinks'] = data.addedlinks;
+          try{ var al = JSON.parse(data.addedlinks); if(Array.isArray(al)) al.forEach(function(it){ addLinkEl(it.t, it.h); }); addedOrig = data.addedlinks; }catch(e){}
+        }
         linkList.forEach(function(L, i){
           var v = data['lnk' + i];
-          if(typeof v === 'string'){ applied['lnk' + i] = v; try{ applyLink(i, JSON.parse(v)); }catch(e){} }
+          if(typeof v === 'string'){ applied['lnk' + i] = v; try{ var pv = JSON.parse(v); if(pv && pv.del){ L.del = true; if(L.el.parentNode) L.el.remove(); } else applyLink(i, pv); }catch(e){} }
         });
+        if(typeof data.linkorder === 'string'){ applied['linkorder'] = data.linkorder; try{ applySnsOrder(JSON.parse(data.linkorder)); }catch(e){} }
+        if(typeof data.mapq === 'string' && data.mapq && mapFrame){ mapFrame.src = mapUrl(data.mapq); }
         if(typeof data.themecolor === 'string' && data.themecolor){ themeColor = data.themecolor; applyThemeVars(themeColor); }
       }).catch(function(){});
     }
@@ -1041,6 +1200,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
 
 
 
@@ -1171,15 +1331,16 @@ list.forEach(function(el){ io.observe(el); });
 </script>
 
 <style>
-.doorfx{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;animation:doorFade 3.1s ease forwards}
-.doorfx .dl{transform-box:fill-box;transform-origin:left center;animation:doorOpen 3.1s cubic-bezier(.6,.05,.3,1) forwards}
-.doorfx .dr{transform-box:fill-box;transform-origin:right center;animation:doorOpen 3.1s cubic-bezier(.6,.05,.3,1) forwards}
-@keyframes doorOpen{0%,16%{transform:scaleX(1)}52%,100%{transform:scaleX(.05)}}
-@keyframes doorFade{0%,72%{opacity:1}96%,100%{opacity:0}}
+.doorfx{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;animation:doorFade 4.6s ease forwards}
+.doorfx .dl{transform-box:fill-box;transform-origin:left center;animation:doorOpen 4.6s cubic-bezier(.6,.05,.3,1) forwards}
+.doorfx .dr{transform-box:fill-box;transform-origin:right center;animation:doorOpen 4.6s cubic-bezier(.6,.05,.3,1) forwards}
+@keyframes doorOpen{0%,20%{transform:scaleX(1)}58%,100%{transform:scaleX(.05)}}
+@keyframes doorFade{0%,80%{opacity:1}97%,100%{opacity:0}}
 </style>
 <script>
 (function(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var started = false;
   function build(){
     var hero = document.querySelector('.hero-pv');
     if(!hero || hero.querySelector('.doorfx')) return;
@@ -1212,10 +1373,28 @@ list.forEach(function(el){ io.observe(el); });
       svg.innerHTML = '<defs><clipPath id="doorClip"><path d="M22,400 L278,400 Q300,400 300,378 L300,150 A150,150 0 0 0 0,150 L0,378 Q0,400 22,400 Z"/></clipPath></defs><g clip-path="url(#doorClip)"><g class="dl">' + L + '</g><g class="dr">' + R + '</g></g>';
     }
     hero.appendChild(svg);
-    setTimeout(function(){ if(svg.parentNode) svg.remove(); }, 3400);
+    setTimeout(function(){ if(svg.parentNode) svg.remove(); }, 5000);
   }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(build, 450); });
-  else setTimeout(build, 450);
+  function start(){
+    if(started) return;
+    started = true;
+    setTimeout(build, 250);
+    var hero = document.querySelector('.hero-pv');
+    if(hero) hero.addEventListener('click', function(){
+      if(document.body.classList.contains('site-editing')) return;
+      if(!hero.querySelector('.doorfx')) build();
+    });
+  }
+  function arm(){
+    var hero = document.querySelector('.hero-pv');
+    var img = hero ? hero.querySelector('img') : null;
+    if(img && !img.complete){
+      img.addEventListener('load', start);
+      setTimeout(start, 3000);
+    } else start();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arm);
+  else arm();
 })();
 </script>
 </body>
