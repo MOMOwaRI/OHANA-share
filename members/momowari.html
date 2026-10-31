@@ -1829,7 +1829,7 @@ list.forEach(function(el){ io.observe(el); });
     firebase.firestore().collection('islandUsers').doc(TARGET_UID).get().then(function(s){
       if(!s.exists) return;
       var d = s.data() || {};
-      var av = d.avaUrl || d.photoData;
+      var av = d.avaUrl;
       if(av){
         var apply = function(){ var im = document.querySelector('h1 img'); if(im && im.src !== av) im.src = av; };
         apply();
