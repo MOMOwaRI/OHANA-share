@@ -144,6 +144,10 @@ html.js .mrv.in{opacity:1;transform:none}
         <li>下の「新しいページを作る」から、ページが作れます（1人で複数OK）。ページを開くと、その場で文字を直して編集できます</li>
       </ul>
     </section>
+    <section id="island-frame" hidden style="background:#f2faf7;border:1.5px solid #bfe6da;border-radius:16px;padding:14px 16px;margin:14px 0">
+      <h3 style="margin:0 0 8px">🏝 OHANA島のマイページ</h3>
+      <div id="island-frame-body"></div>
+    </section>
     <div class="create-card" id="match-card" style="display:block">
       <p style="font-weight:bold">合いそうな人</p>
       <p class="sub">あなたの「探している」と、みんなの「提供している」を見比べて出しています。連絡先は出ません。ページから声をかけてみてください。</p>
@@ -1212,6 +1216,42 @@ list.forEach(function(el){ io.observe(el); });
     }
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<script>
+(function(){
+  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function fmtDay(d){ var p = String(d || '').split('-'); return p.length === 3 ? (p[0] + '年' + Number(p[1]) + '月' + Number(p[2]) + '日') : String(d || ''); }
+  function catImg(cat){ var ok = ['black', 'calico', 'muse', 'tabby', 'white']; if(ok.indexOf(cat) < 0) cat = 'muse'; return 'https://momowari.github.io/ohana-jima/cat-' + cat + '-sit.png'; }
+  function start(){
+    if(!window.firebase || !firebase.auth){ setTimeout(start, 900); return; }
+    firebase.auth().onAuthStateChanged(function(u){
+      var sec = document.getElementById('island-frame');
+      var body = document.getElementById('island-frame-body');
+      if(!sec || !body) return;
+      if(!u){ sec.hidden = true; return; }
+      sec.hidden = false;
+      body.innerHTML = '<p class="sub">読み込んでいます…</p>';
+      firebase.firestore().collection('islandUsers').doc(u.uid).get().then(function(s){
+        var link = '<a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#1a7a6d;color:#fff;font-weight:bold;border-radius:999px;padding:8px 16px;text-decoration:none">🏝 島へ行く</a>';
+        if(!s.exists){
+          body.innerHTML = '<p style="margin:2px 0">OHANA島は、もうひとつの松山を歩ける場所です。同じGoogleログインでそのまま入れます。ログインした日が、星として残ります。</p>' + link;
+          return;
+        }
+        var d = s.data() || {};
+        var days = Array.isArray(d.days) ? d.days : [];
+        var last = days.length ? days.slice().sort()[days.length - 1] : '';
+        var av = d.photoData || catImg(d.cat);
+        body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img src="' + esc(av) + '" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da"><div>' +
+          '<p style="margin:2px 0">島の名前：<b>' + esc(d.nickname || '（未設定）') + '</b></p>' +
+          '<p style="margin:2px 0">⭐ 星 × ' + days.length + (last ? '（最後に島へ行った日：' + fmtDay(last) + '）' : '') + '</p></div></div>' + link;
+      }).catch(function(){
+        body.innerHTML = '<p style="margin:2px 0">OHANA島の情報が読み込めませんでした。</p><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#1a7a6d;color:#fff;font-weight:bold;border-radius:999px;padding:8px 16px;text-decoration:none">🏝 島へ行く</a>';
+      });
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>
 </body>

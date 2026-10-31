@@ -133,6 +133,10 @@ body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-own
     <div id="p-loading"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
   </header>
+  <section id="island-trail" hidden style="background:#f2faf7;border:1.5px solid #bfe6da;border-radius:16px;padding:14px 16px;margin:14px 0">
+    <h2 style="margin-top:0">🏝 OHANA島の足跡</h2>
+    <div id="island-trail-body"></div>
+  </section>
   <div id="cm-live" class="cm-live" hidden></div>
   <div id="cm-start" hidden style="border:2px dashed #d9b98c;border-radius:14px;padding:18px;text-align:center;font-weight:bold;color:#a35c14;cursor:pointer;margin:12px 0;background:#fffdf8">＋ アニメーションを作る</div>
       <div id="cm-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:14px;margin:12px 0">
@@ -543,6 +547,32 @@ function render(d, editMode){
   setupTickets();
   loadSiblings(); showStaticLink();
   var icoSrc = d.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
+  (function(){
+    var isHito = (dcats.indexOf('ヒト') >= 0);
+    db.collection('islandUsers').doc(ownerUid).get().then(function(isd){
+      if(!isd.exists) return;
+      var idata = isd.data() || {};
+      if(idata.photoData){
+        $('p-icon').src = idata.photoData; $('p-icon').style.display = 'inline-block'; $('p-letter').style.display = 'none';
+      }
+      if(!isHito) return;
+      var days = Array.isArray(idata.days) ? idata.days : [];
+      var last = days.length ? days.slice().sort()[days.length - 1] : '';
+      var fp = String(last).split('-');
+      var lastJ = fp.length === 3 ? (fp[0] + '年' + Number(fp[1]) + '月' + Number(fp[2]) + '日') : last;
+      var av = idata.photoData || ('https://momowari.github.io/ohana-jima/cat-' + (['black','calico','muse','tabby','white'].indexOf(idata.cat) >= 0 ? idata.cat : 'muse') + '-sit.png');
+      var h = '<div style="display:flex;gap:12px;align-items:center"><img src="' + esc(av) + '" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da"><div>' +
+        '<p style="margin:2px 0">島の名前：<b>' + esc(idata.nickname || '（未設定）') + '</b></p>' +
+        '<p style="margin:2px 0">⭐ 星 × ' + days.length + (last ? '（最後に島へ行った日：' + lastJ + '）' : '') + '</p>' +
+        '<p style="margin:2px 0" id="island-trail-notes"></p></div></div>' +
+        '<a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#1a7a6d;color:#fff;font-weight:bold;border-radius:999px;padding:8px 16px;text-decoration:none">🏝 島で会う</a>';
+      $('island-trail-body').innerHTML = h;
+      $('island-trail').hidden = false;
+      db.collection('parkNotes').where('toUid', '==', ownerUid).limit(500).get().then(function(q){
+        if(q.size > 0){ var el = $('island-trail-notes'); if(el) el.textContent = '島で届いたコメント：' + q.size + '件'; }
+      }).catch(function(){});
+    }).catch(function(){});
+  })();
   if(icoSrc){ $('p-icon').src = icoSrc; $('p-icon').style.display = 'inline-block'; $('p-letter').style.display = 'none'; }
   else { $('p-icon').style.display = 'none'; var lt = $('p-letter'); lt.textContent = (d.nickname || 'メ').charAt(0); lt.style.background = icoColor(d.nickname); lt.style.display = 'inline-flex'; }
   $('s-intro').hidden = !(d.intro || editMode);
