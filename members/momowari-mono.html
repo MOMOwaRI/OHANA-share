@@ -488,7 +488,7 @@ OHANAシェア＊プロジェクト OHANAメンバー紹介ページ<br>
 .oform input{flex:1;min-width:0;font-family:inherit;font-size:1rem;padding:9px 13px;border-radius:999px;border:1.5px solid #e8b96f}
 .oform button{flex:none;font-family:inherit;font-weight:700;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 16px;cursor:pointer}
 </style>
-<div class="ofabs obot">
+<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1a7a6d;border:1.5px solid #57b8a6;font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px rgba(26,122,109,.25)}</style><div class="ofabs obot"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
 <div class="opanel" id="opanel" hidden>
@@ -722,7 +722,7 @@ try {
   initializeAppCheck(aiApp, { provider: new ReCaptchaEnterpriseProvider('6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv'), isTokenAutoRefreshEnabled: true });
   var aiDb = getFirestore(aiApp);
   var ai = getAI(aiApp, { backend: new GoogleAIBackend() });
-  var model = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: SYS });
+  var model = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: SYS + (window.__langSuffix || "") });
   var chat = null;
   function kunUsed(){
     try {
@@ -1463,5 +1463,509 @@ list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 
+
+
+<!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
+     Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
+<script>
+(function(){
+  var KEY = 'islandLang';
+  var lang = 'ja';
+  try{ lang = localStorage.getItem(KEY) || 'ja'; }catch(e){}
+  if(['ja','en','zh','ko'].indexOf(lang) < 0) lang = 'ja';
+  window.__lang = lang;
+  window.__langSuffix = {"en": "\nAlways answer in English, politely and briefly.", "zh": "\n请始终用简体中文，礼貌简洁地回答。", "ko": "\n항상 한국어로 정중하고 간결하게 답해주세요."}[lang] || "";
+  var DICT = {
+  "en": {
+    "みんなの掲示板": "Community Board",
+    "困った助け合い": "Help & Advice",
+    "💡 アイディア掲示板": "💡 Ideas Board",
+    "無料メンバー登録": "Join free",
+    "ログイン": "Log in",
+    "マイページ": "My Page",
+    "✎ 編集する": "✎ Edit",
+    "編集を終わる": "Done editing",
+    "LINEオープンチャットに参加": "Join the LINE Open Chat",
+    "🏝 OHANA島へ": "🏝 OHANA Island",
+    "オープンチャットに参加": "Join the Open Chat",
+    "OHANAに質問する": "Ask OHANA",
+    "お問い合わせフォーム": "Contact form",
+    "OHANAトップへ戻る": "Back to OHANA top",
+    "トップ": "Top",
+    "ヒトの一覧": "People",
+    "モノの一覧": "Things",
+    "コトの一覧": "Activities",
+    "ヒト": "People",
+    "モノ": "Things",
+    "コト": "Activities",
+    "送信": "Send",
+    "質問を入力してください": "Type your question",
+    "会話を消して終わる": "Clear chat & close",
+    "こんにちは。OHANAです。": "Hello, this is OHANA.",
+    "※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。": "* Answers come from AI and may be wrong. For anything important (dates, prices), please also check the board or the open chat.",
+    "OHANAって何？": "What is OHANA?",
+    "いつ・どこで開催？": "When & where?",
+    "参加のしかた": "How to join",
+    "出店したい": "I want a stall",
+    "100円券について": "About the 100-yen ticket",
+    "コメント・質問": "Comments & Questions",
+    "コメント・質問を見る": "See comments & questions",
+    "コメント・質問を閉じる": "Close comments",
+    "このページの持ち主への質問やコメントが書けます。ログインなしで、名前とコメントだけで書けます。": "You can leave a question or comment for the owner of this page. No login needed — just a name and your comment.",
+    "お名前（ニックネーム可）": "Your name (nickname OK)",
+    "この方への質問・コメント": "A question or comment for them",
+    "投稿する": "Post",
+    "削除": "Delete",
+    "本人": "Owner",
+    "まだコメントがありません。最初の質問をどうぞ。": "No comments yet. Be the first to ask.",
+    "すべて": "All",
+    "ベビー・キッズ": "Baby & Kids",
+    "雑貨・日用品": "Goods & Daily items",
+    "衣類": "Clothing",
+    "おもちゃ・グッズ": "Toys & Goods",
+    "その他": "Other",
+    "おすすめ順": "Recommended",
+    "人気順（いいね）": "Most liked",
+    "閲覧数順": "Most viewed",
+    "新着順": "Newest",
+    "並び替え": "Sort",
+    "OHANAとは": "About OHANA",
+    "OHANAの仕組み": "How OHANA works",
+    "開催について": "Events",
+    "OHANA100円券のこと": "About the OHANA 100-yen ticket",
+    "活動の様子": "Scenes from our activities",
+    "ヒトモノコトを探す・登録する": "Find / join People, Things, Activities",
+    "ヒトモノコトを探す": "Find People, Things, Activities",
+    "用語": "Glossary",
+    "エクスチェンジハンガー": "Exchange Hanger",
+    "よくある質問": "FAQ",
+    "メディア掲載": "Media",
+    "つながる・読む": "Connect & read",
+    "OHANAのあゆみ": "OHANA's story",
+    "ほかのOHANAメンバー": "Other OHANA members",
+    "同じビルのお店": "Shops in the same building",
+    "店舗情報": "Shop info",
+    "リンク集": "Links",
+    "特徴": "Features",
+    "メニュー・料金": "Menu & prices",
+    "この人のモノ・コト": "Their Things & Activities",
+    "このページを編集する": "Edit this page",
+    "保存する": "Save",
+    "キャンセル": "Cancel",
+    "これはあなたのページです": "This is your page",
+    "編集中です（文字をタップして直せます）": "Editing (tap any text to change it)",
+    "ヒトを探しています": "Looking for (People)",
+    "モノを探しています": "Looking for (Things)",
+    "コトを探しています": "Looking for (Activities)",
+    "ヒトを提供しています": "Offering (People)",
+    "モノを提供しています": "Offering (Things)",
+    "コトを提供しています": "Offering (Activities)",
+    "探している": "Looking for",
+    "提供している": "Offering",
+    "店内の様子": "Inside the shop",
+    "写真は横に流れ続けます（タップで止まります）。": "Photos keep scrolling sideways (tap to pause).",
+    "OHANA100円券": "OHANA 100-yen tickets",
+    "枚 持っています": "tickets held",
+    "使った −1": "Used −1",
+    "受け取った ＋1": "Received +1",
+    "Googleでログイン": "Log in with Google",
+    "ログアウト": "Log out",
+    "ログイン中です": "You are logged in",
+    "新しいページを作る": "Create a new page",
+    "この区分でページを作る": "Create a page",
+    "名前（ニックネーム）": "Name (nickname)",
+    "OHANAメンバー募集📢": "OHANA members wanted 📢",
+    "合いそうな人": "People who may match you",
+    "メンバー登録": "Join as a member",
+    "メンバー": "Member",
+    "OHANAメンバー": "OHANA member",
+    "松山市": "Matsuyama",
+    "名前未設定": "No name yet",
+    "新しいリンク": "New link",
+    "＋ リンクを追加": "+ Add a link",
+    "リンクの編集": "Edit link",
+    "このリンクを保存": "Save this link",
+    "このリンクを削除": "Delete this link",
+    "元に戻す": "Undo",
+    "閉じる": "Close",
+    "地図の場所": "Map location",
+    "地図に反映": "Show on map",
+    "この部分を保存": "Save this part",
+    "タグ": "Tags",
+    "タグを保存": "Save tags",
+    "色": "Color",
+    "保存しました": "Saved",
+    "写真を追加（タップ）": "+ Add a photo (tap)",
+    "写真を消す": "Remove photo",
+    "ホームページ": "Website",
+    "メニュー・料金ページ": "Menu & prices page",
+    "♥ いいね": "♥ Like",
+    "♥ いいね済み": "♥ Liked",
+    "いいねした人": "People who liked this",
+    "見た人": "Viewers",
+    "コメント": "Comments",
+    "コメントを書く": "Write a comment",
+    "詳しく見る": "See details",
+    "予約する": "Reserve",
+    "営業時間": "Hours",
+    "定休日": "Closed days",
+    "住所": "Address",
+    "電話": "Phone",
+    "アクセス": "Access"
+  },
+  "zh": {
+    "みんなの掲示板": "大家的留言板",
+    "困った助け合い": "互助问答",
+    "💡 アイディア掲示板": "💡 点子留言板",
+    "無料メンバー登録": "免费注册成员",
+    "ログイン": "登录",
+    "マイページ": "我的页面",
+    "✎ 編集する": "✎ 编辑",
+    "編集を終わる": "完成编辑",
+    "LINEオープンチャットに参加": "加入LINE开放聊天",
+    "🏝 OHANA島へ": "🏝 OHANA岛",
+    "オープンチャットに参加": "加入开放聊天",
+    "OHANAに質問する": "问问OHANA",
+    "お問い合わせフォーム": "咨询表单",
+    "OHANAトップへ戻る": "返回OHANA首页",
+    "トップ": "首页",
+    "ヒトの一覧": "人一览",
+    "モノの一覧": "物一览",
+    "コトの一覧": "事一览",
+    "ヒト": "人",
+    "モノ": "物",
+    "コト": "事",
+    "送信": "发送",
+    "質問を入力してください": "请输入你的问题",
+    "会話を消して終わる": "清除对话并结束",
+    "こんにちは。OHANAです。": "你好，我是OHANA。",
+    "※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。": "※ 回答由AI提供，可能有误。重要的事（日期、费用等）请也在留言板或开放聊天中确认。",
+    "OHANAって何？": "OHANA是什么？",
+    "いつ・どこで開催？": "什么时候、在哪里？",
+    "参加のしかた": "参加方法",
+    "出店したい": "我想出店",
+    "100円券について": "关于100日元券",
+    "コメント・質問": "评论・提问",
+    "コメント・質問を見る": "查看评论・提问",
+    "コメント・質問を閉じる": "关闭评论",
+    "このページの持ち主への質問やコメントが書けます。ログインなしで、名前とコメントだけで書けます。": "可以向本页的主人提问或留言。无需登录，只需名字和留言。",
+    "お名前（ニックネーム可）": "你的名字（可用昵称）",
+    "この方への質問・コメント": "向TA提问或留言",
+    "投稿する": "发表",
+    "削除": "删除",
+    "本人": "本人",
+    "まだコメントがありません。最初の質問をどうぞ。": "还没有评论。来提第一个问题吧。",
+    "すべて": "全部",
+    "ベビー・キッズ": "婴幼儿・儿童",
+    "雑貨・日用品": "杂货・日用品",
+    "衣類": "衣物",
+    "おもちゃ・グッズ": "玩具・周边",
+    "その他": "其他",
+    "おすすめ順": "推荐顺序",
+    "人気順（いいね）": "人气（点赞）",
+    "閲覧数順": "浏览量",
+    "新着順": "最新",
+    "並び替え": "排序",
+    "OHANAとは": "关于OHANA",
+    "OHANAの仕組み": "OHANA的机制",
+    "開催について": "关于举办",
+    "OHANA100円券のこと": "关于OHANA 100日元券",
+    "活動の様子": "活动风采",
+    "ヒトモノコトを探す・登録する": "寻找/登记 人・物・事",
+    "ヒトモノコトを探す": "寻找 人・物・事",
+    "用語": "术语",
+    "エクスチェンジハンガー": "交换衣架",
+    "よくある質問": "常见问题",
+    "メディア掲載": "媒体报道",
+    "つながる・読む": "连接与阅读",
+    "OHANAのあゆみ": "OHANA的历程",
+    "ほかのOHANAメンバー": "其他OHANA成员",
+    "同じビルのお店": "同一栋楼的店铺",
+    "店舗情報": "店铺信息",
+    "リンク集": "链接集",
+    "特徴": "特点",
+    "メニュー・料金": "菜单・价格",
+    "この人のモノ・コト": "TA的物・事",
+    "このページを編集する": "编辑本页",
+    "保存する": "保存",
+    "キャンセル": "取消",
+    "これはあなたのページです": "这是你的页面",
+    "編集中です（文字をタップして直せます）": "编辑中（点按文字即可修改）",
+    "ヒトを探しています": "正在找（人）",
+    "モノを探しています": "正在找（物）",
+    "コトを探しています": "正在找（事）",
+    "ヒトを提供しています": "可以提供（人）",
+    "モノを提供しています": "可以提供（物）",
+    "コトを提供しています": "可以提供（事）",
+    "探している": "正在找",
+    "提供している": "可以提供",
+    "店内の様子": "店内景象",
+    "写真は横に流れ続けます（タップで止まります）。": "照片会横向滚动（点按暂停）。",
+    "OHANA100円券": "OHANA 100日元券",
+    "枚 持っています": "张（持有）",
+    "使った −1": "用了 −1",
+    "受け取った ＋1": "收到 ＋1",
+    "Googleでログイン": "用Google登录",
+    "ログアウト": "退出",
+    "ログイン中です": "已登录",
+    "新しいページを作る": "新建页面",
+    "この区分でページを作る": "创建页面",
+    "名前（ニックネーム）": "名字（昵称）",
+    "OHANAメンバー募集📢": "招募OHANA成员📢",
+    "合いそうな人": "可能合拍的人",
+    "メンバー登録": "注册成员",
+    "メンバー": "成员",
+    "OHANAメンバー": "OHANA成员",
+    "松山市": "松山市",
+    "名前未設定": "尚未设置名字",
+    "新しいリンク": "新链接",
+    "＋ リンクを追加": "＋ 添加链接",
+    "リンクの編集": "编辑链接",
+    "このリンクを保存": "保存此链接",
+    "このリンクを削除": "删除此链接",
+    "元に戻す": "撤销",
+    "閉じる": "关闭",
+    "地図の場所": "地图位置",
+    "地図に反映": "在地图上显示",
+    "この部分を保存": "保存这部分",
+    "タグ": "标签",
+    "タグを保存": "保存标签",
+    "色": "颜色",
+    "保存しました": "已保存",
+    "写真を追加（タップ）": "＋ 添加照片（点按）",
+    "写真を消す": "删除照片",
+    "ホームページ": "网站",
+    "メニュー・料金ページ": "菜单・价格页",
+    "♥ いいね": "♥ 点赞",
+    "♥ いいね済み": "♥ 已点赞",
+    "いいねした人": "点赞的人",
+    "見た人": "看过的人",
+    "コメント": "评论",
+    "コメントを書く": "写评论",
+    "詳しく見る": "查看详情",
+    "予約する": "预约",
+    "営業時間": "营业时间",
+    "定休日": "休息日",
+    "住所": "地址",
+    "電話": "电话",
+    "アクセス": "交通"
+  },
+  "ko": {
+    "みんなの掲示板": "모두의 게시판",
+    "困った助け合い": "도움 주고받기",
+    "💡 アイディア掲示板": "💡 아이디어 게시판",
+    "無料メンバー登録": "무료 멤버 등록",
+    "ログイン": "로그인",
+    "マイページ": "마이페이지",
+    "✎ 編集する": "✎ 편집하기",
+    "編集を終わる": "편집 끝내기",
+    "LINEオープンチャットに参加": "LINE 오픈채팅 참여",
+    "🏝 OHANA島へ": "🏝 OHANA섬",
+    "オープンチャットに参加": "오픈채팅 참여",
+    "OHANAに質問する": "OHANA에게 묻기",
+    "お問い合わせフォーム": "문의 양식",
+    "OHANAトップへ戻る": "OHANA 톱으로 돌아가기",
+    "トップ": "톱",
+    "ヒトの一覧": "사람 목록",
+    "モノの一覧": "물건 목록",
+    "コトの一覧": "활동 목록",
+    "ヒト": "사람",
+    "モノ": "물건",
+    "コト": "활동",
+    "送信": "보내기",
+    "質問を入力してください": "질문을 입력해 주세요",
+    "会話を消して終わる": "대화 지우고 끝내기",
+    "こんにちは。OHANAです。": "안녕하세요, OHANA입니다.",
+    "※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。": "※ AI가 답하고 있어 틀릴 수 있습니다. 중요한 것(날짜·요금 등)은 게시판이나 오픈채팅에서도 확인해 주세요.",
+    "OHANAって何？": "OHANA란?",
+    "いつ・どこで開催？": "언제·어디서 하나요?",
+    "参加のしかた": "참여 방법",
+    "出店したい": "출점하고 싶어요",
+    "100円券について": "100엔 쿠폰에 대해",
+    "コメント・質問": "댓글·질문",
+    "コメント・質問を見る": "댓글·질문 보기",
+    "コメント・質問を閉じる": "댓글 닫기",
+    "このページの持ち主への質問やコメントが書けます。ログインなしで、名前とコメントだけで書けます。": "이 페이지 주인에게 질문이나 댓글을 남길 수 있습니다. 로그인 없이 이름과 댓글만으로 쓸 수 있어요.",
+    "お名前（ニックネーム可）": "이름 (닉네임 가능)",
+    "この方への質問・コメント": "이분에게 질문·댓글",
+    "投稿する": "게시하기",
+    "削除": "삭제",
+    "本人": "본인",
+    "まだコメントがありません。最初の質問をどうぞ。": "아직 댓글이 없습니다. 첫 질문을 남겨 보세요.",
+    "すべて": "전체",
+    "ベビー・キッズ": "베이비·키즈",
+    "雑貨・日用品": "잡화·일용품",
+    "衣類": "의류",
+    "おもちゃ・グッズ": "장난감·굿즈",
+    "その他": "기타",
+    "おすすめ順": "추천순",
+    "人気順（いいね）": "인기순 (좋아요)",
+    "閲覧数順": "조회수순",
+    "新着順": "최신순",
+    "並び替え": "정렬",
+    "OHANAとは": "OHANA란",
+    "OHANAの仕組み": "OHANA의 구조",
+    "開催について": "개최 안내",
+    "OHANA100円券のこと": "OHANA 100엔 쿠폰",
+    "活動の様子": "활동 모습",
+    "ヒトモノコトを探す・登録する": "사람·물건·활동 찾기/등록",
+    "ヒトモノコトを探す": "사람·물건·활동 찾기",
+    "用語": "용어",
+    "エクスチェンジハンガー": "익스체인지 행거",
+    "よくある質問": "자주 묻는 질문",
+    "メディア掲載": "미디어 소개",
+    "つながる・読む": "연결과 읽기",
+    "OHANAのあゆみ": "OHANA의 발자취",
+    "ほかのOHANAメンバー": "다른 OHANA 멤버",
+    "同じビルのお店": "같은 건물의 가게",
+    "店舗情報": "가게 정보",
+    "リンク集": "링크 모음",
+    "特徴": "특징",
+    "メニュー・料金": "메뉴·요금",
+    "この人のモノ・コト": "이분의 물건·활동",
+    "このページを編集する": "이 페이지 편집하기",
+    "保存する": "저장하기",
+    "キャンセル": "취소",
+    "これはあなたのページです": "이것은 당신의 페이지입니다",
+    "編集中です（文字をタップして直せます）": "편집 중 (글자를 탭하면 고칠 수 있어요)",
+    "ヒトを探しています": "찾고 있어요 (사람)",
+    "モノを探しています": "찾고 있어요 (물건)",
+    "コトを探しています": "찾고 있어요 (활동)",
+    "ヒトを提供しています": "제공할 수 있어요 (사람)",
+    "モノを提供しています": "제공할 수 있어요 (물건)",
+    "コトを提供しています": "제공할 수 있어요 (활동)",
+    "探している": "찾고 있어요",
+    "提供している": "제공할 수 있어요",
+    "店内の様子": "매장 내부",
+    "写真は横に流れ続けます（タップで止まります）。": "사진이 옆으로 계속 흘러요 (탭하면 멈춤).",
+    "OHANA100円券": "OHANA 100엔 쿠폰",
+    "枚 持っています": "장 가지고 있어요",
+    "使った −1": "사용 −1",
+    "受け取った ＋1": "받음 ＋1",
+    "Googleでログイン": "Google로 로그인",
+    "ログアウト": "로그아웃",
+    "ログイン中です": "로그인 중입니다",
+    "新しいページを作る": "새 페이지 만들기",
+    "この区分でページを作る": "페이지 만들기",
+    "名前（ニックネーム）": "이름 (닉네임)",
+    "OHANAメンバー募集📢": "OHANA 멤버 모집 📢",
+    "合いそうな人": "맞을 것 같은 사람",
+    "メンバー登録": "멤버 등록",
+    "メンバー": "멤버",
+    "OHANAメンバー": "OHANA 멤버",
+    "松山市": "마쓰야마시",
+    "名前未設定": "이름 미설정",
+    "新しいリンク": "새 링크",
+    "＋ リンクを追加": "＋ 링크 추가",
+    "リンクの編集": "링크 편집",
+    "このリンクを保存": "이 링크 저장",
+    "このリンクを削除": "이 링크 삭제",
+    "元に戻す": "되돌리기",
+    "閉じる": "닫기",
+    "地図の場所": "지도 위치",
+    "地図に反映": "지도에 반영",
+    "この部分を保存": "이 부분 저장",
+    "タグ": "태그",
+    "タグを保存": "태그 저장",
+    "色": "색상",
+    "保存しました": "저장했습니다",
+    "写真を追加（タップ）": "＋ 사진 추가 (탭)",
+    "写真を消す": "사진 삭제",
+    "ホームページ": "홈페이지",
+    "メニュー・料金ページ": "메뉴·요금 페이지",
+    "♥ いいね": "♥ 좋아요",
+    "♥ いいね済み": "♥ 좋아요 완료",
+    "いいねした人": "좋아요한 사람",
+    "見た人": "본 사람",
+    "コメント": "댓글",
+    "コメントを書く": "댓글 쓰기",
+    "詳しく見る": "자세히 보기",
+    "予約する": "예약하기",
+    "営業時間": "영업시간",
+    "定休日": "정기휴일",
+    "住所": "주소",
+    "電話": "전화",
+    "アクセス": "오시는 길"
+  }
+  };
+  function editingNow(){
+    return document.body && (document.body.classList.contains('site-editing') || document.body.classList.contains('editing'));
+  }
+  function tr(s){
+    var d = DICT[lang];
+    return (d && Object.prototype.hasOwnProperty.call(d, s)) ? d[s] : null;
+  }
+  function translateTextNode(n){
+    var raw = n.nodeValue;
+    if(!raw) return;
+    var core = raw.trim();
+    if(!core) return;
+    var t = tr(core);
+    if(t) n.nodeValue = raw.replace(core, t);
+  }
+  function walk(root){
+    if(lang === 'ja' || editingNow() || !root) return;
+    if(root.nodeType === 3){ translateTextNode(root); return; }
+    if(root.nodeType !== 1) return;
+    var tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n){
+        var p = n.parentElement;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        if(p.closest('script,style,textarea,select,#langSelWrap')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [];
+    while(tw.nextNode()) nodes.push(tw.currentNode);
+    nodes.forEach(translateTextNode);
+    if(root.querySelectorAll){
+      root.querySelectorAll('[placeholder]').forEach(function(el){
+        var t = tr(el.getAttribute('placeholder'));
+        if(t) el.setAttribute('placeholder', t);
+      });
+    }
+  }
+  function buildSel(){
+    if(document.getElementById('langSelWrap')) return;
+    var wrap = document.querySelector('.wrap') || document.body;
+    var p = document.createElement('p');
+    p.id = 'langSelWrap';
+    p.style.cssText = 'text-align:center;margin:10px 0 0';
+    p.innerHTML = '<label style="font-size:13px;color:#7c6642">🌐 Language <select id="langSel" style="font:inherit;font-size:13.5px;border:1.5px solid #cbb27f;border-radius:999px;padding:5px 10px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label>';
+    wrap.insertBefore(p, wrap.firstChild);
+    var sel = p.querySelector('select');
+    sel.value = lang;
+    sel.addEventListener('change', function(){
+      try{ localStorage.setItem(KEY, sel.value); }catch(e){}
+      location.reload();
+    });
+  }
+  var busy = false;
+  function observe(){
+    if(lang === 'ja') return;
+    var mo = new MutationObserver(function(muts){
+      if(busy || editingNow()) return;
+      busy = true;
+      try{
+        muts.forEach(function(m){
+          if(m.type === 'characterData'){ translateTextNode(m.target); return; }
+          m.addedNodes.forEach(function(n){ walk(n); });
+        });
+      }catch(e){}
+      busy = false;
+    });
+    mo.observe(document.body, {childList: true, subtree: true, characterData: true});
+  }
+  function init(){
+    buildSel();
+    if(lang !== 'ja'){
+      document.documentElement.lang = lang;
+      walk(document.body);
+      observe();
+    }
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
 </body>
 </html>
