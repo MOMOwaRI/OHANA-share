@@ -280,6 +280,14 @@ html.js .mrv.in{opacity:1;transform:none}
     <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル1階（伊予鉄道「古町駅」より徒歩3分／駐車場3台）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
   </section>
 
+
+<section class="island-walk">
+<h2>🏝 OHANA島を歩く</h2>
+<p>OHANA島は、もうひとつの松山を歩ける場所です。このページから、そのまま歩けます。</p>
+<iframe src="https://momowari.github.io/ohana-jima/" loading="lazy" title="OHANA島" allowfullscreen style="width:100%;height:560px;border:0;border-radius:16px;background:#eaf6f1"></iframe>
+<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:#1a7a6d">OHANA島を大きく開く →</a></p>
+<style>@media(max-width:520px){.island-walk iframe{height:520px!important}}</style>
+</section>
   <section>
     <h2>OHANAの仕組み</h2>
     <p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</p>
@@ -623,7 +631,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   function lockCommonSections(){
     document.querySelectorAll('section').forEach(function(sec){
       var h = sec.querySelector('h2');
-      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集/.test(h.textContent)) sec.setAttribute('data-lock', '1');
+      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集|OHANA島を歩く/.test(h.textContent)) sec.setAttribute('data-lock', '1');
     });
   }
   function stampLinks(){
