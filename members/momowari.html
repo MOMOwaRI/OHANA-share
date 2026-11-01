@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MOMOwaRI｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/momowari.html">
 <link rel="icon" href="../favicon.png">
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <style>
   :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4;--soft:#8a6a4f}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -477,6 +479,14 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
     rowEl.appendChild(btn);
     window.__authBtn = btn;
+    var btn2 = document.createElement('a');
+    btn2.id = 'mypage-companion';
+    btn2.href = '../login.html';
+    btn2.textContent = 'マイページ';
+    btn2.style.cssText = btn.style.cssText + ';text-decoration:none;display:none;box-sizing:border-box';
+    rowEl.style.display = 'flex';
+    rowEl.style.gap = '8px';
+    rowEl.insertBefore(btn2, btn);
     wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
@@ -488,6 +498,7 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
       btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
     });
   }

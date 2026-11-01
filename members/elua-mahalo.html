@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>elua Mahalo（女性限定美容室）｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/elua-mahalo.html">
 <link rel="icon" href="../favicon.png">
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <style>
   :root{--accent:#e07b24;--accent-dark:#c2610f;--ink:#3a2f26;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4;--soft:#97805f;--orange:#e07b24}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -1380,6 +1382,14 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     btn.textContent = 'メンバー登録';
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     window.__authBtn = btn;
+    var btn2 = document.createElement('a');
+    btn2.id = 'mypage-companion';
+    btn2.href = '../login.html';
+    btn2.textContent = 'マイページ';
+    btn2.style.cssText = btn.style.cssText + ';text-decoration:none;display:none;box-sizing:border-box';
+    rowEl.style.display = 'flex';
+    rowEl.style.gap = '8px';
+    rowEl.insertBefore(btn2, btn);
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
@@ -1396,6 +1406,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = 'メンバー登録'; if(editing) setEdit(false); return; }
       btn.textContent = (u.uid === OWNER) ? (editing ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       if(u.uid === OWNER) buildColorButton();
     });
   }
