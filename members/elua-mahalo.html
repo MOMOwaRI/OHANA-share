@@ -259,6 +259,7 @@ html.js .mrv.in{opacity:1;transform:none}
   <section>
     <h2>地図・アクセス</h2>
     <iframe class="map" src="https://maps.google.com/maps?q=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="地図"></iframe>
+<p class="map-note" style="margin-top:8px;font-weight:bold;color:#7a5a38">お店は1階です。そのままお入りください。</p>
     <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル1階（伊予鉄道「古町駅」より徒歩3分／駐車場3台）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
   </section>
 
@@ -1501,6 +1502,36 @@ try {
 (function(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var started = false;
+  function leaf(x0, x1, knobX, arch){
+    var base;
+    if(arch){
+      base = (x0 === 0)
+        ? 'M0,400 L0,150 A150,150 0 0 1 150,0 L150,400 Z'
+        : 'M300,400 L300,150 A150,150 0 0 0 150,0 L150,400 Z';
+    } else {
+      base = (x0 === 0)
+        ? 'M4,4 L150,4 L150,396 L4,396 Z'
+        : 'M296,4 L150,4 L150,396 L296,396 Z';
+    }
+    var s = '<path d="' + base + '" fill="#b07a52" stroke="#7c4f2c" stroke-width="4"/>';
+    var ix0 = x0 + 26, ix1 = x1 - 26;
+    var wy0 = arch ? 84 : 58, wy1 = arch ? 224 : 218;
+    s += '<rect x="' + ix0 + '" y="' + wy0 + '" width="' + (ix1 - ix0) + '" height="' + (wy1 - wy0) + '" fill="#f3e7d3" stroke="#7c4f2c" stroke-width="3"/>';
+    for(var i = 1; i <= 2; i++){
+      var gx = ix0 + (ix1 - ix0) * i / 3;
+      s += '<line x1="' + gx + '" y1="' + wy0 + '" x2="' + gx + '" y2="' + wy1 + '" stroke="#b07a52" stroke-width="5"/>';
+      var gy = wy0 + (wy1 - wy0) * i / 3;
+      s += '<line x1="' + ix0 + '" y1="' + gy + '" x2="' + ix1 + '" y2="' + gy + '" stroke="#b07a52" stroke-width="5"/>';
+    }
+    var py0 = wy1 + 26, py1 = 372;
+    s += '<rect x="' + ix0 + '" y="' + py0 + '" width="' + (ix1 - ix0) + '" height="' + (py1 - py0) + '" fill="rgba(255,236,200,.14)" stroke="rgba(70,40,15,.45)" stroke-width="2"/>';
+    for(var j = 1; j <= 2; j++){
+      var px = ix0 + (ix1 - ix0) * j / 3;
+      s += '<line x1="' + px + '" y1="' + py0 + '" x2="' + px + '" y2="' + py1 + '" stroke="rgba(70,40,15,.25)" stroke-width="2"/>';
+    }
+    s += '<circle cx="' + knobX + '" cy="' + (wy1 + 16) + '" r="6.5" fill="#4a3018"/>';
+    return s;
+  }
   function build(){
     var hero = document.querySelector('.hero-pv');
     if(!hero || hero.querySelector('.doorfx')) return;
@@ -1509,28 +1540,11 @@ try {
     var svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('class', 'doorfx');
     svg.setAttribute('preserveAspectRatio', 'none');
-    var acc = 'var(--accent,#b3541e)';
-    var L, R;
+    svg.setAttribute('viewBox', '0 0 300 400');
     if(rect){
-      svg.setAttribute('viewBox', '0 0 300 400');
-      L = '<path d="M4,4 L150,4 L150,396 L4,396 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
-          '<rect x="26" y="58" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
-          '<rect x="26" y="218" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
-          '<circle cx="137" cy="203" r="6.5" style="fill:' + acc + '"/>';
-      R = '<path d="M296,4 L150,4 L150,396 L296,396 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
-          '<rect x="172" y="58" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
-          '<rect x="172" y="218" width="102" height="128" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
-          '<circle cx="163" cy="203" r="6.5" style="fill:' + acc + '"/>';
-      svg.innerHTML = '<g class="dl">' + L + '</g><g class="dr">' + R + '</g>';
+      svg.innerHTML = '<g class="dl">' + leaf(0, 150, 137, false) + '</g><g class="dr">' + leaf(150, 300, 163, false) + '</g>';
     } else {
-      svg.setAttribute('viewBox', '0 0 300 400');
-      L = '<path d="M0,400 L0,150 A150,150 0 0 1 150,0 L150,400 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
-          '<path d="M16,384 L16,158 A134,134 0 0 1 150,24 L150,384 Z" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
-          '<circle cx="137" cy="215" r="6.5" style="fill:' + acc + '"/>';
-      R = '<path d="M300,400 L300,150 A150,150 0 0 0 150,0 L150,400 Z" fill="#faf3e3" style="stroke:' + acc + '" stroke-width="4"/>' +
-          '<path d="M284,384 L284,158 A134,134 0 0 0 150,24 L150,384 Z" fill="none" style="stroke:' + acc + '" stroke-width="2" opacity=".5"/>' +
-          '<circle cx="163" cy="215" r="6.5" style="fill:' + acc + '"/>';
-      svg.innerHTML = '<defs><clipPath id="doorClip"><path d="M22,400 L278,400 Q300,400 300,378 L300,150 A150,150 0 0 0 0,150 L0,378 Q0,400 22,400 Z"/></clipPath></defs><g clip-path="url(#doorClip)"><g class="dl">' + L + '</g><g class="dr">' + R + '</g></g>';
+      svg.innerHTML = '<defs><clipPath id="doorClip"><path d="M22,400 L278,400 Q300,400 300,378 L300,150 A150,150 0 0 0 0,150 L0,378 Q0,400 22,400 Z"/></clipPath></defs><g clip-path="url(#doorClip)"><g class="dl">' + leaf(0, 150, 137, true) + '</g><g class="dr">' + leaf(150, 300, 163, true) + '</g></g>';
     }
     hero.appendChild(svg);
     setTimeout(function(){ if(svg.parentNode) svg.remove(); }, 5000);
