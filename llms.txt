@@ -19,4 +19,7 @@
 
 - 公式LP：https://momowari.github.io/OHANA-share/
 - 最新情報のハブ（lit.link）：https://lit.link/momowari
-- ヒト・モノ・コトを探す・登録する：https://ohana087ehime.wordpress.com/
+- ヒトを探す：https://momowari.github.io/OHANA-share/hito.html
+- モノを探す：https://momowari.github.io/OHANA-share/mono.html
+- コトを探す：https://momowari.github.io/OHANA-share/koto.html
+- メンバー登録・マイページ（価値を登録する）：https://momowari.github.io/OHANA-share/login.html
