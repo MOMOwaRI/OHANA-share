@@ -387,6 +387,19 @@ firebase.initializeApp(firebaseConfig);
     box.innerHTML = h;
   }
   function attachTools(uid, d){
+    function notifyIsland(kind, text){
+      try{
+        var send = function(nm){
+          var p = {k: 'ohana-island-notify-2026', kind: kind, name: nm || ''};
+          if(kind === 'ava') p.text = text || '';
+          try{ fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams(p)}).catch(function(){}); }catch(e){}
+        };
+        if(d && d.nickname) send(d.nickname);
+        else {
+          firebase.firestore().collection('profiles').doc(uid).get().then(function(s){ send(s.exists ? ((s.data() || {}).nickname || '') : ''); }).catch(function(){ send(''); });
+        }
+      }catch(e){}
+    }
     renderHistory(d);
     var fbtn = document.getElementById('island-photo-btn');
     var file = document.getElementById('island-photo-file');
@@ -403,6 +416,7 @@ firebase.initializeApp(firebaseConfig);
             return db.collection('islandUsers').doc(uid).set({photoReady: true}, {merge: true});
           }).then(function(){
             pmsg.textContent = '保存しました ✓ この写真で分身を作ります。';
+            notifyIsland('photo');
           }).catch(function(){
             pmsg.textContent = '保存できませんでした。もう一度お試しください。';
           });
@@ -430,6 +444,7 @@ firebase.initializeApp(firebaseConfig);
           text.value = '';
           amsg.textContent = '受け取りました ✓ この内容で分身づくりを進めます。できあがったら、アバターに反映されます。';
           renderHistory({avaChat: arr});
+          notifyIsland('ava', t);
         }).catch(function(){
           amsg.textContent = '送れませんでした。もう一度お試しください。';
         });
