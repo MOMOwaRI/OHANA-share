@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>モノの一覧｜OHANAシェア＊プロジェクト</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/mono.html">
 <link rel="icon" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
 <style>
@@ -419,6 +421,14 @@ else useRule();
     rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
     rowEl.appendChild(btn);
     window.__authBtn = btn;
+    var btn2 = document.createElement('a');
+    btn2.id = 'mypage-companion';
+    btn2.href = 'login.html';
+    btn2.textContent = 'マイページ';
+    btn2.style.cssText = btn.style.cssText + ';text-decoration:none;display:none;box-sizing:border-box';
+    rowEl.style.display = 'flex';
+    rowEl.style.gap = '8px';
+    rowEl.insertBefore(btn2, btn);
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
@@ -432,6 +442,7 @@ else useRule();
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
       btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       if(u.uid === OWNER && DOC){
         var pv = document.querySelector('.hero-pv');

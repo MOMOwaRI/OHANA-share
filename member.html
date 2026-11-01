@@ -6,6 +6,8 @@
 <title>OHANAメンバー紹介ページ｜OHANAシェア＊プロジェクト</title>
 <link rel="canonical" href="https://momowari.github.io/OHANA-share/member.html">
 <link rel="icon" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
 <style>
@@ -1239,6 +1241,14 @@ try {
     btn.textContent = '無料メンバー登録';
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     window.__authBtn = btn;
+    var btn2 = document.createElement('a');
+    btn2.id = 'mypage-companion';
+    btn2.href = 'login.html';
+    btn2.textContent = 'マイページ';
+    btn2.style.cssText = btn.style.cssText + ';text-decoration:none;display:none;box-sizing:border-box';
+    rowEl.style.display = 'flex';
+    rowEl.style.gap = '8px';
+    rowEl.insertBefore(btn2, btn);
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
@@ -1257,8 +1267,9 @@ try {
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
-      if(pageOwner && u.uid === pageOwner){ btn.textContent = document.body.classList.contains('editing') ? '編集を終わる' : '✎ 編集する'; return; }
+      if(pageOwner && u.uid === pageOwner){ btn.textContent = document.body.classList.contains('editing') ? '編集を終わる' : '✎ 編集する'; var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = 'inline-block'; return; }
       btn.textContent = 'マイページ';
+      var b2x = document.getElementById('mypage-companion'); if(b2x) b2x.style.display = 'none';
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
