@@ -25,6 +25,10 @@ h1{font-size:32px;line-height:1.35;margin:8px 0 4px}
 .sub{color:var(--orange);font-weight:bold;letter-spacing:.12em;font-size:13px}
 .lead{font-size:16px;margin:14px 0}
 .about{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;margin:16px 0}
+.strip{font-size:12.5px;color:#8a6a20;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px 2px;margin:14px 0 4px}
+.aboutd{font-size:13.5px;color:#555;margin:6px 0 2px}
+.aboutd summary{cursor:pointer;color:#b96a00;font-size:13px}
+.aboutd p{margin:6px 0 0}
 .note{background:#fff;border:1px dashed var(--orange);border-radius:14px;padding:12px 14px;font-size:14px;margin:18px 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-size:14px;cursor:pointer;font-family:inherit}
@@ -69,10 +73,11 @@ a{color:#b96a00}
 <h1>セレクト愛媛情報</h1>
 <p class="lead">愛媛シェアリングエコノミー。<br>眠っている価値を、必要な場所へ。愛媛でモノや子ども用品、場所や体験を分かち合う取り組みを、選んで紹介するページです。</p>
 
-<div class="about">
-<strong>はじめて来た方へ</strong><br>
-ここは、松山市のMOMOwaRIが運営する「OHANAシェア＊プロジェクト」の情報ページです。フリマ型の選べる物々交換の活動の中で集まった、愛媛の分かち合いの情報をまとめています。このページだけでも、日時・場所・公式リンクまで確認できます。
-</div>
+<div class="strip">OHANAシェア＊プロジェクトのコトページです ｜ 作っているのは松山市のMOMOwaRI ｜ <a href="https://momowari.github.io/OHANA-share/">OHANAトップへ</a></div>
+<details class="aboutd">
+<summary>このページについて（タップで開く）</summary>
+<p>フリマ型の選べる物々交換の活動の中で集まった、愛媛の分かち合いの情報をまとめています。このページだけでも、日時・場所・公式リンクまで確認できます。</p>
+</details>
 
 <div class="note">
 <strong>このページの立場</strong><br>
@@ -218,6 +223,20 @@ a{color:#b96a00}
 <tr><th>内容</th><td>子ども服やおもちゃなど子ども用品中心のフリーマーケット。まつやま環境フェアの中で開催された</td></tr>
 </table>
 <div class="btns"><a class="btn" href="https://www.ehime-kirakira.com/event/detail2025kankyoufair/">前回の情報を見る</a></div>
+</article>
+
+<article class="card past" data-g="past">
+<span class="tag t-past">過去の情報 ・ 参考活動</span>
+<h3>とり＋かえっこ in のむら（西予市野村児童館）</h3>
+<p class="pick">MOMOwaRIメモ：OHANAのおさがり交換の考え方の参考にしてきた形。使わなくなったおもちゃをポイントに替えて、ポイントでお買い物する「子どものまち」。今のえひめこどもの城の公式イベント情報では確認できなかったので、過去の参考活動として残す。</p>
+<table>
+<tr><th>記録</th><td>2021年に西予市で実施（こども家庭庁の児童館ハンドブックに掲載）。始まりは2018年の平成30年7月豪雨のあと、被災した地域の子どもたちを支援するプログラムとして</td></tr>
+<tr><th>場所</th><td>野村児童館（愛媛県西予市）</td></tr>
+<tr><th>仕組み</th><td>家から使わなくなったおもちゃを持ってくる → かえっこバンクで子どもが査定してカエルポイントに変える → ポイントでお買い物。スタッフのお仕事やゲームでもポイントが貯まる → オークションも</td></tr>
+<tr><th>由来</th><td>全国で行われている「かえっこ」の児童館版として、国立総合児童センターこどもの城が開発したもの。えひめこどもの城もおもちゃの寄贈などで関わった記録がある</td></tr>
+<tr><th>現在</th><td>2026年11月2日に調べた範囲では、えひめこどもの城の公式サイトの現在のイベント・コーナー情報に「とり＋かえっこ」の掲載は確認できなかった</td></tr>
+</table>
+<div class="btns"><a class="btn" href="https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/539cef76-b581-4baa-b0fa-79d66f9c94bf/4c0a4990/20230401_policies_kosodateshien_jidoukan_hijouji-handbook_01.pdf">記録を見る（こども家庭庁ハンドブック）</a></div>
 </article>
 
 <h2>よくある質問</h2>
