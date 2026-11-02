@@ -26,6 +26,14 @@
   .back{display:block;text-align:center;margin-top:14px;background:#e07b24;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:13px}
   footer{text-align:center;margin-top:26px;font-size:.85rem;color:var(--soft)}
 
+  .kchips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0 2px}
+  .kchip{border:1.5px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 16px;font-size:.9rem;cursor:pointer;font-family:inherit;font-weight:bold}
+  .kchip.on{background:#e07b24;border-color:#e07b24;color:#fff}
+  .cat{display:inline-block;font-size:.72rem;font-weight:bold;border-radius:999px;padding:0 9px}
+  .cat-shop{background:#fbe38e;color:#6b5410}
+  .cat-info{background:#dff0d8;color:#33691e}
+  .cat-act{background:#fde3ec;color:#a33a5f}
+  .cat-exp{background:#e3e8fd;color:#39498f}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
   @media(min-width:560px){.grid{grid-template-columns:1fr 1fr 1fr}}
   .item{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);display:block;box-shadow:0 2px 8px rgba(160,100,40,.08)}
@@ -63,29 +71,53 @@ html.js .mrv.in{opacity:1;transform:none}
     <p class="sub">お店・活動・サービスが並びます。気になるコトをタップすると、紹介ページが見られます。</p>
   </header>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
+  <div class="kchips" id="kchips">
+    <button type="button" class="kchip on" data-c="all">すべて</button>
+    <button type="button" class="kchip" data-c="shop">お店</button>
+    <button type="button" class="kchip" data-c="info">情報</button>
+    <button type="button" class="kchip" data-c="act">活動</button>
+    <button type="button" class="kchip" data-c="exp">体験</button>
+  </div>
+  <p id="koto-empty" hidden style="text-align:center;color:#8a6a4f;font-size:.9rem;margin-top:14px">このカテゴリはこれから増えます</p>
   <div class="grid" id="grid">
-    <a class="item" data-tags="松山市 まつげパーマ専門 まつげパーマ OHANAメンバー" href="members/eyes-mahalo.html">
+    <a class="item" data-cat="shop" data-tags="松山市 まつげパーマ専門 まつげパーマ OHANAメンバー" href="members/eyes-mahalo.html">
       <img src="images/shop/eyes-tech.jpg" alt="Eyes MAHALOの施術の様子">
       <span class="body">
         <span class="name">Eyes MAHALO</span>
         <span class="desc">まつげパーマ専門（遠赤外線・キラ水）。歴15年以上。</span>
-        <span class="meta"><span class="area">松山市</span></span>
+        <span class="meta"><span class="cat cat-shop">お店</span><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" data-tags="松山市 女性限定美容室 美容室 OHANAメンバー" href="members/elua-mahalo.html">
+    <a class="item" data-cat="shop" data-tags="松山市 女性限定美容室 美容室 OHANAメンバー" href="members/elua-mahalo.html">
       <img src="images/shop/elua-mirror.jpg" alt="elua Mahaloの店内">
       <span class="body">
         <span class="name">elua Mahalo</span>
         <span class="desc">女性限定・完全予約制の美容室。マンツーマンで静かに過ごせます。</span>
-        <span class="meta"><span class="area">松山市</span></span>
+        <span class="meta"><span class="cat cat-shop">お店</span><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" data-tags="松山市 美容室 OHANAメンバー" href="members/mahalo.html">
+    <a class="item" data-cat="shop" data-tags="松山市 美容室 OHANAメンバー" href="members/mahalo.html">
       <img src="images/shop/salon-chairs.jpg" alt="hair ID salon MAHALOの店内">
       <span class="body">
         <span class="name">hair ID salon MAHALO</span>
         <span class="desc">松山市味酒町の美容室。OHANAのイベント会場にもなる場所。</span>
-        <span class="meta"><span class="area">松山市</span></span>
+        <span class="meta"><span class="cat cat-shop">お店</span><span class="area">松山市</span></span>
+      </span>
+    </a>
+    <a class="item" data-cat="info" data-tags="愛媛県 フリーマーケット おさがり交換 リユース 情報 OHANAメンバー" href="members/select-ehime.html">
+      <img src="img-5e3cde7ccf.jpg" alt="愛媛のフリーマーケットの様子">
+      <span class="body">
+        <span class="name">セレクト愛媛情報</span>
+        <span class="desc">愛媛のフリマ・おさがり交換・リユースを、公式情報で選んで紹介。日時・場所・公式リンク付き。</span>
+        <span class="meta"><span class="cat cat-info">情報</span><span class="area">愛媛県</span></span>
+      </span>
+    </a>
+    <a class="item" data-cat="act" data-tags="松山市 活動 物々交換 フリマ OHANAメンバー" href="index.html">
+      <img src="img-e61a7ccbb5.jpg" alt="OHANAシェア＊プロジェクトの看板">
+      <span class="body">
+        <span class="name">OHANAシェア＊プロジェクト</span>
+        <span class="desc">フリマ型の選べる物々交換。ヒトモノコトを廻る、プロジェクトそのもののページです。</span>
+        <span class="meta"><span class="cat cat-act">活動</span><span class="area">松山市</span></span>
       </span>
     </a>
     <a class="join" href="mypage.html">
@@ -129,6 +161,8 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     var d = it.d;
     var a = document.createElement('a');
     a.className = 'item';
+    var KG = {'お店': 'shop', '情報': 'info', '活動': 'act', '体験': 'exp'};
+    a.setAttribute('data-cat', KG[d.kotoGenre] || 'shop');
     a.setAttribute('data-tags', ((d.tags || []).join(' ') + ' ' + (d.area || '') + ' ' + (d.nickname || '') + ' OHANAメンバー'));
     a.href = 'member.html?id=' + encodeURIComponent(it.id);
     var ph;
@@ -138,9 +172,10 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     var desc = (d.intro || '').slice(0, 60);
     a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname || '名前未設定') + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
-      '<span class="meta">' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
+      '<span class="meta">' + '<span class="cat cat-' + (KG[d.kotoGenre] || 'shop') + '">' + esc(d.kotoGenre || 'お店') + '</span>' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
     grid.insertBefore(a, join);
   });
+  if(window.__applyKotoCat) window.__applyKotoCat();
 }).catch(function(){});
 </script>
 
@@ -1470,5 +1505,33 @@ list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
+
+<script>
+(function(){
+  var cur = 'all';
+  function apply(){
+    var shown = 0;
+    document.querySelectorAll('#grid .item').forEach(function(t){
+      var c = t.getAttribute('data-cat') || 'shop';
+      var ok = (cur === 'all' || c === cur);
+      t.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    var join = document.querySelector('#grid .join');
+    if(join) join.style.display = (cur === 'all') ? '' : 'none';
+    var emp = document.getElementById('koto-empty');
+    if(emp) emp.hidden = shown > 0;
+  }
+  window.__applyKotoCat = apply;
+  document.querySelectorAll('#kchips .kchip').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#kchips .kchip').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      cur = b.getAttribute('data-c');
+      apply();
+    });
+  });
+})();
+</script>
 </body>
 </html>
