@@ -526,7 +526,7 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
 })();
 </script>
 <style>
-.hero-pv.cm-live-x{aspect-ratio:3/4;overflow:hidden;border-radius:18px}
+.hero-pv.cm-live-x{aspect-ratio:3/4;overflow:hidden;border-radius:150px 150px 22px 22px}
 .cm-scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;animation:cmSeqX 25s linear infinite}
 .cm-scene.solid{color:#fff;font-weight:bold;font-size:26px;line-height:1.7;white-space:pre-line}
 .cm-scene.photo{padding:0}
@@ -1486,86 +1486,7 @@ try {
   }, 500);
 })();
 </script>
-<style>
-.doorfx{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;animation:doorFade 4.6s ease forwards}
-.doorfx .dl{transform-box:fill-box;transform-origin:left center;animation:doorOpen 4.6s cubic-bezier(.6,.05,.3,1) forwards}
-.doorfx .dr{transform-box:fill-box;transform-origin:right center;animation:doorOpen 4.6s cubic-bezier(.6,.05,.3,1) forwards}
-@keyframes doorOpen{0%,20%{transform:scaleX(1)}58%,100%{transform:scaleX(.05)}}
-@keyframes doorFade{0%,80%{opacity:1}97%,100%{opacity:0}}
-</style>
-<script>
-(function(){
-  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var started = false;
-  function leaf(x0, x1, knobX, arch){
-    var base;
-    if(arch){
-      base = (x0 === 0)
-        ? 'M0,400 L0,150 A150,150 0 0 1 150,0 L150,400 Z'
-        : 'M300,400 L300,150 A150,150 0 0 0 150,0 L150,400 Z';
-    } else {
-      base = (x0 === 0)
-        ? 'M4,4 L150,4 L150,396 L4,396 Z'
-        : 'M296,4 L150,4 L150,396 L296,396 Z';
-    }
-    var s = '<path d="' + base + '" fill="#b07a52" stroke="#7c4f2c" stroke-width="4"/>';
-    var ix0 = x0 + 26, ix1 = x1 - 26;
-    var wy0 = arch ? 84 : 58, wy1 = arch ? 224 : 218;
-    s += '<rect x="' + ix0 + '" y="' + wy0 + '" width="' + (ix1 - ix0) + '" height="' + (wy1 - wy0) + '" fill="#f3e7d3" stroke="#7c4f2c" stroke-width="3"/>';
-    for(var i = 1; i <= 2; i++){
-      var gx = ix0 + (ix1 - ix0) * i / 3;
-      s += '<line x1="' + gx + '" y1="' + wy0 + '" x2="' + gx + '" y2="' + wy1 + '" stroke="#b07a52" stroke-width="5"/>';
-      var gy = wy0 + (wy1 - wy0) * i / 3;
-      s += '<line x1="' + ix0 + '" y1="' + gy + '" x2="' + ix1 + '" y2="' + gy + '" stroke="#b07a52" stroke-width="5"/>';
-    }
-    var py0 = wy1 + 26, py1 = 372;
-    s += '<rect x="' + ix0 + '" y="' + py0 + '" width="' + (ix1 - ix0) + '" height="' + (py1 - py0) + '" fill="rgba(255,236,200,.14)" stroke="rgba(70,40,15,.45)" stroke-width="2"/>';
-    for(var j = 1; j <= 2; j++){
-      var px = ix0 + (ix1 - ix0) * j / 3;
-      s += '<line x1="' + px + '" y1="' + py0 + '" x2="' + px + '" y2="' + py1 + '" stroke="rgba(70,40,15,.25)" stroke-width="2"/>';
-    }
-    s += '<circle cx="' + knobX + '" cy="' + (wy1 + 16) + '" r="6.5" fill="#4a3018"/>';
-    return s;
-  }
-  function build(){
-    var hero = document.querySelector('.hero-pv');
-    if(!hero || hero.querySelector('.doorfx')) return;
-    var rect = hero.classList.contains('cm-live-x');
-    var NS = 'http://www.w3.org/2000/svg';
-    var svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('class', 'doorfx');
-    svg.setAttribute('preserveAspectRatio', 'none');
-    svg.setAttribute('viewBox', '0 0 300 400');
-    if(rect){
-      svg.innerHTML = '<g class="dl">' + leaf(0, 150, 137, false) + '</g><g class="dr">' + leaf(150, 300, 163, false) + '</g>';
-    } else {
-      svg.innerHTML = '<defs><clipPath id="doorClip"><path d="M22,400 L278,400 Q300,400 300,378 L300,150 A150,150 0 0 0 0,150 L0,378 Q0,400 22,400 Z"/></clipPath></defs><g clip-path="url(#doorClip)"><g class="dl">' + leaf(0, 150, 137, true) + '</g><g class="dr">' + leaf(150, 300, 163, true) + '</g></g>';
-    }
-    hero.appendChild(svg);
-    setTimeout(function(){ if(svg.parentNode) svg.remove(); }, 5000);
-  }
-  function start(){
-    if(started) return;
-    started = true;
-    setTimeout(build, 250);
-    var hero = document.querySelector('.hero-pv');
-    if(hero) hero.addEventListener('click', function(){
-      if(document.body.classList.contains('site-editing')) return;
-      if(!hero.querySelector('.doorfx')) build();
-    });
-  }
-  function arm(){
-    var hero = document.querySelector('.hero-pv');
-    var img = hero ? hero.querySelector('img') : null;
-    if(img && !img.complete){
-      img.addEventListener('load', start);
-      setTimeout(start, 3000);
-    } else start();
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arm);
-  else arm();
-})();
-</script>
+
 <!-- page-comments: guest comment / Q&A section for a member page.
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing ELCzyeeoDCU4gveavc077L4jBqE3__mono / ELCzyeeoDCU4gveavc077L4jBqE3. -->
