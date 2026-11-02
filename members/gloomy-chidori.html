@@ -299,6 +299,14 @@ html.js .mrv.in{opacity:1;transform:none}
 </div>
 </section>
 
+
+<section class="island-walk">
+<h2>🏝 OHANA島を歩く</h2>
+<p>OHANA島は、もうひとつの松山を歩ける場所です。このページから、そのまま歩けます。</p>
+<iframe src="https://momowari.github.io/ohana-jima/" loading="lazy" title="OHANA島" allowfullscreen style="width:100%;height:560px;border:0;border-radius:16px;background:#eaf6f1"></iframe>
+<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:#1a7a6d">OHANA島を大きく開く →</a></p>
+<style>@media(max-width:520px){.island-walk iframe{height:520px!important}}</style>
+</section>
 <section>
 <h2>OHANAの仕組み</h2>
 <p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</p>
@@ -801,7 +809,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     if(PAGE.indexOf('members-') !== 0) return;
     document.querySelectorAll('section').forEach(function(sec){
       var h = sec.querySelector('h2');
-      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集/.test(h.textContent)) sec.setAttribute('data-lock', '1');
+      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集|OHANA島を歩く/.test(h.textContent)) sec.setAttribute('data-lock', '1');
     });
   }
   function stampLinks(){
