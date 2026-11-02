@@ -31,6 +31,7 @@ h1{font-size:32px;line-height:1.35;margin:8px 0 4px}
 .aboutd p{margin:6px 0 0}
 .note{background:#fff;border:1px dashed var(--orange);border-radius:14px;padding:12px 14px;font-size:14px;margin:18px 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5}
+.chlabel{font-size:.82rem;color:#8a6a4f;font-weight:bold;align-self:center;margin-right:2px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-size:14px;cursor:pointer;font-family:inherit}
 .chip.on{background:var(--orange);color:#fff;border-color:var(--orange)}
 h2{font-size:21px;margin:34px 0 12px;border-left:6px solid var(--orange);padding-left:10px;line-height:1.4}
@@ -55,6 +56,10 @@ th{width:86px;color:#8a6a20;white-space:nowrap}
 .sns iframe{max-width:100%!important}
 .text-post-media,.instagram-media{max-width:100%!important;box-sizing:border-box}
 .sns .vlabel{font-weight:bold;margin:0 0 6px}
+.tag.tk-flea{background:#ffd9a8}
+.tag.tk-marche{background:#cdeac0}
+.tag.tk-osagari{background:#d9d2f5}
+.tag.tk-rec{background:#f6c3d5}
 .sns.frame{border:1px dashed #d8c7ae;border-radius:10px;padding:14px;text-align:center;color:#8a6a4f;background:#fff}
 .sns.txt{margin-top:8px;color:#555}
 .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
@@ -98,8 +103,12 @@ a{color:#b96a00}
 
 
 <div class="chips" id="chips">
+<span class="chlabel">種類で絞り込む</span>
 <button class="chip on" data-f="all">すべて</button>
-<button class="chip" data-f="event">イベント情報</button>
+<button class="chip" data-f="flea">フリマ</button>
+<button class="chip" data-f="marche">マルシェ</button>
+<button class="chip" data-f="osagari">おさがり・物々交換</button>
+<button class="chip" data-f="rec">出店者募集</button>
 <button class="chip" data-f="shop">お店情報</button>
 <button class="chip" data-f="act">活動情報</button>
 <button class="chip" data-f="past">過去の情報</button>
@@ -107,8 +116,8 @@ a{color:#b96a00}
 
 <h2 data-sec="event">イベント情報</h2>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="flea">
+<span class="tag t-event">イベント情報</span><span class="tag tk-flea">フリマ</span>
 <h3>えひめこどもの城「第42回 リサイクルフリーマーケット」</h3>
 <img class="evimg" src="../images/select/kodomo.jpg" alt="えひめこどもの城のリサイクルフリーマーケットの様子">
 <p class="cap">写真：<a href="http://www.i-kodomo.jp/event/detail/2026/11/furima.php">えひめこどもの城 公式ページ</a>より</p>
@@ -125,8 +134,8 @@ a{color:#b96a00}
 <p class="txt">出店者の投稿です。11月3日の第42回リサイクルフリーマーケットへの出店が告知されています。雨天中止の判断は当日の公式情報で確認してください。</p></div></div>
 </article>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="marche">
+<span class="tag t-event">イベント情報</span><span class="tag tk-marche">マルシェ</span>
 <h3>「○△□の暮らし 第7回 秋の暮らし」みにフリーマーケット同時開催</h3>
 <img class="evimg" src="../images/select/kurashi.jpg" alt="○△□の暮らし 第7回 秋の暮らしの案内画像">
 <p class="cap">画像：<a href="https://www.instagram.com/reel/DfLkk_cz_xv/">公式Instagramのリール</a>より</p>
@@ -143,8 +152,8 @@ a{color:#b96a00}
 <p class="txt">公式SNSでは出店者紹介や当日の案内が出ます。先着100名のお買い物券プレゼントは公式SNSのフォロー画面の提示が条件です（紹介記事で確認）。</p></div></div>
 </article>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="marche">
+<span class="tag t-event">イベント情報</span><span class="tag tk-marche">マルシェ</span>
 <h3>本町二丁目マルシェ</h3>
 <p class="pick">大洲市の「とも屋」で開かれるマルシェ。出店者の投稿から紹介します。</p>
 <table>
@@ -156,8 +165,8 @@ a{color:#b96a00}
 <div class="snsmin"><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@baikunorino_kashikoubou/post/DeQfrOIoNQW" data-text-post-version="0" style="background:#fff;border:1px solid #eadfc9;border-radius:12px;max-width:100%;margin:0 0 8px;padding:12px"><a href="https://www.threads.com/@baikunorino_kashikoubou/post/DeQfrOIoNQW" target="_blank" rel="noopener" style="color:#b96a00;font-weight:bold;text-decoration:none">Threadsで投稿を見る</a></blockquote></div></div>
 </article>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="flea">
+<span class="tag t-event">イベント情報</span><span class="tag tk-flea">フリマ</span>
 <h3>松山市「りっくるクルくるマーケット」</h3>
 <img class="evimg" src="../images/select/rikkuru.jpg" alt="第11回りっくるクルくるマーケットのチラシ">
 <p class="cap">画像：<a href="https://www.city.matsuyama.ehime.jp/kurashi/kurashi/seikatsu/kankyo/rikkuru_fleamarket.html">松山市公式ページ</a>より</p>
@@ -171,8 +180,8 @@ a{color:#b96a00}
 <div class="sns"><p class="txt" style="margin-top:0">松山市の公式ページの更新日は2026年10月15日。終了時間は早まる場合があります。</p></div>
 </article>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="osagari">
+<span class="tag t-event">イベント情報</span><span class="tag tk-osagari">おさがり・物々交換</span>
 <h3>内子町「おさがりマルシェ in 文化祭」</h3>
 <img class="evimg" src="../images/select/uchiko.jpg" alt="おさがりマルシェのチラシ">
 <p class="cap">チラシ：<a href="https://www.ehime-kirakira.com/event/detailuchiko-osagarimarche20261108/">愛媛県のイベント情報</a>より</p>
@@ -187,8 +196,8 @@ a{color:#b96a00}
 <div class="sns"><p class="txt" style="margin-top:0">不要な紙袋の寄付も受け付けています（愛媛県のイベント情報で確認）。</p></div>
 </article>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="marche">
+<span class="tag t-event">イベント情報</span><span class="tag tk-marche">マルシェ</span>
 <h3>お城下マルシェ</h3>
 <img class="evimg" src="../images/select/ojoka.jpg" alt="お城下マルシェの会場、花園町通りの写真">
 <p class="cap">写真：<a href="https://commons.wikimedia.org/wiki/File:Hanazono-dori,_Matsuyama_20250503.jpg">Wikimedia Commons</a></p>
@@ -204,10 +213,8 @@ a{color:#b96a00}
 <div class="btns"><a class="btn" href="https://www.instagram.com/ojokamarche/">公式SNSを見る</a></div></div>
 </article>
 
-<h2 data-sec="shop">お店情報</h2>
-
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="marche">
+<span class="tag t-event">イベント情報</span><span class="tag tk-marche">マルシェ</span>
 <h3>第7回 BKマルシェ</h3>
 <p class="pick">松山観光港で開かれるマルシェ。実行委員会の開催告知から紹介します。</p>
 <table>
@@ -220,8 +227,8 @@ a{color:#b96a00}
 <div class="snsmin"><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@bk_marche/post/DfFRZEmD8cd" data-text-post-version="0" style="background:#fff;border:1px solid #eadfc9;border-radius:12px;max-width:100%;margin:0 0 8px;padding:12px"><a href="https://www.threads.com/@bk_marche/post/DfFRZEmD8cd" target="_blank" rel="noopener" style="color:#b96a00;font-weight:bold;text-decoration:none">Threadsで投稿を見る</a></blockquote></div></div>
 </article>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="marche" data-rec="1">
+<span class="tag t-event">イベント情報</span><span class="tag tk-marche">マルシェ</span><span class="tag tk-rec">出店者募集</span>
 <h3>こあらふマルシェ（出店者募集中）</h3>
 <p class="pick">松前町で12月に開かれるマルシェ。出店者（キッチンカーなど）を募集しています。親子で楽しめる運動会イベントと一緒の開催です。</p>
 <table>
@@ -234,8 +241,8 @@ a{color:#b96a00}
 <div class="snsmin"><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@koalaugh_marche/post/DedPiNxEybU" data-text-post-version="0" style="background:#fff;border:1px solid #eadfc9;border-radius:12px;max-width:100%;margin:0 0 8px;padding:12px"><a href="https://www.threads.com/@koalaugh_marche/post/DedPiNxEybU" target="_blank" rel="noopener" style="color:#b96a00;font-weight:bold;text-decoration:none">Threadsで投稿を見る</a></blockquote></div></div>
 </article>
 
-<article class="card" data-g="event">
-<span class="tag t-event">イベント情報</span>
+<article class="card" data-g="event" data-t="marche" data-rec="1">
+<span class="tag t-event">イベント情報</span><span class="tag tk-marche">マルシェ</span><span class="tag tk-rec">出店者募集</span>
 <h3>笑神さまの福結びマルシェ（出店者募集中）</h3>
 <p class="pick">大洲市の赤煉瓦館で12月に開かれるマルシェ。出店者を募集しています。</p>
 <table>
@@ -247,6 +254,8 @@ a{color:#b96a00}
 <p class="txt" style="margin-top:0">主催の投稿で出店者を募集しています。</p>
 <div class="snsmin"><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@holy_island_88/post/DfMrNHFk83P" data-text-post-version="0" style="background:#fff;border:1px solid #eadfc9;border-radius:12px;max-width:100%;margin:0 0 8px;padding:12px"><a href="https://www.threads.com/@holy_island_88/post/DfMrNHFk83P" target="_blank" rel="noopener" style="color:#b96a00;font-weight:bold;text-decoration:none">Threadsで投稿を見る</a></blockquote></div></div>
 </article>
+
+<h2 data-sec="shop">お店情報</h2>
 
 <article class="card" data-g="shop">
 <span class="tag t-shop">お店情報</span>
@@ -284,8 +293,8 @@ a{color:#b96a00}
 <h2 data-sec="past">過去の情報</h2>
 <p style="font-size:14px;color:#666">終わった催しも消さずに残します。毎年・毎回続いているものは、前回の様子が次の参加の目安になるためです。</p>
 
-<article class="card past" data-g="past">
-<span class="tag t-past">過去の情報</span>
+<article class="card past" data-g="past" data-t="flea">
+<span class="tag t-past">過去の情報</span><span class="tag tk-flea">フリマ</span>
 <h3>えひめこどもの城「第41回 リサイクルフリーマーケット」</h3>
 <table>
 <tr><th>日時</th><td>2026年4月12日（日）9:20〜14:00（終了）</td></tr>
@@ -295,8 +304,8 @@ a{color:#b96a00}
 <div class="btns"><a class="btn" href="https://www.i-kodomo.jp/event/detail/2026/04/furima.php">前回の公式情報を見る</a></div>
 </article>
 
-<article class="card past" data-g="past">
-<span class="tag t-past">過去の情報</span>
+<article class="card past" data-g="past" data-t="flea">
+<span class="tag t-past">過去の情報</span><span class="tag tk-flea">フリマ</span>
 <h3>まつやま環境フェア「子育て応援リユースマーケット」</h3>
 <table>
 <tr><th>日時</th><td>2025年10月25日（土）〜26日（日）（終了）</td></tr>
@@ -306,8 +315,8 @@ a{color:#b96a00}
 <div class="btns"><a class="btn" href="https://www.ehime-kirakira.com/event/detail2025kankyoufair/">前回の情報を見る</a></div>
 </article>
 
-<article class="card past" data-g="past">
-<span class="tag t-past">過去の情報 ・ 参考活動</span>
+<article class="card past" data-g="past" data-t="osagari">
+<span class="tag t-past">過去の情報 ・ 参考活動</span><span class="tag tk-osagari">おさがり・物々交換</span>
 <h3>とり＋かえっこ in のむら（西予市野村児童館）</h3>
 <p class="pick">OHANAのおさがり交換の考え方の参考にしてきた形。使わなくなったおもちゃをポイントに替えて、ポイントでお買い物する「子どものまち」。今のえひめこどもの城の公式イベント情報では確認できなかったので、過去の参考活動として残す。</p>
 <table>
@@ -319,6 +328,12 @@ a{color:#b96a00}
 </table>
 <div class="btns"><a class="btn" href="https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/539cef76-b581-4baa-b0fa-79d66f9c94bf/4c0a4990/20230401_policies_kosodateshien_jidoukan_hijouji-handbook_01.pdf">記録を見る（こども家庭庁ハンドブック）</a></div>
 </article>
+
+<section>
+<h2>セレクト愛媛MAP</h2>
+<p>乳幼児・子供連れで行きやすい愛媛のお出かけ先を、1枚の地図にまとめたページです。授乳室やおむつ替え、座敷やキッズスペースなど、子連れで助かる情報も一緒に載せています。</p>
+<div class="btns"><a class="btn main" href="select-ehime-map.html">セレクト愛媛MAPを見る</a></div>
+</section>
 
 <script async src="https://www.threads.net/embed.js"></script>
 <h2>よくある質問</h2>
@@ -347,11 +362,17 @@ document.querySelectorAll('#chips .chip').forEach(function(x){x.classList.remove
 b.classList.add('on');
 var f=b.getAttribute('data-f');
 document.querySelectorAll('.card').forEach(function(c){
-c.classList.toggle('hide',!(f==='all'||c.getAttribute('data-g')===f));
+var show;
+if(f==='all')show=true;
+else if(f==='rec')show=c.getAttribute('data-rec')==='1';
+else if(f==='flea'||f==='marche'||f==='osagari')show=c.getAttribute('data-t')===f;
+else show=c.getAttribute('data-g')===f;
+c.classList.toggle('hide',!show);
 });
 document.querySelectorAll('[data-sec]').forEach(function(h){
-var sec=h.getAttribute('data-sec');
-h.style.display = (f==='all'||f===sec)?'':'none';
+var el=h.nextElementSibling;var any=false;
+while(el&&el.tagName!=='H2'){if(el.classList&&el.classList.contains('card')&&!el.classList.contains('hide'))any=true;el=el.nextElementSibling;}
+h.style.display=any?'':'none';
 });
 });
 });
