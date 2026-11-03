@@ -2149,5 +2149,150 @@ try {
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
+
+
+<script>window.__WANT_CFG__ = {mode:'detail', kind:'koto', id:'eyes-mahalo', owner:'ELCzyeeoDCU4gveavc077L4jBqE3', href:'members/eyes-mahalo.html'};</script>
+<!-- wantlist: "ほしい!" / "気になる" list that feeds matching.
+     Config via window.__WANT_CFG__ = {mode:'detail'|'tiles'|'member', kind, id, owner} set before this snippet. -->
+<style>
+.want-btn{font-family:inherit;font-weight:bold;border:1.5px solid #e58bb1;background:#fff;color:#c2437e;border-radius:999px;padding:7px 18px;cursor:pointer;font-size:.95rem}
+.want-btn.on{background:#fde8ef;border-color:#e58bb1;color:#c2437e}
+.want-row{display:flex;justify-content:center;margin:10px 0 2px}
+.want-tile{position:absolute;right:8px;bottom:8px;z-index:3;font-family:inherit;font-weight:bold;border:1.5px solid #e58bb1;background:rgba(255,255,255,.94);color:#c2437e;border-radius:999px;padding:4px 12px;cursor:pointer;font-size:.8rem}
+.want-tile.on{background:#fde8ef}
+</style>
+<script>
+(function(){
+  var CFG = window.__WANT_CFG__ || {mode: 'detail'};
+  var LSKEY = 'ohanaWants';
+  var OWNER0 = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var list = [];
+  try{ list = JSON.parse(localStorage.getItem(LSKEY) || '[]'); if(!Array.isArray(list)) list = []; }catch(e){ list = []; }
+  var uid = null, syncing = false;
+
+  function saveLocal(){ try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){} }
+  function saveRemote(){
+    if(!uid || !window.firebase || !firebase.firestore) return;
+    firebase.firestore().collection('wantLists').doc(uid).set({items: list, updatedAt: Date.now()}).catch(function(){});
+  }
+  function save(){ saveLocal(); saveRemote(); stampAll(); }
+  function has(id){ return list.some(function(x){ return x.id === id; }); }
+  function toggle(item){
+    if(has(item.id)){ list = list.filter(function(x){ return x.id !== item.id; }); }
+    else { item.ts = Date.now(); list.push(item); }
+    save();
+  }
+  function syncRemote(){
+    if(!uid || syncing || !window.firebase || !firebase.firestore) return;
+    syncing = true;
+    firebase.firestore().collection('wantLists').doc(uid).get().then(function(s){
+      var remote = (s.exists && Array.isArray((s.data() || {}).items)) ? s.data().items : [];
+      var seen = {};
+      list.forEach(function(x){ seen[x.id] = 1; });
+      remote.forEach(function(x){ if(!seen[x.id]) list.push(x); });
+      saveLocal(); saveRemote(); stampAll();
+    }).catch(function(){}).then(function(){ syncing = false; });
+  }
+  function waitAuth(tries){
+    if(!window.firebase || !firebase.auth || !firebase.apps || !firebase.apps.length){ if(tries < 30) setTimeout(function(){ waitAuth(tries + 1); }, 500); return; }
+    firebase.auth().onAuthStateChanged(function(u){ uid = u ? u.uid : null; if(uid) syncRemote(); stampAll(); });
+  }
+
+  function label(kind){ return kind === 'mono' ? 'ほしい！' : '気になる'; }
+  function btnText(kind, on){ return on ? ('💗 ' + (kind === 'mono' ? 'ほしいものリストに入ってます' : '気になるリストに入ってます')) : ('🤍 ' + label(kind)); }
+
+  function detailItem(){
+    var title = '';
+    var h1 = document.querySelector('h1');
+    if(h1) title = h1.textContent.replace(/\s+/g, ' ').trim();
+    var photo = '';
+    var img = document.querySelector('.iphoto img, .hero-img, article img, main img');
+    if(img) photo = img.getAttribute('src') || '';
+    var rel = CFG.href || '';
+    if(!rel){
+      var path = location.pathname;
+      var idx = path.indexOf('/OHANA-share/');
+      rel = idx >= 0 ? path.slice(idx + '/OHANA-share/'.length) : path.split('/').pop();
+    }
+    if(CFG.mode === 'member') rel = 'member.html?id=' + CFG.id;
+    return { id: CFG.id, kind: CFG.kind || 'mono', title: title, href: rel, photo: photo, owner: CFG.owner || OWNER0 };
+  }
+  function buildDetail(){
+    if(CFG.mode === 'tiles') return;
+    var host = document.querySelector('.istats');
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'want-btn'; btn.id = 'want-btn';
+    btn.addEventListener('click', function(){ toggle(detailItem()); });
+    if(host){ host.appendChild(btn); }
+    else {
+      var row = document.createElement('div'); row.className = 'want-row'; row.appendChild(btn);
+      var h1 = document.querySelector('h1');
+      if(h1 && h1.parentNode) h1.parentNode.insertBefore(row, h1.nextSibling);
+      else document.body.appendChild(row);
+    }
+    stampAll();
+  }
+  function stampDetail(){
+    var btn = document.getElementById('want-btn');
+    if(!btn || !CFG.id) return;
+    var on = has(CFG.id);
+    btn.textContent = btnText(CFG.kind || 'mono', on);
+    btn.classList.toggle('on', on);
+  }
+
+  function tileItem(t){
+    var a = t.closest ? t.closest('a') : null;
+    var href = a ? (a.getAttribute('href') || '') : '';
+    var id = href.replace(/^.*\//, '').replace(/\.html$/, '');
+    if(href.indexOf('member.html?id=') >= 0) id = href.split('id=')[1];
+    var nameEl = t.querySelector('.name, .nm, .iname, b, .t-name') || t;
+    var title = (t.getAttribute('data-name') || nameEl.textContent || '').replace(/\s+/g, ' ').trim();
+    var img = t.querySelector('img');
+    var owner = OWNER0;
+    if(id.indexOf('__') > 0) owner = id.split('__')[0];
+    return { id: id, kind: 'mono', title: title, href: href, photo: img ? (img.getAttribute('src') || '') : '', owner: owner };
+  }
+  function stampTiles(){
+    if(CFG.mode !== 'tiles') return;
+    document.querySelectorAll('#grid .item').forEach(function(t){
+      if(t.classList.contains('join')) return;
+      var b = t.querySelector('.want-tile');
+      if(!b){
+        b = document.createElement('button');
+        b.type = 'button'; b.className = 'want-tile';
+        b.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); toggle(tileItem(t)); });
+        if(getComputedStyle(t).position === 'static') t.style.position = 'relative';
+        t.appendChild(b);
+      }
+      var it = tileItem(t);
+      var on = has(it.id);
+      b.textContent = on ? '💗 ほしい' : '🤍 ほしい';
+      b.classList.toggle('on', on);
+    });
+  }
+  function stampAll(){ stampDetail(); stampTiles(); }
+
+  function init(){
+    if(CFG.mode === 'tiles'){
+      var grid = document.getElementById('grid');
+      if(grid) new MutationObserver(function(){ stampTiles(); }).observe(grid, {childList: true, subtree: true});
+      stampTiles();
+    } else if(CFG.mode === 'member'){
+      var tries = 0;
+      var iv = setInterval(function(){
+        tries++;
+        if(window.__wantMemberCfg){ CFG = Object.assign({}, CFG, window.__wantMemberCfg); buildDetail(); clearInterval(iv); }
+        if(tries > 40) clearInterval(iv);
+      }, 500);
+    } else {
+      buildDetail();
+    }
+    waitAuth(0);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<!-- /wantlist -->
 </body>
 </html>
