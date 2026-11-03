@@ -408,6 +408,7 @@ function loadPages(){
     actives.forEach(function(p){ cards += card(p.id, p.d); });
     var fg = document.querySelector('.first-guide'); if(fg && actives.length) fg.style.display = 'none';
     $('pages-list').innerHTML = cards || '<section><p>まだページがありません。上の「新しいページを作る」から作ってください。</p></section>';
+    applyCreateMode(actives.length);
     loadMatches(actives);
     var tcards = '';
     trashed.forEach(function(p){ tcards += trashCard(p.id, p.d); });
@@ -479,6 +480,16 @@ $('btn-google').addEventListener('click', function(){
   });
 });
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });
+function applyCreateMode(n){
+  var first = (n === 0);
+  var chips = document.querySelector('.create-card .catchips');
+  if(chips) chips.style.display = first ? 'none' : '';
+  var lead = document.querySelector('.create-card p.sub');
+  if(lead) lead.textContent = first ? '最初のページは、ヒトのページになります。名前を入れてください。' : '区分を選ぶと、名前の欄がその区分用に変わります。ページはいくつでも作れます。';
+  var btn = $('btn-create');
+  if(btn) btn.textContent = first ? 'ページを作る' : 'この区分でページを作る';
+  if(first){ var r = document.querySelector('input[name="newcat"][value="ヒト"]'); if(r) r.checked = true; syncNewNamePh(); }
+}
 function syncNewNamePh(){
   var sel = document.querySelector('input[name="newcat"]:checked');
   var cat = sel ? sel.value : 'ヒト';
