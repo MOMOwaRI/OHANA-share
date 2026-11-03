@@ -47,7 +47,7 @@
   .ed[contenteditable="true"]{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px;min-height:1.5em}
   body.is-owner:not(.editing) .ed{cursor:pointer;border-bottom:2px dotted #d9b98c}
   body.editing .ed{outline:2px dashed #e0a458;outline-offset:3px;border-radius:6px}
-  h1{display:flex;align-items:center;gap:10px}
+  h1{display:flex;align-items:center;justify-content:center;gap:10px}
   #p-icon,#p-letter{flex:none;margin-right:0 !important;vertical-align:baseline !important}
   body.is-owner:not(.editing) .ed:hover{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px}
   body.editing .ed:empty::before{content:attr(data-ph);color:var(--soft)}
@@ -127,6 +127,7 @@ body.is-owner #p-icon,body.is-owner #p-letter{outline:2px dashed rgba(224,123,36
   <header>
     <img src="img-992cf83a89.png" alt="OHANAキャラクター" style="width:110px">
     <div id="p-head" hidden>
+      <img id="island-ava" alt="OHANA島のアバター" style="display:none;width:min(170px,46%);margin:2px auto 6px">
       <div id="p-badges"></div>
       <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span></h1>
       <p id="owner-hint" class="note" hidden>このページがそのまま編集画面です。文字はクリックして書き換え、写真・アイコン・アニメーションはクリックで変更できます。</p>
@@ -690,10 +691,41 @@ function buildSuggestions(){
   if(filled){ var ln = $('link-note'); if(ln) ln.textContent = 'リンクは候補をあらかじめ入れてあります。違うものは消してから保存してください。'; }
 }
 
-window.__memberToggleEdit = function(){ setEdit(!editing); };
+var islandAvaSrc = null, islandAvaFetching = false, islandAvaWired = false;
+function tryIslandAva(){
+  var img = $('island-ava');
+  if(!img || !ownerUid || !pageData) return;
+  var cats = pageData.categories || [];
+  if(cats.indexOf('ヒト') < 0) return;
+  if(islandAvaSrc){
+    img.src = islandAvaSrc;
+    img.style.display = 'block';
+    if(isOwner && !islandAvaWired){
+      islandAvaWired = true;
+      img.style.cursor = 'pointer';
+      img.title = 'アバターを編集';
+      img.style.outline = '2px dashed rgba(26,122,109,.8)';
+      img.style.outlineOffset = '3px';
+      img.addEventListener('click', function(){ location.href = 'login.html#island-frame'; });
+    }
+    return;
+  }
+  if(islandAvaFetching) return;
+  islandAvaFetching = true;
+  fetch('https://firestore.googleapis.com/v1/projects/ohana-share/databases/(default)/documents/islandUsers/' + ownerUid)
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if(!d || !d.fields) return;
+      var f = d.fields;
+      if(f.avaUrl && f.avaUrl.stringValue) islandAvaSrc = f.avaUrl.stringValue;
+      else if(f.cat && f.cat.stringValue) islandAvaSrc = 'https://momowari.github.io/ohana-jima/cat-' + f.cat.stringValue + '-sit.png';
+      if(islandAvaSrc) tryIslandAva();
+    }).catch(function(){});
+}
+window.__memberToggleEdit = function(){ if(editing){ $('btn-save').click(); } else { setEdit(true); } };
 function setEdit(on){
   editing = on;
-  if(window.__authBtn && isOwner) window.__authBtn.textContent = on ? '編集を終わる' : '✎ 編集する';
+  if(window.__authBtn && isOwner) window.__authBtn.textContent = on ? '保存する' : '✎ 編集する';
   document.body.classList.toggle('editing', on);
   $('savebar').hidden = !on;
   render(pageData, on);
@@ -759,6 +791,7 @@ else {
     if(!doc.exists || doc.data().deleted){ $('p-notfound').hidden = false; return; }
     render(doc.data(), false);
     tryEdit();
+    tryIslandAva();
   }).catch(function(){
     $('p-loading').hidden = true; $('p-notfound').hidden = false;
   });
@@ -813,7 +846,8 @@ function setupTickets(){
 var currentUser = null;
   auth.onAuthStateChanged(function(user){
     currentUser = user;
-    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; document.body.classList.add('is-owner'); $('owner-hint').hidden = false; setupTickets(); tryEdit(); }
+    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; document.body.classList.add('is-owner'); $('owner-hint').hidden = false; setupTickets(); tryEdit();
+    tryIslandAva(); }
   });
   function needOwner(){ if(isOwner) return false; if(wantEdit || currentUser){ toast(currentUser ? '編集できるのは自分のページだけです' : '編集するにはログインしてください（右上のボタンから）'); } return true; }
   document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){
@@ -1286,7 +1320,7 @@ try {
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
-      if(pageOwner && u.uid === pageOwner){ btn.textContent = document.body.classList.contains('editing') ? '編集を終わる' : '✎ 編集する'; var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = 'inline-block'; return; }
+      if(pageOwner && u.uid === pageOwner){ btn.textContent = document.body.classList.contains('editing') ? '保存する' : '✎ 編集する'; var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = 'inline-block'; return; }
       btn.textContent = 'マイページ';
       var b2x = document.getElementById('mypage-companion'); if(b2x) b2x.style.display = 'none';
     });
@@ -1522,6 +1556,17 @@ try {
 window.__PC_PAGE_ID = new URLSearchParams(location.search).get('id') || '';
 window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 </script>
+
+
+
+
+
+
+
+<script>
+window.__PC_PAGE_ID = new URLSearchParams(location.search).get('id') || '';
+window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
+</script>
 <!-- page-comments: guest comment / Q&A section for a member page.
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing __PAGE_ID__ / __TARGET_UID__. -->
@@ -1642,10 +1687,6 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 })();
 </script>
 
-
-
-
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
@@ -2159,5 +2200,6 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 </body>
 </html>

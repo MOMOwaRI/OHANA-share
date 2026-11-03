@@ -332,7 +332,7 @@ firebase.initializeApp(firebaseConfig);
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
-      if(u && u.uid === OWNER && window.__toggleSiteEdit){ window.__toggleSiteEdit(); btn.textContent = document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する'; return; }
+      if(u && u.uid === OWNER && window.__toggleSiteEdit){ window.__toggleSiteEdit(); btn.textContent = document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する'; return; }
       if(!u){ location.href = memberKnown() ? 'login.html#login' : 'login.html'; }
       else location.href = 'login.html';
     });
@@ -1044,7 +1044,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   storageBucket: "ohana-share.firebasestorage.app",
   messagingSenderId: "825904150210",
   appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
-}) } }catch(e){} }
+}); } }catch(e){} }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
   function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,#island-frame,#island-ava-history,#island-photo-msg,#island-ava-msg'); }
@@ -1403,7 +1403,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     if(bar) bar.classList.toggle('on', on);
     if($('sb-msg')) $('sb-msg').textContent = '';
     var btn = window.__authBtn;
-    if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
+    if(btn) btn.textContent = on ? '保存する' : '✎ 編集する';
     targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
     if(on){ pendingLinks = {}; buildTagsPanel(); enterRowsEdit(); decorateSns(true); buildAddLinkBtn(); buildMapPanel(); }
     if(!on){ var lp = $('link-panel'); if(lp) lp.remove(); var tp = $('tags-panel'); if(tp) tp.remove(); var mp = $('map-panel'); if(mp) mp.remove(); var ab = $('addlink-btn'); if(ab) ab.remove(); decorateSns(false); tagsWork = null; if(rowsOrig) renderLiveRows(rowsOrig); if(mapFrame && mapEditSrc) mapFrame.src = mapEditSrc; }
@@ -1491,12 +1491,13 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     $('sb-save').addEventListener('click', saveAll);
     $('sb-cancel').addEventListener('click', function(){ if(confirm('保存していない変更を、元に戻しますか？')){ undoEdit(); setEdit(false); } });
     buildColorUI();
-    window.__toggleSiteEdit = function(){ setEdit(!editing); };
+    window.__toggleSiteEdit = function(){ if(editing){ saveAll(); } else { setEdit(true); } };
     window.__isSiteEditing = function(){ return editing; };
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
 
 </body>
 </html>

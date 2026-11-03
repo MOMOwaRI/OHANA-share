@@ -1827,7 +1827,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     if(PAGE.indexOf('members-') !== 0) return;
     document.querySelectorAll('section').forEach(function(sec){
       var h = sec.querySelector('h2');
-      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集/.test(h.textContent)) sec.setAttribute('data-lock', '1');
+      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集|OHANA島を歩く/.test(h.textContent)) sec.setAttribute('data-lock', '1');
     });
   }
   function stampLinks(){
@@ -2160,7 +2160,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     if(bar) bar.classList.toggle('on', on);
     if($('sb-msg')) $('sb-msg').textContent = '';
     var btn = window.__authBtn;
-    if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
+    if(btn) btn.textContent = on ? '保存する' : '✎ 編集する';
     targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
     if(on){ pendingLinks = {}; buildTagsPanel(); enterRowsEdit(); decorateSns(true); buildAddLinkBtn(); buildMapPanel(); }
     if(!on){ var lp = $('link-panel'); if(lp) lp.remove(); var tp = $('tags-panel'); if(tp) tp.remove(); var mp = $('map-panel'); if(mp) mp.remove(); var ab = $('addlink-btn'); if(ab) ab.remove(); decorateSns(false); tagsWork = null; if(rowsOrig) renderLiveRows(rowsOrig); if(mapFrame && mapEditSrc) mapFrame.src = mapEditSrc; }
@@ -2248,7 +2248,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     $('sb-save').addEventListener('click', saveAll);
     $('sb-cancel').addEventListener('click', function(){ if(confirm('保存していない変更を、元に戻しますか？')){ undoEdit(); setEdit(false); } });
     buildColorUI();
-    window.__toggleSiteEdit = function(){ setEdit(!editing); };
+    window.__toggleSiteEdit = function(){ if(editing){ saveAll(); } else { setEdit(true); } };
     window.__isSiteEditing = function(){ return editing; };
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
@@ -2262,7 +2262,9 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 
 
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 374px))}.opanel,.chat-panel{right:max(12px,calc(50% - 372px))}</style>
+
+
+
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
@@ -2776,5 +2778,6 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 374px))}.opanel,.chat-panel{right:max(12px,calc(50% - 372px))}</style>
 </body>
 </html>
