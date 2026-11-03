@@ -2261,13 +2261,19 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 
 
+
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 374px))}.opanel,.chat-panel{right:max(12px,calc(50% - 372px))}</style>
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
 (function(){
   var KEY = 'islandLang';
-  var lang = 'ja';
-  try{ lang = localStorage.getItem(KEY) || 'ja'; }catch(e){}
+  var lang = null;
+  try{ lang = localStorage.getItem(KEY); }catch(e){}
+  if(!lang){
+    var nav = (navigator.language || 'ja').toLowerCase();
+    lang = nav.indexOf('en') === 0 ? 'en' : (nav.indexOf('zh') === 0 ? 'zh' : (nav.indexOf('ko') === 0 ? 'ko' : 'ja'));
+  }
   if(['ja','en','zh','ko'].indexOf(lang) < 0) lang = 'ja';
   window.__lang = lang;
   window.__langSuffix = {"en": "\nAlways answer in English, politely and briefly.", "zh": "\n请始终用简体中文，礼貌简洁地回答。", "ko": "\n항상 한국어로 정중하고 간결하게 답해주세요."}[lang] || "";
@@ -2283,6 +2289,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     "編集を終わる": "Done editing",
     "LINEオープンチャットに参加": "Join the LINE Open Chat",
     "🏝 OHANA島へ": "🏝 OHANA Island",
+    "OHANA島もあります": "There is also OHANA Island",
+    "🏝 OHANA島から来た方へ": "🏝 Coming from OHANA Island?",
     "オープンチャットに参加": "Join the Open Chat",
     "OHANAに質問する": "Ask OHANA",
     "お問い合わせフォーム": "Contact form",
@@ -2420,6 +2428,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     "編集を終わる": "完成编辑",
     "LINEオープンチャットに参加": "加入LINE开放聊天",
     "🏝 OHANA島へ": "🏝 OHANA岛",
+    "OHANA島もあります": "还有OHANA岛",
+    "🏝 OHANA島から来た方へ": "🏝 从OHANA岛来的朋友",
     "オープンチャットに参加": "加入开放聊天",
     "OHANAに質問する": "问问OHANA",
     "お問い合わせフォーム": "咨询表单",
@@ -2557,6 +2567,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     "編集を終わる": "편집 끝내기",
     "LINEオープンチャットに参加": "LINE 오픈채팅 참여",
     "🏝 OHANA島へ": "🏝 OHANA섬",
+    "OHANA島もあります": "OHANA섬도 있어요",
+    "🏝 OHANA島から来た方へ": "🏝 OHANA섬에서 오신 분께",
     "オープンチャットに参加": "오픈채팅 참여",
     "OHANAに質問する": "OHANA에게 묻기",
     "お問い合わせフォーム": "문의 양식",
@@ -2723,12 +2735,13 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   }
   function buildSel(){
     if(document.getElementById('langSelWrap')) return;
-    var wrap = document.querySelector('.wrap') || document.body;
     var p = document.createElement('p');
     p.id = 'langSelWrap';
-    p.style.cssText = 'text-align:center;margin:10px 0 0';
-    p.innerHTML = '<label style="font-size:13px;color:#7c6642">🌐 Language <select id="langSel" style="font:inherit;font-size:13.5px;border:1.5px solid #cbb27f;border-radius:999px;padding:5px 10px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label>';
-    wrap.insertBefore(p, wrap.firstChild);
+    p.style.cssText = 'text-align:center;margin:14px 0 4px';
+    p.innerHTML = '<label style="font-size:12px;color:#9a8560">🌐 <select id="langSel" style="font:inherit;font-size:12.5px;border:1px solid #d8c7ae;border-radius:999px;padding:3px 8px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label>';
+    var foot = document.querySelector('footer');
+    if(foot && foot.parentNode){ foot.parentNode.insertBefore(p, foot.nextSibling); }
+    else { var wrap = document.querySelector('.wrap') || document.body; wrap.appendChild(p); }
     var sel = p.querySelector('select');
     sel.value = lang;
     sel.addEventListener('change', function(){
@@ -2763,6 +2776,5 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 374px))}.opanel,.chat-panel{right:max(12px,calc(50% - 372px))}</style>
 </body>
 </html>
