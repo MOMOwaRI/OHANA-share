@@ -367,7 +367,7 @@ var wantEdit = new URLSearchParams(location.search).get('edit') === '1';
   }
 })();
 var isOwner = false;
-function tryEdit(){ if(wantEdit && isOwner && pageData && !editing){ setEdit(true); if(/[?&]cm=1/.test(location.search + location.hash)){ setTimeout(function(){ var ce = $('cm-edit'); if(ce){ ce.hidden = false; ce.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 200); } } }
+function tryEdit(){ if(isOwner && pageData && !editing){ setEdit(true); if(/[?&]cm=1/.test(location.search + location.hash)){ setTimeout(function(){ var ce = $('cm-edit'); if(ce){ ce.hidden = false; ce.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 200); } } }
 
 function applyCatLabels(cat){
   var fm = $('fld-menu');
