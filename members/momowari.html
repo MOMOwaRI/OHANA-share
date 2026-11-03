@@ -103,7 +103,7 @@ html.js .mrv.in{opacity:1;transform:none}
   <header>
     <img class="hero-img hero-ava" id="hito-ava" src="https://momowari.github.io/ohana-jima/cat-muse-sit.png" alt="OHANA島のアバター">
     <div><span class="badge">ヒト</span></div>
-    <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px">MOMOwaRI</h1>
+    <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span></h1>
     <p class="ename">MOMOwaRI</p>
     <p class="sub">松山市</p>
     <p class="catch"><span>眠っている価値を、</span><span class="acc">必要な場所へ</span><span>。</span></p>
@@ -276,7 +276,7 @@ html.js .mrv.in{opacity:1;transform:none}
       if(typeof d.tickets !== 'number'){ document.getElementById('tk-num').textContent = '0'; sec.style.display = ''; }
       var hint = document.createElement('p');
       hint.style.cssText = 'font-size:.8rem;color:#a3805a;margin-top:6px';
-      hint.textContent = '【あなただけ表示】券のカードをタップで枚数を変更／上のアイコンをタップで写真を変更できます';
+      hint.textContent = '【あなただけ表示】券のカードをタップで枚数を変更／点線のアイコンをタップで写真を変更／名前は右上の「✎ 編集する」から変更できます';
       sec.appendChild(hint);
       var card = sec.querySelector('.ticket-card');
       if(card){ card.style.cursor = 'pointer'; card.addEventListener('click', function(){
@@ -287,7 +287,7 @@ html.js .mrv.in{opacity:1;transform:none}
         if(isNaN(n) || n < 0 || n > 9999){ alert('0〜9999の数字で入れてください'); return; }
         ref.update({tickets: n}).then(function(){ document.getElementById('tk-num').textContent = n; });
       }); }
-      if(h1img){ h1img.style.cursor = 'pointer'; h1img.title = 'アイコンを変更';
+      if(h1img){ h1img.style.cursor = 'pointer'; h1img.title = 'アイコンを変更'; h1img.style.outline = '2px dashed rgba(224,123,36,.85)'; h1img.style.outlineOffset = '3px';
         var fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/*'; fi.style.display = 'none'; document.body.appendChild(fi);
         h1img.addEventListener('click', function(){ fi.click(); });
         fi.addEventListener('change', function(){
