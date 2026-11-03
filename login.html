@@ -175,6 +175,11 @@ html.js .mrv.in{opacity:1;transform:none}
       <p class="sub" style="margin-top:8px">モノのページは、写真を<a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">Googleフォトの写真受付箱</a>に投げると、AIがタイトルと説明を作ります。</p>
     </div>
     <div id="pages-list"></div>
+    <section id="want-sec" style="margin-top:20px;text-align:left">
+      <h3 style="margin-bottom:6px">ほしいもの・気になるリスト</h3>
+      <div id="want-list"></div>
+      <p class="note">モノのページで「ほしい！」、ヒト・コトのページで「気になる」を押すと、ここに集まります。リストの持ち主は、「合いそうな人」でも優先して出ます。</p>
+    </section>
     <div id="trash-area" hidden>
       <h2 class="trash-h">削除したページ</h2>
       <p class="sub">「元に戻す」を押すと、ページ一覧に戻ります。</p>
@@ -356,7 +361,13 @@ function loadMatches(mine){
       snap.forEach(function(u){ if(u.id !== uid && !likerMap[u.id]) likerMap[u.id] = it.title; });
     }).catch(function(){});
   });
-  Promise.all(likeJobs).then(function(){
+  var myWantOwners = {};
+  try{ (JSON.parse(localStorage.getItem('ohanaWants') || '[]')).forEach(function(x){ if(x && x.owner) myWantOwners[x.owner] = x.title || ''; }); }catch(e){}
+  var wantJob = db.collection('wantLists').doc(uid).get().then(function(s){
+    var items = (s.exists && Array.isArray((s.data() || {}).items)) ? s.data().items : [];
+    items.forEach(function(x){ if(x && x.owner) myWantOwners[x.owner] = x.title || ''; });
+  }).catch(function(){});
+  Promise.all(likeJobs.concat([wantJob])).then(function(){
   db.collection('profiles').get().then(function(snap){
     var found = [];
     snap.forEach(function(doc){
@@ -370,7 +381,10 @@ function loadMatches(mine){
       myOffer.forEach(function(t){ if(theirSeek.indexOf(t) >= 0 && reasons.length < 4) reasons.push('「' + t + '」を探しています'); });
       var likedTitle = (doc.id.indexOf('__') < 0) ? likerMap[doc.id] : null;
       if(likedTitle){ reasons.unshift('あなたの「' + likedTitle + '」にいいねしました'); }
-      if(reasons.length) found.push({id: doc.id, d: d, reasons: reasons, score: reasons.length + (likedTitle ? 10 : 0)});
+      var ownerOf = doc.id.indexOf('__') < 0 ? doc.id : doc.id.split('__')[0];
+      var wantTitle = myWantOwners[ownerOf];
+      if(wantTitle){ reasons.unshift('ほしいものリストの「' + wantTitle + '」の持ち主です'); }
+      if(reasons.length) found.push({id: doc.id, d: d, reasons: reasons, score: reasons.length + (likedTitle ? 10 : 0) + (wantTitle ? 8 : 0)});
     });
     found.sort(function(a, b){ return b.score - a.score; });
     if(!found.length){
@@ -982,7 +996,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 }); } }catch(e){} }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,#box-home,#box-login,#pages-list,#match-card,#match-list,#trash-area,#hub-msg,#page-title'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,#box-home,#box-login,#pages-list,#match-card,#match-list,#trash-area,#want-sec,#want-list,#hub-msg,#page-title'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -1946,6 +1960,50 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     }
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+<script>
+(function(){
+  var LSKEY = 'ohanaWants';
+  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function start(){
+    if(!window.firebase || !firebase.auth){ setTimeout(start, 800); return; }
+    firebase.auth().onAuthStateChanged(function(u){
+      var box = document.getElementById('want-list');
+      if(!box) return;
+      if(!u){ box.innerHTML = ''; return; }
+      var list = [];
+      try{ list = JSON.parse(localStorage.getItem(LSKEY) || '[]'); if(!Array.isArray(list)) list = []; }catch(e){ list = []; }
+      function render(){
+        if(!list.length){ box.innerHTML = '<p class="sub">まだありません。気になるページでボタンを押してみてください。</p>'; return; }
+        var h = '';
+        list.forEach(function(x, i){
+          h += '<div style="display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #f0e2cd;border-radius:12px;padding:8px 10px;margin-top:8px">'
+            + (x.photo ? '<img src="' + esc(x.photo) + '" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px;flex:none">' : '')
+            + '<a href="' + esc(x.href || '#') + '" style="flex:1;font-weight:bold;color:#b3541e;text-decoration:none">' + esc(x.title || x.id) + '</a>'
+            + '<button type="button" data-wdel="' + i + '" style="font-family:inherit;background:#fff;border:1.5px solid #d8a49e;color:#b03a2e;border-radius:999px;padding:4px 12px;cursor:pointer;flex:none">外す</button></div>';
+        });
+        box.innerHTML = h;
+        box.querySelectorAll('[data-wdel]').forEach(function(b){
+          b.addEventListener('click', function(){
+            list.splice(Number(b.getAttribute('data-wdel')), 1);
+            try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
+            firebase.firestore().collection('wantLists').doc(u.uid).set({items: list, updatedAt: Date.now()}).catch(function(){});
+            render();
+          });
+        });
+      }
+      firebase.firestore().collection('wantLists').doc(u.uid).get().then(function(s){
+        var remote = (s.exists && Array.isArray((s.data() || {}).items)) ? s.data().items : [];
+        var seen = {};
+        list.forEach(function(x){ seen[x.id] = 1; });
+        remote.forEach(function(x){ if(!seen[x.id]) list.push(x); });
+        try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
+        render();
+      }).catch(function(){ render(); });
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
