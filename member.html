@@ -806,9 +806,12 @@ function setupTickets(){
     $('tk-plus5').addEventListener('click', function(){ bumpTickets(5); });
   }
 }
-auth.onAuthStateChanged(function(user){
+var currentUser = null;
+  auth.onAuthStateChanged(function(user){
+    currentUser = user;
     if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; document.body.classList.add('is-owner'); $('owner-hint').hidden = false; setupTickets(); tryEdit(); }
   });
+  function needOwner(){ if(isOwner) return false; if(wantEdit || currentUser){ toast(currentUser ? '編集できるのは自分のページだけです' : '編集するにはログインしてください（右上のボタンから）'); } return true; }
   document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){
     applyCatLabels(r.value);
     $('genre-edit').hidden = !(editing && r.value === 'モノ');
@@ -851,16 +854,16 @@ $('p-film').addEventListener('click', function(ev){
   if(isOwner && !editing && fig && fig.getAttribute('data-n')){ qFilmSlot = Number(fig.getAttribute('data-n')); $('qf-film').click(); return; }
   $('p-film').classList.toggle('paused');
 });
-$('p-icon').addEventListener('click', function(){ if(isOwner) $('qf-icon').click(); });
-$('p-letter').addEventListener('click', function(){ if(isOwner) $('qf-icon').click(); });
-$('p-photo').addEventListener('click', function(){ if(isOwner) $('qf-photo').click(); });
+$('p-icon').addEventListener('click', function(){ if(needOwner()) return; $('qf-icon').click(); });
+$('p-letter').addEventListener('click', function(){ if(needOwner()) return; $('qf-icon').click(); });
+$('p-photo').addEventListener('click', function(){ if(needOwner()) return; $('qf-photo').click(); });
 $('cm-live').addEventListener('click', function(){
-  if(!isOwner) return;
+  if(needOwner()) return;
   if(!editing){ setEdit(true); setTimeout(function(){ $('cm-edit').hidden = false; $('cm-edit').scrollIntoView({behavior: 'smooth', block: 'start'}); }, 80); }
   else { $('cm-edit').hidden = !$('cm-edit').hidden; }
 });
 $('cm-start').addEventListener('click', function(){
-  if(!isOwner) return;
+  if(needOwner()) return;
   if(!editing) setEdit(true);
   setTimeout(function(){ $('cm-edit').hidden = false; $('cm-edit').scrollIntoView({behavior: 'smooth', block: 'start'}); }, 80);
 });
@@ -871,7 +874,7 @@ $('p-badges').addEventListener('click', function(){
   $('cm-prev' + n).addEventListener('click', function(){ if(editing) $('in-cmphoto' + n).click(); });
   $('cm-add' + n).addEventListener('click', function(){ if(editing) $('in-cmphoto' + n).click(); });
 });
-$('photo-add').addEventListener('click', function(){ if(isOwner) $('qf-photo').click(); });
+$('photo-add').addEventListener('click', function(){ if(needOwner()) return; $('qf-photo').click(); });
 $('photo-del').addEventListener('click', function(){
   if(!isOwner) return;
   db.collection('profiles').doc(id).set({photoUrl: '', updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}).then(function(){
