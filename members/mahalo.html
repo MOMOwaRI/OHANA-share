@@ -1449,13 +1449,13 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     btn2.href = '../login.html';
     btn2.textContent = 'マイページ';
     btn2.style.cssText = btn.style.cssText + ';text-decoration:none;display:none;box-sizing:border-box';
-    rowEl.style.display = 'flex';
-    rowEl.style.gap = '8px';
-    rowEl.insertBefore(btn2, btn);
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
     rowEl.appendChild(btn);
+    rowEl.style.display = 'flex';
+    rowEl.style.gap = '8px';
+    rowEl.insertBefore(btn2, btn);
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
