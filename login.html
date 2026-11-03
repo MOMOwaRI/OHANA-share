@@ -163,7 +163,7 @@ html.js .mrv.in{opacity:1;transform:none}
     </div>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
-      <p class="sub">名前と区分を選んでください。ページはいくつでも作れます。</p>
+      <p class="sub">区分を選ぶと、名前の欄がその区分用に変わります。ページはいくつでも作れます。</p>
       <p style="margin:8px 0"><input type="text" id="new-name" placeholder="名前（ニックネーム）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
       <div class="catchips">
         <label><input type="radio" name="newcat" value="ヒト" checked>ヒト</label>
@@ -479,6 +479,15 @@ $('btn-google').addEventListener('click', function(){
   });
 });
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });
+function syncNewNamePh(){
+  var sel = document.querySelector('input[name="newcat"]:checked');
+  var cat = sel ? sel.value : 'ヒト';
+  var inp = $('new-name');
+  if(!inp) return;
+  inp.placeholder = cat === 'モノ' ? 'モノの名前' : (cat === 'コト' ? 'お店・活動の名前' : '名前（ニックネーム）');
+}
+document.querySelectorAll('input[name="newcat"]').forEach(function(r){ r.addEventListener('change', syncNewNamePh); });
+syncNewNamePh();
 $('btn-create').addEventListener('click', function(){
   var sel = document.querySelector('input[name="newcat"]:checked');
   var nm = $('new-name') ? $('new-name').value.trim() : '';
