@@ -14,6 +14,7 @@
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
   header{text-align:center;padding:16px 0 8px}
   .hero-img{width:min(300px,72%);display:block;margin:0 auto;border-radius:16px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
+  .hero-ava{width:min(210px,56%)}
   @keyframes pvIn{from{opacity:0;transform:scale(.95) translateY(14px)}to{opacity:1;transform:none}}
   body{counter-reset:feat}
   .step{display:flex;gap:10px;align-items:flex-start;margin-top:10px;text-align:left}
@@ -100,7 +101,7 @@ html.js .mrv.in{opacity:1;transform:none}
 <body>
 <div class="wrap">
   <header>
-    <img class="hero-img" src="../img-992cf83a89.png" alt="OHANA公式キャラクター">
+    <img class="hero-img hero-ava" id="hito-ava" src="https://momowari.github.io/ohana-jima/cat-muse-sit.png" alt="OHANA島のアバター">
     <div><span class="badge">ヒト</span></div>
     <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px">MOMOwaRI</h1>
     <p class="ename">MOMOwaRI</p>
@@ -114,6 +115,22 @@ html.js .mrv.in{opacity:1;transform:none}
       <a class="sub2" href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">お問い合わせフォーム</a>
     </div>
   </header>
+<script>
+/* island avatar: show the owner's OHANA-jima avatar (photo avatar if ready, else the chosen cat) */
+(function(){
+  var img = document.getElementById('hito-ava');
+  if(!img) return;
+  fetch('https://firestore.googleapis.com/v1/projects/ohana-share/databases/(default)/documents/islandUsers/ELCzyeeoDCU4gveavc077L4jBqE3')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if(!d || !d.fields) return;
+      var f = d.fields;
+      if(f.avaUrl && f.avaUrl.stringValue) img.src = f.avaUrl.stringValue;
+      else if(f.cat && f.cat.stringValue) img.src = 'https://momowari.github.io/ohana-jima/cat-' + f.cat.stringValue + '-sit.png';
+    }).catch(function(){});
+})();
+</script>
+
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 <div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
 <div class="sharemenu" id="share-menu">
