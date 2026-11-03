@@ -1247,7 +1247,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     $('site-savebar').classList.toggle('on', on);
     $('sb-msg').textContent = '';
     var btn = window.__authBtn;
-    if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
+    if(btn) btn.textContent = on ? '保存する' : '✎ 編集する';
     targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
     if(on){
       pendingLinks = {};
@@ -1444,15 +1444,15 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     btn.textContent = 'メンバー登録';
     btn.style.cssText = 'background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)';
     window.__authBtn = btn;
+    var wrapEl = document.querySelector('.wrap') || document.body;
+    var rowEl = document.createElement('div');
+    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.appendChild(btn);
     var btn2 = document.createElement('a');
     btn2.id = 'mypage-companion';
     btn2.href = '../login.html';
     btn2.textContent = 'マイページ';
     btn2.style.cssText = btn.style.cssText + ';text-decoration:none;display:none;box-sizing:border-box';
-    var wrapEl = document.querySelector('.wrap') || document.body;
-    var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:96';
-    rowEl.appendChild(btn);
     rowEl.style.display = 'flex';
     rowEl.style.gap = '8px';
     rowEl.insertBefore(btn2, btn);
@@ -1462,12 +1462,12 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
       if(!u){ location.href = '../login.html'; }
-      else if(u.uid === OWNER){ setEdit(!editing); }
+      else if(u.uid === OWNER){ if(editing){ saveAll(); } else { setEdit(true); } }
       else location.href = '../login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = 'メンバー登録'; if(editing) setEdit(false); return; }
-      btn.textContent = (u.uid === OWNER) ? (editing ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      btn.textContent = (u.uid === OWNER) ? (editing ? '保存する' : '✎ 編集する') : 'マイページ';
       var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       if(u.uid === OWNER) buildColorButton();
     });
@@ -1527,7 +1527,6 @@ try {
   };
 } catch(e){}
 </script>
-
 <script>
 (function(){
   if(!/[?&]edit=1(&|$)/.test(location.search)) return;
@@ -1544,7 +1543,6 @@ try {
   }, 500);
 })();
 </script>
-
 <!-- page-comments: guest comment / Q&A section for a member page.
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing ELCzyeeoDCU4gveavc077L4jBqE3__pmahalo01 / ELCzyeeoDCU4gveavc077L4jBqE3. -->
@@ -1665,10 +1663,6 @@ try {
 })();
 </script>
 
-
-
-
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
@@ -2182,5 +2176,6 @@ try {
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 </body>
 </html>

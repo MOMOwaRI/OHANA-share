@@ -276,7 +276,7 @@ html.js .mrv.in{opacity:1;transform:none}
       if(typeof d.tickets !== 'number'){ document.getElementById('tk-num').textContent = '0'; sec.style.display = ''; }
       var hint = document.createElement('p');
       hint.style.cssText = 'font-size:.8rem;color:#a3805a;margin-top:6px';
-      hint.textContent = '【あなただけ表示】券のカードをタップで枚数を変更／点線のアイコンをタップで写真を変更／名前は右上の「✎ 編集する」から変更できます';
+      hint.textContent = '【あなただけ表示】券のカードをタップで枚数を変更／点線のアイコンをタップで写真を変更／上のアバターをタップで、顔写真から作るアバターの編集へ／名前は右上の「✎ 編集する」から変更できます';
       sec.appendChild(hint);
       var card = sec.querySelector('.ticket-card');
       if(card){ card.style.cursor = 'pointer'; card.addEventListener('click', function(){
@@ -303,6 +303,10 @@ html.js .mrv.in{opacity:1;transform:none}
           }; im.src = rd.result; };
           rd.readAsDataURL(f);
         });
+      }
+      var hero = document.getElementById('hito-ava');
+      if(hero){ hero.style.cursor = 'pointer'; hero.title = 'アバターを編集'; hero.style.outline = '2px dashed rgba(26,122,109,.8)'; hero.style.outlineOffset = '3px';
+        hero.addEventListener('click', function(){ location.href = '../login.html#island-frame'; });
       }
     });
   }).catch(function(){});
@@ -670,7 +674,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     if(PAGE.indexOf('members-') !== 0) return;
     document.querySelectorAll('section').forEach(function(sec){
       var h = sec.querySelector('h2');
-      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集/.test(h.textContent)) sec.setAttribute('data-lock', '1');
+      if(h && /OHANAの仕組み|ヒトモノコトを探す|ほかのOHANAメンバー|同じビル|メンバー募集|OHANA島を歩く/.test(h.textContent)) sec.setAttribute('data-lock', '1');
     });
   }
   function stampLinks(){
@@ -1003,7 +1007,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     if(bar) bar.classList.toggle('on', on);
     if($('sb-msg')) $('sb-msg').textContent = '';
     var btn = window.__authBtn;
-    if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
+    if(btn) btn.textContent = on ? '保存する' : '✎ 編集する';
     targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
     if(on){ pendingLinks = {}; buildTagsPanel(); enterRowsEdit(); decorateSns(true); buildAddLinkBtn(); buildMapPanel(); }
     if(!on){ var lp = $('link-panel'); if(lp) lp.remove(); var tp = $('tags-panel'); if(tp) tp.remove(); var mp = $('map-panel'); if(mp) mp.remove(); var ab = $('addlink-btn'); if(ab) ab.remove(); decorateSns(false); tagsWork = null; if(rowsOrig) renderLiveRows(rowsOrig); if(mapFrame && mapEditSrc) mapFrame.src = mapEditSrc; }
@@ -1091,12 +1095,13 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     $('sb-save').addEventListener('click', saveAll);
     $('sb-cancel').addEventListener('click', function(){ if(confirm('保存していない変更を、元に戻しますか？')){ undoEdit(); setEdit(false); } });
     buildColorUI();
-    window.__toggleSiteEdit = function(){ setEdit(!editing); };
+    window.__toggleSiteEdit = function(){ if(editing){ saveAll(); } else { setEdit(true); } };
     window.__isSiteEditing = function(){ return editing; };
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
 
 
 
@@ -1135,6 +1140,54 @@ list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 
+
+
+
+
+
+
+
+
+<!-- island-link: OHANA island avatar priority for a hito page (stars/footprints on hold).
+     Bake ELCzyeeoDCU4gveavc077L4jBqE3 and {
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+} at injection. -->
+<script>
+(function(){
+  var TARGET_UID = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  function ensure(){
+    if(!window.firebase || !firebase.firestore) return false;
+    try{ if(!firebase.apps.length) firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}); }catch(e){}
+    return true;
+  }
+  function run(){
+    if(!ensure()){ setTimeout(run, 900); return; }
+    firebase.firestore().collection('islandUsers').doc(TARGET_UID).get().then(function(s){
+      if(!s.exists) return;
+      var d = s.data() || {};
+      var av = d.avaUrl;
+      if(av){
+        var apply = function(){ var im = document.querySelector('h1 img'); if(im && im.src !== av) im.src = av; };
+        apply();
+        setTimeout(apply, 2600);
+      }
+    }).catch(function(){});
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+})();
+</script>
 
 <!-- page-comments: guest comment / Q&A section for a member page.
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
@@ -1256,51 +1309,6 @@ list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 
-
-
-
-
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
-<!-- island-link: OHANA island avatar priority for a hito page (stars/footprints on hold).
-     Bake ELCzyeeoDCU4gveavc077L4jBqE3 and {
-  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
-  authDomain: "ohana-share.firebaseapp.com",
-  projectId: "ohana-share",
-  storageBucket: "ohana-share.firebasestorage.app",
-  messagingSenderId: "825904150210",
-  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
-} at injection. -->
-<script>
-(function(){
-  var TARGET_UID = 'ELCzyeeoDCU4gveavc077L4jBqE3';
-  function ensure(){
-    if(!window.firebase || !firebase.firestore) return false;
-    try{ if(!firebase.apps.length) firebase.initializeApp({
-  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
-  authDomain: "ohana-share.firebaseapp.com",
-  projectId: "ohana-share",
-  storageBucket: "ohana-share.firebasestorage.app",
-  messagingSenderId: "825904150210",
-  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
-}); }catch(e){}
-    return true;
-  }
-  function run(){
-    if(!ensure()){ setTimeout(run, 900); return; }
-    firebase.firestore().collection('islandUsers').doc(TARGET_UID).get().then(function(s){
-      if(!s.exists) return;
-      var d = s.data() || {};
-      var av = d.avaUrl;
-      if(av){
-        var apply = function(){ var im = document.querySelector('h1 img'); if(im && im.src !== av) im.src = av; };
-        apply();
-        setTimeout(apply, 2600);
-      }
-    }).catch(function(){});
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-})();
-</script>
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
@@ -1814,5 +1822,6 @@ list.forEach(function(el){ io.observe(el); });
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 </body>
 </html>
