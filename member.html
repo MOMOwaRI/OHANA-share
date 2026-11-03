@@ -189,6 +189,12 @@ body.is-owner #p-icon,body.is-owner #p-letter{outline:2px dashed rgba(224,123,36
         </select>
         <span class="note">コトの一覧で絞り込みに使われます</span>
       </div>
+        <div id="tags-edit" hidden style="margin-top:10px">
+        <span style="font-weight:bold">タグ：</span>
+        <div id="tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0"></div>
+        <span style="display:flex;gap:6px"><input type="text" id="tags-new" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:6px 14px;cursor:pointer">追加</button></span>
+        <span class="note">タグはヒト・モノ・コトの一覧で、絞り込みに使われます</span>
+      </div>
       </div>
 <div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
 <div class="sharemenu" id="share-menu">
@@ -691,6 +697,23 @@ function buildSuggestions(){
   if(filled){ var ln = $('link-note'); if(ln) ln.textContent = 'リンクは候補をあらかじめ入れてあります。違うものは消してから保存してください。'; }
 }
 
+var tagsWork = null;
+function renderTagsChips(){
+  var box = $('tags-chips');
+  if(!box) return;
+  box.innerHTML = '';
+  (tagsWork || []).forEach(function(t, i){
+    var c = document.createElement('span');
+    c.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:#fdf3e3;border:1.5px solid #e8b96f;border-radius:999px;padding:4px 8px 4px 12px;font-size:.9rem';
+    c.textContent = t;
+    var x = document.createElement('button');
+    x.type = 'button'; x.textContent = '×';
+    x.style.cssText = 'border:none;background:none;font-size:1rem;cursor:pointer;color:#b3541e;padding:0 2px';
+    x.addEventListener('click', function(){ tagsWork.splice(i, 1); renderTagsChips(); });
+    c.appendChild(x);
+    box.appendChild(c);
+  });
+}
 var islandAvaSrc = null, islandAvaFetching = false, islandAvaWired = false;
 function tryIslandAva(){
   var img = $('island-ava');
@@ -760,6 +783,8 @@ function setEdit(on){
   $('kgenre-edit').hidden = !(on && pageData && (pageData.categories || []).indexOf('コト') >= 0);
   if(on && pageData){ $('in-kgenre').value = pageData.kotoGenre || 'お店'; }
   if(on && pageData){ $('in-genre').value = pageData.monoGenre || 'その他'; }
+  $('tags-edit').hidden = !on;
+  if(on && pageData){ tagsWork = Array.isArray(pageData.tags) ? pageData.tags.slice() : []; renderTagsChips(); }
   $('edit-note').hidden = !on;
   $('btn-edit').hidden = on;
   $('btn-save').hidden = !on;
@@ -1023,6 +1048,14 @@ $('qf-icon').addEventListener('change', function(){
   $('btn-edit').addEventListener('click', function(){ setEdit(true); });
   $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
   $('btn-cancel2').addEventListener('click', function(){ setEdit(false); });
+  $('tags-add').addEventListener('click', function(){
+    var v = $('tags-new').value.trim();
+    if(!v) return;
+    if(!tagsWork) tagsWork = [];
+    if(tagsWork.indexOf(v) < 0) tagsWork.push(v);
+    $('tags-new').value = '';
+    renderTagsChips();
+  });
   $('btn-save2').addEventListener('click', function(){ $('btn-save').click(); });
   $('btn-save').addEventListener('click', function(){
     if(!pageData) return;
@@ -1055,6 +1088,7 @@ $('qf-icon').addEventListener('change', function(){
       categories: catEl ? [catEl.value] : (pageData.categories || []),
       monoGenre: (catEl && catEl.value === 'モノ') ? $('in-genre').value : (pageData.monoGenre || ''),
       kotoGenre: (catEl && catEl.value === 'コト') ? $('in-kgenre').value : (pageData.kotoGenre || ''),
+      tags: tagsWork || pageData.tags || [],
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     $('edit-msg').textContent = '保存しています…';
