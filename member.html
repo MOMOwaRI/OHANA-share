@@ -246,7 +246,6 @@ body:not(.editing) #island-ava{outline:none!important}
 
   <p id="static-link" hidden style="text-align:center;margin:4px 0 10px"><a id="static-a" href="">紹介ページ（公開ページ）を見る →</a></p>
   <div id="editbar" hidden>
-    <p id="edit-msg" style="font-weight:bold">これはあなたのページです</p>
 
 
 
@@ -254,10 +253,7 @@ body:not(.editing) #island-ava{outline:none!important}
 
 
 
-    <button type="button" id="btn-edit">このページを編集する</button>
     <button type="button" id="btn-save" hidden style="display:none">保存する</button>
-    <button type="button" id="btn-cancel" hidden>キャンセル</button>
-    <p class="note" id="edit-note" hidden>ページに出ているものをタップすると、その場で直せます。</p>
   </div>
 
   <section id="s-film" hidden><h2>店内の様子</h2><p class="sub" id="film-sub">写真は横に流れ続けます（タップで止まります）。</p><div id="p-film" class="film"><div class="film-track" id="film-track"></div></div><div id="film-strip" hidden><div class="fstrip" id="fstrip"></div><p class="note">写真をタップすると入れ替え、＋で追加できます。説明は写真の下に書けます。</p></div><input type="file" id="in-film-any" accept="image/*" hidden></section>
@@ -273,12 +269,6 @@ body:not(.editing) #island-ava{outline:none!important}
   <div class="ticket-card" id="ticket-card" hidden>
     <p style="font-weight:bold"><span id="ticket-title">OHANA100円券</span></p>
     <p><span class="ticket-num" id="ticket-num">0</span> 枚 持っています</p>
-    <div id="ticket-owner" hidden>
-    <div class="ticket-btns">
-      <button type="button" id="tk-minus">使った −1</button>
-      <button type="button" id="tk-plus1">受け取った ＋1</button>
-      <button type="button" id="tk-plus5">＋5</button>
-  </div>
     <p class="sub" style="margin-top:8px">自己申告です。使ったり受け取ったりしたら、自分で合わせてください。券は紙のまま、枚数だけここで記録します。この枚数は、みんなにも見えます。</p>
     <p class="sub" id="ticket-msg"></p>
   </div>
@@ -352,7 +342,6 @@ body:not(.editing) #island-ava{outline:none!important}
   <div id="savebar" hidden>
     <span class="sb-label">編集中</span>
     <button type="button" id="btn-save2">保存する</button>
-    <button type="button" id="btn-cancel2">キャンセル</button>
   </div>
 
   <a class="cta" href="index.html">OHANAトップへ戻る</a>
@@ -929,16 +918,12 @@ function setEdit(on){
   if(on && pageData){ $('in-mapq').value = pageData.mapQ || ''; }
   if(on && pageData){ tagsWork = Array.isArray(pageData.tags) ? pageData.tags.slice() : []; renderTagsChips(); }
   if(on && pageData){ linksWork = Array.isArray(pageData.links) ? pageData.links.map(function(L){ return {t: L.t || '', h: L.h || ''}; }) : []; renderFlRows(); }
-  $('edit-note').hidden = !on;
-  $('btn-edit').hidden = on;
   $('btn-save').hidden = true;
-  $('btn-cancel').hidden = !on;
   if(on){
     var dcats = pageData.categories || (pageData.category ? [pageData.category] : []);
     var main = dcats[0] || 'ヒト';
     var r = document.querySelector('input[name="ecat"][value="' + main + '"]');
     if(r) r.checked = true;
-    $('edit-msg').textContent = '編集中です（文字をタップして直せます）';
     window.scrollTo({top: 0, behavior: 'smooth'});
   }
   if(!on){
@@ -1012,13 +997,19 @@ function setupTickets(){
     $('ticket-card').hidden = false;
     loadTickets();
   }
-  var tOwnerEl = $('ticket-owner');
-  if(tOwnerEl) tOwnerEl.hidden = !(isOwner && editing);
   if(isOwner && !ownerWired){
     ownerWired = true;
-    $('tk-minus').addEventListener('click', function(){ bumpTickets(-1); });
-    $('tk-plus1').addEventListener('click', function(){ bumpTickets(1); });
-    $('tk-plus5').addEventListener('click', function(){ bumpTickets(5); });
+    var card = $('ticket-card');
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(){
+      var v = prompt('OHANA100円券の枚数（0〜9999）', String(myTickets));
+      if(v === null) return;
+      var n = parseInt(v, 10);
+      if(isNaN(n) || n < 0 || n > 9999){ toast('0〜9999の数字で入れてください'); return; }
+      myTickets = n;
+      renderTickets();
+      saveTickets();
+    });
   }
 }
 var currentUser = null;
@@ -1198,9 +1189,6 @@ $('qf-icon').addEventListener('change', function(){
     $('in-film-any').value = '';
   });
 
-  $('btn-edit').addEventListener('click', function(){ setEdit(true); });
-  $('btn-cancel').addEventListener('click', function(){ setEdit(false); });
-  $('btn-cancel2').addEventListener('click', function(){ setEdit(false); });
   $('fl-add').addEventListener('click', function(){
     if(!linksWork) linksWork = [];
     linksWork.push({t: '', h: ''});
@@ -1251,7 +1239,6 @@ $('qf-icon').addEventListener('change', function(){
       mapQ: $('in-mapq').value.trim(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
-    $('edit-msg').textContent = '保存しています…';
     db.collection('profiles').doc(id).set(data, {merge: true}).then(function(){
       if(pendingIconData !== null && ownerUid && ownerUid !== id){ db.collection('profiles').doc(ownerUid).set({iconData: pendingIconData}, {merge: true}).catch(function(){}); if(pendingIconData) baseIconData = pendingIconData; }
       Object.keys(data).forEach(function(k){ if(k !== 'updatedAt') pageData[k] = data[k]; });
