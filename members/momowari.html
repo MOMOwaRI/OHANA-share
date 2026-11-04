@@ -303,11 +303,12 @@ html.js .mrv.in{opacity:1;transform:none}
     if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
     if(rows){ document.getElementById('live-rows').innerHTML = rows; document.getElementById('live-sec').style.display = ''; }
     var pv = document.querySelector('.hero-pv');
-    if(pv && (d.cmColor || d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5 || themeColor)){
-      var DP = ["../images/shop/plush-1.jpg", "../images/shop/plush-2.jpg", "../images/shop/plush-3.jpg"], DT = ["MOMOwaRI", "子供服が大量です", "雑貨も物々交換できます", "ベビー服、探しています", "眠っている価値を、\n必要な場所へ。"];
-      var photos = [d.cmPhoto1 || DP[0], d.cmPhoto2 || DP[1], d.cmPhoto3 || DP[2]].filter(function(x){ return !!x; });
-      var texts = [d.cmT1 || DT[0], d.cmT2 || DT[1], d.cmT3 || DT[2], d.cmT4 || DT[3], d.cmT5 || DT[4]];
-      var color = d.cmColor || themeColor || '#c2437e';
+    var DP = ["../images/shop/plush-1.jpg", "../images/shop/plush-2.jpg", "../images/shop/plush-3.jpg"], DT = ["MOMOwaRI", "子供服が大量です", "雑貨も物々交換できます", "ベビー服、探しています", "眠っている価値を、\n必要な場所へ。"];
+    function buildCm(dd){
+      if(!pv) return;
+      var photos = [dd.cmPhoto1 || DP[0], dd.cmPhoto2 || DP[1], dd.cmPhoto3 || DP[2]].filter(function(x){ return !!x; });
+      var texts = [dd.cmT1 || DT[0], dd.cmT2 || DT[1], dd.cmT3 || DT[2], dd.cmT4 || DT[3], dd.cmT5 || DT[4]];
+      var color = dd.cmColor || themeColor || '#c2437e';
       var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
       for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
       cmh += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
@@ -317,6 +318,7 @@ html.js .mrv.in{opacity:1;transform:none}
       var total = kids.length * 5;
       for(var ck = 0; ck < kids.length; ck++){ kids[ck].style.animationDuration = total + 's'; kids[ck].style.animationDelay = (ck * 5) + 's'; }
     }
+    if(pv && (d.cmColor || d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5 || themeColor)){ buildCm(d); }
     if(typeof d.tickets === 'number'){ document.getElementById('tk-num').textContent = d.tickets; document.getElementById('ticket-sec').style.display = ''; }
     var h1img = document.querySelector('h1 img');
     if(d.iconData && h1img) h1img.src = d.iconData;
@@ -335,6 +337,59 @@ html.js .mrv.in{opacity:1;transform:none}
         if(isNaN(n) || n < 0 || n > 9999){ alert('0〜9999の数字で入れてください'); return; }
         ref.update({tickets: n}).then(function(){ document.getElementById('tk-num').textContent = n; });
       }); }
+      if(pv){
+        var cmWork = { p: [d.cmPhoto1 || '', d.cmPhoto2 || '', d.cmPhoto3 || ''] };
+        var cmLink = document.createElement('p');
+        cmLink.style.cssText = 'text-align:center;margin:4px 0 0;font-size:.85rem';
+        cmLink.innerHTML = '<a href="#" id="cmedit-open" style="color:#b96a00">\u270e アニメーションを編集</a>';
+        pv.parentNode.insertBefore(cmLink, pv.nextSibling);
+        var cmPanel = document.createElement('div');
+        cmPanel.id = 'cmedit-panel';
+        cmPanel.hidden = true;
+        cmPanel.style.cssText = 'background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:14px;margin:10px auto;max-width:520px;text-align:left';
+        (function(){
+          var h = '<p style="font-weight:bold;margin:0 0 6px">アニメーションの編集</p>';
+          h += '<p class="sub" style="margin:0 0 4px">写真（タップで変更）</p><div style="display:flex;gap:8px">';
+          for(var i = 0; i < 3; i++){ h += '<img data-cmp="' + i + '" src="' + (cmWork.p[i] || DP[i]) + '" alt="" style="width:31%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;cursor:pointer;outline:2px dashed rgba(224,123,36,.6);outline-offset:2px">'; }
+          h += '</div><p class="sub" style="margin:10px 0 4px">文字</p>';
+          var tv = [d.cmT1 || DT[0], d.cmT2 || DT[1], d.cmT3 || DT[2], d.cmT4 || DT[3], (d.cmT5 || DT[4]).replace(/\n/g, ' ')];
+          for(var t = 0; t < 5; t++){ h += '<input type="text" data-cmt="' + t + '" value="' + esc(tv[t]).replace(/"/g, '&quot;') + '" style="width:100%;box-sizing:border-box;margin:3px 0;padding:8px;border:1.5px solid #d8c7ae;border-radius:8px;font-family:inherit">'; }
+          h += '<p class="sub" style="margin:10px 0 4px">色</p><input type="color" id="cmedit-color" value="' + (d.cmColor || themeColor || '#c2437e') + '" style="width:64px;height:36px">';
+          h += '<p style="display:flex;gap:8px;margin-top:12px;align-items:center"><button type="button" id="cmedit-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 18px;cursor:pointer">保存する</button><span id="cmedit-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
+          cmPanel.innerHTML = h;
+        })();
+        cmLink.parentNode.insertBefore(cmPanel, cmLink.nextSibling);
+        var cmFile = document.createElement('input'); cmFile.type = 'file'; cmFile.accept = 'image/*'; cmFile.style.display = 'none'; document.body.appendChild(cmFile);
+        var cmSlot = 0;
+        cmPanel.addEventListener('click', function(ev){
+          var im = ev.target && ev.target.closest ? ev.target.closest('img[data-cmp]') : null;
+          if(im){ cmSlot = parseInt(im.getAttribute('data-cmp'), 10); cmFile.click(); }
+        });
+        cmFile.addEventListener('change', function(){
+          var f = cmFile.files && cmFile.files[0]; if(!f) return;
+          var rd = new FileReader();
+          rd.onload = function(){ var im2 = new Image(); im2.onload = function(){
+            var sc = Math.min(1, 900 / Math.max(im2.width, im2.height));
+            var cv = document.createElement('canvas'); cv.width = Math.round(im2.width * sc); cv.height = Math.round(im2.height * sc);
+            cv.getContext('2d').drawImage(im2, 0, 0, cv.width, cv.height);
+            var url = cv.toDataURL('image/jpeg', 0.78);
+            cmWork.p[cmSlot] = url;
+            var th = cmPanel.querySelector('img[data-cmp="' + cmSlot + '"]'); if(th) th.src = url;
+          }; im2.src = rd.result; };
+          rd.readAsDataURL(f);
+        });
+        cmLink.querySelector('#cmedit-open').addEventListener('click', function(ev){ ev.preventDefault(); cmPanel.hidden = !cmPanel.hidden; });
+        cmPanel.querySelector('#cmedit-save').addEventListener('click', function(){
+          var msg = cmPanel.querySelector('#cmedit-msg'); msg.textContent = '保存しています…';
+          var upd = { cmPhoto1: cmWork.p[0], cmPhoto2: cmWork.p[1], cmPhoto3: cmWork.p[2], cmColor: cmPanel.querySelector('#cmedit-color').value };
+          cmPanel.querySelectorAll('input[data-cmt]').forEach(function(inp, ix){ upd['cmT' + (ix + 1)] = inp.value; });
+          ref.update(upd).then(function(){
+            Object.keys(upd).forEach(function(k){ d[k] = upd[k]; });
+            buildCm(d);
+            msg.textContent = '保存しました ✓';
+          }).catch(function(){ msg.textContent = '保存できませんでした。時間をおいて試してください'; });
+        });
+      }
       if(h1img){ h1img.style.cursor = 'pointer'; h1img.title = 'アイコンを変更'; h1img.style.outline = '2px dashed rgba(224,123,36,.85)'; h1img.style.outlineOffset = '3px';
         var fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/*'; fi.style.display = 'none'; document.body.appendChild(fi);
         h1img.addEventListener('click', function(){ fi.click(); });
