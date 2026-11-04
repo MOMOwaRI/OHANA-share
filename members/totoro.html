@@ -699,7 +699,7 @@ try {
     });
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); btn2.style.display = 'none'; return; }
-      btn.textContent = (u.uid === OWNER && (DOC || window.__toggleSiteEdit)) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      btn.textContent = (u.uid === OWNER && (DOC || window.__toggleSiteEdit)) ? (document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する') : 'マイページ';
       btn2.style.display = (u.uid === OWNER && window.__toggleSiteEdit) ? '' : 'none';
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       if(u.uid === OWNER && DOC){
@@ -2059,7 +2059,7 @@ list.forEach(function(el){ io.observe(el); });
     });
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
-      btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する') : 'マイページ';
       var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       if(u.uid === OWNER && DOC){
@@ -2078,5 +2078,9 @@ list.forEach(function(el){ io.observe(el); });
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
+<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
+body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+</style>
 </body>
 </html>
