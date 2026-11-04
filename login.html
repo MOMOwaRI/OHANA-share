@@ -153,10 +153,6 @@ html.js .mrv.in{opacity:1;transform:none}
         <li>下の「新しいページを作る」から、ページが作れます（1人で複数OK）。ページを開くと、その場で文字を直して編集できます</li>
       </ul>
     </section>
-    <section id="island-frame" style="background:#f2faf7;border:1.5px solid #bfe6da;border-radius:16px;padding:14px 16px;margin:14px 0">
-      <h3 style="margin:0 0 6px">🏝 OHANA島のマイページ</h3>
-      <div id="island-frame-body"></div>
-    </section>
     <div class="create-card" id="match-card" style="display:block">
       <p style="font-weight:bold">合いそうな人</p>
       <p class="sub">あなたの「探している」と、みんなの「提供している」を見比べて出しています。連絡先は出ません。ページから声をかけてみてください。</p>
@@ -802,153 +798,7 @@ list.forEach(function(el){ io.observe(el); });
 
 
 
-<!-- island frame moved to island.html -->
-<script>
-(function(){
-  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function fmtDay(d){ var p = String(d || '').split('-'); return p.length === 3 ? (p[0] + '年' + Number(p[1]) + '月' + Number(p[2]) + '日') : String(d || ''); }
-  function catImg(cat){ var ok = ['black', 'calico', 'muse', 'tabby', 'white']; if(ok.indexOf(cat) < 0) cat = 'muse'; return 'https://momowari.github.io/ohana-jima/cat-' + cat + '-sit.png'; }
-  var ISLAND = 'https://momowari.github.io/ohana-jima/';
-  function linkBtn(){ return '<a href="' + ISLAND + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#1a7a6d;color:#fff;font-weight:bold;border-radius:999px;padding:8px 16px;text-decoration:none">🏝 島へ行く</a>'; }
-  function fileToData(file, cb, errCb){
-    var url = URL.createObjectURL(file);
-    var img = new Image();
-    img.onload = function(){
-      URL.revokeObjectURL(url);
-      var max = 600;
-      var scale = Math.min(1, max / Math.max(img.width, img.height));
-      var w = Math.max(1, Math.round(img.width * scale));
-      var h = Math.max(1, Math.round(img.height * scale));
-      var cv = document.createElement('canvas');
-      cv.width = w; cv.height = h;
-      cv.getContext('2d').drawImage(img, 0, 0, w, h);
-      cb(cv.toDataURL('image/jpeg', 0.8));
-    };
-    img.onerror = function(){ URL.revokeObjectURL(url); if(errCb) errCb(); };
-    img.src = url;
-  }
-  function toolsHtml(d){
-    var status = '';
-    if(d && d.avaUrl) status = '<p class="sub" style="margin:0 0 6px">分身（アバター）は完成しています。写真を変えたいときは、新しい写真を送ってください。</p>';
-    else if(d && d.photoReady) status = '<p class="sub" style="margin:0 0 6px">写真は受け取り済みです。分身を作成中です。</p>';
-    return '<div style="margin-top:12px;border-top:1px dashed #bfe6da;padding-top:10px">' +
-      '<p style="margin:0 0 6px"><b>📷 分身（アバター）用の写真</b></p>' + status +
-      '<p class="sub" style="margin:0 0 6px">写真は非公開で保管されます。公開されるのは、完成したアバターだけです。</p>' +
-      '<p style="margin:0"><button type="button" id="island-photo-btn" style="font-family:inherit;font-weight:bold;background:#fff;color:#1a7a6d;border:1.5px solid #57b8a6;border-radius:999px;padding:8px 16px;cursor:pointer">写真を選ぶ</button> <span id="island-photo-msg" class="sub"></span></p>' +
-      '<input type="file" id="island-photo-file" accept="image/*" hidden>' +
-      '<p style="margin:14px 0 6px"><b>💬 アバターの相談</b></p>' +
-      '<p class="sub" style="margin:0 0 6px">「こんな雰囲気で」など、希望を書いて送ってください。受け取った内容で分身づくりを進めます（ここでの返事は受け取りの確認だけです）。</p>' +
-      '<div id="island-ava-history"></div>' +
-      '<textarea id="island-ava-text" rows="2" maxlength="300" placeholder="アバターの希望（例：笑顔で、猫耳つきで）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #bfe6da;border-radius:10px;background:#fff"></textarea>' +
-      '<p style="margin:6px 0 0"><button type="button" id="island-ava-send" style="font-family:inherit;font-weight:bold;background:#1a7a6d;color:#fff;border:none;border-radius:999px;padding:8px 18px;cursor:pointer">送る</button> <span id="island-ava-msg" class="sub"></span></p>' +
-      '</div>';
-  }
-  function renderHistory(d){
-    var box = document.getElementById('island-ava-history');
-    if(!box) return;
-    var arr = (d && Array.isArray(d.avaChat)) ? d.avaChat : [];
-    if(!arr.length){ box.innerHTML = ''; return; }
-    var h = '<div style="background:#fff;border:1px solid #d8ecdf;border-radius:10px;padding:8px 10px;margin:0 0 8px">';
-    arr.slice(-5).forEach(function(m){
-      h += '<p style="margin:3px 0;font-size:.92rem"><span class="sub">' + esc(fmtDay(String(m.ts || '').slice(0, 10))) + '</span> ' + esc(m.t || '') + '</p>';
-    });
-    h += '</div>';
-    box.innerHTML = h;
-  }
-  function attachTools(uid, d){
-    function notifyIsland(kind, text){
-      try{
-        var send = function(nm){
-          var p = {k: 'ohana-island-notify-2026', kind: kind, name: nm || ''};
-          if(kind === 'ava') p.text = text || '';
-          try{ fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams(p)}).catch(function(){}); }catch(e){}
-        };
-        if(d && d.nickname) send(d.nickname);
-        else {
-          firebase.firestore().collection('profiles').doc(uid).get().then(function(s){ send(s.exists ? ((s.data() || {}).nickname || '') : ''); }).catch(function(){ send(''); });
-        }
-      }catch(e){}
-    }
-    renderHistory(d);
-    var avaImg = document.getElementById('island-ava-img');
-    if(avaImg){ avaImg.addEventListener('click', function(){ var f = document.getElementById('island-photo-file'); if(f) f.click(); }); }
-    var fbtn = document.getElementById('island-photo-btn');
-    var file = document.getElementById('island-photo-file');
-    var pmsg = document.getElementById('island-photo-msg');
-    if(fbtn && file){
-      fbtn.addEventListener('click', function(){ file.click(); });
-      file.addEventListener('change', function(){
-        if(!file.files || !file.files[0]) return;
-        pmsg.textContent = '送っています…';
-        fileToData(file.files[0], function(dataUrl){
-          var db = firebase.firestore();
-          var now = new Date().toISOString();
-          db.collection('islandPhotos').doc(uid).set({photoData: dataUrl, updatedAt: now}, {merge: true}).then(function(){
-            return db.collection('islandUsers').doc(uid).set({photoReady: true}, {merge: true});
-          }).then(function(){
-            pmsg.textContent = '保存しました ✓ この写真で分身を作ります。';
-            notifyIsland('photo');
-          }).catch(function(){
-            pmsg.textContent = '保存できませんでした。もう一度お試しください。';
-          });
-        }, function(){ pmsg.textContent = 'その写真は読み込めませんでした。別の写真でお試しください。'; });
-      });
-    }
-    var send = document.getElementById('island-ava-send');
-    var text = document.getElementById('island-ava-text');
-    var amsg = document.getElementById('island-ava-msg');
-    if(send && text){
-      send.addEventListener('click', function(){
-        var t = text.value.trim();
-        if(!t){ amsg.textContent = '希望を書いてから送ってください。'; return; }
-        amsg.textContent = '送っています…';
-        var db = firebase.firestore();
-        var ref = db.collection('islandUsers').doc(uid);
-        ref.get().then(function(snap){
-          var cur = snap.exists ? (snap.data() || {}) : {};
-          var arr = Array.isArray(cur.avaChat) ? cur.avaChat.slice() : [];
-          var now = new Date().toISOString();
-          arr.push({t: t, ts: now});
-          arr = arr.slice(-30);
-          return ref.set({avaChat: arr, avaReqTs: now}, {merge: true}).then(function(){ return arr; });
-        }).then(function(arr){
-          text.value = '';
-          amsg.textContent = '受け取りました ✓ この内容で分身づくりを進めます。できあがったら、アバターに反映されます。';
-          renderHistory({avaChat: arr});
-          notifyIsland('ava', t);
-        }).catch(function(){
-          amsg.textContent = '送れませんでした。もう一度お試しください。';
-        });
-      });
-    }
-  }
-  function start(){
-    if(!window.firebase || !firebase.auth){ setTimeout(start, 900); return; }
-    firebase.auth().onAuthStateChanged(function(u){
-      var sec = document.getElementById('island-frame');
-      var body = document.getElementById('island-frame-body');
-      if(!sec || !body) return;
-      if(!u){ sec.hidden = false; body.innerHTML = '<p style="margin:2px 0">ログインすると、分身（アバター）用の写真を送ったり、アバターの相談ができます。</p><p style="margin:8px 0 0"><a href="login.html#login" style="font-weight:bold;color:#1a7a6d">マイページでログインする</a></p>'; return; }
-      sec.hidden = false;
-      body.innerHTML = '<p class="sub">読み込んでいます…</p>';
-      firebase.firestore().collection('islandUsers').doc(u.uid).get().then(function(s){
-        if(!s.exists){
-          body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img id="island-ava-img" src="' + esc(catImg('muse')) + '" alt="島アバター" title="タップで写真を変える" style="height:96px;width:auto;cursor:pointer;outline:2px dashed rgba(26,122,109,.55);outline-offset:2px"><span class="sub">島アバターをタップすると、写真を選べます</span></div><p style="margin:8px 0 2px">OHANA島は、もうひとつの松山を歩ける場所です。同じGoogleログインでそのまま入れます。入って歩くだけで大丈夫です。</p>' + linkBtn() + toolsHtml(null);
-          attachTools(u.uid, null);
-          return;
-        }
-        var d = s.data() || {};
-        var av = d.avaUrl || catImg(d.cat);
-        body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img id="island-ava-img" src="' + esc(av) + '" alt="島アバター" title="タップで写真を変える" style="height:96px;width:auto;cursor:pointer;outline:2px dashed rgba(26,122,109,.55);outline-offset:2px"><span class="sub">島アバターをタップすると、写真を選べます</span></div>' + linkBtn() + toolsHtml(d);
-        attachTools(u.uid, d);
-      }).catch(function(){
-        body.innerHTML = '<p style="margin:2px 0">OHANA島の情報が読み込めませんでした。</p>' + linkBtn();
-      });
-    });
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-})();
-</script>
+
 
 
 <style>
@@ -2010,5 +1860,9 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
+
+<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
+body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+</style>
 </body>
 </html>
