@@ -120,7 +120,7 @@ html.js .mrv.in{opacity:1;transform:none}
 </head>
 <body>
 <div class="wrap">
-<style>.ctx-strip{font-size:12.5px;color:#8a6a20;border-top:1px solid #eadfc9;border-bottom:1px solid #eadfc9;padding:7px 2px;margin:14px 0 4px}.ctx-about{font-size:13.5px;color:#555;margin:6px 0 2px}.ctx-about summary{cursor:pointer;color:#b96a00;font-size:13px}.ctx-about p{margin:6px 0 0}</style>
+<style>.ctx-strip{text-align:left;font-size:12.5px;color:#8a6a20;border-top:1px solid #eadfc9;border-bottom:1px solid #eadfc9;padding:7px 150px 7px 2px;margin:14px 0 4px}.ctx-about{font-size:13.5px;color:#555;margin:6px 0 2px}.ctx-about summary{cursor:pointer;color:#b96a00;font-size:13px}.ctx-about p{margin:6px 0 0}</style>
 <div class="ctx-strip"><a href="../index.html">TOP</a> ＞ <a href="../koto.html">コトの一覧</a> ＞ Lea Mahalo</div>
 <details class="ctx-about">
 <summary>このページについて（タップで開く）</summary>
@@ -143,10 +143,12 @@ html.js .mrv.in{opacity:1;transform:none}
 <p class="note">実店舗は普段開いておらず、来店は予約制です。ご購入前の在庫確認はメルカリのコメントでお願いします。</p>
 </header>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
-<p class="sharerow" style="text-align:center;font-size:.92rem;margin:12px 0 2px">このページをシェアする：<a id="share-line" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">LINEで送る</a> ・ <a id="share-x" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">Xでシェア</a> ・ <a id="share-copy" style="color:#b3541e;font-weight:bold;cursor:pointer">リンクをコピー</a></p><p class="note" id="share-msg" style="text-align:center"></p>
+<div class="sharewrap"><button type="button" class="sharebtn" id="share-btn">このページをシェアする</button><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
 <script>
 (function(){
   var line = document.getElementById('share-line'), x = document.getElementById('share-x');
+  var sbtn = document.getElementById('share-btn'), smenu = document.getElementById('share-menu');
+  if(sbtn && smenu){ sbtn.addEventListener('click', function(){ smenu.classList.toggle('open'); }); }
   var url = location.href;
   if(line) line.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url);
   if(x) x.href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(document.title);
@@ -1512,22 +1514,27 @@ try {
     '<textarea id="pc-text" maxlength="500" rows="3" placeholder="この方への質問・コメント"></textarea>' +
     '<p style="margin-top:8px"><button type="submit" class="pc-send">投稿する</button> <span id="pc-msg" class="sub"></span></p>' +
     '</form>';
-  var anchor = null;
-  var secs = document.querySelectorAll('section');
-  for(var i = 0; i < secs.length; i++){
-    var h = secs[i].querySelector('h2');
-    if(h && h.textContent.indexOf('OHANAの仕組み') >= 0){ anchor = secs[i]; break; }
-  }
-  if(!anchor){
-    for(var j = 0; j < secs.length; j++){
-      var h2 = secs[j].querySelector('h2');
-      if(h2 && h2.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[j]; break; }
+  var placed = false;
+  var afterSec = document.getElementById('live-sec') || document.getElementById('s-offering') || document.getElementById('s-seeking');
+  if(afterSec && afterSec.parentNode){ afterSec.parentNode.insertBefore(sec, afterSec.nextSibling); placed = true; }
+  if(!placed){
+    var anchor = null;
+    var secs = document.querySelectorAll('section');
+    for(var i = 0; i < secs.length; i++){
+      var h = secs[i].querySelector('h2');
+      if(h && (h.textContent.indexOf('この人のモノ・コト') >= 0 || h.textContent.indexOf('OHANAの仕組み') >= 0)){ anchor = secs[i]; break; }
     }
+    if(!anchor){
+      for(var j = 0; j < secs.length; j++){
+        var h2 = secs[j].querySelector('h2');
+        if(h2 && h2.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[j]; break; }
+      }
+    }
+    if(!anchor) anchor = document.querySelector('footer');
+    if(anchor && anchor.parentNode) anchor.parentNode.insertBefore(sec, anchor);
+    else if(document.querySelector('.wrap')) document.querySelector('.wrap').appendChild(sec);
+    else document.body.appendChild(sec);
   }
-  if(!anchor) anchor = document.querySelector('footer');
-  if(anchor && anchor.parentNode) anchor.parentNode.insertBefore(sec, anchor);
-  else if(document.querySelector('.wrap')) document.querySelector('.wrap').appendChild(sec);
-  else document.body.appendChild(sec);
 
   function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function $(id){ return document.getElementById(id); }
