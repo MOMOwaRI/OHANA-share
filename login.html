@@ -933,13 +933,13 @@ list.forEach(function(el){ io.observe(el); });
       body.innerHTML = '<p class="sub">読み込んでいます…</p>';
       firebase.firestore().collection('islandUsers').doc(u.uid).get().then(function(s){
         if(!s.exists){
-          body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img id="island-ava-img" src="' + esc(catImg('muse')) + '" alt="島アバター" title="タップで写真を変える" style="width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da;cursor:pointer;outline:2px dashed rgba(26,122,109,.55);outline-offset:2px"><span class="sub">島アバターをタップすると、写真を選べます</span></div><p style="margin:8px 0 2px">OHANA島は、もうひとつの松山を歩ける場所です。同じGoogleログインでそのまま入れます。入って歩くだけで大丈夫です。</p>' + linkBtn() + toolsHtml(null);
+          body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img id="island-ava-img" src="' + esc(catImg('muse')) + '" alt="島アバター" title="タップで写真を変える" style="height:96px;width:auto;cursor:pointer;outline:2px dashed rgba(26,122,109,.55);outline-offset:2px"><span class="sub">島アバターをタップすると、写真を選べます</span></div><p style="margin:8px 0 2px">OHANA島は、もうひとつの松山を歩ける場所です。同じGoogleログインでそのまま入れます。入って歩くだけで大丈夫です。</p>' + linkBtn() + toolsHtml(null);
           attachTools(u.uid, null);
           return;
         }
         var d = s.data() || {};
         var av = d.avaUrl || catImg(d.cat);
-        body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img id="island-ava-img" src="' + esc(av) + '" alt="島アバター" title="タップで写真を変える" style="width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da;cursor:pointer;outline:2px dashed rgba(26,122,109,.55);outline-offset:2px"><span class="sub">島アバターをタップすると、写真を選べます</span></div>' + linkBtn() + toolsHtml(d);
+        body.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><img id="island-ava-img" src="' + esc(av) + '" alt="島アバター" title="タップで写真を変える" style="height:96px;width:auto;cursor:pointer;outline:2px dashed rgba(26,122,109,.55);outline-offset:2px"><span class="sub">島アバターをタップすると、写真を選べます</span></div>' + linkBtn() + toolsHtml(d);
         attachTools(u.uid, d);
       }).catch(function(){
         body.innerHTML = '<p style="margin:2px 0">OHANA島の情報が読み込めませんでした。</p>' + linkBtn();
