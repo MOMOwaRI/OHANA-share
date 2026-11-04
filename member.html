@@ -66,6 +66,7 @@
   [hidden]{display:none !important}
 
 .sharewrap{text-align:center;margin-top:12px}
+.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:#c2610f;font-weight:bold;text-decoration:none;cursor:pointer}
 .sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
 .sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
 .sharemenu.open{display:flex}
@@ -237,7 +238,7 @@ body.editing #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:3
         <span class="note">ページの下に地図が出ます。空にすると地域名で出ます</span>
       </div>
       </div>
-<div class="sharewrap"><button type="button" class="sharebtn" id="share-btn">このページをシェアする</button><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
+<p class="sharerow">このページをシェアする：<a id="share-line" target="_blank" rel="noopener">LINEで送る</a> ・ <a id="share-x" target="_blank" rel="noopener">Xでシェア</a> ・ <a id="share-copy">リンクをコピー</a></p><p class="note" id="share-msg" style="text-align:center"></p>
 <script>
 (function(){
   var line = document.getElementById('share-line'), x = document.getElementById('share-x');
