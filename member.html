@@ -49,7 +49,6 @@
   body.editing .ed{outline:2px dashed #e0a458;outline-offset:3px;border-radius:6px}
   h1{display:flex;align-items:center;justify-content:center;gap:10px}
   #p-icon,#p-letter{flex:none;margin-right:0 !important;vertical-align:baseline !important}
-  body.is-owner:not(.editing) .ed:hover{outline:2px dashed #e8b96f;outline-offset:3px;border-radius:6px}
   body.editing .ed:empty::before{content:attr(data-ph);color:var(--soft)}
   .linkedit label{display:block;font-weight:bold;margin:12px 0 4px;text-align:left}
   .linkedit input,.linkedit textarea{width:100%;border:1px solid #e5cfae;border-radius:10px;padding:10px;font-size:.95rem;font-family:inherit;background:#fffdf9}
@@ -109,7 +108,8 @@
 .ptile .pn{display:block;font-weight:bold;line-height:1.4}
 .ptile .pc{font-size:.78rem;color:#8a6a4f}
 body.is-owner #p-photo,body.is-owner #p-icon,body.is-owner #p-letter,body.is-owner #cm-live{cursor:pointer}
-body.is-owner #p-icon,body.is-owner #p-letter{outline:2px dashed rgba(224,123,36,.85);outline-offset:3px}
+body.is-owner.editing #p-icon,body.is-owner.editing #p-letter{outline:2px dashed rgba(224,123,36,.85);outline-offset:3px}
+body:not(.editing) #island-ava{outline:none!important}
 
 .fstrip{display:flex;flex-wrap:wrap;gap:12px}
 .fcell{position:relative;width:110px}
