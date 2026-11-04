@@ -255,7 +255,6 @@ body.editing #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:3
 </script>
 
 
-  <p id="static-link" hidden style="text-align:center;margin:4px 0 10px"><a id="static-a" href="">紹介ページ（公開ページ）を見る →</a></p>
   <div id="editbar" hidden>
 
 
@@ -454,15 +453,6 @@ function siblingPhoto(docId){
   if(ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' && map[suffix] !== undefined) return map[suffix];
   return '';
 }
-function showStaticLink(){
-  var smap = {};
-  smap[ownerUid] = 'members/momowari.html';
-  smap[ownerUid + '__mono'] = 'members/lea-mahalo.html';
-  smap[ownerUid + '__koto'] = 'members/eyes-mahalo.html';
-  smap[ownerUid + '__pelua01'] = 'members/elua-mahalo.html';
-  smap[ownerUid + '__pmahalo01'] = 'members/mahalo.html';
-  if(smap[id]){ $('static-link').hidden = false; $('static-a').href = smap[id]; }
-}
 function loadSiblings(){
   db.collection('profiles').get().then(function(snap){
     var list = [];
@@ -632,7 +622,7 @@ function render(d, editMode){
   renderCm(d);
   loadFilm(id);
   setupTickets();
-  loadSiblings(); showStaticLink();
+  loadSiblings();
   var icoSrc = d.iconData || baseIconData || (ownerUid === 'ELCzyeeoDCU4gveavc077L4jBqE3' ? 'momowari-icon.png' : '');
   (function(){
     db.collection('islandUsers').doc(ownerUid).get().then(function(isd){
