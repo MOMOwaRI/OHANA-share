@@ -146,7 +146,6 @@ h1{flex-wrap:nowrap}
 <details class="ctx-about"><summary>このページについて（タップで開く）</summary><p>このページは、OHANAシェア＊プロジェクト（フリマ型の選べる物々交換）のメンバー紹介ページです。このページだけでも、その人・モノ・コトのことが分かります。</p></details>
       <div id="p-badges"></div>
       <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span><span id="island-ava-wrap" style="display:none;flex-direction:column;align-items:center;margin-left:12px"><img id="island-ava" alt="島アバター" style="height:64px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span><span id="island-ava-status" style="font-size:.58rem;font-weight:bold;color:#c2610f"></span></span></h1>
-      <p id="owner-hint" class="note" hidden>このページがそのまま編集画面です。文字はクリックして書き換え、写真・アイコン・アニメーションはクリックで変更できます。</p>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
       <div class="ctarow" id="cta-row" style="display:none"><a class="main" id="cta-sns" target="_blank" rel="noopener">SNS</a><a class="sub2" id="cta-list" href="hito.html">ヒトの一覧</a></div>
@@ -904,7 +903,6 @@ function setEdit(on){
   if(window.__authBtn && isOwner) window.__authBtn.textContent = on ? '保存する' : '✎ 編集する';
   document.body.classList.toggle('editing', on);
   $('savebar').hidden = !on;
-  $('owner-hint').hidden = !on;
   render(pageData, on);
   if(on) buildSuggestions();
   document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; if(on && !el.getAttribute('data-ph')) el.setAttribute('data-ph', '（ここをタップして入力）'); });
