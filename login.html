@@ -501,18 +501,11 @@ auth.getRedirectResult().then(function(res){
   loginMsg('ログインできませんでした。もう一度お試しください。');
 });
 $('btn-google').addEventListener('click', function(){
-  loginMsg('Googleログインを開いています…');
+  loginMsg('Googleログインへ移動します…');
   var provider = new firebase.auth.GoogleAuthProvider();
   try{ provider.setCustomParameters({prompt: 'select_account'}); }catch(e){}
-  auth.signInWithPopup(provider).then(function(){
-    loginMsg('');
-  }).catch(function(err){
-    var code = err && err.code ? err.code : '';
-    if(code === 'auth/popup-closed-by-user'){ loginMsg('ログインがキャンセルされました。'); return; }
-    loginMsg('Googleログインへ移動します…');
-    auth.signInWithRedirect(provider).catch(function(){
-      loginMsg('ログインできませんでした。ブラウザを変えて（Safariなど）もう一度お試しください。');
-    });
+  auth.signInWithRedirect(provider).catch(function(){
+    loginMsg('ログインできませんでした。ブラウザを変えて（Safariなど）もう一度お試しください。');
   });
 });
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });

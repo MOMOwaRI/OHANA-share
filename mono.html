@@ -1751,8 +1751,9 @@ list.forEach(function(el){ io.observe(el); });
       }
       var it = tileItem(t);
       var on = has(it.id);
-      b.textContent = on ? '💗 ほしい' : '🤍 ほしい';
-      b.classList.toggle('on', on);
+      var txt = on ? '💗 ほしい' : '🤍 ほしい';
+      if(b.textContent !== txt) b.textContent = txt;
+      if(b.classList.contains('on') !== on) b.classList.toggle('on', on);
     });
   }
   function stampAll(){ stampDetail(); stampTiles(); }
