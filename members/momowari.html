@@ -100,7 +100,13 @@ html.js .mrv.in{opacity:1;transform:none}
 </head>
 <body>
 <div class="wrap">
-  <header>
+  <style>.ctx-strip{font-size:12.5px;color:#8a6a20;border-top:1px solid #eadfc9;border-bottom:1px solid #eadfc9;padding:7px 2px;margin:14px 0 4px}.ctx-about{font-size:13.5px;color:#555;margin:6px 0 2px}.ctx-about summary{cursor:pointer;color:#b96a00;font-size:13px}.ctx-about p{margin:6px 0 0}</style>
+<div class="ctx-strip">OHANAシェア＊プロジェクトのヒトページです ｜ 作っているのは松山市のMOMOwaRI ｜ <a href="../index.html">OHANAトップへ</a></div>
+<details class="ctx-about">
+<summary>このページについて（タップで開く）</summary>
+<p>このページは、OHANAシェア＊プロジェクト（フリマ型の選べる物々交換）のメンバー紹介ページです。このページだけでも、どんな人か、何を探していて、何を渡せるかまで確認できます。</p>
+</details>
+<header>
     <div><span class="badge">ヒト</span></div>
     <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span><span id="hito-ava-wrap" style="display:inline-flex;flex-direction:column;align-items:center;margin-left:12px;vertical-align:middle"><img id="hito-ava" src="https://momowari.github.io/ohana-jima/cat-muse-sit.png" alt="島アバター" style="height:72px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1><p id="hito-ava-msg" style="font-size:.8rem;color:#1a7a6d;margin:2px 0 0"></p>
     <p class="ename">MOMOwaRI</p>
@@ -622,6 +628,7 @@ try {
 <!-- site-editor -->
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
+body:not(.site-editing) h1 img{outline:none!important}
 body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
 #site-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;background:#fff;border:1.5px solid #e0a458;border-radius:999px;box-shadow:0 8px 24px rgba(120,70,10,.25);padding:8px 10px;display:none;gap:8px;align-items:center}
 #site-savebar.on{display:flex}
