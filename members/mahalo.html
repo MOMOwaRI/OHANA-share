@@ -161,23 +161,13 @@ html.js .mrv.in{opacity:1;transform:none}
 <p class="note">ご予約は前日までにお願いいたします（当日予約はできません）。</p>
 </header>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
-<div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
-<div class="sharemenu" id="share-menu">
-<a id="share-line" target="_blank" rel="noopener">LINEで送る</a>
-<a id="share-x" target="_blank" rel="noopener">Xでシェア</a>
-<button type="button" id="share-copy">リンクをコピー</button>
-</div><p class="note" id="share-msg"></p></div>
+<p class="sharerow" style="text-align:center;font-size:.92rem;margin:12px 0 2px">このページをシェアする：<a id="share-line" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">LINEで送る</a> ・ <a id="share-x" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">Xでシェア</a> ・ <a id="share-copy" style="color:#b3541e;font-weight:bold;cursor:pointer">リンクをコピー</a></p><p class="note" id="share-msg" style="text-align:center"></p>
 <script>
 (function(){
   var line = document.getElementById('share-line'), x = document.getElementById('share-x');
   var url = location.href;
   if(line) line.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url);
   if(x) x.href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(document.title);
-  var btn = document.getElementById('share-btn'), menu = document.getElementById('share-menu');
-  btn.addEventListener('click', function(){
-    if(navigator.share){ navigator.share({title: document.title, url: url}).catch(function(){}); }
-    else { menu.classList.toggle('open'); }
-  });
   document.getElementById('share-copy').addEventListener('click', function(){
     if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){ document.getElementById('share-msg').textContent = 'リンクをコピーしました'; }); }
   });
@@ -1574,12 +1564,16 @@ try {
     '<textarea id="pc-text" maxlength="500" rows="3" placeholder="この方への質問・コメント"></textarea>' +
     '<p style="margin-top:8px"><button type="submit" class="pc-send">投稿する</button> <span id="pc-msg" class="sub"></span></p>' +
     '</form>';
-  var anchor = document.getElementById('editbar');
+  var anchor = null;
+  var secs = document.querySelectorAll('section');
+  for(var i = 0; i < secs.length; i++){
+    var h = secs[i].querySelector('h2');
+    if(h && h.textContent.indexOf('OHANAの仕組み') >= 0){ anchor = secs[i]; break; }
+  }
   if(!anchor){
-    var secs = document.querySelectorAll('section');
-    for(var i = 0; i < secs.length; i++){
-      var h = secs[i].querySelector('h2');
-      if(h && h.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[i]; break; }
+    for(var j = 0; j < secs.length; j++){
+      var h2 = secs[j].querySelector('h2');
+      if(h2 && h2.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[j]; break; }
     }
   }
   if(!anchor) anchor = document.querySelector('footer');
@@ -2322,5 +2316,9 @@ try {
 </script>
 
 <!-- /wantlist -->
+
+<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
+body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+</style>
 </body>
 </html>
