@@ -87,6 +87,15 @@
   .ticket-card::before{content:"OHANA 100円券";writing-mode:vertical-rl;position:absolute;left:0;top:0;bottom:0;width:46px;display:flex;align-items:center;justify-content:center;font-weight:bold;letter-spacing:.28em;color:#a35c14;font-size:.8rem;border-right:2px dashed #d9a75e;background:rgba(255,255,255,.45)}
   .ticket-card::after{content:"券";position:absolute;top:10px;right:12px;width:34px;height:34px;border:2px solid rgba(194,97,15,.5);border-radius:50%;color:rgba(194,97,15,.7);display:flex;align-items:center;justify-content:center;font-weight:bold;transform:rotate(12deg);font-size:.95rem;background:rgba(255,255,255,.35)}
   .ticket-num{font-size:2rem;font-weight:bold;color:#c2610f}
+.hero-pv{position:relative;margin:14px auto 6px;max-width:330px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
+.hero-video{width:100%;height:auto;display:block;border-radius:150px 150px 22px 22px;border:1px solid var(--line);background:#fdf3ec;box-shadow:0 14px 34px rgba(194,67,126,.20)}
+.hero-pv.cm-live-x{aspect-ratio:3/4;overflow:hidden;border-radius:150px 150px 22px 22px}
+.cm-scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;animation:cmSeqX 25s linear infinite;white-space:pre-line}
+.cm-scene.solid{color:#fff;font-weight:bold;font-size:26px;line-height:1.7}
+.cm-scene.photo{padding:0}
+.cm-scene.photo img{width:100%;height:100%;object-fit:cover}
+.cm-scene .band{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);color:#fff;font-weight:bold;font-size:19px;line-height:1.6;padding:14px 12px 18px;white-space:pre-line}
+@keyframes cmSeqX{0%{opacity:0}3%{opacity:1}17%{opacity:1}20%{opacity:0}100%{opacity:0}}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
@@ -111,6 +120,7 @@ html.js .mrv.in{opacity:1;transform:none}
     <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span><span id="hito-ava-wrap" style="display:inline-flex;flex-direction:column;align-items:center;margin-left:12px;vertical-align:middle"><img id="hito-ava" src="https://momowari.github.io/ohana-jima/av-player.png" alt="島アバター" style="height:72px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1><p id="hito-ava-msg" style="font-size:.8rem;color:#1a7a6d;margin:2px 0 0"></p>
     <p class="ename">MOMOwaRI</p>
     <p class="sub">松山市</p>
+    <div class="hero-pv"><img class="hero-video" src="../images/shop/plush-cm.webp" width="408" height="538" alt="MOMOwaRIの紹介アニメーション"></div>
     <div class="tags">
       <span class="tag">松山市</span><span class="tag">OHANAメンバー</span>
     </div>
@@ -286,6 +296,21 @@ html.js .mrv.in{opacity:1;transform:none}
     row('提供できるコト','#fbe38e', d.offeringKoto);
     if(!d.offeringHito && !d.offeringMono && !d.offeringKoto){ row('提供している','#e8e3da', d.offering); }
     if(rows){ document.getElementById('live-rows').innerHTML = rows; document.getElementById('live-sec').style.display = ''; }
+    var pv = document.querySelector('.hero-pv');
+    if(pv && (d.cmColor || d.cmPhoto1 || d.cmPhoto2 || d.cmPhoto3 || d.cmT1 || d.cmT2 || d.cmT3 || d.cmT4 || d.cmT5)){
+      var DP = ["../images/shop/plush-1.jpg", "../images/shop/plush-2.jpg", "../images/shop/plush-3.jpg"], DT = ["MOMOwaRI", "子供服が大量です", "雑貨も物々交換できます", "ベビー服、探しています", "眠っている価値を、\n必要な場所へ。"];
+      var photos = [d.cmPhoto1 || DP[0], d.cmPhoto2 || DP[1], d.cmPhoto3 || DP[2]].filter(function(x){ return !!x; });
+      var texts = [d.cmT1 || DT[0], d.cmT2 || DT[1], d.cmT3 || DT[2], d.cmT4 || DT[3], d.cmT5 || DT[4]];
+      var color = d.cmColor || '#c2437e';
+      var cmh = '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
+      for(var ci = 0; ci < 3; ci++){ if(photos[ci]){ cmh += '<div class="cm-scene photo"><img src="' + photos[ci] + '" alt=""><div class="band">' + esc(texts[ci + 1] || '') + '</div></div>'; } }
+      cmh += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
+      pv.innerHTML = cmh;
+      pv.classList.add('cm-live-x');
+      var kids = pv.children;
+      var total = kids.length * 5;
+      for(var ck = 0; ck < kids.length; ck++){ kids[ck].style.animationDuration = total + 's'; kids[ck].style.animationDelay = (ck * 5) + 's'; }
+    }
     if(typeof d.tickets === 'number'){ document.getElementById('tk-num').textContent = d.tickets; document.getElementById('ticket-sec').style.display = ''; }
     var h1img = document.querySelector('h1 img');
     if(d.iconData && h1img) h1img.src = d.iconData;
