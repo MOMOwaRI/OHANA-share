@@ -326,6 +326,7 @@ html.js .mrv.in{opacity:1;transform:none}
       var sec = document.getElementById('ticket-sec');
       if(typeof d.tickets !== 'number'){ document.getElementById('tk-num').textContent = '0'; sec.style.display = ''; }
       var card = sec.querySelector('.ticket-card');
+      var tkn = document.getElementById('tk-num'); if(tkn){ tkn.style.outline = '2px dashed rgba(194,97,15,.75)'; tkn.style.outlineOffset = '3px'; tkn.style.borderRadius = '8px'; tkn.style.padding = '0 6px'; }
       if(card){ card.style.cursor = 'pointer'; card.addEventListener('click', function(){
         var cur = document.getElementById('tk-num').textContent;
         var v = prompt('OHANA100円券の枚数（0〜9999）', cur);
