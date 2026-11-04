@@ -126,6 +126,9 @@ body:not(.editing) #island-ava{outline:none!important}
 <div class="wrap">
   <header>
     <div id="p-head" hidden>
+<style>.ctx-strip{font-size:12.5px;color:#8a6a20;border-top:1px solid #eadfc9;border-bottom:1px solid #eadfc9;padding:7px 2px;margin:0 0 4px}.ctx-about{font-size:13.5px;color:#555;margin:6px 0 2px}.ctx-about summary{cursor:pointer;color:#b96a00;font-size:13px}.ctx-about p{margin:6px 0 0}</style>
+<div class="ctx-strip">OHANAシェア＊プロジェクトの<span id="ctx-cat">メンバー</span>紹介ページです ｜ <a href="index.html">OHANAトップへ</a></div>
+<details class="ctx-about"><summary>このページについて（タップで開く）</summary><p>このページは、OHANAシェア＊プロジェクト（フリマ型の選べる物々交換）のメンバー紹介ページです。このページだけでも、その人・モノ・コトのことが分かります。</p></details>
       <div id="p-badges"></div>
       <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span><span id="island-ava-wrap" style="display:none;flex-direction:column;align-items:center;margin-left:12px"><img id="island-ava" alt="島アバター" style="height:64px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1>
       <p id="owner-hint" class="note" hidden>このページがそのまま編集画面です。文字はクリックして書き換え、写真・アイコン・アニメーションはクリックで変更できます。</p>
@@ -917,6 +920,7 @@ else {
       var cat = (d.categories || ['ヒト'])[0];
       window.__wantMemberCfg = { id: id, kind: kmap[cat] || 'hito', owner: ownerUid };
     })();
+    var cc = document.getElementById('ctx-cat'); if(cc) cc.textContent = (d.categories || ['ヒト'])[0];
     tryEdit();
     tryIslandAva();
   }).catch(function(){
