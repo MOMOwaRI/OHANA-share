@@ -108,7 +108,7 @@ html.js .mrv.in{opacity:1;transform:none}
 </details>
 <header>
     <div><span class="badge">ヒト</span></div>
-    <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span><span id="hito-ava-wrap" style="display:inline-flex;flex-direction:column;align-items:center;margin-left:12px;vertical-align:middle"><img id="hito-ava" src="https://momowari.github.io/ohana-jima/cat-muse-sit.png" alt="島アバター" style="height:72px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1><p id="hito-ava-msg" style="font-size:.8rem;color:#1a7a6d;margin:2px 0 0"></p>
+    <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span><span id="hito-ava-wrap" style="display:inline-flex;flex-direction:column;align-items:center;margin-left:12px;vertical-align:middle"><img id="hito-ava" src="https://momowari.github.io/ohana-jima/av-player.png" alt="島アバター" style="height:72px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1><p id="hito-ava-msg" style="font-size:.8rem;color:#1a7a6d;margin:2px 0 0"></p>
     <p class="ename">MOMOwaRI</p>
     <p class="sub">松山市</p>
     <p class="catch"><span>眠っている価値を、</span><span class="acc">必要な場所へ</span><span>。</span></p>
@@ -119,41 +119,54 @@ html.js .mrv.in{opacity:1;transform:none}
       <a class="main" href="https://lit.link/momowari" target="_blank" rel="noopener">SNS</a>
       <a class="sub2" href="../hito.html">ヒトの一覧</a>
     </div>
+    <p style="margin:8px 0 0"><span class="tag" style="background:#f6c3d5;color:#4a3418;border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:bold">メンバーNo.1</span></p>
   </header>
 <script>
 /* island avatar: show the owner's OHANA-jima avatar (photo avatar if ready, else the chosen cat) */
 (function(){
   var img = document.getElementById('hito-ava');
   if(!img) return;
+  img.style.cursor = 'pointer';
+  img.title = '島アバターについて';
+  img.addEventListener('click', function(){
+    var g = document.getElementById('hito-ava-guide');
+    if(!g){
+      g = document.createElement('div'); g.id = 'hito-ava-guide';
+      g.style.cssText = 'position:fixed;inset:0;background:rgba(60,40,20,.45);z-index:130;display:none;align-items:center;justify-content:center;padding:18px';
+      g.innerHTML = '<div style="background:#fffdf8;border-radius:18px;max-width:420px;width:100%;padding:22px;box-shadow:0 16px 40px rgba(0,0,0,.25);text-align:left">'
+        + '<p style="font-weight:bold;font-size:1.05rem;margin-bottom:8px">🏝 島アバター</p>'
+        + '<div id="hito-guide-owner"><p>基本、自分の顔写真をお送りください。キャラクター変換にします。</p><p style="font-size:.85rem;color:#8a6a4f;margin-top:8px">★ 島アバターは、反映に時間がかかります。</p><p style="font-size:.85rem;color:#8a6a4f">★ あなたの実物写真は、ページに反映されません。公開されるのは、完成したアバターだけです。</p><p style="margin-top:14px"><button type="button" id="hito-guide-send" style="font-family:inherit;font-weight:bold;background:#1a7a6d;color:#fff;border:none;border-radius:999px;padding:10px 18px;cursor:pointer">写真を選んでAIに送る</button></p></div>'
+        + '<div id="hito-guide-guest"><p>この島アバターは、本人の顔写真をもとに、キャラクター変換したものです。</p><p style="font-size:.85rem;color:#8a6a4f;margin-top:8px">自分の分も作れます。基本、自分の顔写真をお送りください。キャラクター変換にします（反映には時間がかかります）。実物写真が公開されることはありません。</p><p style="margin-top:14px"><a href="../login.html" style="font-weight:bold;color:#1a7a6d">マイページで写真を送る</a></p></div>'
+        + '<p style="margin-top:12px;text-align:right"><button type="button" id="hito-guide-close" style="background:none;border:none;color:#8a6a4f;font-weight:bold;cursor:pointer;font-family:inherit">閉じる</button></p></div>';
+      document.body.appendChild(g);
+      g.addEventListener('click', function(ev){ if(ev.target === g) g.style.display = 'none'; });
+      g.querySelector('#hito-guide-close').addEventListener('click', function(){ g.style.display = 'none'; });
+      g.querySelector('#hito-guide-send').addEventListener('click', function(){ g.style.display = 'none'; if(window.__hitoAvaSend) window.__hitoAvaSend(); });
+    }
+    var own = !!window.__hitoAvaSend;
+    g.querySelector('#hito-guide-owner').style.display = own ? '' : 'none';
+    g.querySelector('#hito-guide-guest').style.display = own ? 'none' : '';
+    g.style.display = 'flex';
+  });
   fetch('https://firestore.googleapis.com/v1/projects/ohana-share/databases/(default)/documents/islandUsers/ELCzyeeoDCU4gveavc077L4jBqE3')
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(d){
       if(!d || !d.fields) return;
       var f = d.fields;
       if(f.avaUrl && f.avaUrl.stringValue) img.src = f.avaUrl.stringValue;
-      else if(f.cat && f.cat.stringValue) img.src = 'https://momowari.github.io/ohana-jima/cat-' + f.cat.stringValue + '-sit.png';
+      else if(f.photoReady && f.photoReady.boolValue){ var gm = document.getElementById('hito-ava-msg'); if(gm) gm.textContent = '島アバターは生成中です。反映まで少し時間がかかります。'; }
     }).catch(function(){});
 })();
 </script>
 
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
-<div class="sharewrap"><button class="sharebtn" type="button" id="share-btn">このページをシェアする</button>
-<div class="sharemenu" id="share-menu">
-<a id="share-line" target="_blank" rel="noopener">LINEで送る</a>
-<a id="share-x" target="_blank" rel="noopener">Xでシェア</a>
-<button type="button" id="share-copy">リンクをコピー</button>
-</div><p class="note" id="share-msg"></p></div>
+<p class="sharerow" style="text-align:center;font-size:.92rem;margin:12px 0 2px">このページをシェアする：<a id="share-line" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">LINEで送る</a> ・ <a id="share-x" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">Xでシェア</a> ・ <a id="share-copy" style="color:#b3541e;font-weight:bold;cursor:pointer">リンクをコピー</a></p><p class="note" id="share-msg" style="text-align:center"></p>
 <script>
 (function(){
   var line = document.getElementById('share-line'), x = document.getElementById('share-x');
   var url = location.href;
   if(line) line.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url);
   if(x) x.href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(document.title);
-  var btn = document.getElementById('share-btn'), menu = document.getElementById('share-menu');
-  btn.addEventListener('click', function(){
-    if(navigator.share){ navigator.share({title: document.title, url: url}).catch(function(){}); }
-    else { menu.classList.toggle('open'); }
-  });
   document.getElementById('share-copy').addEventListener('click', function(){
     if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){ document.getElementById('share-msg').textContent = 'リンクをコピーしました'; }); }
   });
@@ -279,10 +292,6 @@ html.js .mrv.in{opacity:1;transform:none}
       var ref = firebase.firestore().collection('profiles').doc("ELCzyeeoDCU4gveavc077L4jBqE3");
       var sec = document.getElementById('ticket-sec');
       if(typeof d.tickets !== 'number'){ document.getElementById('tk-num').textContent = '0'; sec.style.display = ''; }
-      var hint = document.createElement('p');
-      hint.style.cssText = 'font-size:.8rem;color:#a3805a;margin-top:6px';
-      hint.textContent = '【あなただけ表示】券のカードをタップで枚数を変更／点線のアイコンをタップで写真を変更／名前の横の島アバターをタップで、その場で写真を変えられます／名前は右上の「✎ 編集する」から変更できます';
-      sec.appendChild(hint);
       var card = sec.querySelector('.ticket-card');
       if(card){ card.style.cursor = 'pointer'; card.addEventListener('click', function(){
         var cur = document.getElementById('tk-num').textContent;
@@ -312,7 +321,7 @@ html.js .mrv.in{opacity:1;transform:none}
       var hero = document.getElementById('hito-ava');
       if(hero){ hero.style.cursor = 'pointer'; hero.title = 'タップで写真を変える'; hero.style.outline = '2px dashed rgba(26,122,109,.8)'; hero.style.outlineOffset = '3px';
         var afi = document.createElement('input'); afi.type = 'file'; afi.accept = 'image/*'; afi.style.display = 'none'; document.body.appendChild(afi);
-        hero.addEventListener('click', function(){ afi.click(); });
+        window.__hitoAvaSend = function(){ afi.click(); };
         afi.addEventListener('change', function(){
           var f = afi.files && afi.files[0]; if(!f) return;
           var msg = document.getElementById('hito-ava-msg'); if(msg) msg.textContent = '写真を送っています…';
@@ -325,7 +334,7 @@ html.js .mrv.in{opacity:1;transform:none}
             var fs2 = firebase.firestore(); var now2 = new Date().toISOString();
             fs2.collection('islandPhotos').doc("ELCzyeeoDCU4gveavc077L4jBqE3").set({photoData: url2, updatedAt: now2}, {merge: true}).then(function(){
               return fs2.collection('islandUsers').doc("ELCzyeeoDCU4gveavc077L4jBqE3").set({photoReady: true}, {merge: true});
-            }).then(function(){ if(msg) msg.textContent = '写真を送りました ✓ 新しいアバターに反映されます'; })
+            }).then(function(){ if(msg) msg.textContent = 'AIに送りました。生成中です（反映に時間がかかります）'; })
             .catch(function(){ if(msg) msg.textContent = '送れませんでした。もう一度お試しください'; });
           }; im2.src = rd2.result; };
           rd2.readAsDataURL(f);
@@ -541,7 +550,7 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     });
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
-      btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '編集を終わる' : '✎ 編集する') : 'マイページ';
+      btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する') : 'マイページ';
       var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
     });
@@ -1244,12 +1253,16 @@ list.forEach(function(el){ io.observe(el); });
     '<textarea id="pc-text" maxlength="500" rows="3" placeholder="この方への質問・コメント"></textarea>' +
     '<p style="margin-top:8px"><button type="submit" class="pc-send">投稿する</button> <span id="pc-msg" class="sub"></span></p>' +
     '</form>';
-  var anchor = document.getElementById('editbar');
+  var anchor = null;
+  var secs = document.querySelectorAll('section');
+  for(var i = 0; i < secs.length; i++){
+    var h = secs[i].querySelector('h2');
+    if(h && h.textContent.indexOf('OHANAの仕組み') >= 0){ anchor = secs[i]; break; }
+  }
   if(!anchor){
-    var secs = document.querySelectorAll('section');
-    for(var i = 0; i < secs.length; i++){
-      var h = secs[i].querySelector('h2');
-      if(h && h.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[i]; break; }
+    for(var j = 0; j < secs.length; j++){
+      var h2 = secs[j].querySelector('h2');
+      if(h2 && h2.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[j]; break; }
     }
   }
   if(!anchor) anchor = document.querySelector('footer');
@@ -1992,5 +2005,9 @@ list.forEach(function(el){ io.observe(el); });
 </script>
 
 <!-- /wantlist -->
+
+<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
+body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+</style>
 </body>
 </html>
