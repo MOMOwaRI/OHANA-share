@@ -125,11 +125,9 @@ body.is-owner #p-icon,body.is-owner #p-letter{outline:2px dashed rgba(224,123,36
 <body>
 <div class="wrap">
   <header>
-    <img src="img-992cf83a89.png" alt="OHANAキャラクター" style="width:110px">
     <div id="p-head" hidden>
-      <img id="island-ava" alt="OHANA島のアバター" style="display:none;width:min(170px,46%);margin:2px auto 6px">
       <div id="p-badges"></div>
-      <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span></h1>
+      <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span><span id="island-ava-wrap" style="display:none;flex-direction:column;align-items:center;margin-left:12px"><img id="island-ava" alt="島アバター" style="width:40px;height:40px;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #bfe6da"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1>
       <p id="owner-hint" class="note" hidden>このページがそのまま編集画面です。文字はクリックして書き換え、写真・アイコン・アニメーションはクリックで変更できます。</p>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
@@ -249,7 +247,7 @@ body.is-owner #p-icon,body.is-owner #p-letter{outline:2px dashed rgba(224,123,36
       </div>
     </div>
     <button type="button" id="btn-edit">このページを編集する</button>
-    <button type="button" id="btn-save" hidden>保存する</button>
+    <button type="button" id="btn-save" hidden style="display:none">保存する</button>
     <button type="button" id="btn-cancel" hidden>キャンセル</button>
     <p class="note" id="edit-note" hidden>ページに出ているものをタップすると、その場で直せます。</p>
   </div>
@@ -783,6 +781,32 @@ function renderFlRows(){
   });
 }
 var islandAvaSrc = null, islandAvaFetching = false, islandAvaWired = false;
+function islandAvaPick(){
+  var fi = document.getElementById('island-ava-file');
+  if(!fi){
+    fi = document.createElement('input');
+    fi.type = 'file'; fi.accept = 'image/*'; fi.id = 'island-ava-file'; fi.style.display = 'none';
+    document.body.appendChild(fi);
+    fi.addEventListener('change', function(){
+      var f = fi.files && fi.files[0]; if(!f) return;
+      toast('写真を送っています…');
+      fileToData(f, 600, 0.8, function(dataUrl){
+        var fs = firebase.firestore();
+        var now = new Date().toISOString();
+        fs.collection('islandPhotos').doc(ownerUid).set({photoData: dataUrl, updatedAt: now}, {merge: true}).then(function(){
+          return fs.collection('islandUsers').doc(ownerUid).set({photoReady: true}, {merge: true});
+        }).then(function(){
+          toast('写真を送りました ✓ 新しいアバターに反映されます');
+          try{
+            var p = {k: 'ohana-island-notify-2026', kind: 'photo', name: (pageData && pageData.nickname) || ''};
+            fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams(p)}).catch(function(){});
+          }catch(e){}
+        }).catch(function(){ toast('送れませんでした。もう一度お試しください'); });
+      }, function(){ toast('その写真は読み込めませんでした'); });
+    });
+  }
+  fi.click();
+}
 function tryIslandAva(){
   var img = $('island-ava');
   if(!img || !ownerUid || !pageData) return;
@@ -790,14 +814,15 @@ function tryIslandAva(){
   if(cats.indexOf('ヒト') < 0) return;
   if(islandAvaSrc){
     img.src = islandAvaSrc;
-    img.style.display = 'block';
+    var wrap = $('island-ava-wrap');
+    if(wrap) wrap.style.display = 'inline-flex';
     if(isOwner && !islandAvaWired){
       islandAvaWired = true;
       img.style.cursor = 'pointer';
-      img.title = 'アバターを編集';
+      img.title = 'タップで写真を変える';
       img.style.outline = '2px dashed rgba(26,122,109,.8)';
       img.style.outlineOffset = '3px';
-      img.addEventListener('click', function(){ location.href = 'login.html#island-frame'; });
+      img.addEventListener('click', function(ev){ ev.stopPropagation(); islandAvaPick(); });
     }
     return;
   }
@@ -858,7 +883,7 @@ function setEdit(on){
   if(on && pageData){ linksWork = Array.isArray(pageData.links) ? pageData.links.map(function(L){ return {t: L.t || '', h: L.h || ''}; }) : []; renderFlRows(); }
   $('edit-note').hidden = !on;
   $('btn-edit').hidden = on;
-  $('btn-save').hidden = !on;
+  $('btn-save').hidden = true;
   $('btn-cancel').hidden = !on;
   if(on){
     var dcats = pageData.categories || (pageData.category ? [pageData.category] : []);
