@@ -767,8 +767,8 @@ try {
     btn.addEventListener('click', function(){
       var u = firebase.auth().currentUser;
       if(u && u.uid === OWNER && window.__toggleSiteEdit){ window.__toggleSiteEdit(); btn.textContent = document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する'; return; }
-      if(!u){ location.href = memberKnown() ? 'login.html#login' : 'login.html'; }
-      else location.href = 'login.html';
+      if(!u){ var bl = document.getElementById('box-login'); if(bl){ bl.hidden = false; bl.scrollIntoView({behavior:'smooth', block:'center'}); return; } location.href = memberKnown() ? 'login.html#login' : 'login.html'; }
+      else { var bh = document.getElementById('box-home'); if(bh){ bh.scrollIntoView({behavior:'smooth', block:'start'}); return; } location.href = 'login.html'; }
     });
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
@@ -1863,6 +1863,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 <style>/* edit-dash-all: editable media also gets the dashed outline while editing */
 body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 </style>
 </body>
 </html>
