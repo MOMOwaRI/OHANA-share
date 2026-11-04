@@ -127,6 +127,10 @@ body:not(.editing) #island-ava{outline:none!important}
 .sns-fields .sns-row input,.sns-fields .sns-row textarea{flex:1}
 #p-no{background:none!important;border:none!important;padding:0!important;font-weight:bold;color:#4a3418}
 #editbar{display:none!important}
+h1{flex-wrap:nowrap}
+#p-name{min-width:0;white-space:nowrap}
+#p-icon,#p-letter,#island-ava-wrap{flex:none}
+@media (max-width:520px){#island-ava{height:52px!important}h1{gap:6px}}
 </style>
 </head>
 <body>
@@ -598,6 +602,7 @@ function render(d, editMode){
   }
   if(d.cmColor) applyThemeVars(d.cmColor);
   $('p-name').textContent = d.nickname || '名前未設定';
+  fitName();
   document.title = (d.nickname || '名前未設定') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
   $('p-area').textContent = d.area || '';
   $('s-photo').hidden = !d.photoUrl;
@@ -990,6 +995,12 @@ function toast(msg){
 }
 var ticketsShown = false;
 var ownerWired = false;
+function fitName(){
+  var pn = $('p-name'); if(!pn) return;
+  var nm = (pn.textContent || '').trim();
+  pn.style.fontSize = nm.length >= 14 ? '1.0rem' : (nm.length >= 11 ? '1.15rem' : (nm.length >= 9 ? '1.4rem' : (nm.length >= 7 ? '1.65rem' : '')));
+}
+window.__fitName = fitName;
 function setupTickets(){
   if(!pageData || !pageData.categories || pageData.categories.indexOf('ヒト') < 0) return;
   if(!ticketsShown){
