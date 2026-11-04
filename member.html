@@ -135,6 +135,7 @@ h1{flex-wrap:nowrap}
 .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
 .ctarow .main{background:#06c755;color:#fff;box-shadow:0 4px 14px rgba(6,199,85,.35)}
 .ctarow .sub2{background:#fff;color:#c2610f;border:2px solid #e8b96f}
+body.editing #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:3px;border-radius:8px;padding:0 6px}
 </style>
 </head>
 <body>
@@ -544,6 +545,7 @@ function defCmColor(){
   if(id.slice(-9) === '__pelua01') return '#e07b24';
   if(id.slice(-11) === '__pmahalo01') return '#2e6da4';
   if(id.slice(-6) === '__mono') return '#5d9c6b';
+  if(id.indexOf('__') < 0) return '#c2437e';
   return '#e07b24';
 }
 function _p2(hex, i){ return parseInt(hex.substr(1 + i, 2), 16); }
@@ -909,7 +911,7 @@ function setEdit(on){
   $('link-edit').hidden = !on;
   $('ticket-note').hidden = !on;
   $('mono-guide').hidden = !(on && pageData && (pageData.categories || []).indexOf('モノ') >= 0);
-  $('cm-edit').hidden = !(on && pageData && (pageData.cmPhoto1 || pageData.cmPhoto2 || pageData.cmPhoto3 || pageData.cmT1 || pageData.cmT2 || pageData.cmT3 || pageData.cmT4 || pageData.cmT5));
+  $('cm-edit').hidden = !on;
   if(on){
     pendingPhotoUrl = null;
     pendingIconData = null;
@@ -931,7 +933,7 @@ function setEdit(on){
     loadFilmWork();
     [1,2,3].forEach(function(n){ var pv = $('cm-prev' + n); var cur = pageData['cmPhoto' + n] || ''; pv.style.display = cur ? 'inline-block' : 'none'; if(cur) pv.src = cur; var ad = $('cm-add' + n); if(ad) ad.style.display = cur ? 'none' : 'inline-block'; });
   }
-  $('cat-edit').hidden = true;
+  $('cat-edit').hidden = !on;
   $('genre-edit').hidden = !(on && pageData && (pageData.categories || []).indexOf('モノ') >= 0);
   $('kgenre-edit').hidden = !(on && pageData && (pageData.categories || []).indexOf('コト') >= 0);
   if(on && pageData){ $('in-kgenre').value = pageData.kotoGenre || 'お店'; }
