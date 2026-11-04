@@ -111,7 +111,6 @@ html.js .mrv.in{opacity:1;transform:none}
     <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span><span id="hito-ava-wrap" style="display:inline-flex;flex-direction:column;align-items:center;margin-left:12px;vertical-align:middle"><img id="hito-ava" src="https://momowari.github.io/ohana-jima/av-player.png" alt="島アバター" style="height:72px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1><p id="hito-ava-msg" style="font-size:.8rem;color:#1a7a6d;margin:2px 0 0"></p>
     <p class="ename">MOMOwaRI</p>
     <p class="sub">松山市</p>
-    <p class="catch"><span>眠っている価値を、</span><span class="acc">必要な場所へ</span><span>。</span></p>
     <div class="tags">
       <span class="tag">松山市</span><span class="tag">OHANAメンバー</span>
     </div>
@@ -119,7 +118,8 @@ html.js .mrv.in{opacity:1;transform:none}
       <a class="main" href="https://lit.link/momowari" target="_blank" rel="noopener">SNS</a>
       <a class="sub2" href="../hito.html">ヒトの一覧</a>
     </div>
-    <p style="margin:8px 0 0"><span class="tag" style="background:#f6c3d5;color:#4a3418;border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:bold">メンバーNo.1</span></p>
+    <p class="catch"><span>眠っている価値を、</span><span class="acc">必要な場所へ</span><span>。</span></p>
+    <p style="margin:8px 0 0;font-size:.9rem;font-weight:bold;color:#4a3418">メンバーNo.1</p>
   </header>
 <script>
 /* island avatar: show the owner's OHANA-jima avatar (photo avatar if ready, else the chosen cat) */
@@ -135,8 +135,8 @@ html.js .mrv.in{opacity:1;transform:none}
       g.style.cssText = 'position:fixed;inset:0;background:rgba(60,40,20,.45);z-index:130;display:none;align-items:center;justify-content:center;padding:18px';
       g.innerHTML = '<div style="background:#fffdf8;border-radius:18px;max-width:420px;width:100%;padding:22px;box-shadow:0 16px 40px rgba(0,0,0,.25);text-align:left">'
         + '<p style="font-weight:bold;font-size:1.05rem;margin-bottom:8px">🏝 島アバター</p>'
-        + '<div id="hito-guide-owner"><p>基本、自分の顔写真をお送りください。キャラクター変換にします。</p><p style="font-size:.85rem;color:#8a6a4f;margin-top:8px">★ 島アバターは、反映に時間がかかります。</p><p style="font-size:.85rem;color:#8a6a4f">★ あなたの実物写真は、ページに反映されません。公開されるのは、完成したアバターだけです。</p><p style="margin-top:14px"><button type="button" id="hito-guide-send" style="font-family:inherit;font-weight:bold;background:#1a7a6d;color:#fff;border:none;border-radius:999px;padding:10px 18px;cursor:pointer">写真を選んでAIに送る</button></p></div>'
-        + '<div id="hito-guide-guest"><p>この島アバターは、本人の顔写真をもとに、キャラクター変換したものです。</p><p style="font-size:.85rem;color:#8a6a4f;margin-top:8px">自分の分も作れます。基本、自分の顔写真をお送りください。キャラクター変換にします（反映には時間がかかります）。実物写真が公開されることはありません。</p><p style="margin-top:14px"><a href="../login.html" style="font-weight:bold;color:#1a7a6d">マイページで写真を送る</a></p></div>'
+        + '<div id="hito-guide-owner"><p>基本、自分の顔写真をお送りください。キャラクターに変換します。</p><p style="font-size:.85rem;color:#8a6a4f;margin-top:8px">★ 島アバターは、反映に時間がかかります。</p><p style="font-size:.85rem;color:#8a6a4f">★ あなたの実物写真は、ページに反映されません。公開されるのは、完成したアバターだけです。</p><p style="margin-top:14px"><button type="button" id="hito-guide-send" style="font-family:inherit;font-weight:bold;background:#1a7a6d;color:#fff;border:none;border-radius:999px;padding:10px 18px;cursor:pointer">写真を選んでAIに送る</button></p></div>'
+        + '<div id="hito-guide-guest"><p>この島アバターは、本人の顔写真をもとに、キャラクターに変換したものです。</p><p style="font-size:.85rem;color:#8a6a4f;margin-top:8px">自分の分も作れます。基本、自分の顔写真をお送りください。キャラクターに変換します（反映には時間がかかります）。実物写真が公開されることはありません。</p><p style="margin-top:14px"><a href="../login.html" style="font-weight:bold;color:#1a7a6d">マイページで写真を送る</a></p></div>'
         + '<p style="margin-top:12px;text-align:right"><button type="button" id="hito-guide-close" style="background:none;border:none;color:#8a6a4f;font-weight:bold;cursor:pointer;font-family:inherit">閉じる</button></p></div>';
       document.body.appendChild(g);
       g.addEventListener('click', function(ev){ if(ev.target === g) g.style.display = 'none'; });
@@ -160,10 +160,12 @@ html.js .mrv.in{opacity:1;transform:none}
 </script>
 
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
-<p class="sharerow" style="text-align:center;font-size:.92rem;margin:12px 0 2px">このページをシェアする：<a id="share-line" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">LINEで送る</a> ・ <a id="share-x" target="_blank" rel="noopener" style="color:#b3541e;font-weight:bold">Xでシェア</a> ・ <a id="share-copy" style="color:#b3541e;font-weight:bold;cursor:pointer">リンクをコピー</a></p><p class="note" id="share-msg" style="text-align:center"></p>
+<div class="sharewrap"><button type="button" class="sharebtn" id="share-btn">このページをシェアする</button><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
 <script>
 (function(){
   var line = document.getElementById('share-line'), x = document.getElementById('share-x');
+  var sbtn = document.getElementById('share-btn'), smenu = document.getElementById('share-menu');
+  if(sbtn && smenu){ sbtn.addEventListener('click', function(){ smenu.classList.toggle('open'); }); }
   var url = location.href;
   if(line) line.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url);
   if(x) x.href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(document.title);
@@ -1253,22 +1255,27 @@ list.forEach(function(el){ io.observe(el); });
     '<textarea id="pc-text" maxlength="500" rows="3" placeholder="この方への質問・コメント"></textarea>' +
     '<p style="margin-top:8px"><button type="submit" class="pc-send">投稿する</button> <span id="pc-msg" class="sub"></span></p>' +
     '</form>';
-  var anchor = null;
-  var secs = document.querySelectorAll('section');
-  for(var i = 0; i < secs.length; i++){
-    var h = secs[i].querySelector('h2');
-    if(h && h.textContent.indexOf('OHANAの仕組み') >= 0){ anchor = secs[i]; break; }
-  }
-  if(!anchor){
-    for(var j = 0; j < secs.length; j++){
-      var h2 = secs[j].querySelector('h2');
-      if(h2 && h2.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[j]; break; }
+  var placed = false;
+  var afterSec = document.getElementById('live-sec') || document.getElementById('s-offering') || document.getElementById('s-seeking');
+  if(afterSec && afterSec.parentNode){ afterSec.parentNode.insertBefore(sec, afterSec.nextSibling); placed = true; }
+  if(!placed){
+    var anchor = null;
+    var secs = document.querySelectorAll('section');
+    for(var i = 0; i < secs.length; i++){
+      var h = secs[i].querySelector('h2');
+      if(h && (h.textContent.indexOf('この人のモノ・コト') >= 0 || h.textContent.indexOf('OHANAの仕組み') >= 0)){ anchor = secs[i]; break; }
     }
+    if(!anchor){
+      for(var j = 0; j < secs.length; j++){
+        var h2 = secs[j].querySelector('h2');
+        if(h2 && h2.textContent.indexOf('ほかのOHANAメンバー') >= 0){ anchor = secs[j]; break; }
+      }
+    }
+    if(!anchor) anchor = document.querySelector('footer');
+    if(anchor && anchor.parentNode) anchor.parentNode.insertBefore(sec, anchor);
+    else if(document.querySelector('.wrap')) document.querySelector('.wrap').appendChild(sec);
+    else document.body.appendChild(sec);
   }
-  if(!anchor) anchor = document.querySelector('footer');
-  if(anchor && anchor.parentNode) anchor.parentNode.insertBefore(sec, anchor);
-  else if(document.querySelector('.wrap')) document.querySelector('.wrap').appendChild(sec);
-  else document.body.appendChild(sec);
 
   function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function $(id){ return document.getElementById(id); }
@@ -2008,6 +2015,7 @@ list.forEach(function(el){ io.observe(el); });
 
 <style>/* edit-dash-all: editable media also gets the dashed outline while editing */
 body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 </style>
 </body>
 </html>
