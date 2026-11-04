@@ -106,7 +106,7 @@ html.js .mrv.in{opacity:1;transform:none}
       <a href="index.html">OHANAって何？（トップ）</a>
       <a href="hito.html">メンバーのページを見る</a>
     </div>
-    <p style="margin-top:8px" id="recruit-login-note">下のボタンからログイン（Googleアカウント）すると、そのままメンバー登録になります。</p>
+    <p style="margin-top:8px">下のボタンからログイン（Googleアカウント）すると、そのままメンバー登録になります。</p>
   </section>
 
   <div class="card" id="box-login" hidden>
@@ -466,8 +466,7 @@ auth.onAuthStateChanged(function(user){
   }
   uid = user.uid;
   $('box-login').hidden = true;
-  $('box-recruit').hidden = false;
-  var rln = $('recruit-login-note'); if(rln) rln.hidden = true;
+  $('box-recruit').hidden = true;
   $('box-home').hidden = false;
   $('page-title').textContent = 'マイページ';
   $('home-who').textContent = 'ログイン中です';
