@@ -507,7 +507,7 @@ auth.getRedirectResult().then(function(res){
 $('btn-google').addEventListener('click', function(){
   loginMsg('Googleログインを開いています…');
   var provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({prompt: 'select_account'});
+  try{ provider.setCustomParameters({prompt: 'select_account'}); }catch(e){}
   auth.signInWithPopup(provider).then(function(){
     loginMsg('');
   }).catch(function(err){
