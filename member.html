@@ -131,6 +131,10 @@ h1{flex-wrap:nowrap}
 #p-name{min-width:0;white-space:nowrap}
 #p-icon,#p-letter,#island-ava-wrap{flex:none}
 @media (max-width:520px){#island-ava{height:52px!important}h1{gap:6px}}
+.ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
+.ctarow .main{background:#06c755;color:#fff;box-shadow:0 4px 14px rgba(6,199,85,.35)}
+.ctarow .sub2{background:#fff;color:#c2610f;border:2px solid #e8b96f}
 </style>
 </head>
 <body>
@@ -145,6 +149,7 @@ h1{flex-wrap:nowrap}
       <p id="owner-hint" class="note" hidden>このページがそのまま編集画面です。文字はクリックして書き換え、写真・アイコン・アニメーションはクリックで変更できます。</p>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
+      <div class="ctarow" id="cta-row" style="display:none"><a class="main" id="cta-sns" target="_blank" rel="noopener">SNS</a><a class="sub2" id="cta-list" href="hito.html">ヒトの一覧</a></div>
       <p class="mcatch" style="font-size:1.12rem;font-weight:bold;margin:10px 0 2px">眠っている価値を、<span style="color:#c2610f">必要な場所へ</span>。</p>
     </div>
     <div id="p-loading"><p class="sub">読み込んでいます…</p></div>
@@ -273,7 +278,7 @@ h1{flex-wrap:nowrap}
   <div class="ticket-card" id="ticket-card" hidden>
     <p style="font-weight:bold"><span id="ticket-title">OHANA100円券</span></p>
     <p><span class="ticket-num" id="ticket-num">0</span> 枚 持っています</p>
-    <p class="sub" style="margin-top:8px">自己申告です。使ったり受け取ったりしたら、自分で合わせてください。券は紙のまま、枚数だけここで記録します。この枚数は、みんなにも見えます。</p>
+    <p class="sub" id="ticket-note" hidden style="margin-top:8px">自己申告です。使ったり受け取ったりしたら、自分で合わせてください。券は紙のまま、枚数だけここで記録します。この枚数は、みんなにも見えます。</p>
     <p class="sub" id="ticket-msg"></p>
   </div>
     </div>
@@ -603,6 +608,20 @@ function render(d, editMode){
   if(d.cmColor) applyThemeVars(d.cmColor);
   $('p-name').textContent = d.nickname || '名前未設定';
   fitName();
+  var mcEl = document.querySelector('.mcatch');
+  if(mcEl){ var c0 = (d.categories || ['ヒト'])[0]; mcEl.style.display = (c0 === 'ヒト') ? 'none' : ''; }
+  var ctaRow = $('cta-row');
+  if(ctaRow){
+    var snsUrl = d.hpUrl || '';
+    if(!snsUrl && d.snsLinks){ var sp = d.snsLinks.split(/\s+/); for(var si = 0; si < sp.length; si++){ if(sp[si].indexOf('http') === 0){ snsUrl = sp[si]; break; } } }
+    if(!snsUrl && Array.isArray(d.links) && d.links.length && d.links[0].h) snsUrl = d.links[0].h;
+    var ctaSns = $('cta-sns');
+    if(snsUrl){ ctaSns.href = snsUrl; ctaSns.style.display = ''; } else { ctaSns.style.display = 'none'; }
+    var cm3 = {'ヒト': 'hito.html', 'モノ': 'mono.html', 'コト': 'koto.html'};
+    var cc0 = (d.categories || ['ヒト'])[0];
+    var ctaList = $('cta-list'); ctaList.href = cm3[cc0] || 'hito.html'; ctaList.textContent = cc0 + 'の一覧';
+    ctaRow.style.display = 'flex';
+  }
   document.title = (d.nickname || '名前未設定') + '｜OHANAシェア＊プロジェクト OHANAメンバー紹介ページ';
   $('p-area').textContent = d.area || '';
   $('s-photo').hidden = !d.photoUrl;
@@ -890,6 +909,7 @@ function setEdit(on){
   if(on) buildSuggestions();
   document.querySelectorAll('.ed').forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; if(on && !el.getAttribute('data-ph')) el.setAttribute('data-ph', '（ここをタップして入力）'); });
   $('link-edit').hidden = !on;
+  $('ticket-note').hidden = !on;
   $('mono-guide').hidden = !(on && pageData && (pageData.categories || []).indexOf('モノ') >= 0);
   $('cm-edit').hidden = !(on && pageData && (pageData.cmPhoto1 || pageData.cmPhoto2 || pageData.cmPhoto3 || pageData.cmT1 || pageData.cmT2 || pageData.cmT3 || pageData.cmT4 || pageData.cmT5));
   if(on){
