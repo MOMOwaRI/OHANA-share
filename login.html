@@ -469,25 +469,37 @@ auth.onAuthStateChanged(function(user){
   var fsl = $('first-step-link'); if(fsl) fsl.href = editHref(uid);
   ensureHitoPage().then(function(){ loadPages(); });
 });
+function nextMemberNo(){
+  return db.collection('profiles').get().then(function(snap){
+    var maxNo = 0;
+    snap.forEach(function(x){ var dd = x.data(); [dd.memberNo, dd.prevNo].forEach(function(mno){ if(mno && mno > maxNo) maxNo = mno; }); });
+    return maxNo + 1;
+  });
+}
 function ensureHitoPage(){
   var ref = db.collection('profiles').doc(uid);
   return ref.get().then(function(doc){
-    if(doc.exists && !doc.data().deleted) return;
+    if(doc.exists && !doc.data().deleted){
+      var d0 = doc.data();
+      if(d0.memberNo || d0.prevNo) return;
+      return nextMemberNo().then(function(n){ return ref.set({ memberNo: n, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }); });
+    }
     if(doc.exists && doc.data().deleted){
       var d = doc.data();
       var upd = { deleted: false, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
       if(!d.memberNo && d.prevNo) upd.memberNo = d.prevNo;
+      if(!d.memberNo && !d.prevNo){
+        return nextMemberNo().then(function(n){ upd.memberNo = n; return ref.set(upd, { merge: true }); });
+      }
       return ref.set(upd, { merge: true });
     }
-    return db.collection('profiles').get().then(function(snap){
-      var maxNo = 0;
-      snap.forEach(function(x){ var dd = x.data(); [dd.memberNo, dd.prevNo].forEach(function(mno){ if(mno && mno > maxNo) maxNo = mno; }); });
+    return nextMemberNo().then(function(n){
       return ref.set({
         nickname: '', area: '', categories: ['ヒト'], intro: '',
         seekingHito: '', seekingMono: '', seekingKoto: '', offering: '',
         offeringHito: '', offeringMono: '', offeringKoto: '',
         hpUrl: '', menuUrl: '', snsLinks: '',
-        memberNo: maxNo + 1,
+        memberNo: n,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       });

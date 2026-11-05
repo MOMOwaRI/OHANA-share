@@ -1554,7 +1554,6 @@ try {
       if(!doc.exists) return;
       var d = doc.data();
       var cats = d.categories || [];
-      if(cats.indexOf('モノ') < 0 && ITEM.indexOf('__mono') < 0) return;
       var h1 = document.querySelector('h1');
       if(!h1) return;
       var row = document.createElement('div');
@@ -2478,18 +2477,20 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
   }
   function buildDetail(){
     if(CFG.mode === 'tiles') return;
-    var host = document.querySelector('.istats');
     var btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'want-btn'; btn.id = 'want-btn';
     btn.addEventListener('click', function(){ toggle(detailItem()); });
-    if(host){ host.appendChild(btn); }
-    else {
+    var btries = 0;
+    (function place(){
+      var host = document.querySelector('.istats');
+      if(host){ host.appendChild(btn); stampAll(); return; }
+      if(btries++ < 16){ setTimeout(place, 250); return; }
       var row = document.createElement('div'); row.className = 'want-row'; row.appendChild(btn);
       var h1 = document.querySelector('h1');
       if(h1 && h1.parentNode) h1.parentNode.insertBefore(row, h1.nextSibling);
       else document.body.appendChild(row);
-    }
-    stampAll();
+      stampAll();
+    })();
   }
   function stampDetail(){
     var btn = document.getElementById('want-btn');
