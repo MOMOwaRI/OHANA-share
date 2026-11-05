@@ -150,6 +150,30 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
 <details class="ctx-about"><summary>このページについて（タップで開く）</summary><p>このページは、OHANAシェア＊プロジェクト（フリマ型の選べる物々交換）のメンバー紹介ページです。このページだけでも、その人・モノ・コトのことが分かります。</p></details>
       <div id="p-badges"></div>
       <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span><span id="island-ava-wrap" style="display:none;flex-direction:column;align-items:center;margin-left:12px"><img id="island-ava" alt="島アバター" style="height:64px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span><span id="island-ava-status" style="font-size:.58rem;font-weight:bold;color:#c2610f"></span></span></h1>
+  <div id="cm-live" class="cm-live" hidden></div>
+  <div id="cm-start" hidden style="border:2px dashed #d9b98c;border-radius:14px;padding:18px;text-align:center;font-weight:bold;color:#a35c14;cursor:pointer;margin:12px 0;background:#fffdf8">＋ アニメーションを作る</div>
+      <div id="cm-edit" hidden style="text-align:left;background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:14px;margin:12px 0">
+        <p style="font-weight:bold;margin-top:14px">アニメーション（ページの上の映像）</p>
+        <p class="note">写真3枚と文字、色を変えられます。写真は自動で小さくなります。</p>
+        <p class="sub" style="font-weight:bold">色</p>
+        <input type="color" id="in-cmcolor" value="#e07b24" style="width:64px;height:36px;vertical-align:middle">
+        <span id="cm-swatches"></span>
+        <p class="sub" style="font-weight:bold;margin-top:10px">文字（1行目と2行目）</p>
+        <textarea id="in-cmt1" rows="2" placeholder="最初の画面の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt2" rows="2" placeholder="写真1の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt3" rows="2" placeholder="写真2の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt4" rows="2" placeholder="写真3の文字" style="width:100%"></textarea>
+        <textarea id="in-cmt5" rows="2" placeholder="最後の画面の文字" style="width:100%"></textarea>
+        <p class="sub" style="font-weight:bold;margin-top:10px">写真</p>
+        <img id="cm-prev1" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add1" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto1" accept="image/*" hidden>
+        <img id="cm-prev2" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add2" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto2" accept="image/*" hidden>
+        <img id="cm-prev3" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add3" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
+        <input type="file" id="in-cmphoto3" accept="image/*" hidden>
+        <p class="note" id="cm-msg"></p>
+      </div>
+      <p class="mcatch" style="font-size:1.12rem;font-weight:bold;margin:10px 0 2px">眠っている価値を、<span style="color:#c2610f">必要な場所へ</span>。</p>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
       <div id="tags-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:12px;margin:10px auto;text-align:left;max-width:520px">
@@ -158,7 +182,6 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
         <span style="display:flex;gap:6px"><input type="text" id="tags-new" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:6px 14px;cursor:pointer">追加</button></span>
         <span class="note">タグはヒト・モノ・コトの一覧で、絞り込みに使われます</span>
       </div>
-      <p class="mcatch" style="font-size:1.12rem;font-weight:bold;margin:10px 0 2px">眠っている価値を、<span style="color:#c2610f">必要な場所へ</span>。</p>
     </div>
     <div id="p-loading" style="padding:130px 0 40px"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
@@ -182,29 +205,6 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
     <p style="margin-top:12px;text-align:right"><button type="button" id="ava-guide-close" style="background:none;border:none;color:#8a6a4f;font-weight:bold;cursor:pointer;font-family:inherit">閉じる</button></p>
   </div>
 </div>
-  <div id="cm-live" class="cm-live" hidden></div>
-  <div id="cm-start" hidden style="border:2px dashed #d9b98c;border-radius:14px;padding:18px;text-align:center;font-weight:bold;color:#a35c14;cursor:pointer;margin:12px 0;background:#fffdf8">＋ アニメーションを作る</div>
-      <div id="cm-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:14px;margin:12px 0">
-        <p style="font-weight:bold;margin-top:14px">アニメーション（ページの上の映像）</p>
-        <p class="note">写真3枚と文字、色を変えられます。写真は自動で小さくなります。</p>
-        <p class="sub" style="font-weight:bold">色</p>
-        <input type="color" id="in-cmcolor" value="#e07b24" style="width:64px;height:36px;vertical-align:middle">
-        <span id="cm-swatches"></span>
-        <p class="sub" style="font-weight:bold;margin-top:10px">文字（1行目と2行目）</p>
-        <textarea id="in-cmt1" rows="2" placeholder="最初の画面の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt2" rows="2" placeholder="写真1の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt3" rows="2" placeholder="写真2の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt4" rows="2" placeholder="写真3の文字" style="width:100%"></textarea>
-        <textarea id="in-cmt5" rows="2" placeholder="最後の画面の文字" style="width:100%"></textarea>
-        <p class="sub" style="font-weight:bold;margin-top:10px">写真</p>
-        <img id="cm-prev1" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add1" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
-        <input type="file" id="in-cmphoto1" accept="image/*" hidden>
-        <img id="cm-prev2" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add2" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
-        <input type="file" id="in-cmphoto2" accept="image/*" hidden>
-        <img id="cm-prev3" alt="" style="width:90px;height:120px;object-fit:cover;border-radius:8px;display:none;cursor:pointer;vertical-align:top;margin-right:6px"><button type="button" id="cm-add3" style="width:90px;height:120px;border:2px dashed #d9b98c;border-radius:8px;background:#fffdf8;color:#c2610f;font-weight:bold;cursor:pointer;vertical-align:top;margin-right:6px">＋写真</button>
-        <input type="file" id="in-cmphoto3" accept="image/*" hidden>
-        <p class="note" id="cm-msg"></p>
-      </div>
   <div class="ctarow" id="cta-row" style="display:none;max-width:680px;margin-left:auto;margin-right:auto"><a class="main" id="cta-sns" target="_blank" rel="noopener">SNS</a><a class="sub2" id="cta-list" href="hito.html">ヒトの一覧</a></div>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
       <div class="catchips" id="cat-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:12px;margin:10px 0;text-align:left">
@@ -607,7 +607,7 @@ function render(d, editMode){
     if(!snsUrl && Array.isArray(d.links) && d.links.length && d.links[0].h) snsUrl = d.links[0].h;
     var ctaSns = $('cta-sns');
     if(snsUrl){ ctaSns.href = snsUrl; ctaSns.removeAttribute('data-unset'); ctaSns.textContent = 'SNS'; ctaSns.style.display = ''; }
-    else { ctaSns.removeAttribute('href'); ctaSns.setAttribute('data-unset', '1'); ctaSns.textContent = 'SNS（非掲載）'; ctaSns.style.display = ''; }
+    else { ctaSns.removeAttribute('href'); ctaSns.setAttribute('data-unset', '1'); ctaSns.textContent = 'SNS'; ctaSns.style.display = ''; }
     if(!ctaSns.__unsetHook){ ctaSns.__unsetHook = 1; ctaSns.addEventListener('click', function(ev){
       if(!ctaSns.getAttribute('data-unset')) return;
       ev.preventDefault();
@@ -1559,7 +1559,9 @@ try {
       var row = document.createElement('div');
       row.className = 'istats';
       row.innerHTML = '<button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ いいね</button>';
-      h1.parentNode.insertBefore(row, h1.nextSibling);
+      var anchor = document.getElementById('share-msg');
+      if(anchor && anchor.parentNode){ anchor.parentNode.insertBefore(row, anchor.nextSibling); }
+      else { h1.parentNode.insertBefore(row, h1.nextSibling); }
       var rowL = document.createElement('div');
       rowL.className = 'irow'; rowL.id = 'ilikers'; rowL.style.display = 'none';
       h1.parentNode.insertBefore(rowL, row.nextSibling);
