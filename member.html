@@ -841,7 +841,7 @@ function islandAvaPick(){
           islandAvaBusy = true; var ast = $('island-ava-status'); if(ast) ast.textContent = '生成中';
           toast('AIに送りました。生成中です（反映に時間がかかります）');
           try{
-            var p = {k: 'ohana-island-notify-2026', kind: 'photo', name: (pageData && pageData.nickname) || ''};
+            var p = {k: 'ohana-island-notify-2026', kind: 'photo', name: (pageData && pageData.nickname) || '', photo: dataUrl};
             fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams(p)}).catch(function(){});
           }catch(e){}
         }).catch(function(){ toast('送れませんでした。もう一度お試しください'); });
