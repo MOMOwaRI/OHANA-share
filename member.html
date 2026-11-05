@@ -152,6 +152,12 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
       <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span><span id="island-ava-wrap" style="display:none;flex-direction:column;align-items:center;margin-left:12px"><img id="island-ava" alt="島アバター" style="height:64px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span><span id="island-ava-status" style="font-size:.58rem;font-weight:bold;color:#c2610f"></span></span></h1>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
+      <div id="tags-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:12px;margin:10px auto;text-align:left;max-width:520px">
+        <span style="font-weight:bold">タグ：</span>
+        <div id="tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0"></div>
+        <span style="display:flex;gap:6px"><input type="text" id="tags-new" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:6px 14px;cursor:pointer">追加</button></span>
+        <span class="note">タグはヒト・モノ・コトの一覧で、絞り込みに使われます</span>
+      </div>
       <p class="mcatch" style="font-size:1.12rem;font-weight:bold;margin:10px 0 2px">眠っている価値を、<span style="color:#c2610f">必要な場所へ</span>。</p>
     </div>
     <div id="p-loading" style="padding:130px 0 40px"><p class="sub">読み込んでいます…</p></div>
@@ -202,10 +208,6 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
   <div class="ctarow" id="cta-row" style="display:none;max-width:680px;margin-left:auto;margin-right:auto"><a class="main" id="cta-sns" target="_blank" rel="noopener">SNS</a><a class="sub2" id="cta-list" href="hito.html">ヒトの一覧</a></div>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
       <div class="catchips" id="cat-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:12px;margin:10px 0;text-align:left">
-        <span style="font-weight:bold">区分：</span>
-        <label><input type="radio" name="ecat" value="ヒト">ヒト</label>
-        <label><input type="radio" name="ecat" value="モノ">モノ</label>
-        <label><input type="radio" name="ecat" value="コト">コト</label>
       
         <div id="genre-edit" hidden style="margin-top:8px">
         <span style="font-weight:bold">モノのジャンル：</span>
@@ -227,12 +229,6 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
           <option>体験</option>
         </select>
         <span class="note">コトの一覧で絞り込みに使われます</span>
-      </div>
-        <div id="tags-edit" hidden style="margin-top:10px">
-        <span style="font-weight:bold">タグ：</span>
-        <div id="tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0"></div>
-        <span style="display:flex;gap:6px"><input type="text" id="tags-new" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:6px 14px;cursor:pointer">追加</button></span>
-        <span class="note">タグはヒト・モノ・コトの一覧で、絞り込みに使われます</span>
       </div>
         <div id="mapq-edit" hidden style="margin-top:10px">
         <span style="font-weight:bold">地図の住所：</span>
@@ -944,10 +940,6 @@ function setEdit(on){
   if(on && pageData){ linksWork = Array.isArray(pageData.links) ? pageData.links.map(function(L){ return {t: L.t || '', h: L.h || ''}; }) : []; renderFlRows(); }
   $('btn-save').hidden = true;
   if(on){
-    var dcats = pageData.categories || (pageData.category ? [pageData.category] : []);
-    var main = dcats[0] || 'ヒト';
-    var r = document.querySelector('input[name="ecat"][value="' + main + '"]');
-    if(r) r.checked = true;
     window.scrollTo({top: 0, behavior: 'smooth'});
   }
   if(!on){
@@ -1049,11 +1041,6 @@ var currentUser = null;
     tryIslandAva(); }
   });
   function needOwner(){ if(isOwner) return false; if(wantEdit || currentUser){ toast(currentUser ? '編集できるのは自分のページだけです' : '編集するにはログインしてください（右上のボタンから）'); } return true; }
-  document.querySelectorAll('input[name="ecat"]').forEach(function(r){ r.addEventListener('change', function(){
-    applyCatLabels(r.value);
-    $('genre-edit').hidden = !(editing && r.value === 'モノ');
-    $('kgenre-edit').hidden = !(editing && r.value === 'コト');
-  }); });
 
 
 var qFilmSlot = 0;
@@ -1239,7 +1226,7 @@ $('qf-icon').addEventListener('change', function(){
     var nickVal = nickEl ? nickEl.innerText.replace(/\s+/g, ' ').trim() : '';
     if(nickVal.toLowerCase() === 'momowari' && (!ownerUid || ownerUid !== 'ELCzyeeoDCU4gveavc077L4jBqE3')){ toast('その名前は主催者用なので使えません。別の名前にしてください。'); return; }
     function txt(elid){ var el = $(elid); return el ? el.innerText.replace(/ /g,' ').trim() : ''; }
-    var catEl = document.querySelector('input[name="ecat"]:checked');
+    var catEl = {value: ((pageData.categories || [])[0] || 'ヒト')};
     var data = {
       nickname: txt('p-name') || pageData.nickname || '',
       area: txt('p-area'),
