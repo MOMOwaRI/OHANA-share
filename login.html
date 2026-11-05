@@ -508,11 +508,17 @@ function ensureHitoPage(){
 }
 function loginMsg(t){ var m = $('login-msg'); if(m) m.textContent = t || ''; }
 auth.getRedirectResult().then(function(res){
-  if(res && res.user){ loginMsg('ログインしました。'); }
+  if(res && res.user){ loginMsg('ログインしました。'); try{ sessionStorage.removeItem('ohanaLoginTried'); }catch(e){} }
+  else {
+    var tried = false;
+    try{ tried = !!sessionStorage.getItem('ohanaLoginTried'); }catch(e){}
+    if(tried){ try{ sessionStorage.removeItem('ohanaLoginTried'); }catch(e){} loginMsg('ログインが戻ってきませんでした。シークレット（プライベート）ウィンドウや、アプリの中のブラウザではGoogleログインが使えません。通常のSafariで、このページを直接開いてログインしてください。'); }
+  }
 }).catch(function(){
-  loginMsg('ログインできませんでした。もう一度お試しください。');
+  loginMsg('ログインできませんでした。シークレット（プライベート）ウィンドウや、アプリの中のブラウザではGoogleログインが使えません。通常のSafariで、このページを直接開いてログインしてください。');
 });
 $('btn-google').addEventListener('click', function(){
+  try{ sessionStorage.setItem('ohanaLoginTried', '1'); }catch(e){}
   loginMsg('Googleログインへ移動します…');
   var provider = new firebase.auth.GoogleAuthProvider();
   try{ provider.setCustomParameters({prompt: 'select_account'}); }catch(e){}
@@ -1307,6 +1313,57 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 
 
+
+<script>
+(function(){
+  var LSKEY = 'ohanaWants';
+  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function start(){
+    if(!window.firebase || !firebase.auth){ setTimeout(start, 800); return; }
+    firebase.auth().onAuthStateChanged(function(u){
+      var box = document.getElementById('want-list');
+      if(!box) return;
+      if(!u){ box.innerHTML = ''; return; }
+      var list = [];
+      try{ list = JSON.parse(localStorage.getItem(LSKEY) || '[]'); if(!Array.isArray(list)) list = []; }catch(e){ list = []; }
+      function render(){
+        if(!list.length){ box.innerHTML = '<p class="sub">まだありません。気になるページでボタンを押してみてください。</p>'; return; }
+        var h = '';
+        list.forEach(function(x, i){
+          h += '<div style="display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #f0e2cd;border-radius:12px;padding:8px 10px;margin-top:8px">'
+            + (x.photo ? '<img src="' + esc(x.photo) + '" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px;flex:none">' : '')
+            + '<a href="' + esc(x.href || '#') + '" style="flex:1;font-weight:bold;color:#b3541e;text-decoration:none">' + esc(x.title || x.id) + '</a>'
+            + '<button type="button" data-wdel="' + i + '" style="font-family:inherit;background:#fff;border:1.5px solid #d8a49e;color:#b03a2e;border-radius:999px;padding:4px 12px;cursor:pointer;flex:none">外す</button></div>';
+        });
+        box.innerHTML = h;
+        box.querySelectorAll('[data-wdel]').forEach(function(b){
+          b.addEventListener('click', function(){
+            list.splice(Number(b.getAttribute('data-wdel')), 1);
+            try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
+            firebase.firestore().collection('wantLists').doc(u.uid).set({items: list, updatedAt: Date.now()}).catch(function(){});
+            render();
+          });
+        });
+      }
+      firebase.firestore().collection('wantLists').doc(u.uid).get().then(function(s){
+        var remote = (s.exists && Array.isArray((s.data() || {}).items)) ? s.data().items : [];
+        var seen = {};
+        list.forEach(function(x){ seen[x.id] = 1; });
+        remote.forEach(function(x){ if(!seen[x.id]) list.push(x); });
+        try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
+        render();
+      }).catch(function(){ render(); });
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
+
+
+<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
+body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
+</style>
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
@@ -1820,55 +1877,6 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
-<script>
-(function(){
-  var LSKEY = 'ohanaWants';
-  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function start(){
-    if(!window.firebase || !firebase.auth){ setTimeout(start, 800); return; }
-    firebase.auth().onAuthStateChanged(function(u){
-      var box = document.getElementById('want-list');
-      if(!box) return;
-      if(!u){ box.innerHTML = ''; return; }
-      var list = [];
-      try{ list = JSON.parse(localStorage.getItem(LSKEY) || '[]'); if(!Array.isArray(list)) list = []; }catch(e){ list = []; }
-      function render(){
-        if(!list.length){ box.innerHTML = '<p class="sub">まだありません。気になるページでボタンを押してみてください。</p>'; return; }
-        var h = '';
-        list.forEach(function(x, i){
-          h += '<div style="display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #f0e2cd;border-radius:12px;padding:8px 10px;margin-top:8px">'
-            + (x.photo ? '<img src="' + esc(x.photo) + '" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px;flex:none">' : '')
-            + '<a href="' + esc(x.href || '#') + '" style="flex:1;font-weight:bold;color:#b3541e;text-decoration:none">' + esc(x.title || x.id) + '</a>'
-            + '<button type="button" data-wdel="' + i + '" style="font-family:inherit;background:#fff;border:1.5px solid #d8a49e;color:#b03a2e;border-radius:999px;padding:4px 12px;cursor:pointer;flex:none">外す</button></div>';
-        });
-        box.innerHTML = h;
-        box.querySelectorAll('[data-wdel]').forEach(function(b){
-          b.addEventListener('click', function(){
-            list.splice(Number(b.getAttribute('data-wdel')), 1);
-            try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
-            firebase.firestore().collection('wantLists').doc(u.uid).set({items: list, updatedAt: Date.now()}).catch(function(){});
-            render();
-          });
-        });
-      }
-      firebase.firestore().collection('wantLists').doc(u.uid).get().then(function(s){
-        var remote = (s.exists && Array.isArray((s.data() || {}).items)) ? s.data().items : [];
-        var seen = {};
-        list.forEach(function(x){ seen[x.id] = 1; });
-        remote.forEach(function(x){ if(!seen[x.id]) list.push(x); });
-        try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
-        render();
-      }).catch(function(){ render(); });
-    });
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-})();
-</script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
-
-<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
-body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
-body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
-</style>
 </body>
 </html>

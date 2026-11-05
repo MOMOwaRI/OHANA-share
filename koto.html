@@ -545,7 +545,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 }); } }catch(e){} }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,.pcomments,.istats,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -574,7 +574,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   function stampLinks(){
     linkList = [];
     document.querySelectorAll('.wrap a[href]').forEach(function(a){
-      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock]')) return;
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3,.pcomments,.istats,footer,.fab-line,.ptiles,.matchbtns,[data-lock]')) return;
       if(commonLink(a)) return;
       a.setAttribute('data-lk', String(linkList.length));
       linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML});
@@ -1002,6 +1002,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 
 
+
 <script>
 /* motion-pack: scroll reveal */
 (function(){
@@ -1049,6 +1050,13 @@ list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 
+
+
+
+<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
+body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
+body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
+</style>
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
@@ -1563,10 +1571,5 @@ list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
-
-<style>/* edit-dash-all: editable media also gets the dashed outline while editing */
-body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
-body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
-</style>
 </body>
 </html>
