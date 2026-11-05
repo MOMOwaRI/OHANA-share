@@ -519,12 +519,22 @@ auth.getRedirectResult().then(function(res){
   loginMsg('ログインできませんでした。シークレット（プライベート）ウィンドウや、アプリの中のブラウザではGoogleログインが使えません。通常のSafariで、このページを直接開いてログインしてください。');
 });
 $('btn-google').addEventListener('click', function(){
-  try{ sessionStorage.setItem('ohanaLoginTried', '1'); }catch(e){}
-  loginMsg('Googleログインへ移動します…');
+  loginMsg('ログイン画面を開いています…');
   var provider = new firebase.auth.GoogleAuthProvider();
   try{ provider.setCustomParameters({prompt: 'select_account'}); }catch(e){}
-  auth.signInWithRedirect(provider).catch(function(){
-    loginMsg('ログインできませんでした。ブラウザを変えて（Safariなど）もう一度お試しください。');
+  auth.signInWithPopup(provider).then(function(){
+    loginMsg('ログインしました。');
+  }).catch(function(err){
+    var code = err && err.code ? err.code : '';
+    if(code === 'auth/popup-blocked'){
+      try{ sessionStorage.setItem('ohanaLoginTried', '1'); }catch(e){}
+      loginMsg('Googleログインへ移動します…');
+      auth.signInWithRedirect(provider).catch(function(){ loginMsg('ログインできませんでした。通常のSafariで、このページを直接開いてログインしてください。'); });
+    } else if(code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request'){
+      loginMsg('ログイン画面が閉じられました。もう一度ボタンを押してください。シークレット（プライベート）ウィンドウではログインできないことがあります。');
+    } else {
+      loginMsg('ログインできませんでした。シークレット（プライベート）ウィンドウや、アプリの中のブラウザではGoogleログインが使えないことがあります。通常のSafariで、このページを直接開いてログインしてください。');
+    }
   });
 });
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });
