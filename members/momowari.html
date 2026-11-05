@@ -546,7 +546,11 @@ html.js .mrv.in{opacity:1;transform:none}
             var fs2 = firebase.firestore(); var now2 = new Date().toISOString();
             fs2.collection('islandPhotos').doc("ELCzyeeoDCU4gveavc077L4jBqE3").set({photoData: url2, updatedAt: now2}, {merge: true}).then(function(){
               return fs2.collection('islandUsers').doc("ELCzyeeoDCU4gveavc077L4jBqE3").set({photoReady: true}, {merge: true});
-            }).then(function(){ if(msg) msg.textContent = 'AIに送りました。生成中です（反映に時間がかかります）'; })
+            }).then(function(){ if(msg) msg.textContent = 'AIに送りました。生成中です（反映に時間がかかります）';
+              try{
+                var np = {k: 'ohana-island-notify-2026', kind: 'photo', name: 'MOMOwaRI', photo: url2};
+                fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams(np)}).catch(function(){});
+              }catch(e){} })
             .catch(function(){ if(msg) msg.textContent = '送れませんでした。もう一度お試しください'; });
           }; im2.src = rd2.result; };
           rd2.readAsDataURL(f);
