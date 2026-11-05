@@ -137,7 +137,8 @@ h1{flex-wrap:nowrap}
 .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
 .ctarow .main{background:#06c755;color:#fff;box-shadow:0 4px 14px rgba(6,199,85,.35)}
 .ctarow .sub2{background:#fff;color:#c2610f;border:2px solid #e8b96f}
-body.editing #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:3px;border-radius:8px;padding:0 6px}
+.ctarow a[data-unset]{background:#ece5d8;color:#9a8b76;box-shadow:none;cursor:default}
+body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:3px;border-radius:8px;padding:0 6px}
 </style>
 </head>
 <body>
@@ -151,7 +152,6 @@ body.editing #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:3
       <h1><img id="p-icon" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;display:none;vertical-align:-9px;margin-right:8px"><span id="p-letter" style="display:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;font-weight:bold;align-items:center;justify-content:center;vertical-align:-9px;margin-right:8px"></span><span id="p-name" class="ed"></span><span id="island-ava-wrap" style="display:none;flex-direction:column;align-items:center;margin-left:12px"><img id="island-ava" alt="島アバター" style="height:64px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span><span id="island-ava-status" style="font-size:.58rem;font-weight:bold;color:#c2610f"></span></span></h1>
       <p class="sub ed" id="p-area"></p>
       <div class="tags"><span class="tag">OHANAメンバー</span><span class="tag" id="p-no"></span></div>
-      <div class="ctarow" id="cta-row" style="display:none"><a class="main" id="cta-sns" target="_blank" rel="noopener">SNS</a><a class="sub2" id="cta-list" href="hito.html">ヒトの一覧</a></div>
       <p class="mcatch" style="font-size:1.12rem;font-weight:bold;margin:10px 0 2px">眠っている価値を、<span style="color:#c2610f">必要な場所へ</span>。</p>
     </div>
     <div id="p-loading" style="padding:130px 0 40px"><p class="sub">読み込んでいます…</p></div>
@@ -199,6 +199,7 @@ body.editing #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:3
         <input type="file" id="in-cmphoto3" accept="image/*" hidden>
         <p class="note" id="cm-msg"></p>
       </div>
+  <div class="ctarow" id="cta-row" style="display:none;max-width:680px;margin-left:auto;margin-right:auto"><a class="main" id="cta-sns" target="_blank" rel="noopener">SNS</a><a class="sub2" id="cta-list" href="hito.html">ヒトの一覧</a></div>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
       <div class="catchips" id="cat-edit" hidden style="background:#fff;border:1px solid #ead9bd;border-radius:14px;padding:12px;margin:10px 0;text-align:left">
         <span style="font-weight:bold">区分：</span>
@@ -609,7 +610,13 @@ function render(d, editMode){
     if(!snsUrl && d.snsLinks){ var sp = d.snsLinks.split(/\s+/); for(var si = 0; si < sp.length; si++){ if(sp[si].indexOf('http') === 0){ snsUrl = sp[si]; break; } } }
     if(!snsUrl && Array.isArray(d.links) && d.links.length && d.links[0].h) snsUrl = d.links[0].h;
     var ctaSns = $('cta-sns');
-    if(snsUrl){ ctaSns.href = snsUrl; ctaSns.style.display = ''; } else { ctaSns.style.display = 'none'; }
+    if(snsUrl){ ctaSns.href = snsUrl; ctaSns.removeAttribute('data-unset'); ctaSns.textContent = 'SNS'; ctaSns.style.display = ''; }
+    else { ctaSns.removeAttribute('href'); ctaSns.setAttribute('data-unset', '1'); ctaSns.textContent = 'SNS（非掲載）'; ctaSns.style.display = ''; }
+    if(!ctaSns.__unsetHook){ ctaSns.__unsetHook = 1; ctaSns.addEventListener('click', function(ev){
+      if(!ctaSns.getAttribute('data-unset')) return;
+      ev.preventDefault();
+      if(document.body.classList.contains('editing')){ var le = $('link-edit'); if(le) le.scrollIntoView({behavior: 'smooth', block: 'center'}); }
+    }); }
     var cm3 = {'ヒト': 'hito.html', 'モノ': 'mono.html', 'コト': 'koto.html'};
     var cc0 = (d.categories || ['ヒト'])[0];
     var ctaList = $('cta-list'); ctaList.href = cm3[cc0] || 'hito.html'; ctaList.textContent = cc0 + 'の一覧';
