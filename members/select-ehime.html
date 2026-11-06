@@ -31,7 +31,12 @@ h1{font-size:32px;line-height:1.35;margin:8px 0 4px}
 .sub{color:var(--orange);font-weight:bold;letter-spacing:.12em;font-size:13px}
 .lead{font-size:16px;margin:14px 0}
 .about{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;margin:16px 0}
-.strip{font-size:12.5px;color:#8a6a20;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px 2px;margin:14px 0 4px}
+.strip{font-size:12.5px;color:#8a6a20;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px 150px 7px 56px;margin:14px 0 4px}
+.hband{background:linear-gradient(135deg,#f5a83d,#ef8f1c);border-radius:14px;padding:18px 16px 16px;color:#fff;position:relative;overflow:hidden;margin:10px 0 4px}
+.hband h1{font-size:27px;font-weight:bold;letter-spacing:1px;margin:0;padding-right:84px;color:#fff;line-height:1.4}
+.hband-sub{font-size:13px;margin:5px 0 0;padding-right:84px;opacity:.97;line-height:1.6}
+.hband-stamp{position:absolute;right:12px;top:12px;width:66px;height:66px;border:2px solid #fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9.5px;line-height:1.4;text-align:center;transform:rotate(10deg);background:rgba(255,255,255,.12);letter-spacing:0}
+.hband-wave{position:absolute;left:0;right:0;bottom:-2px;height:10px;background:radial-gradient(circle at 10px -3px,transparent 12px,#ef8f1c 13px);opacity:.35}
 .aboutd{font-size:13.5px;color:#555;margin:6px 0 2px}
 .aboutd summary{cursor:pointer;color:#b96a00;font-size:13px}
 .aboutd p{margin:6px 0 0}
@@ -131,12 +136,14 @@ a{color:#b96a00}
 </head>
 <body>
 <div class="wrap">
-<p class="crumb"><a href="../koto.html">コトの一覧</a> ＞ セレクト愛媛情報</p>
-<div class="sub">MOMOwaRI SELECT</div>
-<h1>セレクト愛媛情報</h1>
-<p class="lead">愛媛シェアリングエコノミー。<br>眠っている価値を、必要な場所へ。愛媛でモノや子ども用品、場所や体験を分かち合う取り組みを、選んで紹介するページです。</p>
-
 <div class="strip"><a href="https://momowari.github.io/OHANA-share/">TOP</a> ＞ <a href="https://momowari.github.io/OHANA-share/koto.html">コトの一覧</a> ＞ セレクト愛媛情報</div>
+<div class="hband">
+<h1>セレクト愛媛情報</h1>
+<p class="hband-sub">SNSで見つけた、愛媛の小さなフリマ・物々交換・お譲り</p>
+<div class="hband-stamp"><span>MOMOwaRI</span><span>セレクト</span></div>
+<div class="hband-wave"></div>
+</div>
+<p class="lead">愛媛シェアリングエコノミー。<br>眠っている価値を、必要な場所へ。愛媛でモノや子ども用品、場所や体験を分かち合う取り組みを、選んで紹介するページです。</p>
 <details class="aboutd">
 <summary>このページについて（タップで開く）</summary>
 <p>フリマ型の選べる物々交換の活動の中で集まった、愛媛の分かち合いの情報をまとめています。このページだけでも、日時・場所・公式リンクまで確認できます。</p>
