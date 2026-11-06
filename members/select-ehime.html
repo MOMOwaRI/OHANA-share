@@ -1280,5 +1280,45 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 })();
 </script>
 
+<!-- omenu: hamburger (OHANA-share only) -->
+<div class="omenu" data-lock>
+<span class="omenu-btn" id="omenu-btn" role="button" aria-label="メニュー" aria-expanded="false" tabindex="0">☰</span>
+<nav class="omenu-panel" id="omenu-panel" hidden>
+<a href="../index.html">トップ</a>
+<a href="../hito.html">ヒトの一覧</a>
+<a href="../mono.html">モノの一覧</a>
+<a href="../koto.html">コトの一覧</a>
+<a href="select-ehime.html">セレクト愛媛情報</a>
+<a href="select-ehime-map.html">セレクト愛媛MAP</a>
+<a href="../login.html">マイページ</a>
+<a href="https://momowari.github.io/ohana-jima/">OHANA島</a>
+<a href="https://momowari.github.io/">入口ページ</a>
+</nav>
+</div>
+<style>
+.omenu{position:fixed;top:8px;left:8px;z-index:80;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
+.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:#b96a00;background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
+.omenu-panel{position:fixed;top:56px;left:10px;background:#fff;border:1px solid #eadfc9;border-radius:14px;box-shadow:0 8px 24px rgba(80,60,20,.14);padding:8px 0;min-width:216px;opacity:0;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease}
+.omenu-panel.open{opacity:1;transform:translateY(0)}
+.omenu-panel[hidden]{display:none!important}
+.omenu-panel a{display:block;padding:10px 18px;font-size:15px;color:#33302b;text-decoration:none;line-height:1.5}
+.omenu-panel a:active,.omenu-panel a:hover{background:#fff7e8}
+</style>
+<script>
+(function(){
+var btn=document.getElementById('omenu-btn'), panel=document.getElementById('omenu-panel');
+if(!btn||!panel) return;
+function close(){ panel.classList.remove('open'); panel.hidden=true; btn.setAttribute('aria-expanded','false'); }
+function toggle(){
+  if(panel.hidden){ panel.hidden=false; requestAnimationFrame(function(){ panel.classList.add('open'); }); btn.setAttribute('aria-expanded','true'); }
+  else close();
+}
+btn.addEventListener('click',function(e){ e.stopPropagation(); toggle(); });
+panel.addEventListener('click',function(e){ if(e.target.closest('a')) close(); });
+document.addEventListener('click',function(e){ if(!panel.hidden && !e.target.closest('.omenu')) close(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.hidden) close(); });
+})();
+</script>
+
 </body>
 </html>
