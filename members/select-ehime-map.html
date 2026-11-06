@@ -27,7 +27,7 @@ h1{font-size:32px;line-height:1.35;margin:8px 0 4px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-size:14px;cursor:pointer;font-family:inherit}
 .chip.on{background:var(--orange);color:#fff;border-color:var(--orange)}
 h2{font-size:21px;margin:34px 0 12px;border-left:6px solid var(--orange);padding-left:10px;line-height:1.4}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 3px 10px rgba(80,60,20,.06)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 3px 10px rgba(80,60,20,.06);cursor:pointer}
 .card.hide{display:none}
 .card.past{opacity:.82}
 .tag{display:inline-block;font-size:12px;color:#fff;border-radius:999px;padding:2px 10px;margin-bottom:8px}
@@ -569,7 +569,17 @@ a{color:#b96a00}
 let F='all';const Q=document.getElementById('q');
 function A(){document.querySelectorAll('.card').forEach(c=>{const ok=(F==='all'||c.dataset.g===F)&&(!Q.value||c.dataset.name.includes(Q.value));c.classList.toggle('hide',!ok)})}
 document.querySelectorAll('#chips .chip').forEach(b=>b.onclick=()=>{F=b.dataset.f;document.querySelectorAll('#chips .chip').forEach(x=>x.classList.toggle('on',x===b));A()});Q.oninput=A;
-</script><!-- omenu: hamburger (OHANA-share only) -->
+</script><script>
+document.querySelectorAll('.card').forEach(function(card){
+  var main = card.querySelector('a.btn.main');
+  if(!main) return;
+  card.addEventListener('click', function(e){
+    if(e.target.closest('a,button')) return;
+    main.click();
+  });
+});
+</script>
+<!-- omenu: hamburger (OHANA-share only) -->
 <div class="omenu" data-lock>
 <span class="omenu-btn" id="omenu-btn" role="button" aria-label="メニュー" aria-expanded="false" tabindex="0">☰</span>
 <nav class="omenu-panel" id="omenu-panel" hidden>
