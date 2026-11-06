@@ -28,5 +28,6 @@
 - お店の紹介ページ：Eyes MAHALO https://momowari.github.io/OHANA-share/members/eyes-mahalo.html ／ elua Mahalo https://momowari.github.io/OHANA-share/members/elua-mahalo.html ／ hair ID salon MAHALO https://momowari.github.io/OHANA-share/members/mahalo.html ／ Lea Mahalo https://momowari.github.io/OHANA-share/members/lea-mahalo.html
 - CUBE防災（ルービックキューブ6面完成プロジェクト）：https://momowari.github.io/OHANA-share/members/cube-bousai.html
 - セレクト愛媛情報（愛媛のフリマ・物々交換などの紹介）：https://momowari.github.io/OHANA-share/members/select-ehime.html
+- セレクト愛媛MAP（乳幼児・子供連れで行きやすい愛媛のお店・施設を地図とカードで紹介）：https://momowari.github.io/OHANA-share/members/select-ehime-map.html
 - OHANAのあゆみ：https://momowari.github.io/OHANA-share/ayumi.html
 - みんなの掲示板：https://momowari.github.io/OHANA-share/board.html
