@@ -1337,6 +1337,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
       if(!u){ box.innerHTML = ''; return; }
       var list = [];
       try{ list = JSON.parse(localStorage.getItem(LSKEY) || '[]'); if(!Array.isArray(list)) list = []; }catch(e){ list = []; }
+      function cleanTitles(){ list.forEach(function(x){ if(x && x.title) x.title = String(x.title).replace(/島アバター\s*$/, '').trim(); }); }
+      cleanTitles();
       function render(){
         if(!list.length){ box.innerHTML = '<p class="sub">まだありません。気になるページでボタンを押してみてください。</p>'; return; }
         var h = '';
@@ -1361,7 +1363,9 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
         var seen = {};
         list.forEach(function(x){ seen[x.id] = 1; });
         remote.forEach(function(x){ if(!seen[x.id]) list.push(x); });
+        cleanTitles();
         try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
+        if(JSON.stringify(remote) !== JSON.stringify(list)){ firebase.firestore().collection('wantLists').doc(u.uid).set({items: list, updatedAt: Date.now()}).catch(function(){}); }
         render();
       }).catch(function(){ render(); });
     });

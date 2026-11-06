@@ -2415,6 +2415,7 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
+
 <script>window.__WANT_CFG__ = {mode:'member'};</script>
 <!-- wantlist: "ほしい!" / "気になる" list that feeds matching.
      Config via window.__WANT_CFG__ = {mode:'detail'|'tiles'|'member', kind, id, owner} set before this snippet. -->
@@ -2467,8 +2468,12 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 
   function detailItem(){
     var title = '';
-    var h1 = document.querySelector('h1');
-    if(h1) title = h1.textContent.replace(/\s+/g, ' ').trim();
+    var nameEl = document.querySelector('#hito-name, #p-name');
+    if(nameEl) title = nameEl.textContent.replace(/\s+/g, ' ').trim();
+    if(!title){
+      var h1 = document.querySelector('h1');
+      if(h1) title = h1.textContent.replace(/島アバター/g, '').replace(/\s+/g, ' ').trim();
+    }
     var photo = '';
     var img = document.querySelector('.iphoto img, .hero-img, article img, main img');
     if(img) photo = img.getAttribute('src') || '';
