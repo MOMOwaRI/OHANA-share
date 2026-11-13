@@ -27,6 +27,9 @@
   h2{font-size:1.18rem;color:var(--orange-dark);margin-bottom:10px;border-left:5px solid var(--orange);padding-left:10px;letter-spacing:.04em}
   .chip{display:inline-block;border-radius:999px;padding:2px 14px;margin:2px;font-weight:bold;font-size:.88rem;color:#4a3418}
   .sns{display:flex;flex-direction:column;gap:10px}
+  #s-links.link-single h2{display:none}
+  #s-links.link-single .sns{align-items:center}
+  #s-links.link-single .sns a{border:none;background:none;padding:2px 6px;text-align:center;font-size:1.02rem}
   .sns a{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:#fffdf9}
   .sns a b{color:var(--orange-dark)}
   .sns a span{display:block;font-size:.85rem;color:var(--soft)}
@@ -173,7 +176,7 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
 .tkt-stk.onimg{top:6px;left:6px;bottom:auto}
 .tkt-stk.inpage{position:relative;left:auto;bottom:auto;width:max-content;margin:8px auto 2px}
 .cm-wrap{position:relative;max-width:330px;margin:0 auto}
-.tkt-stk.oncm{top:-24px;left:-4px;z-index:8}
+.tkt-stk.oncm{top:6px;left:-12px;z-index:8}
 .tkt-stk[hidden]{display:none!important}
 </style>
 </head>
@@ -733,19 +736,30 @@ function render(d, editMode){
   });
   $('s-offering').hidden = !orows;
   $('p-offering').innerHTML = orows;
-  var links = '';
-  if(d.hpUrl) links += '<a href="' + esc(d.hpUrl) + '" target="_blank" rel="noopener"><b>ホームページ</b><span>くわしくはこちら</span></a>';
-  if(d.menuUrl) links += '<a href="' + esc(d.menuUrl) + '" target="_blank" rel="noopener"><b>メニュー・料金ページ</b><span>くわしくはこちら</span></a>';
+  var linkEntries = [];
+  var seenUrls = {};
+  function normUrl(u){ return String(u || '').trim().replace(/\/+$/, ''); }
+  function addLink(url, label, desc){
+    var k = normUrl(url);
+    if(!k || seenUrls[k]) return;
+    seenUrls[k] = 1;
+    linkEntries.push({ h: url, t: label || url, s: desc || '' });
+  }
+  if(d.hpUrl){ var hl = snsLabel(d.hpUrl); addLink(d.hpUrl, hl !== 'SNS' ? hl : 'ホームページ', hl !== 'SNS' ? snsDesc(d.hpUrl) : 'くわしくはこちら'); }
+  if(d.menuUrl) addLink(d.menuUrl, 'メニュー・料金ページ', 'くわしくはこちら');
   if(d.snsLinks){
     d.snsLinks.split(/\s+/).forEach(function(u){
-      if(u.indexOf('http') === 0) links += '<a href="' + esc(u) + '" target="_blank" rel="noopener"><b>' + snsLabel(u) + '</b><span>' + snsDesc(u) + '</span></a>';
+      if(u.indexOf('http') === 0) addLink(u, snsLabel(u), snsDesc(u));
     });
   }
   if(Array.isArray(d.links)){
-    d.links.forEach(function(L){
-      if(L && L.h) links += '<a href="' + esc(L.h) + '" target="_blank" rel="noopener"><b>' + esc(L.t || L.h) + '</b></a>';
-    });
+    d.links.forEach(function(L){ if(L && L.h) addLink(L.h, L.t || L.h, ''); });
   }
+  var links = '';
+  linkEntries.forEach(function(E){
+    links += '<a href="' + esc(E.h) + '" target="_blank" rel="noopener"><b>' + esc(E.t) + '</b>' + (E.s ? '<span>' + esc(E.s) + '</span>' : '') + '</a>';
+  });
+  $('s-links').classList.toggle('link-single', linkEntries.length === 1);
   var mapQ = d.mapQ || d.area || '';
   $('s-map').hidden = !mapQ;
   if(mapQ){ var msrc = 'https://maps.google.com/maps?q=' + encodeURIComponent(mapQ) + '&t=&z=14&ie=UTF8&iwloc=&output=embed'; if($('p-map').getAttribute('src') !== msrc) $('p-map').src = msrc; }
@@ -831,11 +845,7 @@ function buildSuggestions(){
   if(name.indexOf('elua') >= 0) sets.push(['elua Mahalo', SUGGSETS.elua]);
   if(name.indexOf('MAHALO') >= 0 && name.indexOf('Eyes') < 0) sets.push(['hair ID salon MAHALO', SUGGSETS.mahalo]);
   if(name.indexOf('MOMOwaRI') >= 0) sets.push(['MOMOwaRI', SUGGSETS.momo]);
-  if(!sets.length){
-    if(cats.indexOf('モノ') >= 0) sets.push(['Lea Mahalo', SUGGSETS.lea]);
-    else if(cats.indexOf('コト') >= 0){ sets.push(['Eyes MAHALO', SUGGSETS.eyes]); sets.push(['hair ID salon MAHALO', SUGGSETS.mahalo]); sets.push(['elua Mahalo', SUGGSETS.elua]); }
-    else sets.push(['MOMOwaRI', SUGGSETS.momo]);
-  }
+  /* 候補は、そのページ自身（名前・IDが一致する店・本人）のものだけ。本人以外のページや無関係なページには、他店の候補を入れない（2026-11-13 本人指摘でカテゴリ頼みの振り分けを撤去） */
   var filled = false;
   sets.forEach(function(pair){
     pair[1].forEach(function(it){
