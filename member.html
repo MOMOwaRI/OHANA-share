@@ -420,6 +420,33 @@ function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 function nl(t){ return esc(t).replace(/\n/g,'<br>'); }
 function catCls(c){ return c === 'ヒト' ? 'cat-hito' : c === 'モノ' ? 'cat-mono' : 'cat-koto'; }
 var id = new URLSearchParams(location.search).get('id');
+var PREVIEW = new URLSearchParams(location.search).get('localpreview') === '1';
+window.__PREVIEW = PREVIEW;
+function previewData(){
+  try{
+    var raw = sessionStorage.getItem('instantPreviewData'); if(!raw) return null;
+    var g = JSON.parse(raw);
+    var cat = g.category || 'コト';
+    var d = { nickname: g.nickname || '名前未設定', categories: [cat], area: g.area || '', intro: g.intro || '', tags: Array.isArray(g.tags) ? g.tags : [], tickets: 0, draft: true, hpUrl: g.hpUrl || '', menuUrl: '', snsLinks: '', seekingHito: '', seekingMono: '', seekingKoto: '', offeringHito: '', offeringMono: '', offeringKoto: '', offering: '', cmT1: g.nickname || '', cmT5: g.nickname || '' };
+    if(cat === 'コト'){ d.kotoGenre = g.kotoGenre || 'お店'; d.offeringKoto = g.offering || ''; }
+    else if(cat === 'ヒト'){ d.offeringHito = g.offering || ''; }
+    else { d.offeringMono = g.offering || ''; d.monoGenre = 'その他'; }
+    return d;
+  }catch(e){ return null; }
+}
+function showPreviewBanner(){
+  var w = document.querySelector('.wrap'); if(!w) return;
+  var bar = document.createElement('div');
+  bar.id = 'preview-banner';
+  bar.style.cssText = 'border:2px solid #e8a04c;background:#fff8ec;border-radius:12px;padding:12px;margin:10px 0;text-align:center';
+  bar.innerHTML = '<p style="font-weight:bold">✨ これはプレビューです（まだ保存されていません）</p>' +
+    '<p style="margin-top:8px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><a href="login.html#login" id="pv-import" style="background:#e07b24;color:#fff;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 18px">この内容で取り込む（無料メンバー登録）</a>' +
+    '<a href="login.html" style="background:#fff;color:#b3541e;border:1.5px solid #e0a458;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 18px">戻る</a></p>';
+  w.insertBefore(bar, w.firstChild);
+  var imp = document.getElementById('pv-import');
+  if(imp) imp.addEventListener('click', function(){ try{ var raw = sessionStorage.getItem('instantPreviewData'); if(raw) sessionStorage.setItem('pendingInstantDraft', raw); }catch(e){} });
+  document.querySelectorAll('.pcomments,.istats').forEach(function(el){ el.style.display = 'none'; });
+}
 var ownerUid = id ? id.split('__')[0] : '';
 var pageData = null;
 var editing = false;
@@ -983,7 +1010,11 @@ function setEdit(on){
   }
 }
 
-if(!id){ $('p-loading').hidden = true; $('p-notfound').hidden = false; }
+if(PREVIEW){ var __runPreview = function(){ if(typeof applyDraftGate !== 'function'){ window.applyDraftGate = function(){ var n = document.getElementById('draft-notice'); if(n) n.hidden = true; var b = document.getElementById('draft-banner'); if(b) b.hidden = true; var w = document.querySelector('.wrap'); if(w) w.style.display = ''; }; } if(typeof toast !== 'function'){ window.toast = function(){}; }
+    if(typeof fitName !== 'function'){ window.fitName = function(){ var pn = $('p-name'); if(!pn) return; var len = (pn.textContent || '').trim().length; pn.style.fontSize = len > 14 ? '1.25rem' : (len > 10 ? '1.5rem' : ''); }; }
+    if(typeof icoColor !== 'function'){ window.icoColor = function(name){ var cols = ['#e8a13a', '#5d9c6b', '#8a5fb0', '#2e6da4', '#e07b24', '#d1607a', '#4a90a4', '#a35c14']; var h = 0; var n = name || 'メ'; for(var i = 0; i < n.length; i++){ h = (h * 31 + n.charCodeAt(i)) >>> 0; } return cols[h % cols.length]; }; }
+    if(typeof setupTickets !== 'function'){ window.setupTickets = function(){}; } $('p-loading').hidden = true; var __pd = previewData(); if(__pd){ render(__pd, false); showPreviewBanner(); } else { $('p-notfound').hidden = false; } }; if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', __runPreview); else setTimeout(__runPreview, 0); }
+else if(!id){ $('p-loading').hidden = true; $('p-notfound').hidden = false; }
 else {
   db.collection('profiles').doc(id).get().then(function(doc){
     $('p-loading').hidden = true;
@@ -1064,6 +1095,7 @@ function setupTickets(){
   }
 }
 function applyDraftGate(){
+  if(window.__PREVIEW){ var bb = document.getElementById('draft-banner'); if(bb) bb.hidden = true; var nn = document.getElementById('draft-notice'); if(nn) nn.hidden = true; var ww = document.querySelector('.wrap'); if(ww) ww.style.display = ''; return; }
   var b = document.getElementById('draft-banner');
   if(!pageData || !pageData.draft){ if(b) b.hidden = true; return; }
   if(isOwner){ if(b) b.hidden = false; return; }
