@@ -570,6 +570,7 @@ function runInstant(urlId, kwId, msgId, btn, done){
   if(!url && !kw){ msg.textContent = 'URLかキーワード（店名など）を入れてください。'; return; }
   if(genUsed() > 10){ msg.textContent = '今日のその場生成は上限になりました。「申し込む」の方なら受け付けられます。'; return; }
   if(!window.__ohanaInstantGen){ msg.textContent = 'その場生成の準備ができませんでした。「申し込む」の方で受け付けます。'; return; }
+  if(!kw && url){ try{ var seg = decodeURIComponent(url.replace(/^https?:\/\//, '').split(/[?#]/)[0]).split('/').filter(function(x){ return x && x.indexOf('.') < 0; }).pop() || ''; kw = seg.replace(/[-_]+/g, ' ').slice(0, 40); }catch(e){} }
   btn.disabled = true; msg.textContent = 'AIが作っています…（数十秒かかります）';
   window.__ohanaInstantGen({ url: url, keyword: kw }).then(function(g){
     btn.disabled = false;
@@ -938,19 +939,23 @@ try {
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
   };
   window.__ohanaKunReset = function(){ chat = null; };
-  var GEN_SYS = "あなたは、愛媛県松山市の物々交換コミュニティ「OHANAシェア＊プロジェクト」の紹介ページの下書きを作るAIです。入力された名前・キーワード・URLから、下書きをJSONだけ（説明文なし、コードフェンスなし）で返してください。形式: {\"nickname\":\"名前\",\"category\":\"コト\",\"kotoGenre\":\"お店\",\"area\":\"\",\"intro\":\"紹介文\",\"offering\":\"提供していること\",\"tags\":[\"タグ1\",\"タグ2\",\"タグ3\"]}。categoryは ヒト／モノ／コト のどれか（お店や活動はコト、人の紹介はヒト、モノそのものはモノ）。kotoGenreは お店／情報／活動／体験 のどれか。introは100字前後で親しみやすく。知らない住所・電話番号・営業時間・料金などの事実は、絶対に作らないでください。URLの中身は読めないので、名前とキーワードから分かる範囲で書いてください。areaは分かる場合だけ書いてください。";
+  var GEN_SYS = "あなたは、愛媛県松山市の物々交換コミュニティ「OHANAシェア＊プロジェクト」の紹介ページの下書きを作るAIです。入力された名前・キーワード・URLから、下書きをJSONだけ（説明文なし、コードフェンスなし）で返してください。形式: {\"nickname\":\"名前\",\"category\":\"コト\",\"kotoGenre\":\"お店\",\"area\":\"\",\"intro\":\"紹介文\",\"offering\":\"提供していること\",\"tags\":[\"タグ1\",\"タグ2\",\"タグ3\"]}。categoryは ヒト／モノ／コト のどれか（お店や活動はコト、人の紹介はヒト、モノそのものはモノ）。kotoGenreは お店／情報／活動／体験 のどれか。introは100字前後で親しみやすく。知らない住所・電話番号・営業時間・料金などの事実は、絶対に作らないでください。URLの中身は読めないので、名前とキーワードから分かる範囲で書いてください。areaは分かる場合だけ書いてください。名前がキーワードで分からずURLだけの場合は、URLの文字列から店名らしき部分を推測してnicknameに入れてください。";
   var genModel = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: GEN_SYS });
   window.__ohanaInstantGen = function(input){
     var prompt = '名前・キーワード: ' + (input.keyword || '') + '\nURL: ' + (input.url || '') + '\nこのお店・活動の紹介ページの下書きをJSONで作ってください。';
-    var pr = genModel.generateContent(prompt).then(function(res){ return res.response.text(); });
-    var timeout = new Promise(function(res){ setTimeout(function(){ res(null); }, 25000); });
-    return Promise.race([pr, timeout]).then(function(txt){
+    function parse(txt){
       if(!txt) return null;
       var t = String(txt).replace(/```json/g, '').replace(/```/g, '').trim();
       var i = t.indexOf('{'), j = t.lastIndexOf('}');
       if(i < 0 || j <= i) return null;
       try { return JSON.parse(t.slice(i, j + 1)); } catch(e){ return null; }
-    }).catch(function(){ return null; });
+    }
+    function attempt(){
+      var pr = genModel.generateContent(prompt).then(function(res){ return res.response.text(); });
+      var timeout = new Promise(function(res){ setTimeout(function(){ res(null); }, 40000); });
+      return Promise.race([pr, timeout]).then(parse).catch(function(){ return null; });
+    }
+    return attempt().then(function(g){ if(g) return g; return attempt(); });
   };
   window.__ohanaKunAsk = function(text){
     if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
