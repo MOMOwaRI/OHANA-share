@@ -114,6 +114,16 @@ html.js .mrv.in{opacity:1;transform:none}
   </header>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 
+  <div id="gen-trial" hidden style="border:2px solid #e8a04c;background:#fff8ec;border-radius:14px;padding:14px;margin:12px 0;text-align:left">
+    <p style="font-weight:bold;font-size:1.05rem">✨ AIで1発生成（お試し・無料）</p>
+    <p class="sub" style="margin-top:4px">お店や活動のURLを貼るだけで、AIが紹介ページの下書きを作ります。メンバー登録なしで申し込めます。下書きは非公開で、確認と公開には無料メンバー登録が必要です。</p>
+    <p style="margin:8px 0"><input type="url" id="gen-url2" placeholder="お店のURL（ホームページ・SNS・Googleマップなど）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
+    <p style="margin:8px 0"><input type="text" id="gen-kw2" placeholder="キーワード（店名など、任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
+    <p style="margin:8px 0"><input type="text" id="gen-name2" placeholder="あなたのお名前・ニックネーム（任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
+    <button type="button" class="create-btn" id="btn-gen2">AIで1発生成を申し込む</button>
+    <p class="sub" id="gen-msg2" style="margin-top:8px"></p>
+  </div>
+
   <section class="recruit" id="box-recruit" hidden>
     <div class="about-card">OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</div>
     <p style="margin-top:8px;font-weight:bold">メンバーになると、こんなことができます。</p>
@@ -502,6 +512,31 @@ function submitGenRequest(){
   });
 }
 if($('btn-gen')) $('btn-gen').addEventListener('click', submitGenRequest);
+function submitGenTrial(){
+  var url = ($('gen-url2').value || '').trim();
+  var kw = ($('gen-kw2').value || '').trim();
+  var nm = ($('gen-name2').value || '').trim();
+  var msg = $('gen-msg2');
+  if(!url && !kw){ msg.textContent = 'URLかキーワードのどちらかを入れてください。'; return; }
+  if(url && !/^https?:\/\//i.test(url)){ msg.textContent = 'URLは https:// から入れてください。'; return; }
+  var btn = $('btn-gen2'); btn.disabled = true;
+  msg.textContent = '送っています…';
+  db.collection('genRequests').add({ uid: '', name: nm, url: url, keyword: kw, status: 'new', createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function(){
+    try{
+      var p = {k: 'ohana-island-notify-2026', kind: 'gen', name: nm, url: url, keyword: kw};
+      fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams(p)}).catch(function(){});
+    }catch(e){}
+    msg.textContent = '申し込みました。AIが下書きを作ります。下書きの確認と公開は、下のログイン（無料メンバー登録）からできます。';
+    $('gen-url2').value = ''; $('gen-kw2').value = ''; $('gen-name2').value = '';
+    btn.disabled = false;
+  }).catch(function(){
+    msg.textContent = '送れませんでした。時間をおいて試してください。';
+    btn.disabled = false;
+  });
+}
+if($('btn-gen2')) $('btn-gen2').addEventListener('click', submitGenTrial);
+if(location.hash === '#gen'){ setTimeout(function(){ var t = $('gen-trial'); if(t) t.scrollIntoView(); }, 600); }
+
 
 function createPage(cat, name){
   $('hub-msg').textContent = cat + 'のページを作っています…';
@@ -532,12 +567,14 @@ auth.onAuthStateChanged(function(user){
     $('box-home').hidden = true;
     $('box-login').hidden = false;
     $('box-recruit').hidden = false;
+    $('gen-trial').hidden = false;
     $('page-title').textContent = 'OHANAメンバー募集📢';
     return;
   }
   uid = user.uid;
   $('box-login').hidden = true;
   $('box-recruit').hidden = true;
+  $('gen-trial').hidden = true;
   $('box-home').hidden = false;
   $('page-title').textContent = 'マイページ';
   $('home-who').textContent = 'ログイン中です';
