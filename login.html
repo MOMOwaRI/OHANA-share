@@ -302,6 +302,7 @@ function card(docId, d){
     '<span class="tn">' + esc(pageName(d)) + ((docId === uid && d.memberNo) ? ' <span class="no">No.' + d.memberNo + '</span>' : '') + (d.draft ? ' <span style="background:#777;color:#fff;border-radius:8px;padding:1px 8px;font-size:.75rem">下書き</span>' : '') + '</span>' +
     '<span class="tc">' + bh + '</span></a>' +
     '<a class="tedit" href="' + editHref(docId) + '">✎ 編集する</a>' +
+    (d.draft ? '<button type="button" class="tdel care-btn" style="color:#b3541e" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '" data-url="' + esc(d.hpUrl || '') + '">じっくり作り直してもらう</button>' : '') +
     '<button type="button" class="tdel del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '">削除</button></div>';
 }
 function trashCard(docId, d){
@@ -318,6 +319,20 @@ function bindDeleteButtons(){
   document.querySelectorAll('.restore-btn').forEach(function(btn){
     btn.addEventListener('click', function(){ restorePage(btn.getAttribute('data-doc')); });
   });
+  document.querySelectorAll('.care-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ carefulReq(btn); });
+  });
+}
+function carefulReq(btn){
+  var u = firebase.auth().currentUser; if(!u) return;
+  var pid = btn.getAttribute('data-doc');
+  var nm = btn.getAttribute('data-name') || '';
+  var url = btn.getAttribute('data-url') || '';
+  btn.disabled = true; btn.textContent = '送っています…';
+  db.collection('genRequests').add({ uid: u.uid, name: nm.slice(0, 30), url: url.slice(0, 500), keyword: '下書きの作り直し希望 pageId=' + pid, status: 'new', createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function(){
+    btn.textContent = '申し込みました ✓ 作り直して、この下書きを厚くします';
+    try { fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ k: 'ohana-island-notify-2026', kind: 'gen', name: nm, url: url, keyword: '作り直し pageId=' + pid }) }).catch(function(){}); } catch(e){}
+  }).catch(function(){ btn.disabled = false; btn.textContent = 'うまく送れませんでした。もう一度試してください'; });
 }
 function deletePage(docId, nm){
   if(!confirm('「' + nm + '」のページを削除しますか？\nあとで「削除したページ」から元に戻せます。メンバーNo.は繰り上がります。')) return;
