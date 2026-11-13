@@ -116,12 +116,23 @@ html.js .mrv.in{opacity:1;transform:none}
 
   <div id="gen-trial" hidden style="border:2px solid #e8a04c;background:#fff8ec;border-radius:14px;padding:14px;margin:12px 0;text-align:left">
     <p style="font-weight:bold;font-size:1.05rem">✨ AIで1発生成（お試し・無料）</p>
-    <p class="sub" style="margin-top:4px">お店や活動のURLを貼るだけで、AIが紹介ページの下書きを作ります。メンバー登録なしで申し込めます。下書きは非公開で、確認と公開には無料メンバー登録が必要です。</p>
+    <p class="sub" style="margin-top:4px">お店や活動のURLを貼るだけで、AIが紹介ページの下書きを作ります。メンバー登録なしで試せます。「その場で作ってみる」は、その場で下書きが見れます。「申し込む」は、AIがじっくり作る形です。下書きは非公開で、確認と公開には無料メンバー登録が必要です。</p>
     <p style="margin:8px 0"><input type="url" id="gen-url2" placeholder="お店のURL（ホームページ・SNS・Googleマップなど）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
     <p style="margin:8px 0"><input type="text" id="gen-kw2" placeholder="キーワード（店名など、任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
     <p style="margin:8px 0"><input type="text" id="gen-name2" placeholder="あなたのお名前・ニックネーム（任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
-    <button type="button" class="create-btn" id="btn-gen2">AIで1発生成を申し込む</button>
+    <button type="button" class="create-btn" id="btn-gen2i" style="margin-bottom:8px">✨ その場で作ってみる</button>
+    <button type="button" class="create-btn" id="btn-gen2">AIで1発生成を申し込む（じっくり作る）</button>
     <p class="sub" id="gen-msg2" style="margin-top:8px"></p>
+    <div id="gen-prev2" hidden style="border:1.5px solid #e8b96f;background:#fffdf4;border-radius:12px;padding:12px;margin-top:10px">
+      <p style="font-weight:bold;font-size:.8rem;color:#a35c14">下書きができました（プレビュー）</p>
+      <p style="font-weight:bold;font-size:1.1rem;margin-top:4px" id="gp-name2"></p>
+      <p class="sub" id="gp-area2"></p>
+      <p id="gp-intro2" style="line-height:1.7;margin-top:4px"></p>
+      <p class="sub" id="gp-off2" style="margin-top:4px"></p>
+      <p class="sub" id="gp-tags2"></p>
+      <button type="button" class="create-btn" id="btn-import2" style="margin-top:10px">無料メンバー登録して、この下書きを取り込む</button>
+      <p class="sub" style="margin-top:6px">登録・ログインすると、この内容があなたのマイページに下書き（非公開）として入ります。あとから直せます。</p>
+    </div>
   </div>
 
   <section class="recruit" id="box-recruit" hidden>
@@ -196,7 +207,9 @@ html.js .mrv.in{opacity:1;transform:none}
       <p class="sub">お店や活動のURLを貼るだけで、AIが紹介ページの下書きを作ります。下書きは非公開です。できたらここに出るので、確認してから公開できます。</p>
       <p style="margin:8px 0"><input type="url" id="gen-url" placeholder="お店のURL（ホームページ・SNS・Googleマップなど）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
       <p style="margin:8px 0"><input type="text" id="gen-kw" placeholder="キーワード（店名など、任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
-      <button type="button" class="create-btn" id="btn-gen">AIで1発生成する</button>
+      <button type="button" class="create-btn" id="btn-gen">AIで1発生成する（じっくり作る申込）</button>
+      <button type="button" class="create-btn" id="btn-geni" style="margin-top:8px">✨ その場で作る</button>
+      <p class="sub" style="margin-top:4px">「その場で作る」は、数十秒で文章の下書きができて、そのまま下書きページになります。写真や詳しい情報は、あとから足せます。</p>
       <p class="sub" id="gen-msg" style="margin-top:8px"></p>
       <div id="gen-list"></div>
     </div>
@@ -535,6 +548,72 @@ function submitGenTrial(){
   });
 }
 if($('btn-gen2')) $('btn-gen2').addEventListener('click', submitGenTrial);
+function genUsed(){ try{ var d = new Date(); var key = 'ohana_gen_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); var n = parseInt(localStorage.getItem(key) || '0', 10) + 1; localStorage.setItem(key, String(n)); return n; }catch(e){ return 1; } }
+function sanitizeGen(g, url){
+  var cats = ['ヒト', 'モノ', 'コト']; var kg = ['お店', '情報', '活動', '体験'];
+  function sv(v, m){ return String(v == null ? '' : v).slice(0, m); }
+  return { nickname: sv(g.nickname, 40) || '名前未設定', category: cats.indexOf(g.category) >= 0 ? g.category : 'コト', kotoGenre: kg.indexOf(g.kotoGenre) >= 0 ? g.kotoGenre : 'お店', area: sv(g.area, 30), intro: sv(g.intro, 300), offering: sv(g.offering, 120), tags: Array.isArray(g.tags) ? g.tags.slice(0, 5).map(function(t){ return sv(t, 20); }) : [], hpUrl: url || '' };
+}
+function createDraftFromGen(data, uid){
+  return nextMemberNo().then(function(no){
+    var docId = uid + '__p' + Date.now().toString(36);
+    var doc = { nickname: data.nickname, categories: [data.category], area: data.area, intro: data.intro, offeringHito: '', offeringMono: '', offeringKoto: '', offering: '', seekingHito: '', seekingMono: '', seekingKoto: '', hpUrl: data.hpUrl || '', menuUrl: '', snsLinks: '', tags: data.tags, tickets: 0, memberNo: no, draft: true, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+    if(data.category === 'コト'){ doc.kotoGenre = data.kotoGenre; doc.offeringKoto = data.offering; }
+    else if(data.category === 'ヒト'){ doc.offeringHito = data.offering; }
+    else { doc.offeringMono = data.offering; doc.monoGenre = 'その他'; }
+    return db.collection('profiles').doc(docId).set(doc).then(function(){ return docId; });
+  });
+}
+var lastInstant = null;
+function runInstant(urlId, kwId, msgId, btn, done){
+  var url = ($(urlId).value || '').trim(); var kw = ($(kwId).value || '').trim(); var msg = $(msgId);
+  if(!url && !kw){ msg.textContent = 'URLかキーワード（店名など）を入れてください。'; return; }
+  if(genUsed() > 10){ msg.textContent = '今日のその場生成は上限になりました。「申し込む」の方なら受け付けられます。'; return; }
+  if(!window.__ohanaInstantGen){ msg.textContent = 'その場生成の準備ができませんでした。「申し込む」の方で受け付けます。'; return; }
+  btn.disabled = true; msg.textContent = 'AIが作っています…（数十秒かかります）';
+  window.__ohanaInstantGen({ url: url, keyword: kw }).then(function(g){
+    btn.disabled = false;
+    if(!g){ msg.textContent = 'うまく作れませんでした。「申し込む」の方で受け付けます。'; return; }
+    var data = sanitizeGen(g, url); lastInstant = data; msg.textContent = '';
+    if(done) done(data);
+  });
+}
+if($('btn-gen2i')) $('btn-gen2i').addEventListener('click', function(){
+  var btn = this;
+  runInstant('gen-url2', 'gen-kw2', 'gen-msg2', btn, function(data){
+    $('gp-name2').textContent = data.nickname;
+    $('gp-area2').textContent = data.area || '';
+    $('gp-intro2').textContent = data.intro || '';
+    $('gp-off2').textContent = data.offering ? ('提供していること：' + data.offering) : '';
+    $('gp-tags2').textContent = (data.tags && data.tags.length) ? ('タグ：' + data.tags.join('・')) : '';
+    $('gen-prev2').hidden = false;
+  });
+});
+if($('btn-import2')) $('btn-import2').addEventListener('click', function(){
+  if(!lastInstant) return;
+  try{ sessionStorage.setItem('pendingInstantDraft', JSON.stringify(lastInstant)); }catch(e){}
+  var bl = $('box-login'); if(bl){ bl.hidden = false; bl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  $('gen-msg2').textContent = '登録・ログインすると、この下書きが取り込まれます。下のログインからどうぞ。';
+});
+if($('btn-geni')) $('btn-geni').addEventListener('click', function(){
+  var btn = this;
+  runInstant('gen-url', 'gen-kw', 'gen-msg', btn, function(data){
+    var u = firebase.auth().currentUser;
+    if(!u){ $('gen-msg').textContent = 'ログインが必要です。'; return; }
+    createDraftFromGen(data, u.uid).then(function(docId){
+      $('gen-msg').innerHTML = '下書きができました：<a href="' + pageHref(docId) + '">下書きを見る</a>';
+      loadPages();
+    }).catch(function(){ $('gen-msg').textContent = '下書きの保存ができませんでした。'; });
+  });
+});
+function importPendingInstant(uid){
+  var raw = null; try{ raw = sessionStorage.getItem('pendingInstantDraft'); }catch(e){}
+  if(!raw) return;
+  var data = null; try{ data = JSON.parse(raw); }catch(e){}
+  try{ sessionStorage.removeItem('pendingInstantDraft'); }catch(e){}
+  if(!data || !data.nickname) return;
+  createDraftFromGen(data, uid).then(function(){ try{ toast('お試しで作った下書きを取り込みました'); }catch(e){} loadPages(); }).catch(function(){});
+}
 if(location.hash === '#gen'){ setTimeout(function(){ var t = $('gen-trial'); if(t) t.scrollIntoView(); }, 600); }
 
 
@@ -581,6 +660,7 @@ auth.onAuthStateChanged(function(user){
   var fsl = $('first-step-link'); if(fsl) fsl.href = editHref(uid);
   ensureHitoPage().then(function(){ loadPages(); });
   loadGenRequests();
+  importPendingInstant(user.uid);
 });
 function nextMemberNo(){
   // メンバーNo.は「人」単位で数える：本人のページ（IDに '__' を含まないもの）だけを対象にする
@@ -858,6 +938,20 @@ try {
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
   };
   window.__ohanaKunReset = function(){ chat = null; };
+  var GEN_SYS = "あなたは、愛媛県松山市の物々交換コミュニティ「OHANAシェア＊プロジェクト」の紹介ページの下書きを作るAIです。入力された名前・キーワード・URLから、下書きをJSONだけ（説明文なし、コードフェンスなし）で返してください。形式: {\"nickname\":\"名前\",\"category\":\"コト\",\"kotoGenre\":\"お店\",\"area\":\"\",\"intro\":\"紹介文\",\"offering\":\"提供していること\",\"tags\":[\"タグ1\",\"タグ2\",\"タグ3\"]}。categoryは ヒト／モノ／コト のどれか（お店や活動はコト、人の紹介はヒト、モノそのものはモノ）。kotoGenreは お店／情報／活動／体験 のどれか。introは100字前後で親しみやすく。知らない住所・電話番号・営業時間・料金などの事実は、絶対に作らないでください。URLの中身は読めないので、名前とキーワードから分かる範囲で書いてください。areaは分かる場合だけ書いてください。";
+  var genModel = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: GEN_SYS });
+  window.__ohanaInstantGen = function(input){
+    var prompt = '名前・キーワード: ' + (input.keyword || '') + '\nURL: ' + (input.url || '') + '\nこのお店・活動の紹介ページの下書きをJSONで作ってください。';
+    var pr = genModel.generateContent(prompt).then(function(res){ return res.response.text(); });
+    var timeout = new Promise(function(res){ setTimeout(function(){ res(null); }, 25000); });
+    return Promise.race([pr, timeout]).then(function(txt){
+      if(!txt) return null;
+      var t = String(txt).replace(/```json/g, '').replace(/```/g, '').trim();
+      var i = t.indexOf('{'), j = t.lastIndexOf('}');
+      if(i < 0 || j <= i) return null;
+      try { return JSON.parse(t.slice(i, j + 1)); } catch(e){ return null; }
+    }).catch(function(){ return null; });
+  };
   window.__ohanaKunAsk = function(text){
     if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
     function attempt(){
