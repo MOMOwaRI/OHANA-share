@@ -227,7 +227,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
   var items = [];
   snap.forEach(function(doc){
     var d = doc.data();
-    if(d.deleted) return;
+    if(d.deleted || d.draft) return;
     if(SKIP_IDS[doc.id]) return;
     items.push({id: doc.id, d: d});
   });

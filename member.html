@@ -166,7 +166,9 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
 </script>
 </head>
 <body>
+<div id="draft-notice" hidden style="max-width:680px;margin:24px auto;padding:28px 18px;text-align:center;background:#fff;border:1.5px solid #d8c7ae;border-radius:14px">このページは下書きのため、まだ公開されていません。</div>
 <div class="wrap">
+<div id="draft-banner" hidden style="background:#fff3d6;border:1.5px solid #e8a04c;border-radius:12px;padding:10px 12px;margin:10px 0;text-align:center"><b>これは下書き（非公開）です</b><br><span style="font-size:.88rem">内容を確認して、よければ公開してください。公開するまでは、他の人には見えません。</span><br><button type="button" id="btn-publish-draft" style="margin-top:8px;background:#e8912d;color:#fff;border:none;border-radius:999px;padding:9px 22px;font-size:1rem;cursor:pointer">このページを公開する</button></div>
   <header>
     <div id="p-head" hidden>
 <style>.ctx-strip{text-align:left;font-size:12.5px;color:#8a6a20;border-top:1px solid #eadfc9;border-bottom:1px solid #eadfc9;padding:7px 150px 7px 56px;margin:0 0 4px}.ctx-about{font-size:13.5px;color:#555;margin:6px 0 2px}.ctx-about summary{cursor:pointer;color:#b96a00;font-size:13px}.ctx-about p{margin:6px 0 0}</style>
@@ -598,6 +600,7 @@ function renderCm(d){
 
 function render(d, editMode){
   pageData = d;
+  applyDraftGate();
   if(ownerUid && ownerUid !== id && !baseIconData){ db.collection('profiles').doc(ownerUid).get().then(function(bd){ if(bd.exists && bd.data().iconData){ baseIconData = bd.data().iconData; render(pageData, false); } }).catch(function(){}); }
   $('p-head').hidden = false;
   var dcats = d.categories || (d.category ? [d.category] : []);
@@ -1060,11 +1063,32 @@ function setupTickets(){
     });
   }
 }
+function applyDraftGate(){
+  var b = document.getElementById('draft-banner');
+  if(!pageData || !pageData.draft){ if(b) b.hidden = true; return; }
+  if(isOwner){ if(b) b.hidden = false; return; }
+  if(window.__authFired){
+    var w = document.querySelector('.wrap'); if(w) w.style.display = 'none';
+    var n = document.getElementById('draft-notice'); if(n) n.hidden = false;
+  }
+}
+var __pubBtn = document.getElementById('btn-publish-draft');
+if(__pubBtn) __pubBtn.addEventListener('click', function(){
+  __pubBtn.disabled = true;
+  db.collection('profiles').doc(id).update({ draft: false, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function(){
+    pageData.draft = false;
+    applyDraftGate();
+    toast('公開しました');
+  }).catch(function(){ __pubBtn.disabled = false; toast('公開できませんでした。時間をおいて試してください'); });
+});
+
 var currentUser = null;
   auth.onAuthStateChanged(function(user){
     currentUser = user;
-    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; document.body.classList.add('is-owner'); setupTickets(); tryEdit();
+    window.__authFired = true;
+    if(user && ownerUid && user.uid === ownerUid){ $('editbar').hidden = false; isOwner = true; document.body.classList.add('is-owner'); setupTickets(); tryEdit(); applyDraftGate();
     tryIslandAva(); }
+    applyDraftGate();
   });
   function needOwner(){ if(isOwner) return false; if(wantEdit || currentUser){ toast(currentUser ? '編集できるのは自分のページだけです' : '編集するにはログインしてください（右上のボタンから）'); } return true; }
 

@@ -181,6 +181,15 @@ html.js .mrv.in{opacity:1;transform:none}
       <p class="sub">あなたの「探している」と、みんなの「提供している」を見比べて出しています。連絡先は出ません。ページから声をかけてみてください。</p>
       <div id="match-list"><p class="sub">見ています…</p></div>
     </div>
+    <div class="create-card" id="gen-card" style="display:block;border:2px solid #e8a04c;background:#fff8ec">
+      <p style="font-weight:bold">✨ AIで1発生成</p>
+      <p class="sub">お店や活動のURLを貼るだけで、AIが紹介ページの下書きを作ります。下書きは非公開です。できたらここに出るので、確認してから公開できます。</p>
+      <p style="margin:8px 0"><input type="url" id="gen-url" placeholder="お店のURL（ホームページ・SNS・Googleマップなど）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
+      <p style="margin:8px 0"><input type="text" id="gen-kw" placeholder="キーワード（店名など、任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
+      <button type="button" class="create-btn" id="btn-gen">AIで1発生成する</button>
+      <p class="sub" id="gen-msg" style="margin-top:8px"></p>
+      <div id="gen-list"></div>
+    </div>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
       <p class="sub">区分を選ぶと、名前の欄がその区分用に変わります。ページはいくつでも作れます。</p>
@@ -267,7 +276,7 @@ function card(docId, d){
   var img = photo ? '<img class="timg" src="' + esc(photo) + '" alt="">' : '<span class="tletter">' + esc(pageName(d).slice(0, 1)) + '</span>';
   return '<div class="page-card">' +
     '<a class="tile" href="' + pageHref(docId) + '">' + img +
-    '<span class="tn">' + esc(pageName(d)) + ((docId === uid && d.memberNo) ? ' <span class="no">No.' + d.memberNo + '</span>' : '') + '</span>' +
+    '<span class="tn">' + esc(pageName(d)) + ((docId === uid && d.memberNo) ? ' <span class="no">No.' + d.memberNo + '</span>' : '') + (d.draft ? ' <span style="background:#777;color:#fff;border-radius:8px;padding:1px 8px;font-size:.75rem">下書き</span>' : '') + '</span>' +
     '<span class="tc">' + bh + '</span></a>' +
     '<a class="tedit" href="' + editHref(docId) + '">✎ 編集する</a>' +
     '<button type="button" class="tdel del-btn" data-doc="' + esc(docId) + '" data-name="' + esc(pageName(d)) + '">削除</button></div>';
@@ -391,7 +400,7 @@ function loadMatches(mine){
     var found = [];
     snap.forEach(function(doc){
       var d = doc.data();
-      if(!d || d.deleted || !d.nickname) return;
+      if(!d || d.deleted || d.draft || !d.nickname) return;
       if(doc.id === uid || doc.id.indexOf(uid + '__') === 0) return;
       var theirOffer = [d.offering || '', d.offeringHito || '', d.offeringMono || '', d.offeringKoto || '', d.intro || '', (d.tags || []).join(' ')].join(' ');
       var theirSeek = [d.seeking || '', d.seekingHito || '', d.seekingMono || '', d.seekingKoto || ''].join(' ');
@@ -451,6 +460,49 @@ function loadPages(){
   });
 }
 
+function loadGenRequests(){
+  var box = $('gen-list'); if(!box || !uid) return;
+  db.collection('genRequests').where('uid', '==', uid).get().then(function(snap){
+    var rows = [];
+    snap.forEach(function(doc){ rows.push(doc.data()); });
+    rows.sort(function(a, b){ return ((b.createdAt && b.createdAt.seconds) || 0) - ((a.createdAt && a.createdAt.seconds) || 0); });
+    if(!rows.length){ box.innerHTML = ''; return; }
+    var h = '<p class="sub" style="margin-top:10px;font-weight:bold">あなたの生成リクエスト</p>';
+    rows.slice(0, 5).forEach(function(d){
+      var st = d.status === 'done' ? '下書きができました' : (d.status === 'ng' ? '今回は作れませんでした' : '受付済み（AIが作っています）');
+      h += '<p class="sub" style="margin-top:4px">・' + esc(d.keyword || d.url || '') + '：' + st + ((d.status === 'done' && d.pageId) ? ' <a href="' + pageHref(d.pageId) + '">下書きを見る</a>' : '') + '</p>';
+    });
+    box.innerHTML = h;
+  }).catch(function(){});
+}
+function submitGenRequest(){
+  var url = ($('gen-url').value || '').trim();
+  var kw = ($('gen-kw').value || '').trim();
+  var msg = $('gen-msg');
+  if(!url && !kw){ msg.textContent = 'URLかキーワードのどちらかを入れてください。'; return; }
+  if(url && !/^https?:\/\//i.test(url)){ msg.textContent = 'URLは https:// から入れてください。'; return; }
+  var btn = $('btn-gen'); btn.disabled = true;
+  msg.textContent = '送っています…';
+  var myName = '';
+  db.collection('profiles').doc(uid).get().then(function(pd){
+    myName = (pd.exists && pd.data().nickname) || '';
+    return db.collection('genRequests').add({ uid: uid, name: myName, url: url, keyword: kw, status: 'new', createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+  }).then(function(){
+    try{
+      var p = {k: 'ohana-island-notify-2026', kind: 'gen', name: myName, url: url, keyword: kw};
+      fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams(p)}).catch(function(){});
+    }catch(e){}
+    msg.textContent = 'リクエストを送りました。AIが下書きを作ります。できたら、ここに「下書きができました」と出ます。';
+    $('gen-url').value = ''; $('gen-kw').value = '';
+    btn.disabled = false;
+    loadGenRequests();
+  }).catch(function(){
+    msg.textContent = '送れませんでした。時間をおいて試してください。';
+    btn.disabled = false;
+  });
+}
+if($('btn-gen')) $('btn-gen').addEventListener('click', submitGenRequest);
+
 function createPage(cat, name){
   $('hub-msg').textContent = cat + 'のページを作っています…';
   db.collection('profiles').get().then(function(snap){
@@ -491,6 +543,7 @@ auth.onAuthStateChanged(function(user){
   $('home-who').textContent = 'ログイン中です';
   var fsl = $('first-step-link'); if(fsl) fsl.href = editHref(uid);
   ensureHitoPage().then(function(){ loadPages(); });
+  loadGenRequests();
 });
 function nextMemberNo(){
   // メンバーNo.は「人」単位で数える：本人のページ（IDに '__' を含まないもの）だけを対象にする
