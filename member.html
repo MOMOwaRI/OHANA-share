@@ -164,6 +164,16 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
  }
 }
 </script>
+<style id="tkt-style">
+.tkt-stk{position:absolute;left:8px;bottom:10px;z-index:6;display:flex;align-items:stretch;border-radius:7px;overflow:hidden;transform:rotate(-3deg);box-shadow:0 3px 8px rgba(120,70,10,.35);background:linear-gradient(120deg,#fff3d0,#ffd98a);color:#7a4a08;border:1.2px solid #e0a458;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;pointer-events:none}
+.tkt-stk .stub{display:flex;align-items:center;justify-content:center;padding:3px 2px;font-weight:bold;letter-spacing:.14em;font-size:.42rem;border-right:1.5px dashed rgba(120,70,10,.45);writing-mode:vertical-rl;background:rgba(255,255,255,.4)}
+.tkt-stk .main{display:flex;align-items:center;gap:4px;padding:4px 7px}
+.tkt-stk .big{font-size:.8rem;font-weight:bold;white-space:nowrap;line-height:1.2}
+.tkt-stk .stamp{width:16px;height:16px;border:1.5px solid rgba(194,60,30,.6);border-radius:50%;color:rgba(194,60,30,.78);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.52rem;transform:rotate(10deg);background:rgba(255,255,255,.35);flex:none}
+.tkt-stk.onimg{top:6px;left:6px;bottom:auto}
+.tkt-stk.inpage{position:relative;left:auto;bottom:auto;width:max-content;margin:8px auto 2px}
+.tkt-stk[hidden]{display:none!important}
+</style>
 </head>
 <body>
 <div id="draft-notice" hidden style="max-width:680px;margin:24px auto;padding:28px 18px;text-align:center;background:#fff;border:1.5px solid #d8c7ae;border-radius:14px">このページは下書きのため、まだ公開されていません。</div>
@@ -207,7 +217,9 @@ body.is-owner #ticket-num{outline:2px dashed rgba(194,97,15,.75);outline-offset:
         <div id="tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0"></div>
         <span style="display:flex;gap:6px"><input type="text" id="tags-new" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:1rem;padding:6px;border-radius:8px;border:1px solid #d8c7ae"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:6px 14px;cursor:pointer">追加</button></span>
         <span class="note">タグはヒト・モノ・コトの一覧で、絞り込みに使われます</span>
+        <label style="display:flex;gap:8px;align-items:center;margin-top:10px;font-weight:bold;cursor:pointer"><input type="checkbox" id="in-ticketok" style="width:20px;height:20px;flex:none"> OHANA100円券に賛同する<span class="note" style="font-weight:normal">（ページと一覧に、金の券マークが付きます）</span></label>
       </div>
+      <span class="tkt-stk inpage" id="ticket-ok" hidden aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span>
     </div>
     <div id="p-loading" style="padding:130px 0 40px"><p class="sub">読み込んでいます…</p></div>
     <div id="p-notfound" hidden><p class="sub">このメンバーのページはまだ準備中です。</p></div>
@@ -460,7 +472,7 @@ var wantEdit = new URLSearchParams(location.search).get('edit') === '1';
   }
 })();
 var isOwner = false;
-function tryEdit(){ if(isOwner && pageData && !editing){ setEdit(true); if(/[?&]cm=1/.test(location.search + location.hash)){ setTimeout(function(){ var ce = $('cm-edit'); if(ce){ ce.hidden = false; ce.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 200); } } }
+function tryEdit(){ if(isOwner && pageData && !editing && (wantEdit || /[?&]cm=1/.test(location.search + location.hash))){ setEdit(true); if(/[?&]cm=1/.test(location.search + location.hash)){ setTimeout(function(){ var ce = $('cm-edit'); if(ce){ ce.hidden = false; ce.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 200); } } }
 
 function applyCatLabels(cat){
   var fm = $('fld-menu');
@@ -610,7 +622,7 @@ function renderCm(d){
   var box = $('cm-live');
   var photos = [d.cmPhoto1, d.cmPhoto2, d.cmPhoto3].filter(function(x){ return !!x; });
   var texts = [d.cmT1, d.cmT2, d.cmT3, d.cmT4, d.cmT5];
-  if(!photos.length && !texts.some(function(x){ return !!x; })){ box.hidden = true; box.innerHTML = ''; return; }
+  if(!photos.length && !texts.some(function(x){ return !!x; })){ box.hidden = true; box.innerHTML = ''; var tk0 = $('ticket-ok'); if(tk0) tk0.hidden = !d.ticketOk; return; }
   var color = d.cmColor || defCmColor();
   var html = '';
   html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[0] || '') + '</div>';
@@ -619,6 +631,8 @@ function renderCm(d){
   }
   html += '<div class="cm-scene solid" style="background:' + color + '">' + esc(texts[4] || '') + '</div>';
   box.innerHTML = html;
+  if(d.ticketOk){ box.insertAdjacentHTML('beforeend', '<span class="tkt-stk" aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span>'); }
+  var tk1 = $('ticket-ok'); if(tk1) tk1.hidden = true;
   var kids = box.querySelectorAll('.cm-scene');
   var total = kids.length * 5;
   for(var k = 0; k < kids.length; k++){ kids[k].style.animationDuration = total + 's'; kids[k].style.animationDelay = (k * 5) + 's'; }
@@ -975,6 +989,7 @@ function setEdit(on){
     $('cm-start').hidden = hasCm;
     pendingCm = {};
     $('in-cmcolor').value = pageData.cmColor || defCmColor();
+    $('in-ticketok').checked = !!pageData.ticketOk;
     ['t1','t2','t3','t4','t5'].forEach(function(k, ix){ $('in-cm' + k).value = pageData['cmT' + (ix + 1)] || ''; });
     filmWork = null;
     $('s-film').hidden = false;
@@ -1334,6 +1349,7 @@ $('qf-icon').addEventListener('change', function(){
       monoGenre: (catEl && catEl.value === 'モノ') ? $('in-genre').value : (pageData.monoGenre || ''),
       kotoGenre: (catEl && catEl.value === 'コト') ? $('in-kgenre').value : (pageData.kotoGenre || ''),
       tags: tagsWork || pageData.tags || [],
+      ticketOk: $('in-ticketok').checked,
       links: (linksWork || []).filter(function(L){ return L.h && L.h.trim(); }).map(function(L){ return {t: (L.t || '').trim(), h: L.h.trim()}; }),
       mapQ: $('in-mapq').value.trim(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()

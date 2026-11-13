@@ -161,6 +161,16 @@
  ]
 }
 </script>
+<style id="tkt-style">
+.tkt-stk{position:absolute;left:8px;bottom:10px;z-index:6;display:flex;align-items:stretch;border-radius:7px;overflow:hidden;transform:rotate(-3deg);box-shadow:0 3px 8px rgba(120,70,10,.35);background:linear-gradient(120deg,#fff3d0,#ffd98a);color:#7a4a08;border:1.2px solid #e0a458;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;pointer-events:none}
+.tkt-stk .stub{display:flex;align-items:center;justify-content:center;padding:3px 2px;font-weight:bold;letter-spacing:.14em;font-size:.42rem;border-right:1.5px dashed rgba(120,70,10,.45);writing-mode:vertical-rl;background:rgba(255,255,255,.4)}
+.tkt-stk .main{display:flex;align-items:center;gap:4px;padding:4px 7px}
+.tkt-stk .big{font-size:.8rem;font-weight:bold;white-space:nowrap;line-height:1.2}
+.tkt-stk .stamp{width:16px;height:16px;border:1.5px solid rgba(194,60,30,.6);border-radius:50%;color:rgba(194,60,30,.78);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.52rem;transform:rotate(10deg);background:rgba(255,255,255,.35);flex:none}
+.tkt-stk.onimg{top:6px;left:6px;bottom:auto}
+.tkt-stk.inpage{position:relative;left:auto;bottom:auto;width:max-content;margin:8px auto 2px}
+.tkt-stk[hidden]{display:none!important}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -174,7 +184,7 @@
     <div><span class="badge">コト</span></div>
     <h1>CUBE防災</h1>
     <p class="ename">rubik's cube project</p>
-    <div class="hero-pv"><img class="hero-video" src="../images/cube-cm.webp" width="408" height="538" alt="CUBE防災の紹介アニメーション"></div>
+    <div class="hero-pv"><span class="tkt-stk" data-lock aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span><img class="hero-video" src="../images/cube-cm.webp" width="408" height="538" alt="CUBE防災の紹介アニメーション"></div>
     <p class="catch"><span>ルービックキューブ</span><span class="acc">6面完成</span><span>に、挑戦できます。</span></p>
     <p class="sub">「愛媛県民6面完成プロジェクト」を行っている活動・愛媛県</p>
     <div class="tags">

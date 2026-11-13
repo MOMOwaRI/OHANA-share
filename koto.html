@@ -124,6 +124,17 @@ html.js .mrv.in{opacity:1;transform:none}
  ]
 }
 </script>
+<style id="tkt-style">
+.tkt-stk{position:absolute;left:8px;bottom:10px;z-index:6;display:flex;align-items:stretch;border-radius:7px;overflow:hidden;transform:rotate(-3deg);box-shadow:0 3px 8px rgba(120,70,10,.35);background:linear-gradient(120deg,#fff3d0,#ffd98a);color:#7a4a08;border:1.2px solid #e0a458;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;pointer-events:none}
+.tkt-stk .stub{display:flex;align-items:center;justify-content:center;padding:3px 2px;font-weight:bold;letter-spacing:.14em;font-size:.42rem;border-right:1.5px dashed rgba(120,70,10,.45);writing-mode:vertical-rl;background:rgba(255,255,255,.4)}
+.tkt-stk .main{display:flex;align-items:center;gap:4px;padding:4px 7px}
+.tkt-stk .big{font-size:.8rem;font-weight:bold;white-space:nowrap;line-height:1.2}
+.tkt-stk .stamp{width:16px;height:16px;border:1.5px solid rgba(194,60,30,.6);border-radius:50%;color:rgba(194,60,30,.78);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.52rem;transform:rotate(10deg);background:rgba(255,255,255,.35);flex:none}
+.tkt-stk.onimg{top:6px;left:6px;bottom:auto}
+.tkt-stk.inpage{position:relative;left:auto;bottom:auto;width:max-content;margin:8px auto 2px}
+.tkt-stk[hidden]{display:none!important}
+.item{position:relative}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -190,6 +201,7 @@ html.js .mrv.in{opacity:1;transform:none}
     </a>
     <a class="item" data-cat="exp" data-tags="愛媛県 ルービックキューブ 体験 認定チャレンジ" href="members/cube-bousai.html">
       <img src="images/cube-bousai.svg" alt="ルービックキューブのイラスト">
+      <span class="tkt-stk onimg" data-lock aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span>
       <span class="body">
         <span class="name">CUBE防災</span>
         <span class="desc">ルービックキューブ6面完成に挑戦できる「愛媛県民6面完成プロジェクト」。</span>
@@ -250,6 +262,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     a.innerHTML = ph + '<span class="body"><span class="name">' + esc(d.nickname || '名前未設定') + '</span>' +
       (desc ? '<span class="desc">' + esc(desc) + '</span>' : '') +
       '<span class="meta">' + '<span class="cat cat-' + (KG[d.kotoGenre] || 'shop') + '">' + esc(d.kotoGenre || 'お店') + '</span>' + (d.area ? '<span class="area">' + esc(d.area) + '</span>' : '') + '</span></span>';
+    if(d.ticketOk) a.insertAdjacentHTML('beforeend', '<span class="tkt-stk onimg" aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span>');
     grid.insertBefore(a, join);
   });
   if(window.__applyKotoCat) window.__applyKotoCat();
