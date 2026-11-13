@@ -552,7 +552,7 @@ function genUsed(){ try{ var d = new Date(); var key = 'ohana_gen_' + d.getFullY
 function sanitizeGen(g, url){
   var cats = ['ヒト', 'モノ', 'コト']; var kg = ['お店', '情報', '活動', '体験'];
   function sv(v, m){ return String(v == null ? '' : v).slice(0, m); }
-  return { nickname: sv(g.nickname, 40) || '名前未設定', category: cats.indexOf(g.category) >= 0 ? g.category : 'コト', kotoGenre: kg.indexOf(g.kotoGenre) >= 0 ? g.kotoGenre : 'お店', area: sv(g.area, 30), intro: sv(g.intro, 300), offering: sv(g.offering, 120), tags: Array.isArray(g.tags) ? g.tags.slice(0, 5).map(function(t){ return sv(t, 20); }) : [], hpUrl: url || '' };
+  return { nickname: sv(g.nickname, 40) || '名前未設定', category: cats.indexOf(g.category) >= 0 ? g.category : 'コト', kotoGenre: kg.indexOf(g.kotoGenre) >= 0 ? g.kotoGenre : 'お店', area: sv(g.area, 30), intro: sv(g.intro, 300), offering: sv(g.offering, 120), tags: Array.isArray(g.tags) ? g.tags.slice(0, 5).map(function(t){ return sv(t, 20); }) : [], hpUrl: url || '', seeking: sv(g.seeking, 120), links: Array.isArray(g.links) ? g.links.slice(0, 5).map(function(L){ return { t: sv(L && L.t, 40), h: sv(L && L.h, 300) }; }).filter(function(L){ return L.h.indexOf('http') === 0; }) : [] };
 }
 function createDraftFromGen(data, uid){
   return nextMemberNo().then(function(no){
@@ -561,6 +561,9 @@ function createDraftFromGen(data, uid){
     if(data.category === 'コト'){ doc.kotoGenre = data.kotoGenre; doc.offeringKoto = data.offering; }
     else if(data.category === 'ヒト'){ doc.offeringHito = data.offering; }
     else { doc.offeringMono = data.offering; doc.monoGenre = 'その他'; }
+    doc.links = data.links || [];
+    doc.ticketOk = !!data.ticketOk;
+    if(data.seeking){ if(data.category === 'コト') doc.seekingKoto = data.seeking; else if(data.category === 'ヒト') doc.seekingHito = data.seeking; else doc.seekingMono = data.seeking; }
     return db.collection('profiles').doc(docId).set(doc).then(function(){ return docId; });
   });
 }
@@ -936,8 +939,9 @@ try {
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
   };
   window.__ohanaKunReset = function(){ chat = null; };
-  var GEN_SYS = "あなたは、愛媛県松山市の物々交換コミュニティ「OHANAシェア＊プロジェクト」の紹介ページの下書きを作るAIです。入力された名前・キーワード・URLから、下書きをJSONだけ（説明文なし、コードフェンスなし）で返してください。形式: {\"nickname\":\"名前\",\"category\":\"コト\",\"kotoGenre\":\"お店\",\"area\":\"\",\"intro\":\"紹介文\",\"offering\":\"提供していること\",\"tags\":[\"タグ1\",\"タグ2\",\"タグ3\"]}。categoryは ヒト／モノ／コト のどれか（お店や活動はコト、人の紹介はヒト、モノそのものはモノ）。kotoGenreは お店／情報／活動／体験 のどれか。introは100字前後で親しみやすく。知らない住所・電話番号・営業時間・料金などの事実は、絶対に作らないでください。URLの中身は読めないので、名前とキーワードから分かる範囲で書いてください。areaは分かる場合だけ書いてください。名前がキーワードで分からずURLだけの場合は、URLの文字列から店名らしき部分を推測してnicknameに入れてください。活動の内容が名前・キーワードから分からない場合は、内容を決めつけた紹介にせず、分かる範囲だけで短く書いてください。根拠のない様子（例：笑顔で集まれる空間）は書かないでください。";
-  var genModel = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: GEN_SYS });
+  var GEN_SYS = "あなたは、愛媛県松山市の物々交換コミュニティ「OHANAシェア＊プロジェクト」の紹介ページの下書きを作るAIです。入力された名前・キーワード・URLから、下書きをJSONだけ（説明文なし、コードフェンスなし）で返してください。形式: {\"nickname\":\"名前\",\"category\":\"コト\",\"kotoGenre\":\"お店\",\"area\":\"\",\"intro\":\"紹介文\",\"offering\":\"提供していること\",\"tags\":[\"タグ1\",\"タグ2\",\"タグ3\"]}。categoryは ヒト／モノ／コト のどれか（お店や活動はコト、人の紹介はヒト、モノそのものはモノ）。kotoGenreは お店／情報／活動／体験 のどれか。introは100字前後で親しみやすく。知らない住所・電話番号・営業時間・料金などの事実は、絶対に作らないでください。URLの中身は読めないので、名前とキーワードから分かる範囲で書いてください。areaは分かる場合だけ書いてください。名前がキーワードで分からずURLだけの場合は、URLの文字列から店名らしき部分を推測してnicknameに入れてください。活動の内容が名前・キーワードから分からない場合は、内容を決めつけた紹介にせず、分かる範囲だけで短く書いてください。根拠のない様子（例：笑顔で集まれる空間）は書かないでください。ウェブ検索ができる場合は、名前・キーワード・URLをもとに検索して、その人やお店の公開情報（活動内容や地域など）を確認し、確認できた事実にもとづいて書いてください。検索しても確認できない事実は書かないでください。";
+  var genModel = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: GEN_SYS, tools: [{ googleSearch: {} }] });
+  var genModelPlain = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: GEN_SYS });
   window.__ohanaInstantGen = function(input){
     var prompt = '名前・キーワード: ' + (input.keyword || '') + '\nURL: ' + (input.url || '') + '\nこのお店・活動の紹介ページの下書きをJSONで作ってください。';
     function parse(txt){
@@ -947,12 +951,12 @@ try {
       if(i < 0 || j <= i) return null;
       try { return JSON.parse(t.slice(i, j + 1)); } catch(e){ return null; }
     }
-    function attempt(){
-      var pr = genModel.generateContent(prompt).then(function(res){ return res.response.text(); });
+    function attempt(m){
+      var pr = m.generateContent(prompt).then(function(res){ return res.response.text(); });
       var timeout = new Promise(function(res){ setTimeout(function(){ res(null); }, 40000); });
       return Promise.race([pr, timeout]).then(parse).catch(function(){ return null; });
     }
-    return attempt().then(function(g){ if(g) return g; return attempt(); });
+    return attempt(genModel).then(function(g){ if(g) return g; return attempt(genModelPlain); });
   };
   window.__ohanaKunAsk = function(text){
     if (kunUsed() > 20) return Promise.resolve('たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。「みんなの掲示板」や「困った・質問」のページ、LINEオープンチャットで聞いてくださいね。');
