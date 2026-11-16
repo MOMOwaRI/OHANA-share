@@ -83,7 +83,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 
 .sharewrap{text-align:center;margin-top:12px}
 .sharelink{color:#c2610f;font-weight:bold;cursor:pointer;font-size:.95rem}
-.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:var(--accent-dark);font-weight:bold;text-decoration:none;cursor:pointer}
+.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:var(--soft)}.sharerow a{color:var(--accent-dark);font-weight:bold;text-decoration:none;cursor:pointer}
 .sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
 .sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
 .sharemenu.open{display:flex}
@@ -187,8 +187,8 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <div class="hero-pv"><img class="hero-video" src="../images/shop/plush-cm.webp?v=2" width="408" height="538" alt="MOMOwaRIのモノの紹介アニメーション"></div>
 <!-- item-stats -->
 <style>
-.istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
-.istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:#b3541e;padding:2px 4px;cursor:pointer;font-size:inherit}
+.istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:var(--soft)}
+.istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);padding:2px 4px;cursor:pointer;font-size:inherit}
 .istats .lkbtn.on{color:var(--accent-dark)}
 .cateye{width:1.1em;height:1.1em;vertical-align:-.18em;margin-right:2px}
 .irow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 0;font-size:.8rem;color:#a3805a}
@@ -271,7 +271,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:var(--soft)">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -319,7 +319,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 </div>
 <p class="note">気になるモノがあったら、オープンチャットで声をかけてください。</p>
 </header>
-  <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
+  <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 <div class="sharewrap"><a id="share-btn" class="sharelink">シェア</a><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
 <script>
 (function(){
@@ -441,7 +441,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 .ic-del{border:none;background:none;color:#c2610f;font-size:.78rem;cursor:pointer;padding:2px 4px}
 .ic-form textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px 12px;border:1.5px solid #e8cfa5;border-radius:12px;background:#fffdf8;min-height:64px}
 .ic-form .postbtn{margin-top:8px;background:#e07b24;color:#fff;border:none;font-weight:bold;font-family:inherit;border-radius:999px;padding:10px 22px;cursor:pointer}
-.ic-login{display:block;text-align:center;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:11px;margin-top:10px}
+.ic-login{display:block;text-align:center;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:11px;margin-top:10px}
 .ic-empty{color:#a3805a;font-size:.9rem}
 .irelated{margin:26px 0 6px;text-align:left}
 .irelated h2{font-size:1.05rem;margin-bottom:8px}
@@ -551,7 +551,7 @@ OHANAシェア＊プロジェクト OHANAメンバー紹介ページ<br>
 .ohead{display:flex;align-items:center;gap:10px}
 .ohead img{height:56px;width:auto}
 .ohead .nm{font-weight:700}
-.ohead .ds{font-size:.78rem;color:#8a6a4f;line-height:1.4}
+.ohead .ds{font-size:.78rem;color:var(--soft);line-height:1.4}
 .oclose{margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid #f3ddc4;background:#fff;cursor:pointer;font-size:1rem;flex:none}
 .olog{display:flex;flex-direction:column;gap:8px;margin:12px 0;max-height:min(46vh,380px);overflow-y:autoflex:1 1 auto;min-height:0;}
 .omsg{background:#fdf3e3;border:1px solid #f3ddc4;border-radius:14px;border-bottom-left-radius:4px;padding:8px 12px;font-size:.9rem;align-self:flex-start;max-width:92%;line-height:1.6}
@@ -559,7 +559,7 @@ OHANAシェア＊プロジェクト OHANAメンバー紹介ページ<br>
 .omsg .qlinks{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}
 .qlinks a{flex:1;text-align:center;margin-top:0;white-space:nowrap}
 .qlinks a.alt{background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent)}
-.oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
+.oc-link{display:inline-block;margin-top:6px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
 .ochips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .ochip{border:1.5px solid #e0a458;background:#fff;color:#c2610f;border-radius:999px;padding:5px 12px;font-size:.8rem;cursor:pointer;font-family:inherit;font-weight:700}
 .oform{display:flex;gap:8px}
@@ -570,11 +570,11 @@ OHANAシェア＊プロジェクト OHANAメンバー紹介ページ<br>
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
 <div class="opanel" id="opanel" hidden>
-<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oend" id="oend" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
+<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oend" id="oend" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:var(--accent-dark);border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
 <div class="qlinks"><a class="oc-link alt" href="../board.html">みんなの掲示板</a><a class="oc-link alt" href="../help.html">困った助け合い</a><a class="oc-link" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャット</a></div>
 <div class="olog" id="olog"><div class="omsg">こんにちは。OHANAです。気になることを下のボタンから選ぶか、入力して聞いてください。</div></div>
 <div class="ochips" id="ochips"></div>
-<p style="font-size:.75rem;color:#8a6a4f;margin:8px 2px 0">※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。</p>
+<p style="font-size:.75rem;color:var(--soft);margin:8px 2px 0">※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。</p>
 <form class="oform" id="oform"><input id="oinput" type="text" placeholder="質問を入力してください" autocomplete="off"><button type="submit">送信</button></form>
 </div>
 <script>
@@ -722,7 +722,7 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = '無料メンバー登録';
-    btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
+    btn.style.cssText = 'background:none;border:none;box-shadow:none;color:var(--accent-dark);font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96;display:flex;gap:8px';
@@ -851,13 +851,13 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 #site-savebar.on{display:flex}
 #site-savebar button{font-family:inherit;font-weight:bold;border-radius:999px;padding:9px 18px;cursor:pointer}
 #sb-save{background:#e07b24;color:#fff;border:none}
-#sb-cancel{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
-#sb-msg{font-size:.82rem;color:#8a6a4f}
+#sb-cancel{background:#fff;color:var(--soft);border:1.5px solid var(--line)}
+#sb-msg{font-size:.82rem;color:var(--soft)}
 .ied-panel{background:#fff;border:1.5px solid #e0a458;border-radius:14px;padding:14px;margin:12px 0;text-align:left}
 .ied-panel h3{font-size:1rem;margin-bottom:8px}
 .ied-panel label{display:block;font-size:.85rem;font-weight:bold;margin-top:10px}
 .ied-panel input[type="text"],.ied-panel textarea{width:100%;font-family:inherit;font-size:1rem;padding:9px 11px;border:1.5px solid #e8cfa5;border-radius:10px;background:#fffdf8}
-#color-fab{position:fixed;top:58px;right:max(10px, calc(50% - 350px));z-index:96;display:none;background:#fff;border:1.5px solid #e0a458;color:#8a6a4f;border-radius:999px;padding:8px 14px;font-family:inherit;font-weight:bold;font-size:.9rem;cursor:pointer;box-shadow:0 4px 14px rgba(120,70,10,.18)}
+#color-fab{position:fixed;top:58px;right:max(10px, calc(50% - 350px));z-index:96;display:none;background:#fff;border:1.5px solid #e0a458;color:var(--soft);border-radius:999px;padding:8px 14px;font-family:inherit;font-weight:bold;font-size:.9rem;cursor:pointer;box-shadow:0 4px 14px rgba(120,70,10,.18)}
 #color-fab.on{display:block}
 #color-panel{position:fixed;top:56px;left:10px;z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:14px;box-shadow:0 10px 28px rgba(120,70,10,.25);padding:14px;width:250px;display:none}
 #color-panel.on{display:block}
@@ -866,8 +866,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 #color-panel .crow{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
 #color-panel button{font-family:inherit;font-weight:bold;border-radius:999px;padding:7px 14px;cursor:pointer}
 #cp-save{background:#e07b24;color:#fff;border:none}
-#cp-close{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
-#cp-msg{font-size:.85rem;color:#8a6a4f}
+#cp-close{background:#fff;color:var(--soft);border:1.5px solid var(--line)}
+#cp-msg{font-size:.85rem;color:var(--soft)}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -946,7 +946,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     panel.innerHTML = '<h3>リンクの編集</h3>' +
       '<label>表示する文字<textarea id="lp-text" rows="2">' + esc(cur.t) + '</textarea></label>' +
       '<label>リンク先（URL）<input type="text" id="lp-href" value="' + esc(cur.h) + '"></label>' +
-      '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="lp-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:7px 16px;cursor:pointer">このリンクを保存</button><button type="button" id="lp-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 16px;cursor:pointer">元に戻す</button><button type="button" id="lp-close" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 16px;cursor:pointer">閉じる</button><span id="lp-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
+      '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="lp-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:7px 16px;cursor:pointer">このリンクを保存</button><button type="button" id="lp-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer">元に戻す</button><button type="button" id="lp-close" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer">閉じる</button><span id="lp-msg" style="font-size:.85rem;color:var(--soft)"></span></p>';
     a.parentNode.insertBefore(panel, a.nextSibling);
     function upd(){
       pendingLinks[i] = {t: $('lp-text').value, h: $('lp-href').value};
@@ -1008,7 +1008,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     document.body.appendChild(fab);
     var panel = document.createElement('div');
     panel.id = 'color-panel';
-    panel.innerHTML = '<h3>ページの色</h3><input type="color" id="cp-input" value="#e07b24"><div class="crow"><button type="button" id="cp-save">保存する</button><button type="button" id="cp-close">閉じる</button><span id="cp-msg"></span></div><p style="font-size:.8rem;color:#8a6a4f;margin-top:8px">色を選ぶと、その場で変わります。「保存する」を押すと、来た人にもその色で見えます。</p>';
+    panel.innerHTML = '<h3>ページの色</h3><input type="color" id="cp-input" value="#e07b24"><div class="crow"><button type="button" id="cp-save">保存する</button><button type="button" id="cp-close">閉じる</button><span id="cp-msg"></span></div><p style="font-size:.8rem;color:var(--soft);margin-top:8px">色を選ぶと、その場で変わります。「保存する」を押すと、来た人にもその色で見えます。</p>';
     document.body.appendChild(panel);
     var input = panel.querySelector('#cp-input'), msg = panel.querySelector('#cp-msg');
     fab.addEventListener('click', function(){
@@ -1047,8 +1047,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     var panel = document.createElement('div');
     panel.className = 'ied-panel'; panel.id = 'tags-panel';
     panel.innerHTML = '<h3>タグの編集</h3><div id="tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0"></div>' +
-      '<p style="display:flex;gap:6px"><input type="text" id="tags-new" placeholder="新しいタグ" style="flex:1;font-family:inherit;padding:8px;border:1.5px solid #d8c7ae;border-radius:8px"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 14px;cursor:pointer">追加</button></p>' +
-      '<p style="display:flex;gap:8px;margin-top:8px;align-items:center"><button type="button" id="tags-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">保存</button><button type="button" id="tags-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="tags-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
+      '<p style="display:flex;gap:6px"><input type="text" id="tags-new" placeholder="新しいタグ" style="flex:1;font-family:inherit;padding:8px;border:1.5px solid var(--line);border-radius:8px"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer">追加</button></p>' +
+      '<p style="display:flex;gap:8px;margin-top:8px;align-items:center"><button type="button" id="tags-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">保存</button><button type="button" id="tags-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="tags-msg" style="font-size:.85rem;color:var(--soft)"></span></p>';
     box.parentNode.insertBefore(panel, box.nextSibling);
     renderTagChips();
     $('tags-add').addEventListener('click', function(){
@@ -1075,7 +1075,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
       chip.querySelector('button').addEventListener('click', function(){ tagsWork.splice(i, 1); renderTagChips(); });
       box.appendChild(chip);
     });
-    if(!tagsWork.length) box.innerHTML = '<span style="font-size:.85rem;color:#8a6a4f">タグはまだありません。下から追加できます。</span>';
+    if(!tagsWork.length) box.innerHTML = '<span style="font-size:.85rem;color:var(--soft)">タグはまだありません。下から追加できます。</span>';
   }
   /* ---------- 探している・提供している (direct editing) ---------- */
   var ROWF = [['seekingHito','探しているヒト'],['seekingMono','探しているモノ'],['seekingKoto','探しているコト'],['offeringHito','提供できるヒト'],['offeringMono','提供できるモノ'],['offeringKoto','提供できるコト'],['offering','提供している']];
@@ -1207,7 +1207,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     if(!sns) return;
     var b = document.createElement('button');
     b.type = 'button'; b.id = 'addlink-btn'; b.textContent = '＋ リンクを追加';
-    b.style.cssText = 'font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer;margin-top:8px';
+    b.style.cssText = 'font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;margin-top:8px';
     sns.parentNode.insertBefore(b, sns.nextSibling);
     b.addEventListener('click', function(){
       var rec = addLinkEl('新しいリンク', 'https://');
@@ -1233,7 +1233,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     mapEditSrc = mapFrame.src;
     var panel = document.createElement('div');
     panel.className = 'ied-panel'; panel.id = 'map-panel';
-    panel.innerHTML = '<h3>地図の場所</h3><p style="display:flex;gap:6px"><input type="text" id="map-q" value="' + esc(mapQFromSrc(mapFrame.src)) + '" style="flex:1;font-family:inherit;padding:8px;border:1.5px solid #d8c7ae;border-radius:8px"><button type="button" id="map-apply" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">地図に反映</button></p><p style="font-size:.8rem;color:#8a6a4f;margin-top:6px">住所を変えて「地図に反映」を押すと、その場所の地図になります。保存は下の「保存する」で一緒に行われます。</p>';
+    panel.innerHTML = '<h3>地図の場所</h3><p style="display:flex;gap:6px"><input type="text" id="map-q" value="' + esc(mapQFromSrc(mapFrame.src)) + '" style="flex:1;font-family:inherit;padding:8px;border:1.5px solid var(--line);border-radius:8px"><button type="button" id="map-apply" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">地図に反映</button></p><p style="font-size:.8rem;color:var(--soft);margin-top:6px">住所を変えて「地図に反映」を押すと、その場所の地図になります。保存は下の「保存する」で一緒に行われます。</p>';
     mapFrame.parentNode.insertBefore(panel, mapFrame.nextSibling);
     $('map-apply').addEventListener('click', function(){
       var v = $('map-q').value.trim(); if(!v) return;
@@ -1391,14 +1391,14 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing momowari-mono / ELCzyeeoDCU4gveavc077L4jBqE3. -->
 <style>
-.pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:#b3541e;border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
+.pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:var(--accent-dark);border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
 .pcomments .pc-send{font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer}
 .pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px}
 .pcomments .pc-item .pc-name{font-weight:bold}
 .pcomments .pc-badge{background:color-mix(in srgb,var(--accent) 12%,#fff);border:1px solid var(--accent);color:var(--accent-dark);border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
 .pcomments .pc-date{color:#a3805a;font-size:.8rem;margin-left:6px}
 .pcomments .pc-del{font-family:inherit;font-size:.78rem;background:#fff;color:#b03a2e;border:1px solid #d8a49e;border-radius:999px;padding:3px 10px;cursor:pointer;margin-left:8px}
-.pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px;margin-top:8px;background:#fff}
+.pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid var(--line);border-radius:10px;margin-top:8px;background:#fff}
 </style>
 <script>
 (function(){

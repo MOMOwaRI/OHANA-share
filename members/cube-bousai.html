@@ -110,7 +110,7 @@
 
 .sharewrap{text-align:center;margin-top:12px}
 .sharelink{color:#c2610f;font-weight:bold;cursor:pointer;font-size:.95rem}
-.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:var(--accent-dark);font-weight:bold;text-decoration:none;cursor:pointer}
+.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:var(--soft)}.sharerow a{color:var(--accent-dark);font-weight:bold;text-decoration:none;cursor:pointer}
 .sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
 .sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
 .sharemenu.open{display:flex}
@@ -228,12 +228,12 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
     </div>
     <p class="note">開催や参加の最新情報は、SNSでご確認ください。</p>
   </header>
-  <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
+  <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 <div class="sharewrap"><a id="share-btn" class="sharelink">シェア</a><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
 <!-- item-stats -->
 <style>
-.istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
-.istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:#b3541e;padding:2px 4px;cursor:pointer;font-size:inherit}
+.istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:var(--soft)}
+.istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);padding:2px 4px;cursor:pointer;font-size:inherit}
 .istats .lkbtn.on{color:var(--accent-dark)}
 .cateye{width:1.1em;height:1.1em;vertical-align:-.18em;margin-right:2px}
 .irow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 0;font-size:.8rem;color:#a3805a}
@@ -313,7 +313,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:var(--soft)">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -547,7 +547,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 
 .ohead .nm{font-weight:700}
 
-.ohead .ds{font-size:.78rem;color:#8a6a4f;line-height:1.4}
+.ohead .ds{font-size:.78rem;color:var(--soft);line-height:1.4}
 
 .oclose{margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid #f3ddc4;background:#fff;cursor:pointer;font-size:1rem;flex:none}
 
@@ -563,7 +563,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 
 .qlinks a.alt{background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent)}
 
-.oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
+.oc-link{display:inline-block;margin-top:6px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
 
 .ochips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 
@@ -583,11 +583,11 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
 <div class="opanel" id="opanel" hidden>
-<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oend" id="oend" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
+<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oend" id="oend" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:var(--accent-dark);border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
 <div class="qlinks"><a class="oc-link alt" href="../board.html">みんなの掲示板</a><a class="oc-link alt" href="../help.html">困った助け合い</a><a class="oc-link" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャット</a></div>
 <div class="olog" id="olog"><div class="omsg">こんにちは。OHANAです。気になることを下のボタンから選ぶか、入力して聞いてください。</div></div>
 <div class="ochips" id="ochips"></div>
-<p style="font-size:.75rem;color:#8a6a4f;margin:8px 2px 0">※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。</p>
+<p style="font-size:.75rem;color:var(--soft);margin:8px 2px 0">※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。</p>
 <form class="oform" id="oform"><input id="oinput" type="text" placeholder="質問を入力してください" autocomplete="off"><button type="submit">送信</button></form>
 </div>
 <script>
@@ -1291,7 +1291,7 @@ document.querySelectorAll('.film').forEach(function(f){ f.addEventListener('clic
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = '無料メンバー登録';
-    btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
+    btn.style.cssText = 'background:none;border:none;box-shadow:none;color:var(--accent-dark);font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
@@ -1495,14 +1495,14 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing cube-bousai / ELCzyeeoDCU4gveavc077L4jBqE3. -->
 <style>
-.pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:#b3541e;border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
+.pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:var(--accent-dark);border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
 .pcomments .pc-send{font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer}
 .pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px}
 .pcomments .pc-item .pc-name{font-weight:bold}
 .pcomments .pc-badge{background:color-mix(in srgb,var(--accent) 12%,#fff);border:1px solid var(--accent);color:var(--accent-dark);border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
 .pcomments .pc-date{color:#a3805a;font-size:.8rem;margin-left:6px}
 .pcomments .pc-del{font-family:inherit;font-size:.78rem;background:#fff;color:#b03a2e;border:1px solid #d8a49e;border-radius:999px;padding:3px 10px;cursor:pointer;margin-left:8px}
-.pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px;margin-top:8px;background:#fff}
+.pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid var(--line);border-radius:10px;margin-top:8px;background:#fff}
 </style>
 <script>
 (function(){
