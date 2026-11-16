@@ -490,6 +490,7 @@ function previewData(){
     var g = JSON.parse(raw);
     var cat = g.category || 'コト';
     var d = { nickname: g.nickname || '名前未設定', categories: [cat], area: g.area || '', intro: g.intro || '', tags: Array.isArray(g.tags) ? g.tags : [], tickets: 0, draft: true, hpUrl: g.hpUrl || '', menuUrl: '', snsLinks: '', seekingHito: '', seekingMono: '', seekingKoto: '', offeringHito: '', offeringMono: '', offeringKoto: '', offering: '', cmT1: g.nickname || '', cmT5: g.nickname || '' };
+    var cmT = Array.isArray(g.cmT) ? g.cmT.slice(0, 5) : []; var cmFirst = g.catch || cmT[0] || ''; var cmScreens = []; if(cmFirst) cmScreens.push(cmFirst); cmT.forEach(function(t){ if(t && t !== cmFirst) cmScreens.push(t); }); d.catch = g.catch || ''; cmScreens.slice(0, 5).forEach(function(t, i){ d['cmT' + (i + 1)] = t; });
     if(cat === 'コト'){ d.kotoGenre = g.kotoGenre || 'お店'; d.offeringKoto = g.offering || ''; }
     else if(cat === 'ヒト'){ d.offeringHito = g.offering || ''; }
     else { d.offeringMono = g.offering || ''; d.monoGenre = 'その他'; }

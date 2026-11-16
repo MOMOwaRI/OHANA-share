@@ -579,11 +579,12 @@ function submitGenTrial(){
   });
 }
 if($('btn-gen2')) $('btn-gen2').addEventListener('click', submitGenTrial);
+function notifyInstantGen(name, url, keyword){ try{ fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', {method: 'POST', mode: 'no-cors', body: new URLSearchParams({k: 'ohana-island-notify-2026', kind: 'gen', name: String(name || '').slice(0, 60), url: String(url || '').slice(0, 300), keyword: String(keyword || '').slice(0, 160)})}).catch(function(){}); }catch(e){} }
 function genUsed(){ try{ var d = new Date(); var key = 'ohana_gen_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); var n = parseInt(localStorage.getItem(key) || '0', 10) + 1; localStorage.setItem(key, String(n)); return n; }catch(e){ return 1; } }
 function sanitizeGen(g, url){
   var cats = ['ヒト', 'モノ', 'コト']; var kg = ['お店', '情報', '活動', '体験'];
   function sv(v, m){ return String(v == null ? '' : v).slice(0, m); }
-  return { nickname: sv(g.nickname, 40) || '名前未設定', category: cats.indexOf(g.category) >= 0 ? g.category : 'コト', kotoGenre: kg.indexOf(g.kotoGenre) >= 0 ? g.kotoGenre : 'お店', area: sv(g.area, 30), intro: sv(g.intro, 300), offering: sv(g.offering, 120), tags: Array.isArray(g.tags) ? g.tags.slice(0, 5).map(function(t){ return sv(t, 20); }) : [], hpUrl: url || '', seeking: sv(g.seeking, 120), links: Array.isArray(g.links) ? g.links.slice(0, 5).map(function(L){ return { t: sv(L && L.t, 40), h: sv(L && L.h, 300) }; }).filter(function(L){ return L.h.indexOf('http') === 0; }) : [] };
+  return { nickname: sv(g.nickname, 40) || '名前未設定', catch: sv(g.catch, 60), cmT: Array.isArray(g.cmT) ? g.cmT.slice(0, 5).map(function(t){ return sv(t, 30); }).filter(function(t){ return !!t; }) : [], category: cats.indexOf(g.category) >= 0 ? g.category : 'コト', kotoGenre: kg.indexOf(g.kotoGenre) >= 0 ? g.kotoGenre : 'お店', area: sv(g.area, 30), intro: sv(g.intro, 300), offering: sv(g.offering, 120), tags: Array.isArray(g.tags) ? g.tags.slice(0, 5).map(function(t){ return sv(t, 20); }) : [], hpUrl: url || '', seeking: sv(g.seeking, 120), links: Array.isArray(g.links) ? g.links.slice(0, 5).map(function(L){ return { t: sv(L && L.t, 40), h: sv(L && L.h, 300) }; }).filter(function(L){ return L.h.indexOf('http') === 0; }) : [] };
 }
 function createDraftFromGen(data, uid){
   return nextMemberNo().then(function(no){
@@ -592,6 +593,7 @@ function createDraftFromGen(data, uid){
     if(data.category === 'コト'){ doc.kotoGenre = data.kotoGenre; doc.offeringKoto = data.offering; }
     else if(data.category === 'ヒト'){ doc.offeringHito = data.offering; }
     else { doc.offeringMono = data.offering; doc.monoGenre = 'その他'; }
+    var cmScreens = []; var cmFirst = data.catch || (data.cmT && data.cmT[0]) || ''; if(cmFirst) cmScreens.push(cmFirst); (data.cmT || []).forEach(function(t){ if(t && t !== cmFirst) cmScreens.push(t); }); doc.catch = data.catch || ''; cmScreens.slice(0, 5).forEach(function(t, i){ doc['cmT' + (i + 1)] = t; });
     doc.links = data.links || [];
     doc.ticketOk = !!data.ticketOk;
     if(data.seeking){ if(data.category === 'コト') doc.seekingKoto = data.seeking; else if(data.category === 'ヒト') doc.seekingHito = data.seeking; else doc.seekingMono = data.seeking; }
@@ -610,6 +612,7 @@ function runInstant(urlId, kwId, msgId, btn, done){
     btn.disabled = false;
     if(!g){ msg.textContent = 'うまく作れませんでした。「申し込む」の方で受け付けます。'; return; }
     var data = sanitizeGen(g, url); lastInstant = data; msg.textContent = '';
+    notifyInstantGen(data.nickname, url, 'その場生成：' + kw);
     if(done) done(data);
   });
 }
@@ -644,7 +647,7 @@ function importPendingInstant(uid){
   var data = null; try{ data = JSON.parse(raw); }catch(e){}
   try{ sessionStorage.removeItem('pendingInstantDraft'); }catch(e){}
   if(!data || !data.nickname) return;
-  createDraftFromGen(data, uid).then(function(){ try{ toast('お試しで作った下書きを取り込みました'); }catch(e){} loadPages(); }).catch(function(){});
+  createDraftFromGen(data, uid).then(function(){ notifyInstantGen(data.nickname, data.hpUrl || '', 'その場生成から取り込み'); try{ toast('お試しで作った下書きを取り込みました'); }catch(e){} loadPages(); }).catch(function(){});
 }
 if(location.hash === '#gen'){ setTimeout(function(){ var t = $('gen-trial'); if(t) t.scrollIntoView(); }, 600); }
 
@@ -970,7 +973,7 @@ try {
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){}
   };
   window.__ohanaKunReset = function(){ chat = null; };
-  var GEN_SYS = "あなたは、愛媛県松山市の物々交換コミュニティ「OHANAシェア＊プロジェクト」の紹介ページの下書きを作るAIです。入力された名前・キーワード・URLから、下書きをJSONだけ（説明文なし、コードフェンスなし）で返してください。形式: {\"nickname\":\"名前\",\"category\":\"コト\",\"kotoGenre\":\"お店\",\"area\":\"\",\"intro\":\"紹介文\",\"offering\":\"提供していること\",\"tags\":[\"タグ1\",\"タグ2\",\"タグ3\"]}。categoryは ヒト／モノ／コト のどれか（お店や活動はコト、人の紹介はヒト、モノそのものはモノ）。kotoGenreは お店／情報／活動／体験 のどれか。introは100字前後で親しみやすく。知らない住所・電話番号・営業時間・料金などの事実は、絶対に作らないでください。URLの中身は読めないので、名前とキーワードから分かる範囲で書いてください。areaは分かる場合だけ書いてください。名前がキーワードで分からずURLだけの場合は、URLの文字列から店名らしき部分を推測してnicknameに入れてください。活動の内容が名前・キーワードから分からない場合は、内容を決めつけた紹介にせず、分かる範囲だけで短く書いてください。根拠のない様子（例：笑顔で集まれる空間）は書かないでください。ウェブ検索ができる場合は、名前・キーワード・URLをもとに検索して、その人やお店の公開情報（活動内容や地域など）を確認し、確認できた事実にもとづいて書いてください。検索しても確認できない事実は書かないでください。";
+  var GEN_SYS = "あなたは、愛媛県松山市の物々交換コミュニティ「OHANAシェア＊プロジェクト」の紹介ページの下書きを作るAIです。入力された名前・キーワード・URLから、下書きをJSONだけ（説明文なし、コードフェンスなし）で返してください。形式: {\"nickname\":\"正式名称\",\"category\":\"コト\",\"kotoGenre\":\"お店\",\"area\":\"\",\"catch\":\"キャッチコピー\",\"intro\":\"紹介文\",\"offering\":\"提供していること\",\"seeking\":\"探していること\",\"cmT\":[\"フレーズ1\",\"フレーズ2\",\"フレーズ3\",\"フレーズ4\",\"フレーズ5\"],\"tags\":[\"タグ1\",\"タグ2\",\"タグ3\"]}。categoryは ヒト／モノ／コト のどれか（お店や活動はコト、人の紹介はヒト、モノそのものはモノ）。kotoGenreは お店／情報／活動／体験 のどれか。ウェブ検索ができる場合は、名前・キーワード・URLをもとに必ず検索して、その人やお店の公開情報を確認してください。正式名称（屋号・団体名・肩書きつきの名前）が確認できれば、nicknameにはその正式名称を使ってください。catchは、確認できた魅力が一目で伝わるキャッチコピー（25字前後）。具体性のある言葉で、読んだ人が「すごい」「行ってみたい」と思える一言にしてください。introは180字前後で、何をしているか・魅力・どんな人に向いているかまで書いて、読みたくなる紹介文にしてください。cmTはアニメーションの画面に出る短いフレーズ5つ（各20字以内）。1つ目は名前とキャッチ、2つ目は魅力、3つ目は提供していること、4つ目は地域、5つ目は名前を入れた締めの一言にしてください。ただし、知らない住所・電話番号・営業時間・料金・実績・受賞などの事実は絶対に作らないでください。魅力づけは、確認できた事実の範囲での言葉選びだけにしてください。検索しても確認できない場合は、決めつけず、分かる範囲だけで正直に短く書いてください。根拠のない様子（例：笑顔で集まれる空間）は書かないでください。名前が分からずURLだけの場合は、URLの文字列から店名らしき部分を推測してnicknameに入れてください。areaは分かる場合だけ書いてください。";
   var genModel = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: GEN_SYS, tools: [{ googleSearch: {} }] });
   var genModelPlain = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: GEN_SYS });
   window.__ohanaInstantGen = function(input){
