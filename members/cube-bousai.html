@@ -98,7 +98,7 @@
   .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
   footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
   footer img{width:90px;display:block;margin:0 auto 8px}
-  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
+  .fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:var(--accent);color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 45%,transparent)}
 
 .film{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .film figure{flex:0 0 68%;scroll-snap-align:start}
@@ -110,7 +110,7 @@
 
 .sharewrap{text-align:center;margin-top:12px}
 .sharelink{color:#c2610f;font-weight:bold;cursor:pointer;font-size:.95rem}
-.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:#c2610f;font-weight:bold;text-decoration:none;cursor:pointer}
+.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:var(--accent-dark);font-weight:bold;text-decoration:none;cursor:pointer}
 .sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
 .sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
 .sharemenu.open{display:flex}
@@ -234,7 +234,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <style>
 .istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
 .istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:#b3541e;padding:2px 4px;cursor:pointer;font-size:inherit}
-.istats .lkbtn.on{color:#c2437e}
+.istats .lkbtn.on{color:var(--accent-dark)}
 .cateye{width:1.1em;height:1.1em;vertical-align:-.18em;margin-right:2px}
 .irow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 0;font-size:.8rem;color:#a3805a}
 .irow .ip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #f0e2cd;border-radius:999px;padding:2px 9px 2px 3px}
@@ -485,7 +485,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <h2>🏝 OHANA島を歩く</h2>
 <p>OHANA島は、もうひとつの松山を歩ける場所です。このページから、そのまま歩けます。</p>
 <iframe src="https://momowari.github.io/ohana-jima/" loading="lazy" title="OHANA島" allowfullscreen style="width:100%;height:560px;border:0;border-radius:16px;background:#eaf6f1"></iframe>
-<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:#1a7a6d">OHANA島を大きく開く →</a></p>
+<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:var(--accent-dark)">OHANA島を大きく開く →</a></p>
 <style>@media(max-width:520px){.island-walk iframe{height:520px!important}}</style>
 </section>
   <section>
@@ -501,9 +501,9 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
     <h2>ヒト・モノ・コトを探す</h2>
     <p>OHANAメンバーはこれから増えていきます。探したいもの・出会いたい人はこちらから。</p>
     <div class="matchbtns">
-      <a href="../hito.html" style="background:#f6c3d5">ヒトを探す</a>
+      <a href="../hito.html" style="background:color-mix(in srgb,var(--accent) 32%,#fff)">ヒトを探す</a>
       <a href="../mono.html" style="background:#bfe6cf">モノを探す</a>
-      <a href="../koto.html" style="background:#fbe38e">コトを探す</a>
+      <a href="../koto.html" style="background:color-mix(in srgb,var(--accent) 48%,#fff)">コトを探す</a>
     </div>
     <p style="margin-top:10px"><a href="../mypage.html" target="_blank" rel="noopener">自分のページを作る（マイページ）→</a></p>
     <p style="margin-top:6px"><a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットでも探せます →</a></p>
@@ -531,9 +531,9 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 
 .ofabs.obot{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 
-.ofab-line{display:inline-flex;align-items:center;gap:7px;background:#06c755;color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px rgba(6,199,85,.35)}
+.ofab-line{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 45%,transparent)}
 
-.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c2610f;border:1.5px solid #e0a458;font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 
 .ofab-bot img{width:auto;height:38px;object-fit:contain}
 
@@ -561,7 +561,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 
 .qlinks a{flex:1;text-align:center;margin-top:0;white-space:nowrap}
 
-.qlinks a.alt{background:#fff;color:#c2610f;border:1.5px solid #e0a458}
+.qlinks a.alt{background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent)}
 
 .oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
 
@@ -578,7 +578,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 .opanel{right:max(14px,calc(50% - 362px))}
 @media(max-width:760px){.ofabs{right:14px}.opanel{right:14px}}
 </style>
-<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1a7a6d;border:1.5px solid #57b8a6;font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px rgba(26,122,109,.25)}</style><div class="ofabs"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
+<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 30%,transparent)}</style><div class="ofabs"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
 <a class="ofab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャットに参加</a>
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
@@ -1347,11 +1347,11 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
 <!-- wantlist: "ほしい!" / "気になる" list that feeds matching.
      Config via window.__WANT_CFG__ = {mode:'detail'|'tiles'|'member', kind, id, owner} set before this snippet. -->
 <style>
-.want-btn{font-family:inherit;font-weight:bold;border:none;background:none;color:#c2437e;cursor:pointer;font-size:1rem;padding:6px 10px}
-.want-btn.on{color:#e0245e}
+.want-btn{font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);cursor:pointer;font-size:1rem;padding:6px 10px}
+.want-btn.on{color:var(--accent-dark)}
 .want-row{display:flex;justify-content:center;margin:10px 0 2px}
-.want-tile{position:absolute;right:8px;bottom:8px;z-index:3;font-family:inherit;font-weight:bold;border:none;background:none;color:#e0245e;cursor:pointer;font-size:.88rem;padding:4px 6px;text-shadow:0 0 4px #fff,0 0 4px #fff,0 1px 3px #fff}
-.want-tile.on{color:#e0245e}
+.want-tile{position:absolute;right:8px;bottom:8px;z-index:3;font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);cursor:pointer;font-size:.88rem;padding:4px 6px;text-shadow:0 0 4px #fff,0 0 4px #fff,0 1px 3px #fff}
+.want-tile.on{color:var(--accent-dark)}
 </style>
 <script>
 (function(){
@@ -1499,7 +1499,7 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
 .pcomments .pc-send{font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer}
 .pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px}
 .pcomments .pc-item .pc-name{font-weight:bold}
-.pcomments .pc-badge{background:#fde8ef;border:1px solid #e58bb1;color:#c2437e;border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
+.pcomments .pc-badge{background:color-mix(in srgb,var(--accent) 12%,#fff);border:1px solid var(--accent);color:var(--accent-dark);border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
 .pcomments .pc-date{color:#a3805a;font-size:.8rem;margin-left:6px}
 .pcomments .pc-del{font-family:inherit;font-size:.78rem;background:#fff;color:#b03a2e;border:1px solid #d8a49e;border-radius:999px;padding:3px 10px;cursor:pointer;margin-left:8px}
 .pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px;margin-top:8px;background:#fff}
@@ -1629,7 +1629,7 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
 </div>
 <style>
 .omenu{position:fixed;top:8px;left:8px;z-index:80;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
-.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:#b96a00;background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
+.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:var(--accent-dark);background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
 .omenu-panel{position:fixed;top:56px;left:10px;background:#fff;border:1px solid #eadfc9;border-radius:14px;box-shadow:0 8px 24px rgba(80,60,20,.14);padding:8px 0;min-width:216px;opacity:0;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease}
 .omenu-panel.open{opacity:1;transform:translateY(0)}
 .omenu-panel[hidden]{display:none!important}

@@ -86,7 +86,7 @@
 
 .sharewrap{text-align:center;margin-top:12px}
 .sharelink{color:#c2610f;font-weight:bold;cursor:pointer;font-size:.95rem}
-.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:#c2610f;font-weight:bold;text-decoration:none;cursor:pointer}
+.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:var(--accent-dark);font-weight:bold;text-decoration:none;cursor:pointer}
 .sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
 .sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
 .sharemenu.open{display:flex}
@@ -288,7 +288,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
     <div id="ava-guide-guest" hidden>
       <p>この島アバターは、本人の顔写真をもとに、キャラクターに変換したものです。</p>
       <p class="sub" style="margin-top:8px">自分の分も作れます。基本、自分の顔写真をお送りください。キャラクターに変換します（反映には時間がかかります）。実物写真が公開されることはありません。</p>
-      <p style="margin-top:14px"><a href="login.html" style="font-weight:bold;color:#1a7a6d">マイページで写真を送る</a></p>
+      <p style="margin-top:14px"><a href="login.html" style="font-weight:bold;color:var(--accent-dark)">マイページで写真を送る</a></p>
     </div>
     <p style="margin-top:12px;text-align:right"><button type="button" id="ava-guide-close" style="background:none;border:none;color:#8a6a4f;font-weight:bold;cursor:pointer;font-family:inherit">閉じる</button></p>
   </div>
@@ -429,9 +429,9 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
     <h2>ヒト・モノ・コトを探す</h2>
     <p>OHANAメンバーはこれから増えていきます。探したいもの・出会いたい人はこちらから。</p>
     <div class="matchbtns">
-      <a href="hito.html" style="background:#f6c3d5">ヒトを探す</a>
+      <a href="hito.html" style="background:color-mix(in srgb,var(--accent) 32%,#fff)">ヒトを探す</a>
       <a href="mono.html" style="background:#bfe6cf">モノを探す</a>
-      <a href="koto.html" style="background:#fbe38e">コトを探す</a>
+      <a href="koto.html" style="background:color-mix(in srgb,var(--accent) 48%,#fff)">コトを探す</a>
     </div>
     <p style="margin-top:10px"><a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャットでも探せます →</a></p>
   </section>
@@ -1511,8 +1511,8 @@ $('qf-icon').addEventListener('change', function(){
 <style>
 .ofabs{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .ofabs.obot{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
-.ofab-line{display:inline-flex;align-items:center;gap:7px;background:#06c755;color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px rgba(6,199,85,.35)}
-.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c2610f;border:1.5px solid #e0a458;font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.ofab-line{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 45%,transparent)}
+.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 .ofab-bot img{width:auto;height:38px;object-fit:contain}
 .opanel{position:fixed;right:14px;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:71;width:min(360px,calc(100vw - 28px));background:#fffdf8;border:1px solid #f3ddc4;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:14pxmax-height:calc(100vh - 170px);max-height:calc(100dvh - 170px);display:flex;flex-direction:column;overflow:hidden;}
 .opanel[hidden]{display:none!important}
@@ -1526,7 +1526,7 @@ $('qf-icon').addEventListener('change', function(){
 .omsg.user{background:#ffe9d2;border-bottom-left-radius:14px;border-bottom-right-radius:4px;align-self:flex-end}
 .omsg .qlinks{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}
 .qlinks a{flex:1;text-align:center;margin-top:0;white-space:nowrap}
-.qlinks a.alt{background:#fff;color:#c2610f;border:1.5px solid #e0a458}
+.qlinks a.alt{background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent)}
 .oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
 .ochips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .ochip{border:1.5px solid #e0a458;background:#fff;color:#c2610f;border-radius:999px;padding:5px 12px;font-size:.8rem;cursor:pointer;font-family:inherit;font-weight:700}
@@ -1534,7 +1534,7 @@ $('qf-icon').addEventListener('change', function(){
 .oform input{flex:1;min-width:0;font-family:inherit;font-size:1rem;padding:9px 13px;border-radius:999px;border:1.5px solid #e8b96f}
 .oform button{flex:none;font-family:inherit;font-weight:700;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 16px;cursor:pointer}
 </style>
-<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1a7a6d;border:1.5px solid #57b8a6;font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px rgba(26,122,109,.25)}</style><div class="ofabs"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
+<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 30%,transparent)}</style><div class="ofabs"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
 <a class="ofab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャットに参加</a>
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
@@ -1762,7 +1762,7 @@ try {
 <style>
 .istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
 .istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:#b3541e;padding:2px 4px;cursor:pointer;font-size:inherit}
-.istats .lkbtn.on{color:#c2437e}
+.istats .lkbtn.on{color:var(--accent-dark)}
 .cateye{width:1.1em;height:1.1em;vertical-align:-.18em;margin-right:2px}
 .irow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 0;font-size:.8rem;color:#a3805a}
 .irow .ip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #f0e2cd;border-radius:999px;padding:2px 9px 2px 3px}
@@ -2017,7 +2017,7 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 .pcomments .pc-send{font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer}
 .pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px}
 .pcomments .pc-item .pc-name{font-weight:bold}
-.pcomments .pc-badge{background:#fde8ef;border:1px solid #e58bb1;color:#c2437e;border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
+.pcomments .pc-badge{background:color-mix(in srgb,var(--accent) 12%,#fff);border:1px solid var(--accent);color:var(--accent-dark);border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
 .pcomments .pc-date{color:#a3805a;font-size:.8rem;margin-left:6px}
 .pcomments .pc-del{font-family:inherit;font-size:.78rem;background:#fff;color:#b03a2e;border:1px solid #d8a49e;border-radius:999px;padding:3px 10px;cursor:pointer;margin-left:8px}
 .pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px;margin-top:8px;background:#fff}
@@ -2649,11 +2649,11 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 <!-- wantlist: "ほしい!" / "気になる" list that feeds matching.
      Config via window.__WANT_CFG__ = {mode:'detail'|'tiles'|'member', kind, id, owner} set before this snippet. -->
 <style>
-.want-btn{font-family:inherit;font-weight:bold;border:none;background:none;color:#c2437e;cursor:pointer;font-size:1rem;padding:6px 10px}
-.want-btn.on{color:#e0245e}
+.want-btn{font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);cursor:pointer;font-size:1rem;padding:6px 10px}
+.want-btn.on{color:var(--accent-dark)}
 .want-row{display:flex;justify-content:center;margin:10px 0 2px}
-.want-tile{position:absolute;right:8px;bottom:8px;z-index:3;font-family:inherit;font-weight:bold;border:none;background:none;color:#e0245e;cursor:pointer;font-size:.88rem;padding:4px 6px;text-shadow:0 0 4px #fff,0 0 4px #fff,0 1px 3px #fff}
-.want-tile.on{color:#e0245e}
+.want-tile{position:absolute;right:8px;bottom:8px;z-index:3;font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);cursor:pointer;font-size:.88rem;padding:4px 6px;text-shadow:0 0 4px #fff,0 0 4px #fff,0 1px 3px #fff}
+.want-tile.on{color:var(--accent-dark)}
 </style>
 <script>
 (function(){
@@ -2810,7 +2810,7 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 </div>
 <style>
 .omenu{position:fixed;top:8px;left:8px;z-index:80;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
-.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:#b96a00;background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
+.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:var(--accent-dark);background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
 .omenu-panel{position:fixed;top:56px;left:10px;background:#fff;border:1px solid #eadfc9;border-radius:14px;box-shadow:0 8px 24px rgba(80,60,20,.14);padding:8px 0;min-width:216px;opacity:0;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease}
 .omenu-panel.open{opacity:1;transform:translateY(0)}
 .omenu-panel[hidden]{display:none!important}

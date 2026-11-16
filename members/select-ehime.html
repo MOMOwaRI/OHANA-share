@@ -451,7 +451,7 @@ a{color:#b96a00}
 <h2>🏝 OHANA島を歩く</h2>
 <p>OHANA島は、もうひとつの松山を歩ける場所です。このページから、そのまま歩けます。</p>
 <iframe src="https://momowari.github.io/ohana-jima/" loading="lazy" title="OHANA島" allowfullscreen style="width:100%;height:560px;border:0;border-radius:16px;background:#eaf6f1"></iframe>
-<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:#1a7a6d">OHANA島を大きく開く →</a></p>
+<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:var(--accent-dark)">OHANA島を大きく開く →</a></p>
 <style>@media(max-width:520px){.island-walk iframe{height:520px!important}}</style>
 </section>
 <div class="backlinks">
@@ -511,9 +511,9 @@ $$('#chips .chip').forEach(function(b){ b.addEventListener('click',function(){ s
 
 .ofabs.obot{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 
-.ofab-line{display:inline-flex;align-items:center;gap:7px;background:#06c755;color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px rgba(6,199,85,.35)}
+.ofab-line{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 45%,transparent)}
 
-.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c2610f;border:1.5px solid #e0a458;font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 
 .ofab-bot img{width:auto;height:38px;object-fit:contain}
 
@@ -541,7 +541,7 @@ $$('#chips .chip').forEach(function(b){ b.addEventListener('click',function(){ s
 
 .qlinks a{flex:1;text-align:center;margin-top:0;white-space:nowrap}
 
-.qlinks a.alt{background:#fff;color:#c2610f;border:1.5px solid #e0a458}
+.qlinks a.alt{background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent)}
 
 .oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
 
@@ -558,7 +558,7 @@ $$('#chips .chip').forEach(function(b){ b.addEventListener('click',function(){ s
 .opanel{right:max(14px,calc(50% - 362px))}
 @media(max-width:760px){.ofabs{right:14px}.opanel{right:14px}}
 </style>
-<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1a7a6d;border:1.5px solid #57b8a6;font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px rgba(26,122,109,.25)}</style><div class="ofabs"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
+<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 30%,transparent)}</style><div class="ofabs"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
 <a class="ofab-line" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャットに参加</a>
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
@@ -1326,7 +1326,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 </div>
 <style>
 .omenu{position:fixed;top:8px;left:8px;z-index:80;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
-.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:#b96a00;background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
+.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:var(--accent-dark);background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
 .omenu-panel{position:fixed;top:56px;left:10px;background:#fff;border:1px solid #eadfc9;border-radius:14px;box-shadow:0 8px 24px rgba(80,60,20,.14);padding:8px 0;min-width:216px;opacity:0;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease}
 .omenu-panel.open{opacity:1;transform:translateY(0)}
 .omenu-panel[hidden]{display:none!important}
