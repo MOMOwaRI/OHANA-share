@@ -14,6 +14,15 @@
  r.setProperty('--orange',c); r.setProperty('--orange-dark',sh(c,0.72));
  r.setProperty('--ink',sh(c,0.30)); r.setProperty('--paper',mx(c,'#ffffff',0.95));
  r.setProperty('--line',mx(c,'#ffffff',0.78)); r.setProperty('--soft',mx(c,'#777777',0.45));
+ document.addEventListener('DOMContentLoaded',function(){try{
+  var pv=document.querySelector('.hero-pv'); if(!pv) return;
+  var img=pv.querySelector('img.hero-video'); if(!img) return;
+  var h1=document.querySelector('h1'); var nm=h1?h1.textContent.trim():'';
+  var cov=document.createElement('div');
+  cov.style.cssText='position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;text-align:center;background:'+c+';color:#fff8ee;font-weight:bold;font-size:1.25rem;line-height:1.6;padding:24px;border-radius:150px 150px 22px 22px;';
+  cov.textContent=nm; pv.appendChild(cov);
+  setTimeout(function(){ if(!pv.classList.contains('cm-live-x')&&cov.parentNode){ cov.style.transition='opacity .6s'; cov.style.opacity='0'; setTimeout(function(){ if(cov.parentNode) cov.remove(); },700); } },6000);
+ }catch(e){}});
 }catch(e){}})();
 </script>
 
@@ -57,7 +66,7 @@ h1{font-size:2.2rem;letter-spacing:.03em;margin:10px 0 0;line-height:1.3}
 .catch{font-size:1.12rem;font-weight:bold;margin-top:14px}
 .catch .acc{color:var(--accent-dark)}
 .tags{margin:10px 0 2px}
-.tag{display:inline-block;background:color-mix(in srgb,var(--accent) 12%,#fff);border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
+.tag{display:inline-block;background:#eaf5e6;border:1px solid var(--line);border-radius:999px;padding:1px 12px;margin:2px;font-size:.85rem}
 .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
 .ctarow .main{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(95,158,110,.35)}
@@ -93,7 +102,7 @@ th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertic
 .banner-sm{width:min(340px,86%);display:block;margin:24px auto 2px;border-radius:10px;border:1.5px solid #e8cdb0;background:#fff}
 footer{text-align:center;margin-top:16px;font-size:.85rem;color:var(--soft)}
 footer img{width:90px;display:block;margin:0 auto 8px}
-.fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:var(--accent);color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 45%,transparent)}
+.fab-line{position:fixed;right:14px;bottom:14px;z-index:60;background:#06c755;color:#fff;font-weight:bold;font-size:.88rem;text-decoration:none;border-radius:999px;padding:12px 18px;box-shadow:0 6px 18px rgba(6,199,85,.4)}
 
 .film{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .film figure{flex:0 0 68%;scroll-snap-align:start}
@@ -105,7 +114,7 @@ footer img{width:90px;display:block;margin:0 auto 8px}
 
 .sharewrap{text-align:center;margin-top:12px}
 .sharelink{color:#c2610f;font-weight:bold;cursor:pointer;font-size:.95rem}
-.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:var(--soft)}.sharerow a{color:var(--accent-dark);font-weight:bold;text-decoration:none;cursor:pointer}
+.sharerow{text-align:center;margin-top:12px;font-size:.92rem;color:#8a6a4f}.sharerow a{color:#c2610f;font-weight:bold;text-decoration:none;cursor:pointer}
 .sharebtn{background:#fff;border:2px solid #d8cfc0;color:#6b543a;border-radius:999px;padding:9px 22px;font-weight:bold;font-family:inherit;cursor:pointer;font-size:.9rem}
 .sharemenu{margin-top:8px;display:none;gap:8px;justify-content:center;flex-wrap:wrap}
 .sharemenu.open{display:flex}
@@ -304,13 +313,13 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 </div>
 <p class="note">実店舗は普段開いておらず、来店は予約制です。ご購入前の在庫確認はメルカリのコメントでお願いします。</p>
 </header>
-  <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:var(--accent-dark);font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
+  <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 <div class="sharewrap"><a id="share-btn" class="sharelink">シェア</a><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
 <!-- item-stats -->
 <style>
-.istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:var(--soft)}
-.istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);padding:2px 4px;cursor:pointer;font-size:inherit}
-.istats .lkbtn.on{color:var(--accent-dark)}
+.istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
+.istats .lkbtn{font-family:inherit;font-weight:bold;border:none;background:none;color:#b3541e;padding:2px 4px;cursor:pointer;font-size:inherit}
+.istats .lkbtn.on{color:#c2437e}
 .cateye{width:1.1em;height:1.1em;vertical-align:-.18em;margin-right:2px}
 .irow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 0;font-size:.8rem;color:#a3805a}
 .irow .ip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #f0e2cd;border-radius:999px;padding:2px 9px 2px 3px}
@@ -389,7 +398,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:var(--soft)">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -539,7 +548,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <section>
 <h2>地図・アクセス</h2>
 <iframe class="map" src="https://maps.google.com/maps?q=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="地図"></iframe>
-<p class="map-note" style="margin-top:8px;font-weight:bold;color:var(--accent-dark)">お店は1階です。実店舗は来店予約制です。</p>
+<p class="map-note" style="margin-top:8px;font-weight:bold;color:#7a5a38">お店は1階です。実店舗は来店予約制です。</p>
 <p style="margin-top:8px;font-size:.88rem">〒790-0814 愛媛県松山市味酒町3丁目2-29 マハロビル1階（伊予鉄道「古町駅」より徒歩3分／駐車場3台：店舗内1台・契約駐車場2か所）<br><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%91%B3%E9%85%92%E7%94%BA3-2-29" target="_blank" rel="noopener">Googleマップで開く →</a></p>
 </section>
 
@@ -548,7 +557,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <h2>🏝 OHANA島を歩く</h2>
 <p>OHANA島は、もうひとつの松山を歩ける場所です。このページから、そのまま歩けます。</p>
 <iframe src="https://momowari.github.io/ohana-jima/" loading="lazy" title="OHANA島" allowfullscreen style="width:100%;height:560px;border:0;border-radius:16px;background:#eaf6f1"></iframe>
-<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:var(--accent-dark)">OHANA島を大きく開く →</a></p>
+<p style="margin-top:8px"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" style="font-weight:bold;color:#1a7a6d">OHANA島を大きく開く →</a></p>
 <style>@media(max-width:520px){.island-walk iframe{height:520px!important}}</style>
 </section>
 <section>
@@ -564,9 +573,9 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <h2>ヒト・モノ・コトを探す</h2>
 <p>OHANAメンバーはこれから増えていきます。探したいもの・出会いたい人はこちらから。</p>
 <div class="matchbtns">
-<a href="../hito.html" style="background:color-mix(in srgb,var(--accent) 32%,#fff)">ヒトを探す</a>
-<a href="../mono.html" style="background:color-mix(in srgb,var(--accent) 16%,#fff)">モノを探す</a>
-<a href="../koto.html" style="background:color-mix(in srgb,var(--accent) 48%,#fff)">コトを探す</a>
+<a href="../hito.html" style="background:#f6c3d5">ヒトを探す</a>
+<a href="../mono.html" style="background:#e8e2c7">モノを探す</a>
+<a href="../koto.html" style="background:#fbe38e">コトを探す</a>
 </div>
 <p style="margin-top:10px"><a href="../mypage.html" target="_blank" rel="noopener">自分のページを作る（マイページ）→</a></p>
 </section>
@@ -638,38 +647,38 @@ OHANAシェア＊プロジェクト OHANAメンバーページ<br>
 <style>
 .ofabs{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .ofabs.obot{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
-.ofab-line{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 45%,transparent)}
-.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.ofab-line{display:inline-flex;align-items:center;gap:7px;background:#06c755;color:#fff;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:11px 16px;box-shadow:0 6px 18px rgba(6,199,85,.35)}
+.ofab-bot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c2610f;border:1.5px solid #e0a458;font-family:inherit;font-weight:700;font-size:.88rem;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 .ofab-bot img{width:auto;height:38px;object-fit:contain}
 .opanel{position:fixed;right:14px;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:71;width:min(360px,calc(100vw - 28px));background:#fffdf8;border:1px solid #f3ddc4;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:14pxmax-height:calc(100vh - 170px);max-height:calc(100dvh - 170px);display:flex;flex-direction:column;overflow:hidden;}
 .opanel[hidden]{display:none!important}
 .ohead{display:flex;align-items:center;gap:10px}
 .ohead img{height:56px;width:auto}
 .ohead .nm{font-weight:700}
-.ohead .ds{font-size:.78rem;color:var(--soft);line-height:1.4}
+.ohead .ds{font-size:.78rem;color:#8a6a4f;line-height:1.4}
 .oclose{margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid #f3ddc4;background:#fff;cursor:pointer;font-size:1rem;flex:none}
 .olog{display:flex;flex-direction:column;gap:8px;margin:12px 0;max-height:min(46vh,380px);overflow-y:autoflex:1 1 auto;min-height:0;}
 .omsg{background:#fdf3e3;border:1px solid #f3ddc4;border-radius:14px;border-bottom-left-radius:4px;padding:8px 12px;font-size:.9rem;align-self:flex-start;max-width:92%;line-height:1.6}
 .omsg.user{background:#ffe9d2;border-bottom-left-radius:14px;border-bottom-right-radius:4px;align-self:flex-end}
 .omsg .qlinks{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}
 .qlinks a{flex:1;text-align:center;margin-top:0;white-space:nowrap}
-.qlinks a.alt{background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent)}
-.oc-link{display:inline-block;margin-top:6px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
+.qlinks a.alt{background:#fff;color:#c2610f;border:1.5px solid #e0a458}
+.oc-link{display:inline-block;margin-top:6px;background:#06c755;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;border-radius:999px;padding:6px 12px}
 .ochips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .ochip{border:1.5px solid #e0a458;background:#fff;color:#c2610f;border-radius:999px;padding:5px 12px;font-size:.8rem;cursor:pointer;font-family:inherit;font-weight:700}
 .oform{display:flex;gap:8px}
 .oform input{flex:1;min-width:0;font-family:inherit;font-size:1rem;padding:9px 13px;border-radius:999px;border:1.5px solid #e8b96f}
 .oform button{flex:none;font-family:inherit;font-weight:700;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 16px;cursor:pointer}
 </style>
-<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--accent-dark);border:1.5px solid var(--accent);font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 30%,transparent)}</style><div class="ofabs obot"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
+<style>.ofab-island{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1a7a6d;border:1.5px solid #57b8a6;font-weight:700;font-size:.82rem;text-decoration:none;border-radius:999px;padding:8px 14px;box-shadow:0 6px 18px rgba(26,122,109,.25)}</style><div class="ofabs obot"><a class="ofab-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a>
 <button class="ofab-bot" id="ofab-bot" type="button" aria-expanded="false"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button>
 </div>
 <div class="opanel" id="opanel" hidden>
-<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oend" id="oend" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:var(--accent-dark);border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
+<div class="ohead"><img src="../img-992cf83a89.png" alt="OHANAのマスコット"><div><div class="nm">OHANA</div><div class="ds">よくある質問に自動で答えます。分からないことはオープンチャットへどうぞ。</div></div><button class="oend" id="oend" type="button" style="margin-left:auto;flex:none;border:1px solid #e0a458;background:#fff;color:#b3541e;border-radius:999px;padding:6px 12px;font-weight:bold;font-size:.8rem;cursor:pointer">会話を消して終わる</button><button class="oclose" id="oclose" type="button" aria-label="チャットを閉じる">×</button></div>
 <div class="qlinks"><a class="oc-link alt" href="../board.html">みんなの掲示板</a><a class="oc-link alt" href="../help.html">困った助け合い</a><a class="oc-link" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャット</a></div>
 <div class="olog" id="olog"><div class="omsg">こんにちは。OHANAです。気になることを下のボタンから選ぶか、入力して聞いてください。</div></div>
 <div class="ochips" id="ochips"></div>
-<p style="font-size:.75rem;color:var(--soft);margin:8px 2px 0">※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。</p>
+<p style="font-size:.75rem;color:#8a6a4f;margin:8px 2px 0">※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、掲示板やオープンチャットでも確認してください。</p>
 <form class="oform" id="oform"><input id="oinput" type="text" placeholder="質問を入力してください" autocomplete="off"><button type="submit">送信</button></form>
 </div>
 <script>
@@ -830,8 +839,8 @@ body.site-editing .hero-pv{outline:2px dashed rgba(224,123,36,.55);outline-offse
 #site-savebar.on{display:flex}
 #site-savebar button{font-family:inherit;font-weight:bold;border-radius:999px;padding:9px 18px;cursor:pointer}
 #sb-save{background:#e07b24;color:#fff;border:none}
-#sb-cancel{background:#fff;color:var(--soft);border:1.5px solid var(--line)}
-#sb-msg{font-size:.82rem;color:var(--soft)}
+#sb-cancel{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
+#sb-msg{font-size:.82rem;color:#8a6a4f}
 .ied-panel{background:#fff;border:1.5px solid #e0a458;border-radius:14px;padding:14px;margin:12px 0;text-align:left}
 .ied-panel h3{font-size:1rem;margin-bottom:8px}
 .ied-panel label{display:block;font-size:.85rem;font-weight:bold;margin-top:10px}
@@ -1170,12 +1179,12 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if($('theme-btn')) return;
     var b = document.createElement('button');
     b.type = 'button'; b.id = 'theme-btn'; b.textContent = '🎨 色';
-    b.style.cssText = 'position:fixed;top:88px;right:max(10px, calc(50% - 350px));z-index:96;background:none;border:none;box-shadow:none;color:var(--accent-dark);font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
+    b.style.cssText = 'position:fixed;top:88px;right:max(10px, calc(50% - 350px));z-index:96;background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     document.body.appendChild(b);
     var panel = document.createElement('div');
     panel.id = 'theme-panel';
     panel.style.cssText = 'position:fixed;top:56px;left:max(10px, calc(50% - 350px));z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:14px;padding:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);display:none;width:250px';
-    panel.innerHTML = '<p style="font-weight:bold;margin-bottom:6px">ページの色</p><p style="font-size:.8rem;color:var(--soft);margin-bottom:8px">このページ全体の色になります（アニメーションの色も同じです）</p><p style="display:flex;gap:8px;align-items:center"><input type="color" id="theme-color" value="' + DEFCOLOR + '" style="width:56px;height:36px;border:none;background:none;cursor:pointer"><button type="button" id="theme-save" style="font-family:inherit;font-weight:bold;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">保存</button><button type="button" id="theme-cancel" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer">閉じる</button></p><p id="theme-msg" style="font-size:.82rem;color:var(--soft);margin-top:6px"></p>';
+    panel.innerHTML = '<p style="font-weight:bold;margin-bottom:6px">ページの色</p><p style="font-size:.8rem;color:#8a6a4f;margin-bottom:8px">このページ全体の色になります（アニメーションの色も同じです）</p><p style="display:flex;gap:8px;align-items:center"><input type="color" id="theme-color" value="' + DEFCOLOR + '" style="width:56px;height:36px;border:none;background:none;cursor:pointer"><button type="button" id="theme-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">保存</button><button type="button" id="theme-cancel" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer">閉じる</button></p><p id="theme-msg" style="font-size:.82rem;color:#8a6a4f;margin-top:6px"></p>';
     document.body.appendChild(panel);
     b.addEventListener('click', function(){
       if(panel.style.display !== 'none'){ panel.style.display = 'none'; return; }
@@ -1224,8 +1233,8 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     for(var t = 1; t <= 5; t++){
       h += '<label>' + labels[t - 1] + '<textarea id="cm-t' + t + '" rows="2">' + esc(d['cmT' + t] || DEFTEXTS[t - 1]) + '</textarea></label>';
     }
-    h += '<p style="font-size:.82rem;color:var(--soft);margin-top:8px">写真はタップで入れ替え、×で削除、◀▶で順番を変えられます。</p>';
-    h += '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="cm-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">アニメーションを保存</button><button type="button" id="cm-undo2" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="cm-msg" style="font-size:.85rem;color:var(--soft)"></span></p>';
+    h += '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">写真はタップで入れ替え、×で削除、◀▶で順番を変えられます。</p>';
+    h += '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="cm-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">アニメーションを保存</button><button type="button" id="cm-undo2" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="cm-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
     panel.innerHTML = h;
     pv.parentNode.insertBefore(panel, pv.nextSibling);
     renderCmThumbs();
@@ -1298,9 +1307,9 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     panel.className = 'ied-panel';
     panel.id = 'tags-panel';
     panel.innerHTML = '<h3>タグの編集</h3><div id="tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0"></div>' +
-      '<div style="display:flex;gap:6px"><input type="text" id="tags-input" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:16px;padding:9px;border:1.5px solid var(--line);border-radius:10px"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 18px;cursor:pointer">追加</button></div>' +
-      '<p style="font-size:.82rem;color:var(--soft);margin-top:8px">タグをクリックすると、そのタグの一覧ページへ飛びます。</p>' +
-      '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="tags-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">タグを保存</button><button type="button" id="tags-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="tags-msg" style="font-size:.85rem;color:var(--soft)"></span></p>';
+      '<div style="display:flex;gap:6px"><input type="text" id="tags-input" placeholder="新しいタグ" style="flex:1;font-family:inherit;font-size:16px;padding:9px;border:1.5px solid #d8c7ae;border-radius:10px"><button type="button" id="tags-add" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 18px;cursor:pointer">追加</button></div>' +
+      '<p style="font-size:.82rem;color:#8a6a4f;margin-top:8px">タグをクリックすると、そのタグの一覧ページへ飛びます。</p>' +
+      '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="tags-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">タグを保存</button><button type="button" id="tags-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="tags-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
     box.parentNode.insertBefore(panel, box.nextSibling);
     renderTagChips();
     $('tags-save').addEventListener('click', function(){
@@ -1362,7 +1371,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if(!sns) return;
     var b = document.createElement('button');
     b.type = 'button'; b.id = 'addlink-btn'; b.textContent = '＋ リンクを追加';
-    b.style.cssText = 'font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;margin-top:8px';
+    b.style.cssText = 'font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer;margin-top:8px';
     sns.parentNode.insertBefore(b, sns.nextSibling);
     b.addEventListener('click', function(){
       var rec = addLinkEl('新しいリンク', 'https://');
@@ -1387,7 +1396,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     if(!mapFrame || $('map-panel')) return;
     var panel = document.createElement('div');
     panel.className = 'ied-panel'; panel.id = 'map-panel';
-    panel.innerHTML = '<h3>地図の場所</h3><p style="display:flex;gap:6px"><input type="text" id="map-q" value="' + esc(mapQFromSrc(mapFrame.src)) + '" style="flex:1;font-family:inherit;padding:8px;border:1.5px solid var(--line);border-radius:8px"><button type="button" id="map-apply" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">地図に反映</button></p><p style="display:flex;gap:8px;margin-top:8px;align-items:center"><button type="button" id="map-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">この部分を保存</button><span id="map-msg" style="font-size:.85rem;color:var(--soft)"></span></p>';
+    panel.innerHTML = '<h3>地図の場所</h3><p style="display:flex;gap:6px"><input type="text" id="map-q" value="' + esc(mapQFromSrc(mapFrame.src)) + '" style="flex:1;font-family:inherit;padding:8px;border:1.5px solid #d8c7ae;border-radius:8px"><button type="button" id="map-apply" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">地図に反映</button></p><p style="display:flex;gap:8px;margin-top:8px;align-items:center"><button type="button" id="map-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">この部分を保存</button><span id="map-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
     mapFrame.parentNode.insertBefore(panel, mapFrame.nextSibling);
     $('map-apply').addEventListener('click', function(){
       var v = $('map-q').value.trim(); if(!v) return;
@@ -1416,7 +1425,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     panel.innerHTML = '<h3>リンクの編集</h3>' +
       '<label>表示する文字<textarea id="lp-text" rows="2">' + esc(cur.t) + '</textarea></label>' +
       '<label>リンク先（URL）<input type="text" id="lp-href" value="' + esc(cur.h) + '"></label>' +
-      '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="lp-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:7px 16px;cursor:pointer">このリンクを保存</button><button type="button" id="lp-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer">元に戻す</button><button type="button" id="lp-close" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer">閉じる</button><span id="lp-msg" style="font-size:.85rem;color:var(--soft)"></span></p>';
+      '<p style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" id="lp-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:7px 16px;cursor:pointer">このリンクを保存</button><button type="button" id="lp-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 16px;cursor:pointer">元に戻す</button><button type="button" id="lp-close" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:7px 16px;cursor:pointer">閉じる</button><span id="lp-msg" style="font-size:.85rem;color:#8a6a4f"></span></p>';
     a.parentNode.insertBefore(panel, a.nextSibling);
     function upd(){
       pendingLinks[i] = {t: $('lp-text').value, h: $('lp-href').value};
@@ -1553,7 +1562,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     var ra = document.createElement('div');
     ra.id = 'rows-actions';
     ra.style.cssText = 'display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap';
-    ra.innerHTML = '<button type="button" id="rows-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">この部分を保存</button><button type="button" id="rows-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="rows-msg" style="font-size:.85rem;color:var(--soft)"></span>';
+    ra.innerHTML = '<button type="button" id="rows-save" style="font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer">この部分を保存</button><button type="button" id="rows-undo" style="font-family:inherit;font-weight:bold;background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae;border-radius:999px;padding:8px 16px;cursor:pointer">元に戻す</button><span id="rows-msg" style="font-size:.85rem;color:#8a6a4f"></span>';
     sec.appendChild(ra);
     $('rows-save').addEventListener('click', function(){
       var prof = {};
@@ -1670,7 +1679,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.textContent = 'メンバー登録';
-    btn.style.cssText = 'background:none;border:none;box-shadow:none;color:var(--accent-dark);font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
+    btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     window.__authBtn = btn;
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
@@ -1759,14 +1768,14 @@ try {
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing ELCzyeeoDCU4gveavc077L4jBqE3__mono / ELCzyeeoDCU4gveavc077L4jBqE3. -->
 <style>
-.pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:var(--accent-dark);border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
+.pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:#b3541e;border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
 .pcomments .pc-send{font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer}
 .pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px}
 .pcomments .pc-item .pc-name{font-weight:bold}
-.pcomments .pc-badge{background:color-mix(in srgb,var(--accent) 12%,#fff);border:1px solid var(--accent);color:var(--accent-dark);border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
+.pcomments .pc-badge{background:#fde8ef;border:1px solid #e58bb1;color:#c2437e;border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
 .pcomments .pc-date{color:#a3805a;font-size:.8rem;margin-left:6px}
 .pcomments .pc-del{font-family:inherit;font-size:.78rem;background:#fff;color:#b03a2e;border:1px solid #d8a49e;border-radius:999px;padding:3px 10px;cursor:pointer;margin-left:8px}
-.pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid var(--line);border-radius:10px;margin-top:8px;background:#fff}
+.pcomments input[type="text"],.pcomments textarea{width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px;margin-top:8px;background:#fff}
 </style>
 <script>
 (function(){
@@ -2395,11 +2404,11 @@ try {
 <!-- wantlist: "ほしい!" / "気になる" list that feeds matching.
      Config via window.__WANT_CFG__ = {mode:'detail'|'tiles'|'member', kind, id, owner} set before this snippet. -->
 <style>
-.want-btn{font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);cursor:pointer;font-size:1rem;padding:6px 10px}
-.want-btn.on{color:var(--accent-dark)}
+.want-btn{font-family:inherit;font-weight:bold;border:none;background:none;color:#c2437e;cursor:pointer;font-size:1rem;padding:6px 10px}
+.want-btn.on{color:#e0245e}
 .want-row{display:flex;justify-content:center;margin:10px 0 2px}
-.want-tile{position:absolute;right:8px;bottom:8px;z-index:3;font-family:inherit;font-weight:bold;border:none;background:none;color:var(--accent-dark);cursor:pointer;font-size:.88rem;padding:4px 6px;text-shadow:0 0 4px #fff,0 0 4px #fff,0 1px 3px #fff}
-.want-tile.on{color:var(--accent-dark)}
+.want-tile{position:absolute;right:8px;bottom:8px;z-index:3;font-family:inherit;font-weight:bold;border:none;background:none;color:#e0245e;cursor:pointer;font-size:.88rem;padding:4px 6px;text-shadow:0 0 4px #fff,0 0 4px #fff,0 1px 3px #fff}
+.want-tile.on{color:#e0245e}
 </style>
 <script>
 (function(){
@@ -2556,7 +2565,7 @@ try {
 </div>
 <style>
 .omenu{position:fixed;top:8px;left:8px;z-index:80;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
-.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:var(--accent-dark);background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
+.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:#b96a00;background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
 .omenu-panel{position:fixed;top:56px;left:10px;background:#fff;border:1px solid #eadfc9;border-radius:14px;box-shadow:0 8px 24px rgba(80,60,20,.14);padding:8px 0;min-width:216px;opacity:0;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease}
 .omenu-panel.open{opacity:1;transform:translateY(0)}
 .omenu-panel[hidden]{display:none!important}
