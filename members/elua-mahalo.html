@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<script>
+/* theme pre-paint: apply the saved page color before first paint (no flash) */
+(function(){try{
+ var K='ohanaTheme:'+'ELCzyeeoDCU4gveavc077L4jBqE3__pelua01', B='';
+ var c=(K.slice(-1)===':'?'':localStorage.getItem(K))||B; if(!c) return;
+ function p(h,i){return parseInt(h.substr(i,2),16);}
+ function sh(hex,f){var hx=String(hex).replace('#','');if(hx.length!==6)return hex;function cc(i){return Math.max(0,Math.min(255,Math.round(p(hx,i)*f)));}return 'rgb('+cc(0)+','+cc(2)+','+cc(4)+')';}
+ function mx(a,b,f){var ha=String(a).replace('#',''),hb=String(b).replace('#','');if(ha.length!==6||hb.length!==6)return a;function mm(i){return Math.round(p(ha,i)*(1-f)+p(hb,i)*f);}return 'rgb('+mm(0)+','+mm(2)+','+mm(4)+')';}
+ var r=document.documentElement.style;
+ r.setProperty('--accent',c); r.setProperty('--accent-dark',sh(c,0.72));
+ r.setProperty('--orange',c); r.setProperty('--orange-dark',sh(c,0.72));
+ r.setProperty('--ink',sh(c,0.30)); r.setProperty('--paper',mx(c,'#ffffff',0.95));
+ r.setProperty('--line',mx(c,'#ffffff',0.78)); r.setProperty('--soft',mx(c,'#777777',0.45));
+}catch(e){}})();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>elua Mahalo（女性限定美容室）｜OHANAシェア＊プロジェクト OHANAメンバーページ</title><link rel="canonical" href="https://momowari.github.io/OHANA-share/members/elua-mahalo.html">
@@ -1130,6 +1146,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
   }
   function applyTheme(c){
     if(!c) return;
+    try{ localStorage.setItem('ohanaTheme:ELCzyeeoDCU4gveavc077L4jBqE3__pelua01', c); }catch(e){}
     var r = document.documentElement.style;
     r.setProperty('--accent', c);
     r.setProperty('--accent-dark', shade(c, 0.72));
