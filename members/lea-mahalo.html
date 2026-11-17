@@ -305,6 +305,16 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 details.faqbox{border:1px solid var(--line);border-radius:16px;padding:14px 20px;margin-top:16px;background:var(--card)}
 details.faqbox summary{font-size:1.18rem;font-weight:bold;color:var(--accent-dark);cursor:pointer}
 </style>
+<style id="oband-style">
+.ofabs,.fab-stack,.fab-line{display:none!important}
+body{padding-bottom:50px}
+.oband{position:fixed;left:0;right:0;bottom:0;z-index:72;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
+.oband a,.oband button{flex:1;background:none;border:none;font:inherit;font-weight:700;font-size:.78rem;color:#7a4a08;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 2px;cursor:pointer;text-align:center;white-space:nowrap}
+.oband .mid{border-left:1px solid #f3e3c8;border-right:1px solid #f3e3c8}
+.oband img{height:24px;width:auto}
+.opanel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
+.chat-panel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2591,5 +2601,6 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 })();
 </script>
 
+<nav class="oband" data-lock aria-label="下部メニュー"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a><a class="mid" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a><button type="button" onclick="event.stopPropagation();document.getElementById('ofab-bot').click()"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button></nav>
 </body>
 </html>
