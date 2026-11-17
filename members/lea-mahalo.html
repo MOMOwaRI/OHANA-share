@@ -287,6 +287,24 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
  .catch{font-size:1.15rem!important}
 }
 </style>
+<style>
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
+.fact .ic{font-size:1.5rem;line-height:1.2}
+.fact .lb{font-size:.78rem;color:var(--soft);font-weight:bold}
+.fact .vl{font-size:.95rem;font-weight:bold;line-height:1.5}
+.gcards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.gcard{position:relative;border-radius:12px;overflow:hidden}
+.gcard img{width:100%;height:110px;object-fit:cover;display:block}
+.gcard span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(30,20,0,.65));color:#fff;font-size:.78rem;font-weight:bold;padding:16px 6px 6px;text-align:center}
+.steps3{display:flex;align-items:flex-start;justify-content:space-between;text-align:center;margin-top:8px}
+.steps3 .s3{flex:1}
+.steps3 .ic{width:56px;height:56px;margin:0 auto;border-radius:50%;background:var(--accent);color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center}
+.steps3 .tx{font-size:.8rem;font-weight:bold;margin-top:6px;line-height:1.5}
+.steps3 .ar{align-self:center;font-size:1.2rem;color:var(--soft);flex:0 0 auto;padding:0 2px}
+details.faqbox{border:1px solid var(--line);border-radius:16px;padding:14px 20px;margin-top:16px;background:var(--card)}
+details.faqbox summary{font-size:1.18rem;font-weight:bold;color:var(--accent-dark);cursor:pointer}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -452,29 +470,26 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 <section>
 <h2>お店のこと</h2>
 <img class="story-photo" src="../images/shop/zakka-4.jpg" alt="Lea Mahaloの店内。木製の棚いっぱいの雑貨">
-<p>2011年オープンの雑貨屋。店主セレクトの古着・雑貨が並びます。OHANAシェア＊プロジェクトは、このお店の雑貨交換から生まれました。</p>
-<p>メルカリでは「⚠️即買❌愛媛レア」として出品中。axes femmeのトップスやワンピースが人気です。</p>
+<p>2011年オープン。店主セレクトの古着・雑貨のお店です。</p>
 </section>
 
 <div class="ticket"><span class="tk-big">眠っている価値を、必要な場所へ</span><span class="tk-note">店主セレクトの古着・雑貨が、必要な人のもとへ届きますように</span></div>
 
 <section>
-<h2>雑貨屋 Lea Mahaloはこんなお店です</h2>
-<table>
-<tr><th>ジャンル</th><td>レディース古着（axes femme中心）・雑貨・インテリア・ベビー用品少し</td></tr>
-<tr><th>買い方</th><td>メルカリ出品が中心／実店舗は来店予約制</td></tr>
-<tr><th>営業時間</th><td>月〜土 10:00〜18:30／日・祝 9:00〜18:00（不定休）</td></tr>
-<tr><th>場所</th><td>松山市味酒町・マハロビル1階</td></tr>
-<tr><th>支払い</th><td>現金のみ（実店舗）</td></tr>
-<tr><th>駐車場</th><td>3台（店舗内1台・契約駐車場2か所）</td></tr>
-</table>
+<h2>お店の基本情報</h2>
+<div class="facts">
+<div class="fact"><div class="ic">🕙</div><div class="lb">営業時間</div><div class="vl">月〜土 10:00〜18:30<br>日・祝 9:00〜18:00</div></div>
+<div class="fact"><div class="ic">📍</div><div class="lb">場所</div><div class="vl">松山市味酒町<br>マハロビル1階</div></div>
+<div class="fact"><div class="ic">🛍</div><div class="lb">買い方</div><div class="vl">メルカリ中心<br>実店舗は予約制</div></div>
+<div class="fact"><div class="ic">🚗</div><div class="lb">駐車場</div><div class="vl">3台あります</div></div>
+</div>
 </section>
 
 <section>
 <h2>店内の様子</h2>
-<p class="sub">Lea Mahaloの店内と商品の様子です。写真は横に流れ続けます（タップで止まります）。</p>
+
 <div class="film" style="--fd:14s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure></div></div></div>
-<p class="note">横にスライドできます。</p>
+
 </section>
 <section>
     <h2>メルカリの出品から</h2>
@@ -484,33 +499,26 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
   </section>
   <section>
 <h2>取り扱いジャンル</h2>
-<div class="feats">
-<div class="feat"><b>レディース古着</b><span>：axes femme中心のトップス・ワンピース</span></div>
-<div class="feat"><b>雑貨・インテリア</b><span>：置物・フォトフレームなど</span></div>
-<div class="feat"><b>ベビー・キッズ</b><span>用品も少しあります</span></div>
+<div class="gcards">
+<div class="gcard"><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><span>レディース古着</span></div>
+<div class="gcard"><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><span>雑貨・インテリア</span></div>
+<div class="gcard"><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><span>ベビー・キッズも少し</span></div>
 </div>
+<p class="note">レディース古着は axes femme のトップス・ワンピースが中心です。</p>
 </section>
 
 <figure class="band"><img src="../images/shop/zakka-2.jpg" alt="Lea Mahaloの店先の様子"><figcaption>店先の様子</figcaption></figure>
 
-<section>
-<h2>よくある質問</h2>
+<details class="faqbox">
+<summary>よくある質問</summary>
 <div class="qa"><p class="q">お店に行けば買えますか？</p><p class="a">実店舗は普段開いておらず、来店は予約制です。まずはメルカリの出品をご覧ください。</p></div>
 <div class="qa"><p class="q">在庫はどう確認すればいいですか？</p><p class="a">実店舗と在庫を共有しているため、ご購入前にメルカリのコメントで在庫確認をお願いしています。</p></div>
 <div class="qa"><p class="q">どんな商品がありますか？</p><p class="a">axes femmeのトップスやワンピースが中心です。生産が終わった昔のデザインを探している方にも人気です。</p></div>
 <div class="qa"><p class="q">ハンドメイドの雑貨もありますか？</p><p class="a">はい。全国からのハンドメイド委託雑貨も扱っています。松山ではなかなか出会えない雑貨を探している方に。</p></div>
 <div class="qa"><p class="q">遠方でも買えますか？</p><p class="a">メルカリの出品は全国配送に対応しています。実店舗（松山市）での購入は予約制です。</p></div>
-</section>
+</details>
 
-<section>
-<h2>店舗情報</h2>
-<table>
-<tr><th>営業時間</th><td>月〜土 10:00〜18:30／日・祝 9:00〜18:00（不定休・来店は予約制）</td></tr>
-<tr><th>電話</th><td><a href="tel:0899341587">089-934-1587</a></td></tr>
-<tr><th>お支払い</th><td>現金のみ</td></tr>
-<tr><th>駐車場</th><td>3台（店舗内1台・契約駐車場2か所）</td></tr>
-</table>
-</section>
+
 
 <section>
 <h2>マハロビルのお店</h2>
@@ -535,15 +543,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 </div>
 </section>
 
-<section>
-<h2>ほかのOHANAメンバー</h2>
-<div class="sns">
-<a href="mahalo.html"><b>hair ID salon MAHALO</b><span>コト｜美容室（2階）</span></a>
-<a href="elua-mahalo.html"><b>elua Mahalo</b><span>コト｜女性限定美容室（1階）</span></a>
-<a href="eyes-mahalo.html"><b>Eyes MAHALO</b><span>コト｜まつげパーマ専門（1階）</span></a>
-<a href="momowari.html"><b>MOMOwaRI</b><span>ヒト｜松山市</span></a>
-</div>
-</section>
+
 
 <section>
 <h2>地図・アクセス</h2>
@@ -562,11 +562,14 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 </section>
 <section>
 <h2>OHANAの仕組み</h2>
-<p>OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。</p>
-<div class="step"><span class="n">1</span><p>イベントやお店で100円券を受け取ります（券は無料で配布しています）</p></div>
-<div class="step"><span class="n">2</span><p>OHANAメンバー（100円券が使えるお店・活動）で、お買い物のように使えます</p></div>
-<div class="step"><span class="n">3</span><p>受け取ったお店は、その券を他のお店で使うことで、価値が地域を廻ります</p></div>
-<p class="note">券は買うものではありません。現金への換金はしません。お釣りは出ません。</p>
+<div class="steps3">
+<div class="s3"><div class="ic">🎫</div><div class="tx">100円券を<br>受け取る（無料）</div></div>
+<div class="ar">→</div>
+<div class="s3"><div class="ic">🛍</div><div class="tx">メンバーのお店で<br>お買い物に使う</div></div>
+<div class="ar">→</div>
+<div class="s3"><div class="ic">🔁</div><div class="tx">受け取ったお店が<br>他のお店で使う</div></div>
+</div>
+<p class="note">100円券でお買い物ができる、フリマ型の選べる物々交換です。券は買うものではなく、換金・お釣りはありません。</p>
 </section>
 
 <section>
@@ -582,7 +585,7 @@ section{background:#ffffff;border:none;border-radius:0;box-shadow:none;padding:2
 
 <div class="recruit">
 <h2>こんなページが欲しい方へ</h2>
-<p>OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。公式HPのように使ってもらえると嬉しいです。<br>条件はひとつだけ、OHANA100円券が使えるお店・活動にしていただくことです。</p>
+<p>AIがあなたの紹介ページを無料で作ります。</p>
 <a href="../mypage.html" target="_blank" rel="noopener">マイページへ</a>
 </div>
 
