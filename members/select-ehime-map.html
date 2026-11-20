@@ -21,6 +21,7 @@ h1{font-size:32px;line-height:1.35;margin:8px 0 4px}
 .hband-wave{position:absolute;left:0;right:0;bottom:-2px;height:10px;background:radial-gradient(circle at 10px -3px,transparent 12px,#ef8f1c 13px);opacity:.35}
 .aboutd{font-size:13.5px;color:#555;margin:6px 0 2px}
 .aboutd summary{cursor:pointer;color:#b96a00;font-size:13px}
+.vfold{margin:30px 0 6px}.vfold summary{cursor:pointer;font-size:21px;font-weight:700;border-left:6px solid var(--orange);padding-left:10px;line-height:1.4;list-style:none}.vfold summary::-webkit-details-marker{display:none}.vfold summary::after{content:" ▼";font-size:14px;color:var(--orange)}.vfold[open ] summary::after{content:" ▲"}
 .aboutd p{margin:6px 0 0}
 .note{background:#fff;border:1px dashed var(--orange);border-radius:14px;padding:12px 14px;font-size:14px;margin:18px 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5}
@@ -87,7 +88,7 @@ a{color:#b96a00}
 <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1g7AnLEmMs7fuGTgqljxC9LF8rkGT024" loading="lazy" title="セレクト愛媛MAP 乳幼児・子供連れ 全体マップ"></iframe>
 <p style="font-size:13.5px;margin:8px 0 0">地図は3つのレイヤーに分かれています。「乳幼児・子供連れ」は根拠を確認できたお店・施設14件、「イベント会場」はセレクト愛媛情報に載せている催しの会場15件、「オープン情報」は新しくオープンしたお店2件です。地図が表示されない場合は <a href="https://www.google.com/maps/d/u/1/viewer?mid=1g7AnLEmMs7fuGTgqljxC9LF8rkGT024" target="_blank" rel="noopener">全体MAPをGoogleマップで開く</a> から見られます。地図を開いてスターを付けると、自分のGoogleマップ（保存済み）に残せます。</p>
 </div>
-<h2>イベント会場（15件）</h2>
+<details class="vfold"><summary>イベント会場（15件）</summary>
 <p>セレクト愛媛情報に載せている催しの会場です。全体MAPの「イベント会場」レイヤーにピンが入っています。日程や内容は催しごとに変わるので、お出かけ前にセレクト愛媛情報や主催者の案内でご確認ください。</p>
 <table>
 <tr><th style="text-align:left">会場</th><th style="text-align:left">開かれる催し</th><th style="text-align:left">場所</th><th></th></tr>
@@ -107,13 +108,15 @@ a{color:#b96a00}
 <tr><td><strong>川上教会</strong></td><td>とうおんオーガニックフェスティバル（マルシェ）</td><td>東温市南方1771-1</td><td><a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%AC%E3%82%AD%E3%83%AA%E3%82%B9%E3%83%88%E6%95%99%E5%9B%A3%20%E5%B7%9D%E4%B8%8A%E6%95%99%E4%BC%9A%20%E6%9D%B1%E6%B8%A9" target="_blank" rel="noopener">地図</a></td></tr>
 <tr><td><strong>フォーデイズキッチンスタジオ松山</strong></td><td>ぴぃすふる（美と健康のイベント）</td><td>松山市平田町102-2</td><td><a href="https://www.google.com/maps/search/?api=1&query=%E3%83%95%E3%82%A9%E3%83%BC%E3%83%87%E3%82%A4%E3%82%BA%20%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%E3%82%B9%E3%82%BF%E3%82%B8%E3%82%AA%E6%9D%BE%E5%B1%B1" target="_blank" rel="noopener">地図</a></td></tr>
 </table>
-<h2>オープン情報（2件）</h2>
+</details>
+<details class="vfold"><summary>オープン情報（2件）</summary>
 <p>最近オープンしたお店です。全体MAPの「オープン情報」レイヤーにピンが入っています。</p>
 <table>
 <tr><th style="text-align:left">お店</th><th style="text-align:left">内容</th><th style="text-align:left">場所</th><th></th></tr>
 <tr><td><strong>買取店わかば 松山ジョー・プラ店</strong></td><td>買取店（セレクト愛媛情報に掲載中）</td><td>松山市朝生田町5-1-25 ジョー・プラ1階</td><td><a href="https://www.google.com/maps/search/?api=1&query=%E8%B2%B7%E5%8F%96%E5%BA%97%E3%82%8F%E3%81%8B%E3%81%B0%20%E3%82%B8%E3%83%A7%E3%83%BC%E3%83%BB%E3%83%97%E3%83%A9" target="_blank" rel="noopener">地図</a></td></tr>
 <tr><td><strong>ベーカリー コーギーコーギー</strong></td><td>ベーカリー。2026年12月9日プレオープン・12月18日グランドオープン（7:00〜18:00）</td><td>松山市北藤原町15-8</td><td><a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E5%B1%B1%E5%B8%82%E5%8C%97%E8%97%A4%E5%8E%9F%E7%94%BA15-8" target="_blank" rel="noopener">地図</a></td></tr>
 </table>
+</details>
 <input id="q" type="search" placeholder="店名で検索" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);font-family:inherit">
 <div class="chips" id="chips"><button class="chip on" data-f="all">すべて</button><button class="chip" data-f="カフェ">カフェ</button><button class="chip" data-f="中華">中華</button><button class="chip" data-f="麺">麺</button><button class="chip" data-f="焼肉">焼肉</button><button class="chip" data-f="定食・和食">定食・和食</button><button class="chip" data-f="洋食・レストラン">洋食・レストラン</button><button class="chip" data-f="居酒屋">居酒屋</button><button class="chip" data-f="寿司・魚介">寿司・魚介</button><button class="chip" data-f="インド・エスニック">インド・エスニック</button><button class="chip" data-f="粉もの">粉もの</button><button class="chip" data-f="揚げ物">揚げ物</button><button class="chip" data-f="遊び場・施設">遊び場・施設</button><button class="chip" data-f="買い物">買い物</button><button class="chip" data-f="美容・サロン">美容・サロン</button><button class="chip" data-f="その他">その他</button></div>
 <h2>お店・施設の一覧（96件）</h2>
