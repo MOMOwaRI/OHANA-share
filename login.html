@@ -2271,6 +2271,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     }catch(e){ return ''; }
   }
   function text(n){
+    if(n.kind === 'msg') return '✉️ ' + (n.fromName || 'だれか') + 'さんからメッセージ' + (n.itemName ? '（「' + n.itemName + '」について）' : '') + (n.text ? '：' + n.text : '');
     if(n.kind === 'comment') return '💬 ' + (n.fromName || 'だれか') + 'さんが、あなたのページにコメントしました' + (n.text ? '「' + String(n.text).slice(0, 40) + '」' : '');
     if(n.kind === 'ship') return '🚢 マッチング：' + (n.fromName || 'だれか') + 'さんが、あなたのモノ「' + (n.itemName || '') + '」を船に乗せました';
     return n.text || 'お知らせがあります';
