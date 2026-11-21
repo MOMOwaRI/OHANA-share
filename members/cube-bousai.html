@@ -960,6 +960,14 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
         fromUid: currentUser ? currentUser.uid : '',
         createdAt: new Date().toISOString()
       }).then(function(){
+        if(TARGET_UID && !(currentUser && currentUser.uid === TARGET_UID)){
+          try{
+            firebase.firestore().collection('notices').add({
+              toUid: TARGET_UID, kind: 'comment', pageId: PAGE_ID,
+              fromName: name, text: text.slice(0, 100), ts: Date.now(), read: false
+            }).catch(function(){});
+          }catch(e){}
+        }
         $('pc-text').value = '';
         msg.textContent = '投稿しました。';
         loadComments();

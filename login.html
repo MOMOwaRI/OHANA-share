@@ -206,47 +206,17 @@ body{padding-bottom:50px}
       <div id="notice-list"></div>
     </div>
     <p id="home-who" class="note"></p>
-    <div class="first-guide">
-      <h2>🌱 はじめの案内</h2>
-      <div class="fstep"><span class="fstep-n">1</span><p>ヒトのページに、自己紹介を入れましょう。名前と、ひとことで大丈夫です。<a id="first-step-link" href="#pages-list">あなたのページを開く</a>と、そのままタップで直せます。</p></div>
-      <div class="fstep"><span class="fstep-n">2</span><p>モノ・コトのページも作れます。写真を入れるだけ。写真受付箱が先でも大丈夫です。</p></div>
-      <div class="fstep"><span class="fstep-n">3</span><p>できたページは、ヒト・モノ・コト一覧に自動で出ます。</p></div>
+    <div id="pages-list"></div>
+    <div id="trash-area" hidden>
+      <h2 class="trash-h">削除したページ</h2>
+      <p class="sub">「元に戻す」を押すと、ページ一覧に戻ります。</p>
+      <div id="trash-list"></div>
     </div>
     <div class="menu">
       <a href="board.html">みんなの掲示板<small>お知らせ・告知</small></a>
       <a href="help.html">困った助け合い<small>質問・相談</small></a>
       <a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット<small>みんなの会話</small></a>
       <a href="index.html">OHANAトップ<small>サイトの入口</small></a>
-    </div>
-    <section class="recruit">
-      <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーのマイページです</p>
-      <details>
-        <summary style="cursor:pointer;font-weight:bold;margin-top:6px">メンバーの案内を見る</summary>
-        <div class="merit-cards" style="margin-top:10px">
-        <div class="merit"><span class="merit-ico">🙆</span><div><p class="merit-h">だれでもメンバーになれます</p><p>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</p></div></div>
-        <div class="merit"><span class="merit-ico">✨</span><div><p class="merit-h">SNSしかしていない人にも、自分のページ</p><p>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</p></div></div>
-        <div class="merit"><span class="merit-ico">📣</span><div><p class="merit-h">告知は、AIが見回って自動で掲載</p><p>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</p></div></div>
-        <div class="merit"><span class="merit-ico">📷</span><div><p class="merit-h">モノは、写真を入れるだけ</p><p>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</p><p style="margin-top:6px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">写真受付箱はこちら</a></p></div></div>
-        <div class="merit"><span class="merit-ico">🎟</span><div><p class="merit-h">条件はありません</p><p>100円券が使えるお店・活動にご協力ください！</p></div></div>
-      </div>
-      </details>
-      
-    </section>
-    <div class="create-card" id="match-card" style="display:block">
-      <p style="font-weight:bold">合いそうな人</p>
-      <p class="sub">あなたの「探している」と、みんなの「提供している」を見比べて出しています。連絡先は出ません。ページから声をかけてみてください。</p>
-      <div id="match-list"><p class="sub">見ています…</p></div>
-    </div>
-    <div class="create-card" id="gen-card" style="display:block;border:2px solid #e8a04c;background:#fff8ec">
-      <p style="font-weight:bold">✨ AIで1発生成</p>
-      <p class="sub">お店や活動のURLを貼るだけで、AIが紹介ページの下書きを作ります。下書きは非公開です。できたらここに出るので、確認してから公開できます。</p>
-      <p style="margin:8px 0"><input type="url" id="gen-url" placeholder="お店のURL（ホームページ・SNS・Googleマップなど）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
-      <p style="margin:8px 0"><input type="text" id="gen-kw" placeholder="キーワード（店名など、任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
-      <button type="button" class="create-btn" id="btn-gen">AIで1発生成する（じっくり作る申込）</button>
-      <button type="button" class="create-btn" id="btn-geni" style="margin-top:8px">✨ その場で作る</button>
-      <p class="sub" style="margin-top:4px">「その場で作る」は、数十秒で文章の下書きができて、そのまま下書きページになります。写真や詳しい情報は、あとから足せます。</p>
-      <p class="sub" id="gen-msg" style="margin-top:8px"></p>
-      <div id="gen-list"></div>
     </div>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
@@ -260,20 +230,36 @@ body{padding-bottom:50px}
       <button type="button" class="create-btn" id="btn-create" style="margin-top:10px">この区分でページを作る</button>
       <p class="sub" style="margin-top:8px">モノのページは、写真を<a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">Googleフォトの写真受付箱</a>に投げると、AIがタイトルと説明を作ります。</p>
     </div>
+    <div class="create-card" id="gen-card" style="display:block;border:2px solid #e8a04c;background:#fff8ec">
+      <p style="font-weight:bold">✨ AIで1発生成</p>
+      <p class="sub">お店や活動のURLを貼るだけで、AIが紹介ページの下書きを作ります。下書きは非公開です。できたらここに出るので、確認してから公開できます。</p>
+      <p style="margin:8px 0"><input type="url" id="gen-url" placeholder="お店のURL（ホームページ・SNS・Googleマップなど）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
+      <p style="margin:8px 0"><input type="text" id="gen-kw" placeholder="キーワード（店名など、任意）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
+      <button type="button" class="create-btn" id="btn-gen">AIで1発生成する（じっくり作る申込）</button>
+      <button type="button" class="create-btn" id="btn-geni" style="margin-top:8px">✨ その場で作る</button>
+      <p class="sub" style="margin-top:4px">「その場で作る」は、数十秒で文章の下書きができて、そのまま下書きページになります。写真や詳しい情報は、あとから足せます。</p>
+      <p class="sub" id="gen-msg" style="margin-top:8px"></p>
+      <div id="gen-list"></div>
+    </div>
+    <div class="create-card" id="match-card" style="display:block">
+      <p style="font-weight:bold">マッチング</p>
+      <p class="sub">あなたの「探している」と、みんなの「提供している」を見比べて出しています。連絡先は出ません。ページから声をかけてみてください。</p>
+      <div id="match-list"><p class="sub">見ています…</p></div>
+    </div>
     <style id="ship-css">
 #ship-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:8px}
 .ship-item{display:block;text-align:center;text-decoration:none;color:#5b4632;background:#fff;border:1px solid #ead9bd;border-radius:12px;padding:6px}
 .ship-item img{width:100%;height:72px;object-fit:cover;border-radius:8px;display:block;margin-bottom:4px;background:#f3e7d3}
 .ship-item span{font-size:.8rem;line-height:1.3;display:block}
 </style>
-<div class="create-card" id="ship-card" style="display:block">
+    <div class="create-card" id="ship-card" style="display:block">
       <p style="font-weight:bold">🚢 OHANA船</p>
       <p class="sub">OHANA海で船に乗せたモノが、ここに出ます。</p>
       <div id="ship-grid"></div>
       <p class="sub" id="ship-empty">まだ船に乗せたモノはありません。</p>
       <p style="margin:8px 0 0"><a href="https://momowari.github.io/ohana-jima/kai.html" target="_blank" rel="noopener">🌊 OHANA海へ行く</a></p>
     </div>
-<script id="ship-script">
+    <script id="ship-script">
 (function(){
   var grid = document.getElementById('ship-grid');
   var empty = document.getElementById('ship-empty');
@@ -306,19 +292,19 @@ body{padding-bottom:50px}
   setTimeout(function(){ clearInterval(shipTimer); }, 15000);
 })();
 </script>
-<style id="bag-css">
+    <style id="bag-css">
 #bag-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 .bag-item{display:block;text-decoration:none;color:#5b4632;background:#fff;border:1px solid #ead9bd;border-radius:12px;padding:10px 12px;font-size:.92rem}
 .bag-item::after{content:" ›";color:#b08d57}
 </style>
-<div class="create-card" id="bag-card" style="display:block">
+    <div class="create-card" id="bag-card" style="display:block">
       <p style="font-weight:bold">🧳 OHANA島のカバン</p>
       <p class="sub">OHANA島でカバンに入れたモノが、ここに出ます。名前をタップすると、お店のページへ行けます。</p>
       <div id="bag-list"></div>
       <p class="sub" id="bag-empty">まだカバンは空です。</p>
       <p style="margin:8px 0 0"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ行く</a></p>
     </div>
-<script id="bag-script">
+    <script id="bag-script">
 (function(){
   var listEl = document.getElementById('bag-list');
   var empty = document.getElementById('bag-empty');
@@ -350,12 +336,25 @@ body{padding-bottom:50px}
   setTimeout(function(){ clearInterval(t); }, 15000);
 })();
 </script>
-<div id="pages-list"></div>
-    
-    <div id="trash-area" hidden>
-      <h2 class="trash-h">削除したページ</h2>
-      <p class="sub">「元に戻す」を押すと、ページ一覧に戻ります。</p>
-      <div id="trash-list"></div>
+    <section class="recruit">
+      <p style="font-weight:bold;font-size:1.1rem">OHANAメンバーのマイページです</p>
+      <details>
+        <summary style="cursor:pointer;font-weight:bold;margin-top:6px">メンバーの案内を見る</summary>
+        <div class="merit-cards" style="margin-top:10px">
+        <div class="merit"><span class="merit-ico">🙆</span><div><p class="merit-h">だれでもメンバーになれます</p><p>お店の方も、個人の方も、オンラインだけで活動している方もOKです。松山に来られなくても、メンバーになれます</p></div></div>
+        <div class="merit"><span class="merit-ico">✨</span><div><p class="merit-h">SNSしかしていない人にも、自分のページ</p><p>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</p></div></div>
+        <div class="merit"><span class="merit-ico">📣</span><div><p class="merit-h">告知は、AIが見回って自動で掲載</p><p>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</p></div></div>
+        <div class="merit"><span class="merit-ico">📷</span><div><p class="merit-h">モノは、写真を入れるだけ</p><p>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</p><p style="margin-top:6px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">写真受付箱はこちら</a></p></div></div>
+        <div class="merit"><span class="merit-ico">🎟</span><div><p class="merit-h">条件はありません</p><p>100円券が使えるお店・活動にご協力ください！</p></div></div>
+      </div>
+      </details>
+      
+    </section>
+    <div class="first-guide">
+      <h2>🌱 はじめの案内</h2>
+      <div class="fstep"><span class="fstep-n">1</span><p>ヒトのページに、自己紹介を入れましょう。名前と、ひとことで大丈夫です。<a id="first-step-link" href="#pages-list">あなたのページを開く</a>と、そのままタップで直せます。</p></div>
+      <div class="fstep"><span class="fstep-n">2</span><p>モノ・コトのページも作れます。写真を入れるだけ。写真受付箱が先でも大丈夫です。</p></div>
+      <div class="fstep"><span class="fstep-n">3</span><p>できたページは、ヒト・モノ・コト一覧に自動で出ます。</p></div>
     </div>
     <p class="sub" id="hub-msg" style="margin-top:12px"></p>
   </div>
@@ -2272,6 +2271,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     }catch(e){ return ''; }
   }
   function text(n){
+    if(n.kind === 'comment') return '💬 ' + (n.fromName || 'だれか') + 'さんが、あなたのページにコメントしました' + (n.text ? '「' + String(n.text).slice(0, 40) + '」' : '');
     if(n.kind === 'ship') return '🚢 マッチング：' + (n.fromName || 'だれか') + 'さんが、あなたのモノ「' + (n.itemName || '') + '」を船に乗せました';
     return n.text || 'お知らせがあります';
   }
