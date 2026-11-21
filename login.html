@@ -306,6 +306,50 @@ body{padding-bottom:50px}
   setTimeout(function(){ clearInterval(shipTimer); }, 15000);
 })();
 </script>
+<style id="bag-css">
+#bag-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.bag-item{display:block;text-decoration:none;color:#5b4632;background:#fff;border:1px solid #ead9bd;border-radius:12px;padding:10px 12px;font-size:.92rem}
+.bag-item::after{content:" ›";color:#b08d57}
+</style>
+<div class="create-card" id="bag-card" style="display:block">
+      <p style="font-weight:bold">🧳 OHANA島のカバン</p>
+      <p class="sub">OHANA島でカバンに入れたモノが、ここに出ます。名前をタップすると、お店のページへ行けます。</p>
+      <div id="bag-list"></div>
+      <p class="sub" id="bag-empty">まだカバンは空です。</p>
+      <p style="margin:8px 0 0"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ行く</a></p>
+    </div>
+<script id="bag-script">
+(function(){
+  var listEl = document.getElementById('bag-list');
+  var empty = document.getElementById('bag-empty');
+  if(!listEl) return;
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  window.__renderBagItems = function(items){
+    items = Array.isArray(items) ? items : [];
+    if(!items.length){ listEl.innerHTML = ''; if(empty) empty.style.display = ''; return; }
+    if(empty) empty.style.display = 'none';
+    listEl.innerHTML = items.map(function(it){
+      var name = esc(it.name || 'モノ');
+      return it.url ? '<a class="bag-item" href="' + esc(it.url) + '" target="_blank" rel="noopener">' + name + '</a>' : '<div class="bag-item">' + name + '</div>';
+    }).join('');
+  };
+  /* 島のカバンを読む（islandUsers/{uid} の bag） */
+  var wired = false;
+  function wire(){
+    if(wired) return;
+    if(!window.firebase || !firebase.auth || !firebase.firestore) return;
+    wired = true;
+    firebase.auth().onAuthStateChanged(function(user){
+      if(!user){ window.__renderBagItems([]); return; }
+      firebase.firestore().collection('islandUsers').doc(user.uid).get()
+        .then(function(snap){ window.__renderBagItems(snap.exists ? (snap.data().bag || []) : []); })
+        .catch(function(){});
+    });
+  }
+  var t = setInterval(function(){ wire(); if(wired) clearInterval(t); }, 300);
+  setTimeout(function(){ clearInterval(t); }, 15000);
+})();
+</script>
 <div id="pages-list"></div>
     
     <div id="trash-area" hidden>
