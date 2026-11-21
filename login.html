@@ -200,12 +200,16 @@ body{padding-bottom:50px}
   </div>
 
   <div id="box-home" hidden>
-    <div class="logout-row"><button type="button" class="logout-btn" id="btn-logout">ログアウト</button></div>
+    <div class="logout-row"><button type="button" class="logout-btn" id="notice-btn">🔔 通知<span id="notice-badge" style="display:none;background:#d64545;color:#fff;border-radius:999px;font-size:.72rem;padding:1px 7px;margin-left:6px"></span></button><button type="button" class="logout-btn" id="btn-logout">ログアウト</button></div>
+    <div id="notice-panel" hidden style="background:#fff;border:1.5px solid #ead9bd;border-radius:14px;padding:12px 14px;margin:0 0 14px">
+      <p class="sub" id="notice-empty" style="margin:0">まだ通知はありません。</p>
+      <div id="notice-list"></div>
+    </div>
     <p id="home-who" class="note"></p>
     <div class="first-guide">
       <h2>🌱 はじめの案内</h2>
-      <div class="fstep"><span class="fstep-n">1</span><p>あなたの「ヒトのページ」に、自己紹介を入れましょう。名前と、ひとことで大丈夫です。<a id="first-step-link" href="#pages-list">あなたのページを開く</a>と、そのままタップで直せます。</p></div>
-      <div class="fstep"><span class="fstep-n">2</span><p>モノ・コトのページも作れます。いきなりモノの登録からでも大丈夫です。写真を入れるだけです。写真受付箱に写真を投げるのが先でも大丈夫です。メンバー登録すれば連携します。</p></div>
+      <div class="fstep"><span class="fstep-n">1</span><p>ヒトのページに、自己紹介を入れましょう。名前と、ひとことで大丈夫です。<a id="first-step-link" href="#pages-list">あなたのページを開く</a>と、そのままタップで直せます。</p></div>
+      <div class="fstep"><span class="fstep-n">2</span><p>モノ・コトのページも作れます。写真を入れるだけ。写真受付箱が先でも大丈夫です。</p></div>
       <div class="fstep"><span class="fstep-n">3</span><p>できたページは、ヒト・モノ・コト一覧に自動で出ます。</p></div>
     </div>
     <div class="menu">
@@ -2205,5 +2209,72 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
+
+<script id="notice-script">
+(function(){
+  var btn = document.getElementById('notice-btn');
+  var panel = document.getElementById('notice-panel');
+  var badge = document.getElementById('notice-badge');
+  var listEl = document.getElementById('notice-list');
+  var emptyEl = document.getElementById('notice-empty');
+  if(!btn || !panel) return;
+  var myUid = null, wired = false, docs = [];
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function tsNum(ts){ return (ts && ts.toMillis) ? ts.toMillis() : (typeof ts === 'number' ? ts : 0); }
+  function fmtTs(ts){
+    try{
+      var d = (ts && ts.toDate) ? ts.toDate() : new Date(ts);
+      return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+    }catch(e){ return ''; }
+  }
+  function text(n){
+    if(n.kind === 'ship') return '🚢 マッチング：' + (n.fromName || 'だれか') + 'さんが、あなたのモノ「' + (n.itemName || '') + '」を船に乗せました';
+    return n.text || 'お知らせがあります';
+  }
+  function render(){
+    var unread = docs.filter(function(d){ return !d.data.read; }).length;
+    if(unread > 0){ badge.style.display = ''; badge.textContent = unread; } else { badge.style.display = 'none'; }
+    if(!docs.length){ if(emptyEl) emptyEl.style.display = ''; listEl.innerHTML = ''; return; }
+    if(emptyEl) emptyEl.style.display = 'none';
+    listEl.innerHTML = docs.map(function(d){
+      var n = d.data;
+      return '<p style="margin:0 0 8px;font-size:.92rem;line-height:1.5;' + (n.read ? 'color:#8a7a68' : 'font-weight:bold') + '">' + esc(text(n)) + ' <span style="font-weight:normal;color:#a38f76;font-size:.8rem">' + fmtTs(n.ts) + '</span></p>';
+    }).join('');
+  }
+  function markAllRead(){
+    if(!window.firebase || !myUid) return;
+    var db = firebase.firestore();
+    docs.forEach(function(d){
+      if(!d.data.read){ d.data.read = true; db.collection('notices').doc(d.id).update({read: true}).catch(function(){}); }
+    });
+    render();
+  }
+  btn.addEventListener('click', function(){
+    var open = panel.hidden;
+    panel.hidden = !open;
+    if(open) markAllRead();
+  });
+  function wire(){
+    if(wired) return;
+    if(!window.firebase || !firebase.auth || !firebase.firestore) return;
+    wired = true;
+    firebase.auth().onAuthStateChanged(function(user){
+      if(!user){ myUid = null; docs = []; render(); return; }
+      myUid = user.uid;
+      firebase.firestore().collection('notices').where('toUid', '==', user.uid).get()
+        .then(function(qs){
+          docs = [];
+          qs.forEach(function(doc){ var d = doc.data(); d.__id = doc.id; docs.push({id: doc.id, data: d}); });
+          docs.sort(function(a, b){ return tsNum(b.data.ts) - tsNum(a.data.ts); });
+          docs = docs.slice(0, 20);
+          render();
+        }).catch(function(){});
+    });
+  }
+  var t = setInterval(function(){ wire(); if(wired) clearInterval(t); }, 300);
+  setTimeout(function(){ clearInterval(t); }, 15000);
+  render();
+})();
+</script>
 </body>
 </html>
