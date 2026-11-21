@@ -35,7 +35,7 @@
 <style>
   :root{--accent:#e07b24;--accent-dark:#c2610f;--ink:#3a2f26;--paper:#fff9f2;--card:#ffffff;--line:#f3ddc4;--soft:#97805f;--orange:#e07b24}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
+  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:#fff8ef;color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
   header{text-align:center;padding:16px 0 8px}
   .hero-pv{position:relative;margin:14px auto 6px;max-width:330px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
@@ -344,7 +344,7 @@ body{padding-bottom:50px}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script>
@@ -408,14 +408,14 @@ body{padding-bottom:50px}
       }).catch(function(){});
     }
     function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ 好きな人'); }
-    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
+    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 足あと'); }
     loadLikers(); loadFeet();
     var feetBtn = document.getElementById('istat-feet');
     if(feetBtn){ feetBtn.addEventListener('click', function(){
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 足あと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -489,7 +489,7 @@ body{padding-bottom:50px}
 <section>
 <h2>店内の様子</h2>
 <p class="sub">elua Mahaloの店内と施術の様子です。写真は横に流れ続けます（タップで止まります）。</p>
-<div class="film" style="--fd:24s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div></div></div>
+<div class="film" style="--fd:48s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/elua-film1.jpg" alt="店内の様子"><figcaption>店内の様子</figcaption></figure><figure><img src="../images/shop/elua-film2.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/elua-film3.jpg" alt="鏡のコーナー"><figcaption>鏡のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film4.jpg" alt="髪飾りのマネキン"><figcaption>髪飾りのマネキン</figcaption></figure><figure><img src="../images/shop/elua-film5.jpg" alt="雑貨のコーナー"><figcaption>雑貨のコーナー</figcaption></figure><figure><img src="../images/shop/elua-film6.jpg" alt="シャンプー台のある店内"><figcaption>シャンプー台のある店内</figcaption></figure><figure><img src="../images/shop/elua-film7.jpg" alt="セットの様子"><figcaption>セットの様子</figcaption></figure><figure><img src="../images/shop/elua-film8.jpg" alt="施術の様子"><figcaption>施術の様子</figcaption></figure></div></div></div>
 <p class="note">横にスライドできます。</p>
 </section>
 <section>
@@ -839,7 +839,7 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
     photos.forEach(function(p){ figs += '<figure><img src="' + p.data + '" alt="' + esc(p.cap || '店内の様子') + '"><figcaption>' + esc(p.cap || '') + '</figcaption></figure>'; });
     var track = film.querySelector('.film-track');
     if(track){ track.innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>'; }
-    film.style.setProperty('--fd', (photos.length * 3) + 's');
+    film.style.setProperty('--fd', (photos.length * 6) + 's');
   });
 })();
 </script>
@@ -1109,7 +1109,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     photos.forEach(function(p){ figs += '<figure><img src="' + p.data + '" alt="' + esc(p.cap || '店内の様子') + '"><figcaption>' + esc(p.cap || '') + '</figcaption></figure>'; });
     var track = film.querySelector('.film-track');
     if(track) track.innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>';
-    film.style.setProperty('--fd', (photos.length * 3) + 's');
+    film.style.setProperty('--fd', (photos.length * 6) + 's');
   }
   function saveFilm(){
     if(!filmWork) return;

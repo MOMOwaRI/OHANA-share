@@ -29,7 +29,7 @@
 <style>
   :root{--orange:#e07b24;--orange-dark:#c2610f;--ink:#3a2e25;--paper:#fff9f2;--card:#fff;--line:#f3ddc4;--soft:#8a6a4f}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
+  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:#fff8ef;color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
   header{text-align:center;padding:28px 0 8px}
   .badge{display:inline-block;border-radius:999px;padding:2px 14px;font-size:.85rem;font-weight:bold;letter-spacing:.08em;color:#4a3418}
@@ -342,7 +342,7 @@ body{padding-bottom:50px}
       </div>
       </div>
 <div class="sharewrap"><a id="share-btn" class="sharelink">シェア</a><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
-<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script>
@@ -581,7 +581,7 @@ function loadFilm(pid){
     if(!photos.length){ sec.hidden = true; return; }
     var figs = filmFigs(photos);
     $('film-track').innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>';
-    $('p-film').style.setProperty('--fd', (photos.length * 3) + 's');
+    $('p-film').style.setProperty('--fd', (photos.length * 6) + 's');
     sec.hidden = false;
   });
 }
@@ -1848,14 +1848,14 @@ try {
       }).catch(function(){});
     }
     function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ 好きな人'); }
-    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
+    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 足あと'); }
     loadLikers(); loadFeet();
     var feetBtn = document.getElementById('istat-feet');
     if(feetBtn){ feetBtn.addEventListener('click', function(){
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 足あと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){

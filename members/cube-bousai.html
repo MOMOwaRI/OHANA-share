@@ -30,7 +30,7 @@
 <style>
   :root{--accent:#2068a8;--accent-dark:#174f7e;--ink:#26313a;--paper:#f7fafc;--card:#ffffff;--line:#cfdfec;--soft:#68798a;--orange:#e07b24}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
+  body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:#fff8ef;color:var(--ink);line-height:1.8}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
   header{text-align:center;padding:16px 0 8px}
   .hero-pv{position:relative;margin:14px auto 6px;max-width:330px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
@@ -259,7 +259,7 @@ body{padding-bottom:50px}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script>
@@ -323,14 +323,14 @@ body{padding-bottom:50px}
       }).catch(function(){});
     }
     function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ 好きな人'); }
-    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
+    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 足あと'); }
     loadLikers(); loadFeet();
     var feetBtn = document.getElementById('istat-feet');
     if(feetBtn){ feetBtn.addEventListener('click', function(){
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 足あと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -425,7 +425,7 @@ body{padding-bottom:50px}
   <section>
     <h2>認定の様子</h2>
     <p class="sub">2026年11月3日、Lea Mahaloでの認定の様子と、CUBE防災の活動の写真です。写真は横に流れ続けます（タップで止まります）。</p>
-    <div class="film" style="--fd:26s"><div class="film-track"><div class="film-set"><figure><img src="../images/cube-2.jpg" alt="認定証を受け取った春翔くん"><figcaption>認定証を受け取った春翔くん</figcaption></figure><figure><img src="../images/cube-5.jpg" alt="キューブ講習会の様子"><figcaption>キューブ講習会の様子（公式HPより）</figcaption></figure><figure><img src="../images/cube-3.jpg" alt="認定の様子（Lea Mahaloにて）"><figcaption>認定の様子（Lea Mahaloにて）</figcaption></figure><figure><img src="../images/cube-6.jpg" alt="キューブアート作品と"><figcaption>キューブアート作品と（公式HPより）</figcaption></figure><figure><img src="../images/cube-1.jpg" alt="6面完成を祝う様子"><figcaption>6面完成を祝う様子</figcaption></figure><figure><img src="../images/cube-4.jpg" alt="認定の場・Lea Mahalo"><figcaption>認定の場・Lea Mahalo</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/cube-2.jpg" alt="認定証を受け取った春翔くん"><figcaption>認定証を受け取った春翔くん</figcaption></figure><figure><img src="../images/cube-5.jpg" alt="キューブ講習会の様子"><figcaption>キューブ講習会の様子（公式HPより）</figcaption></figure><figure><img src="../images/cube-3.jpg" alt="認定の様子（Lea Mahaloにて）"><figcaption>認定の様子（Lea Mahaloにて）</figcaption></figure><figure><img src="../images/cube-6.jpg" alt="キューブアート作品と"><figcaption>キューブアート作品と（公式HPより）</figcaption></figure><figure><img src="../images/cube-1.jpg" alt="6面完成を祝う様子"><figcaption>6面完成を祝う様子</figcaption></figure><figure><img src="../images/cube-4.jpg" alt="認定の場・Lea Mahalo"><figcaption>認定の場・Lea Mahalo</figcaption></figure></div></div></div>
+    <div class="film" style="--fd:36s"><div class="film-track"><div class="film-set"><figure><img src="../images/cube-2.jpg" alt="認定証を受け取った春翔くん"><figcaption>認定証を受け取った春翔くん</figcaption></figure><figure><img src="../images/cube-5.jpg" alt="キューブ講習会の様子"><figcaption>キューブ講習会の様子（公式HPより）</figcaption></figure><figure><img src="../images/cube-3.jpg" alt="認定の様子（Lea Mahaloにて）"><figcaption>認定の様子（Lea Mahaloにて）</figcaption></figure><figure><img src="../images/cube-6.jpg" alt="キューブアート作品と"><figcaption>キューブアート作品と（公式HPより）</figcaption></figure><figure><img src="../images/cube-1.jpg" alt="6面完成を祝う様子"><figcaption>6面完成を祝う様子</figcaption></figure><figure><img src="../images/cube-4.jpg" alt="認定の場・Lea Mahalo"><figcaption>認定の場・Lea Mahalo</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/cube-2.jpg" alt="認定証を受け取った春翔くん"><figcaption>認定証を受け取った春翔くん</figcaption></figure><figure><img src="../images/cube-5.jpg" alt="キューブ講習会の様子"><figcaption>キューブ講習会の様子（公式HPより）</figcaption></figure><figure><img src="../images/cube-3.jpg" alt="認定の様子（Lea Mahaloにて）"><figcaption>認定の様子（Lea Mahaloにて）</figcaption></figure><figure><img src="../images/cube-6.jpg" alt="キューブアート作品と"><figcaption>キューブアート作品と（公式HPより）</figcaption></figure><figure><img src="../images/cube-1.jpg" alt="6面完成を祝う様子"><figcaption>6面完成を祝う様子</figcaption></figure><figure><img src="../images/cube-4.jpg" alt="認定の場・Lea Mahalo"><figcaption>認定の場・Lea Mahalo</figcaption></figure></div></div></div>
   </section>
 
   <section>

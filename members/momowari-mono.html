@@ -13,7 +13,7 @@
 <style>
 :root{--accent:#5f9e6e;--accent-dark:#3f7a4d;--ink:#2f3a30;--paper:#f6faf3;--card:#ffffff;--line:#cfe3c8;--soft:#75917a;--orange:#e07b24}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
+body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:#fff8ef;color:var(--ink);line-height:1.8}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
 header{text-align:center;padding:16px 0 8px}
 .hero-pv{position:relative;margin:14px auto 6px;max-width:330px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
@@ -188,6 +188,16 @@ body{padding-bottom:50px}
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "zfhda5eztj");
 </script>
+<style id="tkt-style">
+.tkt-stk{position:absolute;left:-4px;top:-22px;z-index:6;display:flex;align-items:stretch;border-radius:7px;overflow:hidden;transform:rotate(-3deg);box-shadow:0 3px 8px rgba(120,70,10,.35);background:linear-gradient(120deg,#fff3d0,#ffd98a);color:#7a4a08;border:1.2px solid #e0a458;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;pointer-events:none}
+.tkt-stk .stub{display:flex;align-items:center;justify-content:center;padding:3px 2px;font-weight:bold;letter-spacing:.14em;font-size:.42rem;border-right:1.5px dashed rgba(120,70,10,.45);writing-mode:vertical-rl;background:rgba(255,255,255,.4)}
+.tkt-stk .main{display:flex;align-items:center;gap:4px;padding:4px 7px}
+.tkt-stk .big{font-size:.8rem;font-weight:bold;white-space:nowrap;line-height:1.2}
+.pv-wrap{position:relative;max-width:330px;margin:14px auto 6px}@media (max-width:520px){.pv-wrap{max-width:290px}}.pv-wrap .hero-pv{margin:0 auto}.pv-wrap .tkt-stk{top:4px;left:-12px;z-index:9}.tkt-stk .stamp{width:16px;height:16px;border:1.5px solid rgba(194,60,30,.6);border-radius:50%;color:rgba(194,60,30,.78);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.52rem;transform:rotate(10deg);background:rgba(255,255,255,.35);flex:none}
+.tkt-stk.onimg{top:6px;left:6px;bottom:auto}
+.tkt-stk.inpage{position:relative;left:auto;bottom:auto;width:max-content;margin:8px auto 2px}
+.tkt-stk[hidden]{display:none!important}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -201,7 +211,7 @@ body{padding-bottom:50px}
 <div><span class="badge">モノ</span></div>
 <h1>MOMOwaRIのモノ</h1>
 <p class="ename">MOMOwaRI</p>
-<div class="hero-pv"><img class="hero-video" src="../images/shop/plush-cm.webp?v=2" width="408" height="538" alt="MOMOwaRIのモノの紹介アニメーション"></div>
+<div class="pv-wrap"><span class="tkt-stk" data-lock aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span><div class="hero-pv"><img class="hero-video" src="../images/shop/plush-cm.webp?v=2" width="408" height="538" alt="MOMOwaRIのモノの紹介アニメーション"></div></div>
 <!-- item-stats -->
 <style>
 .istats{display:flex;gap:18px;align-items:center;justify-content:center;margin:12px 0 4px;font-size:.95rem;color:#8a6a4f}
@@ -214,7 +224,7 @@ body{padding-bottom:50px}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -281,14 +291,14 @@ body{padding-bottom:50px}
       }).catch(function(){});
     }
     function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ 好きな人'); }
-    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
+    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 足あと'); }
     loadLikers(); loadFeet();
     var feetBtn = document.getElementById('istat-feet');
     if(feetBtn){ feetBtn.addEventListener('click', function(){
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 足あと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){

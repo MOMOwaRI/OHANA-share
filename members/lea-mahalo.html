@@ -35,7 +35,7 @@
 <style>
 :root{--accent:#967a00;--accent-dark:#6c5800;--ink:#2d2500;--paper:#faf8f2;--card:#ffffff;--line:#e8e2c7;--soft:#887936;--orange:#967a00;--orange-dark:#6c5800}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:var(--paper);color:var(--ink);line-height:1.8}
+body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;background:#fff8ef;color:var(--ink);line-height:1.8}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px 48px}
 header{text-align:center;padding:16px 0 8px}
 .hero-pv{position:relative;margin:14px auto 6px;max-width:330px;animation:pvIn .9s cubic-bezier(.22,.8,.32,1) both}
@@ -362,7 +362,7 @@ body{padding-bottom:50px}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="あしあとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script>
@@ -426,14 +426,14 @@ body{padding-bottom:50px}
       }).catch(function(){});
     }
     function loadLikers(){ loadRow('itemLikes', 'ilikers', '♥ 好きな人'); }
-    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 あしあと'); }
+    function loadFeet(){ loadRow('itemFootprints', 'ifeet', '🐾 足あと'); }
     loadLikers(); loadFeet();
     var feetBtn = document.getElementById('istat-feet');
     if(feetBtn){ feetBtn.addEventListener('click', function(){
       var row = document.getElementById('ifeet');
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
-      else { row.innerHTML = '<span>🐾 あしあと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+      else { row.innerHTML = '<span>🐾 足あと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -505,7 +505,7 @@ body{padding-bottom:50px}
 <section>
 <h2>店内の様子</h2>
 
-<div class="film" style="--fd:14s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure></div></div></div>
+<div class="film" style="--fd:24s"><div class="film-track"><div class="film-set"><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure></div><div class="film-set" aria-hidden="true"><figure><img src="../images/shop/lea-film5.jpg" alt="缶とカードのコーナー"><figcaption>缶とカードのコーナー</figcaption></figure><figure><img src="../images/shop/lea-film1.jpg" alt="アクセサリーの壁"><figcaption>アクセサリーの壁</figcaption></figure><figure><img src="../images/shop/lea-film4.jpg" alt="店内の棚"><figcaption>店内の棚</figcaption></figure><figure><img src="../images/shop/lea-film3.jpg" alt="雑貨いろいろ"><figcaption>雑貨いろいろ</figcaption></figure></div></div></div>
 
 </section>
 <section>
@@ -835,7 +835,7 @@ f.addEventListener('click', function(){ f.classList.toggle('paused'); });
     photos.forEach(function(p){ figs += '<figure><img src="' + p.data + '" alt="' + esc(p.cap || '店内の様子') + '"><figcaption>' + esc(p.cap || '') + '</figcaption></figure>'; });
     var track = film.querySelector('.film-track');
     if(track){ track.innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>'; }
-    film.style.setProperty('--fd', (photos.length * 3) + 's');
+    film.style.setProperty('--fd', (photos.length * 6) + 's');
   });
 })();
 </script>
@@ -1105,7 +1105,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     photos.forEach(function(p){ figs += '<figure><img src="' + p.data + '" alt="' + esc(p.cap || '店内の様子') + '"><figcaption>' + esc(p.cap || '') + '</figcaption></figure>'; });
     var track = film.querySelector('.film-track');
     if(track) track.innerHTML = '<div class="film-set">' + figs + '</div><div class="film-set" aria-hidden="true">' + figs + '</div>';
-    film.style.setProperty('--fd', (photos.length * 3) + 's');
+    film.style.setProperty('--fd', (photos.length * 6) + 's');
   }
   function saveFilm(){
     if(!filmWork) return;
