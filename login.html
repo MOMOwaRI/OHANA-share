@@ -52,7 +52,7 @@
   .catchips label{border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;cursor:pointer;background:#fff}
   section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
   .logout-row{text-align:right;margin-top:10px}
-  .logout-btn{background:#fff;color:#8a6a4f;border:1.5px solid #d9c3a5;border-radius:999px;padding:7px 18px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:bold}
+  .logout-btn{background:none;border:none;color:#8a6a4f;padding:6px 2px;cursor:pointer;font-family:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px}
   .ticket-card{position:relative;background:linear-gradient(120deg,#fff6df,#ffe9bd);border:2px solid #e8b96f;border-radius:16px;padding:16px 20px 16px 66px;margin:18px 0;transform:rotate(-.6deg);box-shadow:0 6px 16px rgba(190,130,40,.16);text-align:left;overflow:hidden}
   .ticket-card::before{content:"OHANA 100円券";writing-mode:vertical-rl;position:absolute;left:0;top:0;bottom:0;width:46px;display:flex;align-items:center;justify-content:center;font-weight:bold;letter-spacing:.28em;color:#a35c14;font-size:.8rem;border-right:2px dashed #d9a75e;background:rgba(255,255,255,.45)}
   .ticket-card::after{content:"券";position:absolute;top:10px;right:12px;width:34px;height:34px;border:2px solid rgba(194,97,15,.5);border-radius:50%;color:rgba(194,97,15,.7);display:flex;align-items:center;justify-content:center;font-weight:bold;transform:rotate(12deg);font-size:.95rem;background:rgba(255,255,255,.35)}
@@ -122,7 +122,7 @@ html.js .mrv.in{opacity:1;transform:none}
 <style id="oband-style">
 .ofabs,.fab-stack,.fab-line{display:none!important}
 body{padding-bottom:50px}
-.oband{position:fixed;left:0;right:0;bottom:0;z-index:72;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
+.oband{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:680px;bottom:0;z-index:72;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
 .oband a,.oband button{flex:1;background:none;border:none;font:inherit;font-weight:700;font-size:.78rem;color:#7a4a08;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 2px;cursor:pointer;text-align:center;white-space:nowrap}
 .oband .mid{border-left:1px solid #f3e3c8;border-right:1px solid #f3e3c8}
 .oband img{height:24px;width:auto}
@@ -176,7 +176,7 @@ body{padding-bottom:50px}
         <div class="merit"><span class="merit-ico">✨</span><div><p class="merit-h">SNSしかしていない人にも、自分のページ</p><p>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</p></div></div>
         <div class="merit"><span class="merit-ico">📣</span><div><p class="merit-h">告知は、AIが見回って自動で掲載</p><p>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</p></div></div>
         <div class="merit"><span class="merit-ico">📷</span><div><p class="merit-h">モノは、写真を入れるだけ</p><p>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</p><p style="margin-top:6px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">写真受付箱はこちら</a></p></div></div>
-        <div class="merit"><span class="merit-ico">🎟</span><div><p class="merit-h">条件は、100円券が使えるお店・活動</p><p>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</p></div></div>
+        <div class="merit"><span class="merit-ico">🎟</span><div><p class="merit-h">条件はありません</p><p>100円券が使えるお店・活動にご協力ください！</p></div></div>
         <div class="merit"><span class="merit-ico">🏝</span><div><p class="merit-h">OHANA島もあります</p><p>もうひとつの松山を歩ける「OHANA島」もあります。島でログインしている人は、同じGoogleログインで、ここにもそのまま入れます。<a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">OHANA島へ行く</a></p></div></div>
       </div>
     <div class="see-links">
@@ -223,7 +223,7 @@ body{padding-bottom:50px}
         <div class="merit"><span class="merit-ico">✨</span><div><p class="merit-h">SNSしかしていない人にも、自分のページ</p><p>メンバーになると、AIがあなたの紹介ページを無料で自動で作ります。SNSしかやっていない方でも、自分のページが持てるので、公式HPのように使ってもらえると嬉しいです</p></div></div>
         <div class="merit"><span class="merit-ico">📣</span><div><p class="merit-h">告知は、AIが見回って自動で掲載</p><p>最新情報などの告知は、みんなの掲示板に自動掲載できます。最新情報はAIが見回るので、載せる手間がありません（掲載の前に確認の連絡をします）。すべてAI主導なので無料でできます</p></div></div>
         <div class="merit"><span class="merit-ico">📷</span><div><p class="merit-h">モノは、写真を入れるだけ</p><p>モノ登録は画像だけで商品情報が勝手に入力されるAI出品の仕組みを考えました</p><p style="margin-top:6px"><a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">写真受付箱はこちら</a></p></div></div>
-        <div class="merit"><span class="merit-ico">🎟</span><div><p class="merit-h">条件は、100円券が使えるお店・活動</p><p>掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです！</p></div></div>
+        <div class="merit"><span class="merit-ico">🎟</span><div><p class="merit-h">条件はありません</p><p>100円券が使えるお店・活動にご協力ください！</p></div></div>
       </div>
       </details>
       <ul style="margin-top:6px">
@@ -259,11 +259,7 @@ body{padding-bottom:50px}
       <p class="sub" style="margin-top:8px">モノのページは、写真を<a href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">Googleフォトの写真受付箱</a>に投げると、AIがタイトルと説明を作ります。</p>
     </div>
     <div id="pages-list"></div>
-    <section id="want-sec" style="margin-top:20px;text-align:left">
-      <h3 style="margin-bottom:6px">ほしいもの・気になるリスト</h3>
-      <div id="want-list"></div>
-      <p class="note">モノのページで「ほしい！」、ヒト・コトのページで「気になる」を押すと、ここに集まります。リストの持ち主は、「合いそうな人」でも優先して出ます。</p>
-    </section>
+    
     <div id="trash-area" hidden>
       <h2 class="trash-h">削除したページ</h2>
       <p class="sub">「元に戻す」を押すと、ページ一覧に戻ります。</p>
@@ -460,13 +456,7 @@ function loadMatches(mine){
       snap.forEach(function(u){ if(u.id !== uid && !likerMap[u.id]) likerMap[u.id] = it.title; });
     }).catch(function(){});
   });
-  var myWantOwners = {};
-  try{ (JSON.parse(localStorage.getItem('ohanaWants') || '[]')).forEach(function(x){ if(x && x.owner) myWantOwners[x.owner] = x.title || ''; }); }catch(e){}
-  var wantJob = db.collection('wantLists').doc(uid).get().then(function(s){
-    var items = (s.exists && Array.isArray((s.data() || {}).items)) ? s.data().items : [];
-    items.forEach(function(x){ if(x && x.owner) myWantOwners[x.owner] = x.title || ''; });
-  }).catch(function(){});
-  Promise.all(likeJobs.concat([wantJob])).then(function(){
+  Promise.all(likeJobs).then(function(){
   db.collection('profiles').get().then(function(snap){
     var found = [];
     snap.forEach(function(doc){
@@ -479,11 +469,9 @@ function loadMatches(mine){
       mySeek.forEach(function(t){ if(theirOffer.indexOf(t) >= 0 && reasons.length < 4) reasons.push('「' + t + '」を提供しています'); });
       myOffer.forEach(function(t){ if(theirSeek.indexOf(t) >= 0 && reasons.length < 4) reasons.push('「' + t + '」を探しています'); });
       var likedTitle = (doc.id.indexOf('__') < 0) ? likerMap[doc.id] : null;
-      if(likedTitle){ reasons.unshift('あなたの「' + likedTitle + '」にいいねしました'); }
+      if(likedTitle){ reasons.unshift('あなたの「' + likedTitle + '」が好きになりました'); }
       var ownerOf = doc.id.indexOf('__') < 0 ? doc.id : doc.id.split('__')[0];
-      var wantTitle = myWantOwners[ownerOf];
-      if(wantTitle){ reasons.unshift('ほしいものリストの「' + wantTitle + '」の持ち主です'); }
-      if(reasons.length) found.push({id: doc.id, d: d, reasons: reasons, score: reasons.length + (likedTitle ? 10 : 0) + (wantTitle ? 8 : 0)});
+      if(reasons.length) found.push({id: doc.id, d: d, reasons: reasons, score: reasons.length + (likedTitle ? 10 : 0)});
     });
     found.sort(function(a, b){ return b.score - a.score; });
     if(!found.length){
@@ -961,7 +949,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = "あなたは、愛媛県松山市の「OHANAシェア＊プロジェクト」のOHANAです。サイトを訪れた人の質問に、親しみやすく、短く（1〜3文）答えてください。名前を聞かれたら「OHANAです」と答えてください。\n\n\n・嘘をつかないでください。下の知識に書かれていないことは、絶対に作り話をせず、正直に「分からない」と言ってください。\n・分からないときは、「みんなの掲示板」「みんなの困った・質問」のページ、LINEオープンチャットのどれかを案内してください。困った・質問のページは、主催のMOMOwaRIが直接答える場所です。\n・料金・日時・場所・電話番号は、知識に書かれているものだけを、そのまま正確に伝えてください。似た数字や別の日付を推測で言わないでください。\n・個人の電話番号や住所など、個人情報は答えないでください（お店の公開情報は除きます）。\n・医療・法律・お金の相談には答えず、専門家や掲示板を案内してください。\n・OHANAと関係のない質問には、「OHANAのことなら答えられます」とやんわり返してください。\n・「なんで？」「どうして？」「それは？」のような短い追加の質問は、直前の話題について聞かれているものとして答えてください。\n・ただし、会話の流れからも意味が決められない短い質問（例：「どこから」だけ、「いつ」だけ）は、決めつけて答えず、候補を2つほど示して聞き返してください。例：「どこから」と聞かれたら「登録はどこからか、ですか？それとも、場所（最寄り駅）からの行き方ですか？」のように聞き返します。\n\n\n・OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。対象はヒトモノコトです。理念は「眠っている価値を、必要な場所へ」。\n・主催は松山市のMOMOwaRIです。\n\n\n・無料で配布される券で、買うものではありません。現金への換金はできません。お釣りは出ません。使わずに持っている間は、人に譲れます。受け取ったお店や人は、その券を他のお店で使うことで、券が地域を廻ります。\n・代金の受け取り方は選べます。現金と100円券のミックスもできますし、希望する人は全額100円券で受け取ることもできます。全部100円券に決まっているわけではありません。\n・イベントへの参加は無料です。100円券は無料で配布しています。\n・100円券は、イベントの当日に会場で無料で配布します。「どうやったらもらえるの？」と聞かれたら、そのことを答えてください。\n・なぜ無料なのか聞かれたら：メンバー登録もイベント参加も無料です。紹介ページ作りや最新情報の見回りをAIが担っているので、手間と費用をかけずに運営でき、その分を無料にしています。\n\n\n・不定期開催で、月曜祝日にMAHALOビル（松山市味酒町）で開くことが多いです。次回は2026年11月23日（月・祝）の開催予定です。出店はフリマのほか、ワークショップもできます。詳しい案内はLINEオープンチャットと「みんなの掲示板」でしています。\n\n\n・モノの登録は、Googleフォトの「OHANA 写真受付箱」に写真を入れるだけでも始められます。メンバー登録はあとからでも大丈夫で、登録すれば、投げた写真のページがその人のページに連携します。\n・OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。SNSしかやっていない人は、AI検索で見つけてもらいにくいことがあります。紹介ページがあると、検索やAIに見つけてもらう助けになります。お店の方も個人の方も、オンラインだけで活動している方もOKです。掲載の条件は、OHANA100円券が使えるお店・活動にしていただくことです。メンバー登録は、サイトの「無料メンバー登録」ボタンからGoogleでログインするだけです。\n\n\n・質問や相談は「みんなの困った・質問」のページに、ログインなしで書けます。お知らせは「みんなの掲示板」に書けます。\n\n\n・ビル全体：古町駅から徒歩約3分、駐車場は3台（店舗内1台・契約駐車場2か所）。\n・hair ID salon MAHALO（2階の美容室）：9:00〜18:00受付、定休日は月曜、電話089-934-1455。\n・elua Mahalo（1階の女性限定美容室）：水〜金10:00〜17:00、土日祝9:00〜18:00、定休日は月・火。完全予約制・マンツーマン、電話089-934-1587。\n・Eyes MAHALO（1階のまつげパーマ専門店）：まつげパーマ歴15年以上。遠赤外線のキラ水とアイマスクを使う施術です（温める施術ではありません）。基本メニュー4,000円、根元メニュー3,000円。対応時間は7:30〜19:30（月〜土）、日・祝は要相談。予約と空き確認は公式LINEが確実です。電話番号は案内しないでください。\n・雑貨屋 Lea Mahalo（1階の雑貨屋）：実店舗は来店予約制です。メルカリでも販売していて、購入の前には在庫確認のコメントが必要です。\n\n\n・LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」：https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ\n";
+var SYS = "あなたは、愛媛県松山市の「OHANAシェア＊プロジェクト」のOHANAです。サイトを訪れた人の質問に、親しみやすく、短く（1〜3文）答えてください。名前を聞かれたら「OHANAです」と答えてください。\n\n\n・嘘をつかないでください。下の知識に書かれていないことは、絶対に作り話をせず、正直に「分からない」と言ってください。\n・分からないときは、「みんなの掲示板」「みんなの困った・質問」のページ、LINEオープンチャットのどれかを案内してください。困った・質問のページは、主催のMOMOwaRIが直接答える場所です。\n・料金・日時・場所・電話番号は、知識に書かれているものだけを、そのまま正確に伝えてください。似た数字や別の日付を推測で言わないでください。\n・個人の電話番号や住所など、個人情報は答えないでください（お店の公開情報は除きます）。\n・医療・法律・お金の相談には答えず、専門家や掲示板を案内してください。\n・OHANAと関係のない質問には、「OHANAのことなら答えられます」とやんわり返してください。\n・「なんで？」「どうして？」「それは？」のような短い追加の質問は、直前の話題について聞かれているものとして答えてください。\n・ただし、会話の流れからも意味が決められない短い質問（例：「どこから」だけ、「いつ」だけ）は、決めつけて答えず、候補を2つほど示して聞き返してください。例：「どこから」と聞かれたら「登録はどこからか、ですか？それとも、場所（最寄り駅）からの行き方ですか？」のように聞き返します。\n\n\n・OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。対象はヒトモノコトです。理念は「眠っている価値を、必要な場所へ」。\n・主催は松山市のMOMOwaRIです。\n\n\n・無料で配布される券で、買うものではありません。現金への換金はできません。お釣りは出ません。使わずに持っている間は、人に譲れます。受け取ったお店や人は、その券を他のお店で使うことで、券が地域を廻ります。\n・代金の受け取り方は選べます。現金と100円券のミックスもできますし、希望する人は全額100円券で受け取ることもできます。全部100円券に決まっているわけではありません。\n・イベントへの参加は無料です。100円券は無料で配布しています。\n・100円券は、イベントの当日に会場で無料で配布します。「どうやったらもらえるの？」と聞かれたら、そのことを答えてください。\n・なぜ無料なのか聞かれたら：メンバー登録もイベント参加も無料です。紹介ページ作りや最新情報の見回りをAIが担っているので、手間と費用をかけずに運営でき、その分を無料にしています。\n\n\n・不定期開催で、月曜祝日にMAHALOビル（松山市味酒町）で開くことが多いです。次回は2026年11月23日（月・祝）の開催予定です。出店はフリマのほか、ワークショップもできます。詳しい案内はLINEオープンチャットと「みんなの掲示板」でしています。\n\n\n・モノの登録は、Googleフォトの「OHANA 写真受付箱」に写真を入れるだけでも始められます。メンバー登録はあとからでも大丈夫で、登録すれば、投げた写真のページがその人のページに連携します。\n・OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。SNSしかやっていない人は、AI検索で見つけてもらいにくいことがあります。紹介ページがあると、検索やAIに見つけてもらう助けになります。お店の方も個人の方も、オンラインだけで活動している方もOKです。掲載の条件は特にありません。100円券が使えるお店・活動にご協力ください！メンバー登録は、サイトの「無料メンバー登録」ボタンからGoogleでログインするだけです。\n\n\n・質問や相談は「みんなの困った・質問」のページに、ログインなしで書けます。お知らせは「みんなの掲示板」に書けます。\n\n\n・ビル全体：古町駅から徒歩約3分、駐車場は3台（店舗内1台・契約駐車場2か所）。\n・hair ID salon MAHALO（2階の美容室）：9:00〜18:00受付、定休日は月曜、電話089-934-1455。\n・elua Mahalo（1階の女性限定美容室）：水〜金10:00〜17:00、土日祝9:00〜18:00、定休日は月・火。完全予約制・マンツーマン、電話089-934-1587。\n・Eyes MAHALO（1階のまつげパーマ専門店）：まつげパーマ歴15年以上。遠赤外線のキラ水とアイマスクを使う施術です（温める施術ではありません）。基本メニュー4,000円、根元メニュー3,000円。対応時間は7:30〜19:30（月〜土）、日・祝は要相談。予約と空き確認は公式LINEが確実です。電話番号は案内しないでください。\n・雑貨屋 Lea Mahalo（1階の雑貨屋）：実店舗は来店予約制です。メルカリでも販売していて、購入の前には在庫確認のコメントが必要です。\n\n\n・LINEオープンチャット「OHANAシェア❇︎プロジェクト★愛媛」：https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ\n";
 try {
   var aiApp = initializeApp({
   apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
@@ -1090,26 +1078,24 @@ list.forEach(function(el){ io.observe(el); });
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
-#site-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;background:#fff;border:1.5px solid #e0a458;border-radius:999px;box-shadow:0 8px 24px rgba(120,70,10,.25);padding:8px 10px;display:none;gap:8px;align-items:center}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:none;gap:8px;align-items:center;padding:10px 14px}
 #site-savebar.on{display:flex}
-#site-savebar button{font-family:inherit;font-weight:bold;border-radius:999px;padding:9px 18px;cursor:pointer}
-#sb-save{background:#e07b24;color:#fff;border:none}
-#sb-cancel{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
-#sb-msg{font-size:.82rem;color:#8a6a4f}
+#site-savebar button{font-family:inherit;font-weight:bold;background:none;border:none;color:#b3541e;font-size:.9rem;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+#sb-cancel{color:#8a6a4f}
+#sb-msg{font-size:.82rem;color:#8a6a4f;flex:1}
 .ied-panel{background:#fff;border:1.5px solid #e0a458;border-radius:14px;padding:14px;margin:12px 0;text-align:left}
 .ied-panel h3{font-size:1rem;margin-bottom:8px}
 .ied-panel label{display:block;font-size:.85rem;font-weight:bold;margin-top:10px}
 .ied-panel input[type="text"],.ied-panel textarea{width:100%;font-family:inherit;font-size:1rem;padding:9px 11px;border:1.5px solid #e8cfa5;border-radius:10px;background:#fffdf8}
-#color-fab{position:fixed;top:58px;right:max(10px, calc(50% - 350px));z-index:96;display:none;background:#fff;border:1.5px solid #e0a458;color:#8a6a4f;border-radius:999px;padding:8px 14px;font-family:inherit;font-weight:bold;font-size:.9rem;cursor:pointer;box-shadow:0 4px 14px rgba(120,70,10,.18)}
-#color-fab.on{display:block}
-#color-panel{position:fixed;top:56px;left:10px;z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:14px;box-shadow:0 10px 28px rgba(120,70,10,.25);padding:14px;width:250px;display:none}
+#color-link{display:none;background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff}
+#color-link.on{display:inline-block}
+#color-panel{position:fixed;top:56px;right:max(10px, calc(50% - 350px));z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:14px;box-shadow:0 10px 28px rgba(120,70,10,.25);padding:14px;width:250px;display:none}
 #color-panel.on{display:block}
 #color-panel h3{font-size:.95rem;margin-bottom:8px}
 #color-panel input[type="color"]{width:100%;height:44px;border:1.5px solid #e8cfa5;border-radius:10px;background:#fff;padding:2px;cursor:pointer}
 #color-panel .crow{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
-#color-panel button{font-family:inherit;font-weight:bold;border-radius:999px;padding:7px 14px;cursor:pointer}
-#cp-save{background:#e07b24;color:#fff;border:none}
-#cp-close{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
+#color-panel button{font-family:inherit;font-weight:bold;background:none;border:none;color:#b3541e;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+#cp-close{color:#8a6a4f}
 #cp-msg{font-size:.85rem;color:#8a6a4f}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -1135,7 +1121,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 }); } }catch(e){} }
   function db(){ return firebase.firestore(); }
   function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
-  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-fab,#color-panel,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,#box-home,#box-login,#pages-list,#match-card,#match-list,#trash-area,#want-sec,#want-list,#hub-msg,#page-title'); }
+  function excluded(el){ return !!el.closest('.film,.ofabs,.opanel,.sns,.tags,#live-sec,#site-savebar,.ied-panel,#color-link,#color-panel,.pagenav3,.pcomments,.istats,footer,.fab-line,.ptiles,.matchbtns,[data-lock],script,style,textarea,select,.authbar-row,#box-home,#box-login,#pages-list,#match-card,#match-list,#trash-area,#want-sec,#want-list,#hub-msg,#page-title'); }
   function targets(){
     var out = [];
     document.querySelectorAll('.wrap *').forEach(function(el){
@@ -1164,7 +1150,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   function stampLinks(){
     linkList = [];
     document.querySelectorAll('.wrap a[href]').forEach(function(a){
-      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3,.pcomments,footer,.fab-line,.ptiles,.matchbtns,[data-lock]')) return;
+      if(a.closest('.ofabs,.opanel,.ied-panel,.tags,#site-savebar,.pagenav3,.pcomments,.istats,footer,.fab-line,.ptiles,.matchbtns,[data-lock]')) return;
       if(commonLink(a)) return;
       a.setAttribute('data-lk', String(linkList.length));
       linkList.push({el: a, text: a.textContent.trim(), href: a.getAttribute('href'), html: a.innerHTML});
@@ -1246,15 +1232,25 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     document.querySelectorAll('#live-rows .lchip').forEach(function(el){ el.style.background = tint; el.style.color = ink; });
   }
   function buildColorUI(){
-    var fab = document.createElement('button');
-    fab.id = 'color-fab'; fab.type = 'button'; fab.textContent = '🎨 色';
-    document.body.appendChild(fab);
+    var link = document.createElement('button');
+    link.id = 'color-link'; link.type = 'button'; link.textContent = '🎨 色';
     var panel = document.createElement('div');
     panel.id = 'color-panel';
-    panel.innerHTML = '<h3>ページの色</h3><input type="color" id="cp-input" value="#e07b24"><div class="crow"><button type="button" id="cp-save">保存する</button><button type="button" id="cp-close">閉じる</button><span id="cp-msg"></span></div><p style="font-size:.8rem;color:#8a6a4f;margin-top:8px">色を選ぶと、その場で変わります。「保存する」を押すと、来た人にもその色で見えます。</p>';
+    panel.innerHTML = '<h3>ページの色</h3><input type="color" id="cp-input" value="#e07b24"><div class="crow"><button type="button" id="cp-save">保存する</button><button type="button" id="cp-close">閉じる</button><span id="cp-msg"></span></div>';
     document.body.appendChild(panel);
+    function attach(){
+      var row = window.__authBtn && window.__authBtn.parentNode;
+      if(row && !document.getElementById('color-link')) row.appendChild(link);
+      return !!document.getElementById('color-link');
+    }
+    if(!attach()){
+      var tries = 0;
+      var t = setInterval(function(){
+        if(attach() || ++tries > 20) clearInterval(t);
+      }, 100);
+    }
     var input = panel.querySelector('#cp-input'), msg = panel.querySelector('#cp-msg');
-    fab.addEventListener('click', function(){
+    link.addEventListener('click', function(){
       panel.classList.toggle('on');
       if(themeColor) input.value = themeColor;
       msg.textContent = '';
@@ -1274,7 +1270,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     });
     if(window.firebase && firebase.auth){
       firebase.auth().onAuthStateChanged(function(u){
-        if(u && u.uid === OWNER) fab.classList.add('on');
+        if(u && u.uid === OWNER) link.classList.add('on');
       });
     }
   }
@@ -1574,11 +1570,12 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     }
     var bar = document.createElement('div');
     bar.id = 'site-savebar';
-    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">キャンセル</button>';
+    bar.innerHTML = '<span style="font-size:.85rem;color:#8a6a4f;font-weight:bold">編集中</span><span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">キャンセル</button>';
     document.body.appendChild(bar);
     $('sb-save').addEventListener('click', saveAll);
     $('sb-cancel').addEventListener('click', function(){ if(confirm('保存していない変更を、元に戻しますか？')){ undoEdit(); setEdit(false); } });
     buildColorUI();
+    firebase.auth().onAuthStateChanged(function(u){ if(!u && editing) setEdit(false); });
     window.__toggleSiteEdit = function(){ if(editing){ saveAll(); } else { setEdit(true); } };
     window.__isSiteEditing = function(){ return editing; };
   }
@@ -1589,60 +1586,60 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 
 
-<script>
-(function(){
-  var LSKEY = 'ohanaWants';
-  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function start(){
-    if(!window.firebase || !firebase.auth){ setTimeout(start, 800); return; }
-    firebase.auth().onAuthStateChanged(function(u){
-      var box = document.getElementById('want-list');
-      if(!box) return;
-      if(!u){ box.innerHTML = ''; return; }
-      var list = [];
-      try{ list = JSON.parse(localStorage.getItem(LSKEY) || '[]'); if(!Array.isArray(list)) list = []; }catch(e){ list = []; }
-      function cleanTitles(){ list.forEach(function(x){ if(x && x.title) x.title = String(x.title).replace(/島アバター\s*$/, '').trim(); }); }
-      cleanTitles();
-      function render(){
-        if(!list.length){ box.innerHTML = '<p class="sub">まだありません。気になるページでボタンを押してみてください。</p>'; return; }
-        var h = '';
-        list.forEach(function(x, i){
-          h += '<div style="display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #f0e2cd;border-radius:12px;padding:8px 10px;margin-top:8px">'
-            + (x.photo ? '<img src="' + esc(x.photo) + '" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px;flex:none">' : '')
-            + '<a href="' + esc(x.href || '#') + '" style="flex:1;font-weight:bold;color:#b3541e;text-decoration:none">' + esc(x.title || x.id) + '</a>'
-            + '<button type="button" data-wdel="' + i + '" style="font-family:inherit;background:#fff;border:1.5px solid #d8a49e;color:#b03a2e;border-radius:999px;padding:4px 12px;cursor:pointer;flex:none">外す</button></div>';
-        });
-        box.innerHTML = h;
-        box.querySelectorAll('[data-wdel]').forEach(function(b){
-          b.addEventListener('click', function(){
-            list.splice(Number(b.getAttribute('data-wdel')), 1);
-            try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
-            firebase.firestore().collection('wantLists').doc(u.uid).set({items: list, updatedAt: Date.now()}).catch(function(){});
-            render();
-          });
-        });
-      }
-      firebase.firestore().collection('wantLists').doc(u.uid).get().then(function(s){
-        var remote = (s.exists && Array.isArray((s.data() || {}).items)) ? s.data().items : [];
-        var seen = {};
-        list.forEach(function(x){ seen[x.id] = 1; });
-        remote.forEach(function(x){ if(!seen[x.id]) list.push(x); });
-        cleanTitles();
-        try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){}
-        if(JSON.stringify(remote) !== JSON.stringify(list)){ firebase.firestore().collection('wantLists').doc(u.uid).set({items: list, updatedAt: Date.now()}).catch(function(){}); }
-        render();
-      }).catch(function(){ render(); });
-    });
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-})();
-</script>
+
+
 
 
 <style>/* edit-dash-all: editable media also gets the dashed outline while editing */
 body.site-editing .film img,body.site-editing .hero-pv,body.site-editing iframe.map{outline:2px dashed rgba(224,123,36,.65);outline-offset:2px}
 body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 </style>
+
+
+<!-- omenu: hamburger (OHANA-share only) -->
+<div class="omenu" data-lock>
+<span class="omenu-btn" id="omenu-btn" role="button" aria-label="メニュー" aria-expanded="false" tabindex="0">☰</span>
+<nav class="omenu-panel" id="omenu-panel" hidden>
+<a href="index.html">トップ</a>
+<a href="hito.html">ヒトの一覧</a>
+<a href="mono.html">モノの一覧</a>
+<a href="koto.html">コトの一覧</a>
+<a href="members/select-ehime.html">セレクト愛媛情報</a>
+<a href="members/select-ehime-map.html">セレクト愛媛MAP</a>
+<a href="login.html">マイページ</a>
+<a href="https://momowari.github.io/ohana-jima/">OHANA島</a>
+<a href="https://momowari.github.io/">入口ページ</a>
+</nav>
+</div>
+<style>
+.omenu{position:fixed;top:8px;left:max(8px,calc(50% - 350px));z-index:80;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
+.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:#b96a00;background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
+.omenu-panel{position:fixed;top:56px;left:max(10px,calc(50% - 350px));background:#fff;border:1px solid #eadfc9;border-radius:14px;box-shadow:0 8px 24px rgba(80,60,20,.14);padding:8px 0;min-width:216px;opacity:0;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease}
+.omenu-panel.open{opacity:1;transform:translateY(0)}
+.omenu-panel[hidden]{display:none!important}
+.omenu-panel a{display:block;padding:10px 18px;font-size:15px;color:#33302b;text-decoration:none;line-height:1.5}
+.omenu-panel a:active,.omenu-panel a:hover{background:#fff7e8}
+</style>
+<script>
+(function(){
+var btn=document.getElementById('omenu-btn'), panel=document.getElementById('omenu-panel');
+if(!btn||!panel) return;
+function close(){ panel.classList.remove('open'); panel.hidden=true; btn.setAttribute('aria-expanded','false'); }
+function toggle(){
+  if(panel.hidden){ panel.hidden=false; requestAnimationFrame(function(){ panel.classList.add('open'); }); btn.setAttribute('aria-expanded','true'); }
+  else close();
+}
+btn.addEventListener('click',function(e){ e.stopPropagation(); toggle(); });
+panel.addEventListener('click',function(e){ if(e.target.closest('a')) close(); });
+document.addEventListener('click',function(e){ if(!panel.hidden && !e.target.closest('.omenu')) close(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.hidden) close(); });
+})();
+</script>
+
+<nav class="oband" data-lock aria-label="下部メニュー"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a><a class="mid" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a><button type="button" onclick="event.stopPropagation();document.getElementById('ofab-bot').click()"><img src="img-992cf83a89.png" alt="">OHANAに質問する</button></nav>
+
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
+
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
 <script>
@@ -1709,7 +1706,7 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
     "おもちゃ・グッズ": "Toys & Goods",
     "その他": "Other",
     "おすすめ順": "Recommended",
-    "人気順（いいね）": "Most liked",
+    "人気順（好き）": "Most liked",
     "閲覧数順": "Most viewed",
     "新着順": "Newest",
     "並び替え": "Sort",
@@ -1783,9 +1780,9 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
     "写真を消す": "Remove photo",
     "ホームページ": "Website",
     "メニュー・料金ページ": "Menu & prices page",
-    "♥ いいね": "♥ Like",
-    "♥ いいね済み": "♥ Liked",
-    "いいねした人": "People who liked this",
+    "♥ 好き": "♥ Like",
+    "♥ 好き済み": "♥ Liked",
+    "好きな人": "People who liked this",
     "見た人": "Viewers",
     "コメント": "Comments",
     "コメントを書く": "Write a comment",
@@ -1848,7 +1845,7 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
     "おもちゃ・グッズ": "玩具・周边",
     "その他": "其他",
     "おすすめ順": "推荐顺序",
-    "人気順（いいね）": "人气（点赞）",
+    "人気順（好き）": "人气（点赞）",
     "閲覧数順": "浏览量",
     "新着順": "最新",
     "並び替え": "排序",
@@ -1922,9 +1919,9 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
     "写真を消す": "删除照片",
     "ホームページ": "网站",
     "メニュー・料金ページ": "菜单・价格页",
-    "♥ いいね": "♥ 点赞",
-    "♥ いいね済み": "♥ 已点赞",
-    "いいねした人": "点赞的人",
+    "♥ 好き": "♥ 点赞",
+    "♥ 好き済み": "♥ 已点赞",
+    "好きな人": "点赞的人",
     "見た人": "看过的人",
     "コメント": "评论",
     "コメントを書く": "写评论",
@@ -1987,7 +1984,7 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
     "おもちゃ・グッズ": "장난감·굿즈",
     "その他": "기타",
     "おすすめ順": "추천순",
-    "人気順（いいね）": "인기순 (좋아요)",
+    "人気順（好き）": "인기순 (좋아요)",
     "閲覧数順": "조회수순",
     "新着順": "최신순",
     "並び替え": "정렬",
@@ -2061,9 +2058,9 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
     "写真を消す": "사진 삭제",
     "ホームページ": "홈페이지",
     "メニュー・料金ページ": "메뉴·요금 페이지",
-    "♥ いいね": "♥ 좋아요",
-    "♥ いいね済み": "♥ 좋아요 완료",
-    "いいねした人": "좋아요한 사람",
+    "♥ 好き": "♥ 좋아요",
+    "♥ 好き済み": "♥ 좋아요 완료",
+    "好きな人": "좋아요한 사람",
     "見た人": "본 사람",
     "コメント": "댓글",
     "コメントを書く": "댓글 쓰기",
@@ -2156,47 +2153,5 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
-<!-- omenu: hamburger (OHANA-share only) -->
-<div class="omenu" data-lock>
-<span class="omenu-btn" id="omenu-btn" role="button" aria-label="メニュー" aria-expanded="false" tabindex="0">☰</span>
-<nav class="omenu-panel" id="omenu-panel" hidden>
-<a href="index.html">トップ</a>
-<a href="hito.html">ヒトの一覧</a>
-<a href="mono.html">モノの一覧</a>
-<a href="koto.html">コトの一覧</a>
-<a href="members/select-ehime.html">セレクト愛媛情報</a>
-<a href="members/select-ehime-map.html">セレクト愛媛MAP</a>
-<a href="login.html">マイページ</a>
-<a href="https://momowari.github.io/ohana-jima/">OHANA島</a>
-<a href="https://momowari.github.io/">入口ページ</a>
-</nav>
-</div>
-<style>
-.omenu{position:fixed;top:8px;left:8px;z-index:80;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
-.omenu-btn{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:21px;color:#b96a00;background:rgba(255,250,241,.88);border-radius:50%;cursor:pointer;line-height:1;user-select:none;-webkit-user-select:none}
-.omenu-panel{position:fixed;top:56px;left:10px;background:#fff;border:1px solid #eadfc9;border-radius:14px;box-shadow:0 8px 24px rgba(80,60,20,.14);padding:8px 0;min-width:216px;opacity:0;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease}
-.omenu-panel.open{opacity:1;transform:translateY(0)}
-.omenu-panel[hidden]{display:none!important}
-.omenu-panel a{display:block;padding:10px 18px;font-size:15px;color:#33302b;text-decoration:none;line-height:1.5}
-.omenu-panel a:active,.omenu-panel a:hover{background:#fff7e8}
-</style>
-<script>
-(function(){
-var btn=document.getElementById('omenu-btn'), panel=document.getElementById('omenu-panel');
-if(!btn||!panel) return;
-function close(){ panel.classList.remove('open'); panel.hidden=true; btn.setAttribute('aria-expanded','false'); }
-function toggle(){
-  if(panel.hidden){ panel.hidden=false; requestAnimationFrame(function(){ panel.classList.add('open'); }); btn.setAttribute('aria-expanded','true'); }
-  else close();
-}
-btn.addEventListener('click',function(e){ e.stopPropagation(); toggle(); });
-panel.addEventListener('click',function(e){ if(e.target.closest('a')) close(); });
-document.addEventListener('click',function(e){ if(!panel.hidden && !e.target.closest('.omenu')) close(); });
-document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.hidden) close(); });
-})();
-</script>
-
-<nav class="oband" data-lock aria-label="下部メニュー"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a><a class="mid" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a><button type="button" onclick="event.stopPropagation();document.getElementById('ofab-bot').click()"><img src="img-992cf83a89.png" alt="">OHANAに質問する</button></nav>
 </body>
 </html>
