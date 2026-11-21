@@ -336,9 +336,71 @@ body{padding-bottom:50px}
 <p class="sub">ハニーポットを持ったくまのプーさん、リラックマ、クリーム色のクマ顔クッションのセットです。</p>
 <div class="tags"><a class="tag" href="../mono.html?tag=%E6%9D%BE%E5%B1%B1%E5%B8%82">松山市</a><a class="tag" href="../mono.html?tag=%E3%81%AC%E3%81%84%E3%81%90%E3%82%8B%E3%81%BF">ぬいぐるみ</a><a class="tag" href="../mono.html?tag=%E3%83%97%E3%83%BC%E3%81%95%E3%82%93">プーさん</a><a class="tag" href="../mono.html?tag=%E3%83%AA%E3%83%A9%E3%83%83%E3%82%AF%E3%83%9E">リラックマ</a><a class="tag" href="../mono.html?tag=OHANA%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC">OHANAメンバー</a></div>
 <div class="ctarow">
-<a class="main" href="../board.html">メッセージ</a>
+<button type="button" class="main" id="msg-open" style="font-family:inherit;cursor:pointer">メッセージ</button>
 <a class="sub2" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャットで聞く</a>
 </div>
+<div id="msg-panel" style="display:none;margin:10px auto 2px;max-width:520px;background:#fff;border:1.5px solid #f0cf9a;border-radius:14px;padding:12px 14px;text-align:left">
+  <p style="margin:0 0 8px;font-weight:bold;color:#8a5a1d;font-size:.92rem">持ち主へメッセージ</p>
+  <div id="msg-guest" style="display:none;font-size:.9rem;color:#6b5136">メッセージはログインすると送れます。<a href="../login.html" style="color:#b3541e;font-weight:bold">ログイン</a> ／ <a href="../login.html" style="color:#b3541e;font-weight:bold">メンバー登録（無料）</a></div>
+  <div id="msg-self" style="display:none;font-size:.9rem;color:#6b5136">これはあなたのモノです。</div>
+  <div id="msg-form" style="display:none">
+    <textarea id="msg-text" rows="3" placeholder="メッセージを書く" style="width:100%;box-sizing:border-box;border:1.5px solid #e8d9bd;border-radius:10px;padding:8px 10px;font-family:inherit;font-size:.92rem"></textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;align-items:center">
+      <button type="button" id="msg-send" style="background:#e07b24;color:#fff;border:none;font-weight:bold;font-family:inherit;font-size:.9rem;border-radius:999px;padding:8px 22px;cursor:pointer">送る</button>
+      <span id="msg-status" style="font-size:.85rem;color:#8a5a1d"></span>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var openBtn = document.getElementById('msg-open');
+  var panel = document.getElementById('msg-panel');
+  if(!openBtn || !panel) return;
+  openBtn.addEventListener('click', function(){ panel.style.display = panel.style.display === 'none' ? '' : 'none'; });
+  var tries = 0;
+  (function wait(){
+    if(window.firebase && firebase.auth && firebase.firestore){ init(); return; }
+    if(++tries < 60) setTimeout(wait, 250);
+  })();
+  function init(){
+    try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); }catch(e){}
+    firebase.auth().onAuthStateChanged(function(u){
+      document.getElementById('msg-guest').style.display = u ? 'none' : '';
+      document.getElementById('msg-self').style.display = (u && u.uid === OWNER) ? '' : 'none';
+      document.getElementById('msg-form').style.display = (u && u.uid !== OWNER) ? '' : 'none';
+    });
+    document.getElementById('msg-send').addEventListener('click', function(){
+      var u = firebase.auth().currentUser;
+      if(!u) return;
+      var text = document.getElementById('msg-text').value.replace(/\s+$/,'');
+      var st = document.getElementById('msg-status');
+      if(!text){ st.textContent = 'メッセージを書いてください'; return; }
+      var btn = this; btn.disabled = true; st.textContent = '送信中…';
+      var db = firebase.firestore();
+      var itemName = (document.querySelector('h1') || {}).textContent || '';
+      itemName = itemName.replace(/\s+/g,' ').replace(/^\s+|\s+$/g,'');
+      db.collection('profiles').doc(u.uid).get().then(function(d){
+        var name = (d.exists && d.data().nickname) || 'メンバー';
+        return db.collection('notices').add({ toUid: OWNER, kind: 'msg', fromName: name, itemName: itemName, text: text.slice(0, 1000), ts: Date.now(), read: false }).then(function(){ return name; });
+      }).then(function(name){
+        try{
+          var body = new URLSearchParams(); body.set('k', 'ohana-island-notify-2026'); body.set('kind', 'notice'); body.set('toUid', OWNER);
+          body.set('text', '✉️ ' + name + 'さんからメッセージ（「' + itemName + '」について）：' + text.slice(0, 300));
+          fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', { method: 'POST', mode: 'no-cors', body: body });
+        }catch(e){}
+        st.textContent = '送りました';
+        document.getElementById('msg-text').value = '';
+        btn.disabled = false;
+      }).catch(function(){
+        st.textContent = '送れませんでした。時間をおいて試してください';
+        btn.disabled = false;
+      });
+    });
+  }
+})();
+</script>
+
 </header>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 <section>
