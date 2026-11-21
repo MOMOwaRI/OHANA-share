@@ -2323,5 +2323,27 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
   render();
 })();
 </script>
+
+<script id="mailreg-script">
+(function(){
+  var URL = 'https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec';
+  var wired = false;
+  function wire(){
+    if(wired) return;
+    if(!window.firebase || !firebase.auth){ setTimeout(wire, 300); return; }
+    wired = true;
+    firebase.auth().onAuthStateChanged(function(user){
+      if(!user || !user.email) return;
+      var key = 'mailReg:' + user.uid;
+      try{ if(sessionStorage.getItem(key)) return; sessionStorage.setItem(key, '1'); }catch(e){}
+      try{
+        fetch(URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ k: 'ohana-island-notify-2026', kind: 'register-email', uid: user.uid, email: user.email }).toString() }).catch(function(){});
+      }catch(e){}
+    });
+  }
+  wire(); setTimeout(wire, 3000); setTimeout(wire, 8000);
+})();
+</script>
 </body>
 </html>

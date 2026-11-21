@@ -2360,13 +2360,17 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 })();
 </script>
 
+
+
+
+
 <!-- page-comments: guest comment / Q&A section for a member page.
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing ELCzyeeoDCU4gveavc077L4jBqE3__pelua01 / ELCzyeeoDCU4gveavc077L4jBqE3. -->
 <style>
 .pcomments .pc-btn{font-family:inherit;font-weight:bold;background:#fff;color:#b3541e;border:1.5px solid #e0a458;border-radius:999px;padding:9px 18px;cursor:pointer}
 .pcomments .pc-send{font-family:inherit;font-weight:bold;background:#e07b24;color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer}
-.pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px}
+.pcomments .pc-item{border-top:1px solid #f0e2cd;padding:10px 2px;overflow-wrap:anywhere}
 .pcomments .pc-item .pc-name{font-weight:bold}
 .pcomments .pc-badge{background:#fde8ef;border:1px solid #e58bb1;color:#c2437e;border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:bold;margin-left:6px}
 .pcomments .pc-date{color:#a3805a;font-size:.8rem;margin-left:6px}
@@ -2477,6 +2481,10 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
               toUid: TARGET_UID, kind: 'comment', pageId: PAGE_ID,
               fromName: name, text: text.slice(0, 100), ts: Date.now(), read: false
             }).catch(function(){});
+            try {
+              fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ k: 'ohana-island-notify-2026', kind: 'notice', toUid: TARGET_UID, text: name + 'さんがあなたのページにコメントしました「' + text.slice(0, 60) + '」' }).toString() }).catch(function(){});
+            } catch (e) {}
           }catch(e){}
         }
         $('pc-text').value = '';

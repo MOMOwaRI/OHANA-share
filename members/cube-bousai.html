@@ -974,6 +974,10 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
               toUid: TARGET_UID, kind: 'comment', pageId: PAGE_ID,
               fromName: name, text: text.slice(0, 100), ts: Date.now(), read: false
             }).catch(function(){});
+            try {
+              fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ k: 'ohana-island-notify-2026', kind: 'notice', toUid: TARGET_UID, text: name + 'さんがあなたのページにコメントしました「' + text.slice(0, 60) + '」' }).toString() }).catch(function(){});
+            } catch (e) {}
           }catch(e){}
         }
         $('pc-text').value = '';
