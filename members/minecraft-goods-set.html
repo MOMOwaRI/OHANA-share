@@ -215,7 +215,7 @@ body{padding-bottom:50px}
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><button type="button" class="lkbtn" id="istat-likebtn" title="好きな人を見る">♥ <span id="istat-likes">0</span></button><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -277,7 +277,6 @@ body{padding-bottom:50px}
         Promise.all(jobs).then(function(chips){
           row.innerHTML = '<span>' + label + '</span>' + chips.join('');
           row.dataset.has = '1';
-          row.style.display = 'flex';
         });
       }).catch(function(){});
     }
@@ -290,6 +289,13 @@ body{padding-bottom:50px}
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
       else { row.innerHTML = '<span>🐾 足あと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+    }); }
+    var likeBtn = document.getElementById('istat-likebtn');
+    if(likeBtn){ likeBtn.addEventListener('click', function(){
+      var row = document.getElementById('ilikers');
+      if(!row) return;
+      if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
+      else { row.innerHTML = '<span>♥ 好きな人</span><span style="color:#8a6a4f">まだいません</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -330,7 +336,7 @@ body{padding-bottom:50px}
 <p class="sub">トートバッグ、サンダル、キャップ、ポーチ、靴下、文具など。未開封のものが多く含まれます。</p>
 <div class="tags"><a class="tag" href="../mono.html?tag=%E6%9D%BE%E5%B1%B1%E5%B8%82">松山市</a><a class="tag" href="../mono.html?tag=%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%B0%E3%83%83%E3%82%BA">ゲームグッズ</a><a class="tag" href="../mono.html?tag=%E3%83%9E%E3%82%A4%E3%83%B3%E3%82%AF%E3%83%A9%E3%83%95%E3%83%88">マインクラフト</a><a class="tag" href="../mono.html?tag=OHANA%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC">OHANAメンバー</a></div>
 <div class="ctarow">
-<a class="main" href="../board.html">このモノについて聞く（掲示板）</a>
+<a class="main" href="../board.html">メッセージ</a>
 <a class="sub2" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">オープンチャットで聞く</a>
 </div>
 </header>
@@ -745,7 +751,7 @@ try {
   var DOC = '';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
   function memberKnown(){ try{ return !!localStorage.getItem('ohana_member'); }catch(e){ return false; } }
-  function memberLabel(){ return 'ログイン／メンバー登録（無料）'; }
+  function memberLabel(){ return 'ログイン／​メンバー登録（無料）'; }
   function init(){
     if(!window.firebase || !firebase.auth) return;
     try{ if(!firebase.apps.length) firebase.initializeApp({
@@ -758,7 +764,7 @@ try {
 }); }catch(e){}
     var btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = 'ログイン／メンバー登録（無料）';
+    btn.textContent = 'ログイン／​メンバー登録（無料）';
     btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
@@ -1463,7 +1469,7 @@ list.forEach(function(el){ io.observe(el); });
   var DOC = '';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
   function memberKnown(){ try{ return !!localStorage.getItem('ohana_member'); }catch(e){ return false; } }
-  function memberLabel(){ return 'ログイン／メンバー登録（無料）'; }
+  function memberLabel(){ return 'ログイン／​メンバー登録（無料）'; }
   function init(){
     if(!window.firebase || !firebase.auth) return;
     try{ if(!firebase.apps.length) firebase.initializeApp({
@@ -1476,11 +1482,12 @@ list.forEach(function(el){ io.observe(el); });
 }); }catch(e){}
     var btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = 'ログイン／メンバー登録（無料）';
+    btn.textContent = 'ログイン／​メンバー登録（無料）';
     btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
+    if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '54vw'; rowEl.style.flexWrap = 'wrap'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'normal'; btn.style.textAlign = 'right'; btn.style.wordBreak = 'keep-all'; }
     rowEl.appendChild(btn);
     window.__authBtn = btn;
     var btn2 = document.createElement('a');
@@ -1540,7 +1547,7 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
 .irow .ip .ini{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:bold;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
 .item .stats{display:block;margin-top:5px;font-size:.8rem;color:#a3805a}
 </style>
-<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><span>♥ <span id="istat-likes">0</span></span><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
+<div class="istats"><button type="button" class="lkbtn" id="istat-feet" title="足あとを見る">🐾 <span id="istat-views">…</span></button><button type="button" class="lkbtn" id="istat-likebtn" title="好きな人を見る">♥ <span id="istat-likes">0</span></button><button type="button" class="lkbtn" id="istat-like">♥ 好き</button></div>
 <div class="irow" id="ilikers" style="display:none"></div>
 <div class="irow" id="ifeet" style="display:none"></div>
 <script>
@@ -1599,7 +1606,6 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
         Promise.all(jobs).then(function(chips){
           row.innerHTML = '<span>' + label + '</span>' + chips.join('');
           row.dataset.has = '1';
-          row.style.display = 'flex';
         });
       }).catch(function(){});
     }
@@ -1612,6 +1618,13 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
       if(!row) return;
       if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
       else { row.innerHTML = '<span>🐾 足あと</span><span style="color:#8a6a4f">まだありません。ログインして見た人の名前がここに出ます</span>'; row.style.display = 'flex'; }
+    }); }
+    var likeBtn = document.getElementById('istat-likebtn');
+    if(likeBtn){ likeBtn.addEventListener('click', function(){
+      var row = document.getElementById('ilikers');
+      if(!row) return;
+      if(row.dataset.has === '1'){ row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; }
+      else { row.innerHTML = '<span>♥ 好きな人</span><span style="color:#8a6a4f">まだいません</span>'; row.style.display = 'flex'; }
     }); }
 
     if(firebase.auth){
@@ -1717,7 +1730,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "困った助け合い": "Help & Advice",
     "💡 アイディア掲示板": "💡 Ideas Board",
     "無料メンバー登録": "Join free",
-    "メンバー登録（無料）": "Join as a member (free)", "ログイン／メンバー登録（無料）": "Log in / Join as a member (free)",
+    "メンバー登録（無料）": "Join as a member (free)", "ログイン／メンバー登録（無料）": "Log in / Join as a member (free)", "ログイン／​メンバー登録（無料）": "Log in / Join as a member (free)",
     "ログイン": "Log in",
     "マイページ": "My Page",
     "✎ 編集する": "✎ Edit",
@@ -1857,7 +1870,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "困った助け合い": "互助问答",
     "💡 アイディア掲示板": "💡 点子留言板",
     "無料メンバー登録": "免费注册成员",
-    "メンバー登録（無料）": "注册成员（免费）", "ログイン／メンバー登録（無料）": "登录／注册成员（免费）",
+    "メンバー登録（無料）": "注册成员（免费）", "ログイン／メンバー登録（無料）": "登录／注册成员（免费）", "ログイン／​メンバー登録（無料）": "登录／注册成员（免费）",
     "ログイン": "登录",
     "マイページ": "我的页面",
     "✎ 編集する": "✎ 编辑",
@@ -1997,7 +2010,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "困った助け合い": "도움 주고받기",
     "💡 アイディア掲示板": "💡 아이디어 게시판",
     "無料メンバー登録": "무료 멤버 등록",
-    "メンバー登録（無料）": "멤버 등록(무료)", "ログイン／メンバー登録（無料）": "로그인／멤버 등록(무료)",
+    "メンバー登録（無料）": "멤버 등록(무료)", "ログイン／メンバー登録（無料）": "로그인／멤버 등록(무료)", "ログイン／​メンバー登録（無料）": "로그인／멤버 등록(무료)",
     "ログイン": "로그인",
     "マイページ": "마이페이지",
     "✎ 編集する": "✎ 편집하기",

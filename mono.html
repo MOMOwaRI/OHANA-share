@@ -542,7 +542,7 @@ else useRule();
   var DOC = '';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
   function memberKnown(){ try{ return !!localStorage.getItem('ohana_member'); }catch(e){ return false; } }
-  function memberLabel(){ return 'ログイン／メンバー登録（無料）'; }
+  function memberLabel(){ return 'ログイン／​メンバー登録（無料）'; }
   function init(){
     if(!window.firebase || !firebase.auth) return;
     try{ if(!firebase.apps.length) firebase.initializeApp({
@@ -555,11 +555,12 @@ else useRule();
 }); }catch(e){}
     var btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = 'ログイン／メンバー登録（無料）';
+    btn.textContent = 'ログイン／​メンバー登録（無料）';
     btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
+    if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '54vw'; rowEl.style.flexWrap = 'wrap'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'normal'; btn.style.textAlign = 'right'; btn.style.wordBreak = 'keep-all'; }
     rowEl.appendChild(btn);
     window.__authBtn = btn;
     var btn2 = document.createElement('a');
@@ -1347,7 +1348,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "困った助け合い": "Help & Advice",
     "💡 アイディア掲示板": "💡 Ideas Board",
     "無料メンバー登録": "Join free",
-    "メンバー登録（無料）": "Join as a member (free)", "ログイン／メンバー登録（無料）": "Log in / Join as a member (free)",
+    "メンバー登録（無料）": "Join as a member (free)", "ログイン／メンバー登録（無料）": "Log in / Join as a member (free)", "ログイン／​メンバー登録（無料）": "Log in / Join as a member (free)",
     "ログイン": "Log in",
     "マイページ": "My Page",
     "✎ 編集する": "✎ Edit",
@@ -1487,7 +1488,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "困った助け合い": "互助问答",
     "💡 アイディア掲示板": "💡 点子留言板",
     "無料メンバー登録": "免费注册成员",
-    "メンバー登録（無料）": "注册成员（免费）", "ログイン／メンバー登録（無料）": "登录／注册成员（免费）",
+    "メンバー登録（無料）": "注册成员（免费）", "ログイン／メンバー登録（無料）": "登录／注册成员（免费）", "ログイン／​メンバー登録（無料）": "登录／注册成员（免费）",
     "ログイン": "登录",
     "マイページ": "我的页面",
     "✎ 編集する": "✎ 编辑",
@@ -1627,7 +1628,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "困った助け合い": "도움 주고받기",
     "💡 アイディア掲示板": "💡 아이디어 게시판",
     "無料メンバー登録": "무료 멤버 등록",
-    "メンバー登録（無料）": "멤버 등록(무료)", "ログイン／メンバー登録（無料）": "로그인／멤버 등록(무료)",
+    "メンバー登録（無料）": "멤버 등록(무료)", "ログイン／メンバー登録（無料）": "로그인／멤버 등록(무료)", "ログイン／​メンバー登録（無料）": "로그인／멤버 등록(무료)",
     "ログイン": "로그인",
     "マイページ": "마이페이지",
     "✎ 編集する": "✎ 편집하기",
