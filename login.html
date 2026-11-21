@@ -285,7 +285,21 @@ body{padding-bottom:50px}
       return it.href ? '<a class="ship-item" href="' + esc(it.href) + '">' + inner + '</a>' : '<div class="ship-item">' + inner + '</div>';
     }).join('');
   };
-  /* 海側の設計待ち: 積載コレクションが決まったら、ここで読み込んで __renderShipItems(items) を呼ぶ */
+/* 海の積載を読む（seaShips/{uid}、本人だけ読み書き可） */
+  var shipWired = false;
+  function wireShip(){
+    if(shipWired) return;
+    if(!window.firebase || !firebase.auth || !firebase.firestore) return;
+    shipWired = true;
+    firebase.auth().onAuthStateChanged(function(user){
+      if(!user){ window.__renderShipItems([]); return; }
+      firebase.firestore().collection('seaShips').doc(user.uid).get()
+        .then(function(snap){ window.__renderShipItems(snap.exists ? (snap.data().items || []) : []); })
+        .catch(function(){});
+    });
+  }
+  var shipTimer = setInterval(function(){ wireShip(); if(shipWired) clearInterval(shipTimer); }, 300);
+  setTimeout(function(){ clearInterval(shipTimer); }, 15000);
 })();
 </script>
 <div id="pages-list"></div>
