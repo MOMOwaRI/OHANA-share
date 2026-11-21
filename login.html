@@ -255,10 +255,10 @@ body{padding-bottom:50px}
 </style>
     <div class="create-card" id="ship-card" style="display:block">
       <p style="font-weight:bold">🚢 OHANA船</p>
-      <p class="sub">OHANA海で船に乗せたモノが、ここに出ます。</p>
+      <p class="sub">OHANA海の船と、OHANA島のカバンの中身が、ここに出ます。</p>
       <div id="ship-grid"></div>
-      <p class="sub" id="ship-empty">まだ船に乗せたモノはありません。</p>
-      <p style="margin:8px 0 0"><a href="https://momowari.github.io/ohana-jima/kai.html" target="_blank" rel="noopener">🌊 OHANA海へ行く</a></p>
+      <p class="sub" id="ship-empty">まだ船にもカバンにも、モノは入っていません。</p>
+      <p style="margin:8px 0 0"><a href="https://momowari.github.io/ohana-jima/kai.html" target="_blank" rel="noopener">🌊 OHANA海へ行く</a> ／ <a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ行く</a></p>
     </div>
     <script id="ship-script">
 (function(){
@@ -266,15 +266,24 @@ body{padding-bottom:50px}
   var empty = document.getElementById('ship-empty');
   if(!grid) return;
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-  window.__renderShipItems = function(items){
-    items = Array.isArray(items) ? items : [];
-    if(!items.length){ grid.innerHTML = ''; if(empty) empty.style.display = ''; return; }
+  window.__shipItems = [];
+  window.__mergeShipBag = function(){
+    var seen = {}, out = [];
+    (window.__shipItems || []).concat(window.__bagItems || []).forEach(function(it){
+      var key = (it.href || '') + '|' + (it.name || '');
+      if(seen[key]) return; seen[key] = 1; out.push(it);
+    });
+    if(!out.length){ grid.innerHTML = ''; if(empty) empty.style.display = ''; return; }
     if(empty) empty.style.display = 'none';
-    grid.innerHTML = items.map(function(it){
+    grid.innerHTML = out.map(function(it){
       var img = it.img ? '<img src="' + esc(it.img) + '" alt="">' : '';
       var inner = img + '<span>' + esc(it.name || 'モノ') + '</span>';
       return it.href ? '<a class="ship-item" href="' + esc(it.href) + '">' + inner + '</a>' : '<div class="ship-item">' + inner + '</div>';
     }).join('');
+  };
+  window.__renderShipItems = function(items){
+    window.__shipItems = Array.isArray(items) ? items : [];
+    window.__mergeShipBag();
   };
 /* 海の積載を読む（seaShips/{uid}、本人だけ読み書き可） */
   var shipWired = false;
@@ -298,27 +307,14 @@ body{padding-bottom:50px}
 .bag-item{display:block;text-decoration:none;color:#5b4632;background:#fff;border:1px solid #ead9bd;border-radius:12px;padding:10px 12px;font-size:.92rem}
 .bag-item::after{content:" ›";color:#b08d57}
 </style>
-    <div class="create-card" id="bag-card" style="display:block">
-      <p style="font-weight:bold">🧳 OHANA島のカバン</p>
-      <p class="sub">OHANA島でカバンに入れたモノが、ここに出ます。名前をタップすると、お店のページへ行けます。</p>
-      <div id="bag-list"></div>
-      <p class="sub" id="bag-empty">まだカバンは空です。</p>
-      <p style="margin:8px 0 0"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ行く</a></p>
-    </div>
     <script id="bag-script">
 (function(){
-  var listEl = document.getElementById('bag-list');
-  var empty = document.getElementById('bag-empty');
-  if(!listEl) return;
+  
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  window.__bagItems = [];
   window.__renderBagItems = function(items){
-    items = Array.isArray(items) ? items : [];
-    if(!items.length){ listEl.innerHTML = ''; if(empty) empty.style.display = ''; return; }
-    if(empty) empty.style.display = 'none';
-    listEl.innerHTML = items.map(function(it){
-      var name = esc(it.name || 'モノ');
-      return it.url ? '<a class="bag-item" href="' + esc(it.url) + '" target="_blank" rel="noopener">' + name + '</a>' : '<div class="bag-item">' + name + '</div>';
-    }).join('');
+    window.__bagItems = (Array.isArray(items) ? items : []).map(function(it){ return { name: it.name || 'モノ', href: it.url || '', img: '' }; });
+    if(window.__mergeShipBag) window.__mergeShipBag();
   };
   /* 島のカバンを読む（islandUsers/{uid} の bag） */
   var wired = false;
