@@ -728,9 +728,9 @@ html.js .reveal{opacity:1;transform:none;transition:none}
 <style id="oband-style">
 .ofabs,.fab-stack,.fab-line{display:none!important}
 body{padding-bottom:50px}
-.oband{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:720px;bottom:0;z-index:72;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
+.oband{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:720px;bottom:0;z-index:72;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
 .oband a,.oband button{flex:1;background:none;border:none;font:inherit;font-weight:700;font-size:.78rem;color:#7a4a08;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 2px;cursor:pointer;text-align:center;white-space:nowrap}
-.oband .mid{border-left:1px solid #f3e3c8;border-right:1px solid #f3e3c8}
+.oband .mid{border-left:1px solid rgba(190,130,50,.32);border-right:1px solid rgba(190,130,50,.32)}
 .oband img{height:24px;width:auto}
 .opanel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
 .chat-panel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
@@ -776,17 +776,17 @@ body{padding-bottom:50px}
 <p>やり方はシンプルです。OHANAは、100円券でお買い物ができる、フリマ型の選べる物々交換です。「選べる」とは、1対1で相手を探さなくても、お買い物みたいに選べるという意味です。目指すのは、お金がなくても回る仕組み作り。券は現金に換金せず、地域の中でぐるぐる巡らせます。</p>
 <p>交換の対象は、モノだけではありません。</p>
 <div class="pillars">
-<a class="pillar" href="hito.html" style="display:block;text-decoration:none;color:inherit" title="ヒトの一覧へ">
+<a class="pillar" href="hito.html" style="display:block;text-decoration:none;color:inherit" title="ヒト一覧へ">
 <div class="p-ico" aria-hidden="true">🤲</div>
 <div class="p-name">ヒト</div>
 <div class="p-desc">「これができます」という、人の力や得意なこと</div>
 </a>
-<a class="pillar" href="mono.html" style="display:block;text-decoration:none;color:inherit" title="モノの一覧へ">
+<a class="pillar" href="mono.html" style="display:block;text-decoration:none;color:inherit" title="モノ一覧へ">
 <div class="p-ico" aria-hidden="true">🧺</div>
 <div class="p-name">モノ</div>
 <div class="p-desc">衣類・雑貨・子ども用品など、まだ使えるもの</div>
 </a>
-<a class="pillar" href="koto.html" style="display:block;text-decoration:none;color:inherit" title="コトの一覧へ">
+<a class="pillar" href="koto.html" style="display:block;text-decoration:none;color:inherit" title="コト一覧へ">
 <div class="p-ico" aria-hidden="true">🎨</div>
 <div class="p-name">コト</div>
 <div class="p-desc">ワークショップなどの体験や、場所のシェア</div>
@@ -1852,7 +1852,7 @@ try {
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
-#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:none;gap:8px;align-items:center;padding:10px 14px}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:none;gap:8px;align-items:center;padding:10px 14px}
 #site-savebar.on{display:flex}
 #site-savebar button{font-family:inherit;font-weight:bold;background:none;border:none;color:#b3541e;font-size:.9rem;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 #sb-cancel{color:#8a6a4f}
@@ -2383,9 +2383,9 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
 <span class="omenu-btn" id="omenu-btn" role="button" aria-label="メニュー" aria-expanded="false" tabindex="0">☰</span>
 <nav class="omenu-panel" id="omenu-panel" hidden>
 <a href="index.html">トップ</a>
-<a href="hito.html">ヒトの一覧</a>
-<a href="mono.html">モノの一覧</a>
-<a href="koto.html">コトの一覧</a>
+<a href="hito.html">ヒト一覧</a>
+<a href="mono.html">モノ一覧</a>
+<a href="koto.html">コト一覧</a>
 <a href="members/select-ehime.html">セレクト愛媛情報</a>
 <a href="members/select-ehime-map.html">セレクト愛媛MAP</a>
 <a href="login.html">マイページ</a>
@@ -2456,9 +2456,9 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "お問い合わせフォーム": "Contact form",
     "OHANAトップへ戻る": "Back to OHANA top",
     "トップ": "Top",
-    "ヒトの一覧": "People",
-    "モノの一覧": "Things",
-    "コトの一覧": "Activities",
+    "ヒト一覧": "People",
+    "モノ一覧": "Things",
+    "コト一覧": "Activities",
     "ヒト": "People",
     "モノ": "Things",
     "コト": "Activities",
@@ -2596,9 +2596,9 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "お問い合わせフォーム": "咨询表单",
     "OHANAトップへ戻る": "返回OHANA首页",
     "トップ": "首页",
-    "ヒトの一覧": "人一览",
-    "モノの一覧": "物一览",
-    "コトの一覧": "事一览",
+    "ヒト一覧": "人一览",
+    "モノ一覧": "物一览",
+    "コト一覧": "事一览",
     "ヒト": "人",
     "モノ": "物",
     "コト": "事",
@@ -2736,9 +2736,9 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "お問い合わせフォーム": "문의 양식",
     "OHANAトップへ戻る": "OHANA 톱으로 돌아가기",
     "トップ": "톱",
-    "ヒトの一覧": "사람 목록",
-    "モノの一覧": "물건 목록",
-    "コトの一覧": "활동 목록",
+    "ヒト一覧": "사람 목록",
+    "モノ一覧": "물건 목록",
+    "コト一覧": "활동 목록",
     "ヒト": "사람",
     "モノ": "물건",
     "コト": "활동",

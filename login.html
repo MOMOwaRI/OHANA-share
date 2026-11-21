@@ -122,9 +122,9 @@ html.js .mrv.in{opacity:1;transform:none}
 <style id="oband-style">
 .ofabs,.fab-stack,.fab-line{display:none!important}
 body{padding-bottom:50px}
-.oband{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:680px;bottom:0;z-index:72;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
+.oband{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:680px;bottom:0;z-index:72;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
 .oband a,.oband button{flex:1;background:none;border:none;font:inherit;font-weight:700;font-size:.78rem;color:#7a4a08;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 2px;cursor:pointer;text-align:center;white-space:nowrap}
-.oband .mid{border-left:1px solid #f3e3c8;border-right:1px solid #f3e3c8}
+.oband .mid{border-left:1px solid rgba(190,130,50,.32);border-right:1px solid rgba(190,130,50,.32)}
 .oband img{height:24px;width:auto}
 .opanel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
 .chat-panel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
@@ -206,7 +206,7 @@ body{padding-bottom:50px}
       <h2>🌱 はじめの案内</h2>
       <div class="fstep"><span class="fstep-n">1</span><p>あなたの「ヒトのページ」に、自己紹介を入れましょう。名前と、ひとことで大丈夫です。<a id="first-step-link" href="#pages-list">あなたのページを開く</a>と、そのままタップで直せます。</p></div>
       <div class="fstep"><span class="fstep-n">2</span><p>モノ・コトのページも作れます。いきなりモノの登録からでも大丈夫です。写真を入れるだけです。写真受付箱に写真を投げるのが先でも大丈夫です。メンバー登録すれば連携します。</p></div>
-      <div class="fstep"><span class="fstep-n">3</span><p>できたページは、ヒト・モノ・コトの一覧に自動で出ます。</p></div>
+      <div class="fstep"><span class="fstep-n">3</span><p>できたページは、ヒト・モノ・コト一覧に自動で出ます。</p></div>
     </div>
     <div class="menu">
       <a href="board.html">みんなの掲示板<small>お知らせ・告知</small></a>
@@ -226,9 +226,7 @@ body{padding-bottom:50px}
         <div class="merit"><span class="merit-ico">🎟</span><div><p class="merit-h">条件はありません</p><p>100円券が使えるお店・活動にご協力ください！</p></div></div>
       </div>
       </details>
-      <ul style="margin-top:6px">
-        <li>下の「新しいページを作る」から、ページが作れます（1人で複数OK）。ページを開くと、その場で文字を直して編集できます</li>
-      </ul>
+      
     </section>
     <div class="create-card" id="match-card" style="display:block">
       <p style="font-weight:bold">合いそうな人</p>
@@ -248,7 +246,7 @@ body{padding-bottom:50px}
     </div>
     <div class="create-card" style="display:block">
       <p style="font-weight:bold">新しいページを作る</p>
-      <p class="sub">区分を選ぶと、名前の欄がその区分用に変わります。ページはいくつでも作れます。</p>
+      <p class="sub">区分を選ぶと、名前の欄がその区分用に変わります。ページはいくつでも作れます。作ったページは、開いてその場で文字を直して編集できます。</p>
       <p style="margin:8px 0"><input type="text" id="new-name" placeholder="名前（ニックネーム）" style="width:100%;font-family:inherit;font-size:1rem;padding:10px;border:1.5px solid #d8c7ae;border-radius:10px"></p>
       <div class="catchips">
         <label><input type="radio" name="newcat" value="ヒト" checked>ヒト</label>
@@ -1078,7 +1076,7 @@ list.forEach(function(el){ io.observe(el); });
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
-#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:none;gap:8px;align-items:center;padding:10px 14px}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:none;gap:8px;align-items:center;padding:10px 14px}
 #site-savebar.on{display:flex}
 #site-savebar button{font-family:inherit;font-weight:bold;background:none;border:none;color:#b3541e;font-size:.9rem;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 #sb-cancel{color:#8a6a4f}
@@ -1601,9 +1599,9 @@ body.site-editing .lrow p,body.site-editing .ticket-card{outline:2px dashed rgba
 <span class="omenu-btn" id="omenu-btn" role="button" aria-label="メニュー" aria-expanded="false" tabindex="0">☰</span>
 <nav class="omenu-panel" id="omenu-panel" hidden>
 <a href="index.html">トップ</a>
-<a href="hito.html">ヒトの一覧</a>
-<a href="mono.html">モノの一覧</a>
-<a href="koto.html">コトの一覧</a>
+<a href="hito.html">ヒト一覧</a>
+<a href="mono.html">モノ一覧</a>
+<a href="koto.html">コト一覧</a>
 <a href="members/select-ehime.html">セレクト愛媛情報</a>
 <a href="members/select-ehime-map.html">セレクト愛媛MAP</a>
 <a href="login.html">マイページ</a>
@@ -1674,9 +1672,9 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "お問い合わせフォーム": "Contact form",
     "OHANAトップへ戻る": "Back to OHANA top",
     "トップ": "Top",
-    "ヒトの一覧": "People",
-    "モノの一覧": "Things",
-    "コトの一覧": "Activities",
+    "ヒト一覧": "People",
+    "モノ一覧": "Things",
+    "コト一覧": "Activities",
     "ヒト": "People",
     "モノ": "Things",
     "コト": "Activities",
@@ -1814,9 +1812,9 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "お問い合わせフォーム": "咨询表单",
     "OHANAトップへ戻る": "返回OHANA首页",
     "トップ": "首页",
-    "ヒトの一覧": "人一览",
-    "モノの一覧": "物一览",
-    "コトの一覧": "事一览",
+    "ヒト一覧": "人一览",
+    "モノ一覧": "物一览",
+    "コト一覧": "事一览",
     "ヒト": "人",
     "モノ": "物",
     "コト": "事",
@@ -1954,9 +1952,9 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     "お問い合わせフォーム": "문의 양식",
     "OHANAトップへ戻る": "OHANA 톱으로 돌아가기",
     "トップ": "톱",
-    "ヒトの一覧": "사람 목록",
-    "モノの一覧": "물건 목록",
-    "コトの一覧": "활동 목록",
+    "ヒト一覧": "사람 목록",
+    "モノ一覧": "물건 목록",
+    "コト一覧": "활동 목록",
     "ヒト": "사람",
     "モノ": "물건",
     "コト": "활동",
