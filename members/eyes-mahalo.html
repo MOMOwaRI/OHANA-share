@@ -1754,7 +1754,8 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
-    if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '54vw'; rowEl.style.flexWrap = 'wrap'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'normal'; btn.style.textAlign = 'right'; btn.style.wordBreak = 'keep-all'; }
+    if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '94vw'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'nowrap'; btn.style.textAlign = 'center'; btn.style.fontSize = '.8rem'; }
+    btn.style.textAlign = 'center';
     rowEl.appendChild(btn);
     var btn2 = document.createElement('a');
     btn2.id = 'mypage-companion';
@@ -1763,7 +1764,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     btn2.style.cssText = btn.style.cssText + ';text-decoration:none;display:none;box-sizing:border-box';
     rowEl.style.display = 'flex';
     rowEl.style.gap = '8px';
-    rowEl.insertBefore(btn2, btn);
+    
     authRow = rowEl;
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);

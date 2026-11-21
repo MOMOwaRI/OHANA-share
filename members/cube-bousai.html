@@ -807,7 +807,8 @@ document.querySelectorAll('.film').forEach(function(f){ f.addEventListener('clic
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
     rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
-    if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '54vw'; rowEl.style.flexWrap = 'wrap'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'normal'; btn.style.textAlign = 'right'; btn.style.wordBreak = 'keep-all'; }
+    if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '94vw'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'nowrap'; btn.style.textAlign = 'center'; btn.style.fontSize = '.8rem'; }
+    btn.style.textAlign = 'center';
     rowEl.appendChild(btn);
     window.__authBtn = btn;
     var btn2 = document.createElement('a');
@@ -817,7 +818,7 @@ document.querySelectorAll('.film').forEach(function(f){ f.addEventListener('clic
     btn2.style.cssText = btn.style.cssText + ';display:none;box-sizing:border-box';
     rowEl.style.display = 'flex';
     rowEl.style.gap = '8px';
-    rowEl.insertBefore(btn2, btn);
+    
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
     else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
