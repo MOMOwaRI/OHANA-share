@@ -12,7 +12,7 @@
  var r=document.documentElement.style;
  r.setProperty('--accent',c); r.setProperty('--accent-dark',sh(c,0.72));
  r.setProperty('--orange',c); r.setProperty('--orange-dark',sh(c,0.72));
- r.setProperty('--ink',sh(c,0.30)); r.setProperty('--paper',mx(c,'#ffffff',0.95));
+ r.setProperty('--ink',sh(c,0.30)); r.setProperty('--paper',mx(c,'#ffffff',0.95)); document.addEventListener('DOMContentLoaded',function(){try{document.body.style.background=mx(c,'#ffffff',0.95);}catch(e){}});
  r.setProperty('--line',mx(c,'#ffffff',0.78)); r.setProperty('--soft',mx(c,'#777777',0.45));
 }catch(e){}})();
 </script>
@@ -698,6 +698,7 @@ function applyThemeVars(c){
   r.setProperty('--orange-dark', shade2(c, 0.72));
   r.setProperty('--ink', shade2(c, 0.30));
   r.setProperty('--paper', mix2(c, '#ffffff', 0.95));
+    try{ document.body.style.background = mix2(c, '#ffffff', 0.95); }catch(e){}
   r.setProperty('--line', mix2(c, '#ffffff', 0.78));
   r.setProperty('--soft', mix2(c, '#777777', 0.45));
 }
@@ -2077,6 +2078,24 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 window.__PC_PAGE_ID = new URLSearchParams(location.search).get('id') || '';
 window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 </script>
+
+
+
+
+
+
+<script>
+window.__PC_PAGE_ID = new URLSearchParams(location.search).get('id') || '';
+window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
+</script>
+
+
+
+
+<script>
+window.__PC_PAGE_ID = new URLSearchParams(location.search).get('id') || '';
+window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
+</script>
 <!-- page-comments: guest comment / Q&A section for a member page.
      Set window.__PC_PAGE_ID / window.__PC_TARGET_UID before this snippet,
      or bake them in by replacing __PAGE_ID__ / __TARGET_UID__. -->
@@ -2197,9 +2216,6 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
-
-
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
@@ -2717,5 +2733,6 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 </body>
 </html>

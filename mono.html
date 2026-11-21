@@ -199,11 +199,11 @@ body{padding-bottom:50px}
         <option value="views">閲覧数順</option>
         <option value="new">新着順</option>
       </select>
-    </label>
+    </label> <label style="font-size:.9rem;color:#8a6a4f">ひとの名前 <select id="person-sel"><option value="">すべての人</option></select></label>
     <a class="mypage-btn" href="login.html">マイページ</a>
   </div>
   <div class="grid" id="grid">
-    <a class="item" data-genre="雑貨・日用品" data-tags="松山市 雑貨屋 OHANAメンバー" href="members/lea-mahalo.html">
+    <a class="item" data-person="MOMOwaRI" data-genre="雑貨・日用品" data-tags="松山市 雑貨屋 OHANAメンバー" href="members/lea-mahalo.html">
       <img src="images/shop/zakka-1.jpg" alt="雑貨屋 Lea Mahaloの店内">
       <span class="tkt-stk onimg" data-lock aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span>
       <span class="body">
@@ -213,7 +213,7 @@ body{padding-bottom:50px}
       </span>
     </a>
     
-    <a class="item" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ グルーミー OHANAメンバー" href="members/gloomy-chidori.html">
+    <a class="item" data-person="MOMOwaRI" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ グルーミー OHANAメンバー" href="members/gloomy-chidori.html">
       <img src="images/shop/plush-2.jpg" alt="グル〜ミ〜ぬいぐるみ（千鳥格子）">
       <span class="body">
         <span class="name">グル〜ミ〜 ぬいぐるみ 特大サイズ 千鳥格子2体セット</span>
@@ -221,7 +221,7 @@ body{padding-bottom:50px}
         <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ トトロ OHANAメンバー" href="members/totoro.html">
+    <a class="item" data-person="MOMOwaRI" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ トトロ OHANAメンバー" href="members/totoro.html">
       <img src="images/shop/plush-1.jpg" alt="中トトロのぬいぐるみ">
       <span class="body">
         <span class="name">中トトロ ぬいぐるみ</span>
@@ -229,7 +229,7 @@ body{padding-bottom:50px}
         <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ プーさん リラックマ OHANAメンバー" href="members/pooh-rilakkuma-set.html">
+    <a class="item" data-person="MOMOwaRI" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ プーさん リラックマ OHANAメンバー" href="members/pooh-rilakkuma-set.html">
       <img src="images/shop/plush-3.jpg" alt="プーさん・リラックマ・クマクッション">
       <span class="body">
         <span class="name">プーさん・リラックマ・クマ顔クッション 3点セット</span>
@@ -237,7 +237,7 @@ body{padding-bottom:50px}
         <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" data-genre="おもちゃ・グッズ" data-tags="松山市 ゲームグッズ マインクラフト OHANAメンバー" href="members/minecraft-goods-set.html">
+    <a class="item" data-person="MOMOwaRI" data-genre="おもちゃ・グッズ" data-tags="松山市 ゲームグッズ マインクラフト OHANAメンバー" href="members/minecraft-goods-set.html">
       <img src="images/shop/plush-5.jpg" alt="マインクラフトのグッズ一式">
       <span class="body">
         <span class="name">マインクラフト グッズ一式セット</span>
@@ -245,7 +245,7 @@ body{padding-bottom:50px}
         <span class="meta"><span class="area">松山市</span></span>
       </span>
     </a>
-    <a class="item" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ うさぎ OHANAメンバー" href="members/love-usagi-set.html">
+    <a class="item" data-person="MOMOwaRI" data-genre="おもちゃ・グッズ" data-tags="松山市 ぬいぐるみ うさぎ OHANAメンバー" href="members/love-usagi-set.html">
       <img src="images/shop/plush-6.jpg" alt="LOVEうさぎのぬいぐるみ">
       <span class="body">
         <span class="name">LOVEうさぎ ぬいぐるみ・マスコット セット</span>
@@ -314,6 +314,7 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     a.className = 'item';
     a.setAttribute('data-tags', ((d.tags || []).join(' ') + ' ' + (d.area || '') + ' ' + (d.nickname || '') + ' OHANAメンバー'));
     a.setAttribute('data-genre', d.monoGenre || 'その他');
+    a.setAttribute('data-person', d.nickname || '');
     a.setAttribute('data-item', it.id);
     a.setAttribute('data-new', 100 + (d.memberNo || 0));
     a.href = 'member.html?id=' + encodeURIComponent(it.id);
@@ -326,6 +327,20 @@ firebase.firestore().collection('profiles').where('categories', 'array-contains'
     if(d.ticketOk) a.insertAdjacentHTML('beforeend', '<span class="tkt-stk onimg" aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span>');
     grid.insertBefore(a, join);
     if(window.__applyGenre) window.__applyGenre();
+    if(window.__buildPersonOptions) window.__buildPersonOptions();
+    var uids = {};
+    items.forEach(function(it){ uids[it.id.split('__')[0]] = 1; });
+    Object.keys(uids).forEach(function(uid){
+      firebase.firestore().collection('profiles').doc(uid).get().then(function(r){
+        var nick = r.exists ? (r.data().nickname || '') : '';
+        if(!nick) return;
+        grid.querySelectorAll('.item').forEach(function(t){
+          if((t.getAttribute('data-item') || '').split('__')[0] === uid) t.setAttribute('data-person', nick);
+        });
+        if(window.__buildPersonOptions) window.__buildPersonOptions();
+        if(window.__applyGenre) window.__applyGenre();
+      }).catch(function(){});
+    });
   });
 }).catch(function(){});
 </script>
@@ -480,9 +495,12 @@ else useRule();
 (function(){
   var cur = 'all';
   function apply(){
+    var psel = document.getElementById('person-sel');
+    var pv = psel ? psel.value : '';
     document.querySelectorAll('#grid .item').forEach(function(t){
       var g = t.getAttribute('data-genre') || 'その他';
-      t.style.display = (cur === 'all' || g === cur) ? '' : 'none';
+      var pp = t.getAttribute('data-person') || '';
+      t.style.display = ((cur === 'all' || g === cur) && (!pv || pp === pv)) ? '' : 'none';
     });
   }
   window.__applyGenre = apply;
@@ -494,6 +512,27 @@ else useRule();
       apply();
     });
   });
+})();
+</script>
+<script>
+(function(){
+  var sel = document.getElementById('person-sel');
+  if(!sel) return;
+  function build(){
+    var cur = sel.value;
+    var names = [];
+    document.querySelectorAll('#grid .item').forEach(function(t){
+      var n = t.getAttribute('data-person');
+      if(n && names.indexOf(n) < 0) names.push(n);
+    });
+    names.sort();
+    sel.innerHTML = '<option value="">すべての人</option>' + names.map(function(n){
+      return '<option value="' + n + '"' + (n === cur ? ' selected' : '') + '>' + n + '</option>';
+    }).join('');
+  }
+  window.__buildPersonOptions = build;
+  sel.addEventListener('change', function(){ if(window.__applyGenre) window.__applyGenre(); });
+  build();
 })();
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -645,7 +684,7 @@ try {
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
-#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:none;gap:8px;align-items:center;padding:10px 14px}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:none;gap:8px;align-items:center;padding:10px 14px}
 #site-savebar.on{display:flex}
 #site-savebar button{font-family:inherit;font-weight:bold;background:none;border:none;color:#b3541e;font-size:.9rem;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 #sb-cancel{color:#8a6a4f}
@@ -792,6 +831,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     r.setProperty('--orange-dark', shade2(c, 0.72));
     r.setProperty('--ink', shade2(c, 0.30));
     r.setProperty('--paper', mix2(c, '#ffffff', 0.95));
+    try{ document.body.style.background = mix2(c, '#ffffff', 0.95); }catch(e){}
     r.setProperty('--line', mix2(c, '#ffffff', 0.78));
     r.setProperty('--soft', mix2(c, '#777777', 0.45));
     var tint = mix2(c, '#ffffff', 0.78), ink = shade2(c, 0.30);
@@ -1158,6 +1198,8 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
 
 
 
+
+
 <script>
 (function(){
   var grid = document.getElementById('grid');
@@ -1279,7 +1321,10 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 
 <nav class="oband" data-lock aria-label="下部メニュー"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a><a class="mid" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a><button type="button" onclick="event.stopPropagation();document.getElementById('ofab-bot').click()"><img src="img-992cf83a89.png" alt="">OHANAに質問する</button></nav>
 
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 374px))}.opanel,.chat-panel{right:max(12px,calc(50% - 372px))}</style>
+
+
+
+
 
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
@@ -1797,5 +1842,6 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 374px))}.opanel,.chat-panel{right:max(12px,calc(50% - 372px))}</style>
 </body>
 </html>

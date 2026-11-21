@@ -832,7 +832,7 @@ try {
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
 body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offset:2px}
-#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:none;gap:8px;align-items:center;padding:10px 14px}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:700px;bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:95;background:rgba(255,253,248,.98);border-top:1.5px solid #f0dcbc;display:none;gap:8px;align-items:center;padding:10px 14px}
 #site-savebar.on{display:flex}
 #site-savebar button{font-family:inherit;font-weight:bold;background:none;border:none;color:#b3541e;font-size:.9rem;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 #sb-cancel{color:#8a6a4f}
@@ -979,6 +979,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
     r.setProperty('--orange-dark', shade2(c, 0.72));
     r.setProperty('--ink', shade2(c, 0.30));
     r.setProperty('--paper', mix2(c, '#ffffff', 0.95));
+    try{ document.body.style.background = mix2(c, '#ffffff', 0.95); }catch(e){}
     r.setProperty('--line', mix2(c, '#ffffff', 0.78));
     r.setProperty('--soft', mix2(c, '#777777', 0.45));
     var tint = mix2(c, '#ffffff', 0.78), ink = shade2(c, 0.30);
@@ -1336,6 +1337,7 @@ body.site-editing [data-lk]{outline:2px dashed rgba(46,109,164,.6);outline-offse
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
 
 
 
@@ -1716,7 +1718,9 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 
 <nav class="oband" data-lock aria-label="下部メニュー"><a href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener">🏝 OHANA島へ</a><a class="mid" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a><button type="button" onclick="event.stopPropagation();document.getElementById('ofab-bot').click()"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</button></nav>
 
-<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
+
+
+
 
 <!-- i18n: language selector + fixed-UI dictionary translation (island pattern).
      Owner-editable texts are not translated: only exact matches of fixed UI strings. -->
@@ -2234,5 +2238,6 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 354px))}.opanel,.chat-panel{right:max(12px,calc(50% - 352px))}</style>
 </body>
 </html>
