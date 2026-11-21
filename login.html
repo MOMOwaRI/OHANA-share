@@ -1113,7 +1113,6 @@ try {
 <script>
 (function(){
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
-  function memberKnown(){ try{ return !!localStorage.getItem('ohana_member'); }catch(e){ return false; } }
   function memberLabel(){ return 'ログイン／​メンバー登録（無料）'; }
   function init(){
     if(!window.firebase || !firebase.auth) return;
@@ -1139,7 +1138,6 @@ try {
     });
     firebase.auth().onAuthStateChanged(function(u){
       if(!u){ btn.textContent = memberLabel(); return; }
-      try{ localStorage.setItem('ohana_member', '1'); }catch(e){}
       btn.textContent = (u.uid === OWNER) ? '✎ 編集する' : 'マイページ';
     });
   }
