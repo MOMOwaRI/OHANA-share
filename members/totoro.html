@@ -821,77 +821,7 @@ try {
 } catch(e){}
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script>
-(function(){
-  var DOC = '';
-  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
-  function memberLabel(){ return 'ログイン／​メンバー登録（無料）'; }
-  function init(){
-    if(!window.firebase || !firebase.auth) return;
-    try{ if(!firebase.apps.length) firebase.initializeApp({
-  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
-  authDomain: "ohana-share.firebaseapp.com",
-  projectId: "ohana-share",
-  storageBucket: "ohana-share.firebasestorage.app",
-  messagingSenderId: "825904150210",
-  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
-}); }catch(e){}
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = 'ログイン';
-    btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
-    var wrapEl = document.querySelector('.wrap') || document.body;
-    var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96;display:flex;gap:8px';
-    rowEl.appendChild(btn);
-    window.__authBtn = btn;
-    var btn2 = document.createElement('button');
-    btn2.type = 'button';
-    btn2.textContent = 'マイページ';
-    btn2.style.cssText = btn.style.cssText;
-    btn2.style.display = 'none';
-    btn2.addEventListener('click', function(){ location.href = '../login.html'; });
-    
-    var btnR = document.createElement('button');
-    btnR.type = 'button';
-    btnR.textContent = 'メンバー登録（無料）';
-    btnR.style.cssText = btn.style.cssText + ';display:none';
-    btnR.addEventListener('click', function(){ location.href = btn2.href; });
-    window.__authBtnReg = btnR;
-    rowEl.appendChild(btnR);
-    rowEl.style.flexDirection = 'column';
-    rowEl.style.alignItems = 'flex-end';
-    rowEl.style.gap = '0';
-    var hdr = wrapEl.querySelector('header');
-    if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
-    else wrapEl.insertBefore(rowEl, wrapEl.firstChild);
-    btn.addEventListener('click', function(){
-      var u = firebase.auth().currentUser;
-      if(!u){ location.href = '../login.html'; }
-      else if(u.uid === OWNER && window.__toggleSiteEdit){ window.__toggleSiteEdit(); }
-      else if(u.uid === OWNER && DOC){ location.href = '../member.html?id=' + DOC + '&edit=1'; }
-      else location.href = '../login.html';
-    });
-    firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = memberLabel(); btn2.style.display = 'none'; return; }
-      btn.textContent = (u.uid === OWNER && (DOC || window.__toggleSiteEdit)) ? (document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する') : 'マイページ';
-      btn2.style.display = (u.uid === OWNER && window.__toggleSiteEdit) ? '' : 'none';
-      if(u.uid === OWNER && DOC){
-        var pv = document.querySelector('.hero-pv');
-        if(pv){
-          pv.style.cursor = 'pointer';
-          var tag = document.createElement('div');
-          tag.textContent = '✎ アニメーションを編集';
-          tag.style.cssText = 'position:absolute;top:10px;right:10px;z-index:6;background:rgba(255,255,255,.94);border:1px solid #d8c7ae;border-radius:999px;padding:5px 11px;font-weight:bold;font-size:.78rem;color:#7a4b12';
-          pv.appendChild(tag);
-          pv.addEventListener('click', function(){ location.href = '../member.html?id=' + DOC + '&edit=1&cm=1'; });
-        }
-      }
-    });
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-})();
-</script>
+
 
 <style>
 body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
@@ -1580,6 +1510,16 @@ list.forEach(function(el){ io.observe(el); });
     btn2.style.cssText = btn.style.cssText + ';display:none;box-sizing:border-box';
     rowEl.style.display = 'flex';
     rowEl.style.gap = '8px';
+    var btnR = document.createElement('button');
+    btnR.type = 'button';
+    btnR.textContent = 'メンバー登録（無料）';
+    btnR.style.cssText = btn.style.cssText + ';display:none';
+    btnR.addEventListener('click', function(){ location.href = btn2.href; });
+    window.__authBtnReg = btnR;
+    rowEl.appendChild(btnR);
+    rowEl.style.flexDirection = 'column';
+    rowEl.style.alignItems = 'flex-end';
+    rowEl.style.gap = '0';
     
     var hdr = wrapEl.querySelector('header');
     if(hdr && hdr.parentNode === wrapEl) wrapEl.insertBefore(rowEl, hdr.nextSibling);
