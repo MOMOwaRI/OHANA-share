@@ -1147,8 +1147,8 @@ try {
       else { var bh = document.getElementById('box-home'); if(bh){ bh.scrollIntoView({behavior:'smooth', block:'start'}); return; } location.href = 'login.html'; }
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; return; }
-      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none';
+      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'column'; btn.parentElement.style.gap = '0'; } return; }
+      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none'; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'row'; btn.parentElement.style.gap = '8px'; }
       btn.textContent = (u.uid === OWNER) ? '✎ 編集する' : 'マイページ';
     });
   }
@@ -2285,7 +2285,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
     }catch(e){ return ''; }
   }
   function text(n){
-    if(n.kind === 'msg') return '✉️ ' + (n.fromName || 'だれか') + 'さんからメッセージ' + (n.itemName ? '（「' + n.itemName + '」について）' : '') + (n.text ? '：' + n.text : '');
+    if(n.kind === 'msg') return '✉️ ' + (n.fromName || 'だれか') + 'さんからメッセージ' + (n.itemName ? '（「' + n.itemName + '」について）' : '') + (n.text ? '：' + n.text : '') + (n.replyMail ? '（返信先：' + n.replyMail + '）' : '');
     if(n.kind === 'comment') return '💬 ' + (n.fromName || 'だれか') + 'さんが、あなたのページにコメントしました' + (n.text ? '「' + String(n.text).slice(0, 40) + '」' : '');
     if(n.kind === 'ship') return '🚢 マッチング：' + (n.fromName || 'だれか') + 'さんが、あなたのモノ「' + (n.itemName || '') + '」を船に乗せました';
     return n.text || 'お知らせがあります';

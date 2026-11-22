@@ -1777,8 +1777,8 @@ try {
       location.href = 'login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; return; }
-      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none';
+      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'column'; btn.parentElement.style.gap = '0'; } return; }
+      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none'; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'row'; btn.parentElement.style.gap = '8px'; }
       if(pageOwner && u.uid === pageOwner){ btn.textContent = document.body.classList.contains('editing') ? '保存する' : '✎ 編集する'; var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = 'inline-block'; return; }
       btn.textContent = 'マイページ';
       var b2x = document.getElementById('mypage-companion'); if(b2x) b2x.style.display = 'none';

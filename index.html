@@ -1787,8 +1787,8 @@ else useRule();
       else location.href = 'login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; return; }
-      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none';
+      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'column'; btn.parentElement.style.gap = '0'; } return; }
+      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none'; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'row'; btn.parentElement.style.gap = '8px'; }
       btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する') : 'マイページ';
       var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       if(u.uid === OWNER && DOC){

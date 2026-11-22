@@ -341,9 +341,12 @@ body{padding-bottom:50px}
 </div>
 <div id="msg-panel" style="display:none;margin:10px auto 2px;max-width:520px;background:#fff;border:1.5px solid #f0cf9a;border-radius:14px;padding:12px 14px;text-align:left">
   <p style="margin:0 0 8px;font-weight:bold;color:#8a5a1d;font-size:.92rem">持ち主へメッセージ</p>
-  <div id="msg-guest" style="display:none;font-size:.9rem;color:#6b5136">メッセージはログインすると送れます。<a href="../login.html" style="color:#b3541e;font-weight:bold">ログイン</a> ／ <a href="../login.html" style="color:#b3541e;font-weight:bold">メンバー登録（無料）</a></div>
   <div id="msg-self" style="display:none;font-size:.9rem;color:#6b5136">これはあなたのモノです。</div>
   <div id="msg-form" style="display:none">
+    <div id="msg-mail-row" style="display:none;margin-bottom:8px">
+      <input id="msg-mail" type="email" placeholder="返信を受け取るメールアドレス" style="width:100%;box-sizing:border-box;border:1.5px solid #e8d9bd;border-radius:10px;padding:8px 10px;font-family:inherit;font-size:.92rem">
+      <p style="margin:4px 0 0;font-size:.8rem;color:#a3805a">ログインしなくても送れます。返信はこのアドレスに届きます。</p>
+    </div>
     <textarea id="msg-text" rows="3" placeholder="メッセージを書く" style="width:100%;box-sizing:border-box;border:1.5px solid #e8d9bd;border-radius:10px;padding:8px 10px;font-family:inherit;font-size:.92rem"></textarea>
     <div style="margin-top:8px;display:flex;gap:10px;align-items:center">
       <button type="button" id="msg-send" style="background:#e07b24;color:#fff;border:none;font-weight:bold;font-family:inherit;font-size:.9rem;border-radius:999px;padding:8px 22px;cursor:pointer">送る</button>
@@ -366,33 +369,42 @@ body{padding-bottom:50px}
   function init(){
     try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); }catch(e){}
     firebase.auth().onAuthStateChanged(function(u){
-      document.getElementById('msg-guest').style.display = u ? 'none' : '';
       document.getElementById('msg-self').style.display = (u && u.uid === OWNER) ? '' : 'none';
-      document.getElementById('msg-form').style.display = (u && u.uid !== OWNER) ? '' : 'none';
+      document.getElementById('msg-form').style.display = (u && u.uid === OWNER) ? 'none' : '';
+      document.getElementById('msg-mail-row').style.display = u ? 'none' : '';
     });
     document.getElementById('msg-send').addEventListener('click', function(){
       var u = firebase.auth().currentUser;
-      if(!u) return;
-      var text = document.getElementById('msg-text').value.replace(/\s+$/,'');
       var st = document.getElementById('msg-status');
+      var text = document.getElementById('msg-text').value.replace(/\s+$/,'');
       if(!text){ st.textContent = 'メッセージを書いてください'; return; }
+      var replyMail = '';
+      if(!u){
+        replyMail = document.getElementById('msg-mail').value.replace(/^\s+|\s+$/g,'');
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyMail)){ st.textContent = '返信用のメールアドレスを入れてください'; return; }
+      }
       var btn = this; btn.disabled = true; st.textContent = '送信中…';
       var db = firebase.firestore();
       var itemName = (document.querySelector('h1') || {}).textContent || '';
       itemName = itemName.replace(/\s+/g,' ').replace(/^\s+|\s+$/g,'');
-      db.collection('profiles').doc(u.uid).get().then(function(d){
-        var name = (d.exists && d.data().nickname) || 'メンバー';
-        return db.collection('notices').add({ toUid: OWNER, kind: 'msg', fromName: name, itemName: itemName, text: text.slice(0, 1000), ts: Date.now(), read: false }).then(function(){ return name; });
-      }).then(function(name){
-        try{
-          var body = new URLSearchParams(); body.set('k', 'ohana-island-notify-2026'); body.set('kind', 'notice'); body.set('toUid', OWNER);
-          body.set('text', '✉️ ' + name + 'さんからメッセージ（「' + itemName + '」について）：' + text.slice(0, 300));
-          fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', { method: 'POST', mode: 'no-cors', body: body });
-        }catch(e){}
-        st.textContent = '送りました';
-        document.getElementById('msg-text').value = '';
-        btn.disabled = false;
-      }).catch(function(){
+      function send(name){
+        var entry = { toUid: OWNER, kind: 'msg', fromName: name, itemName: itemName, text: text.slice(0, 500), ts: Date.now(), read: false };
+        if(replyMail) entry.replyMail = replyMail;
+        return db.collection('notices').add(entry).then(function(){
+          try{
+            var body = new URLSearchParams(); body.set('k', 'ohana-island-notify-2026'); body.set('kind', 'notice'); body.set('toUid', OWNER);
+            var mt = '✉️ ' + name + 'さんからメッセージ（「' + itemName + '」について）：' + text.slice(0, 300);
+            if(replyMail) mt += '\n返信先：' + replyMail;
+            body.set('text', mt);
+            fetch('https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec', { method: 'POST', mode: 'no-cors', body: body });
+          }catch(e){}
+          st.textContent = '送りました';
+          document.getElementById('msg-text').value = '';
+          btn.disabled = false;
+        });
+      }
+      var p = u ? db.collection('profiles').doc(u.uid).get().then(function(d){ return send((d.exists && d.data().nickname) || 'メンバー'); }) : send('ゲスト');
+      p.catch(function(){
         st.textContent = '送れませんでした。時間をおいて試してください';
         btn.disabled = false;
       });
@@ -1580,8 +1592,8 @@ list.forEach(function(el){ io.observe(el); });
       else location.href = '../login.html';
     });
     firebase.auth().onAuthStateChanged(function(u){
-      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; return; }
-      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none';
+      if(!u){ btn.textContent = 'ログイン'; if(window.__authBtnReg) window.__authBtnReg.style.display = ''; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'column'; btn.parentElement.style.gap = '0'; } return; }
+      if(window.__authBtnReg) window.__authBtnReg.style.display = 'none'; if(btn.parentElement){ btn.parentElement.style.flexDirection = 'row'; btn.parentElement.style.gap = '8px'; }
       btn.textContent = (u.uid === OWNER) ? (document.body.classList.contains('site-editing') ? '保存する' : '✎ 編集する') : 'マイページ';
       var b2 = document.getElementById('mypage-companion'); if(b2) b2.style.display = (u.uid === OWNER) ? 'inline-block' : 'none';
       if(u.uid === OWNER && DOC){
