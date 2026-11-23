@@ -3031,5 +3031,78 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 })();
 </script>
 <!-- fab-align --><style>.ofabs,.fab-stack{right:max(14px,calc(50% - 374px))}.opanel,.chat-panel{right:max(12px,calc(50% - 372px))}</style>
+<style id="unpub-css">
+.unpub{display:inline-block;margin-top:6px;font-size:.78rem;color:#a34d1e;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.unpub.confirm{color:#b03a2e;font-weight:bold;text-decoration:none}
+#unpub-toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#4a3418;color:#fff;font-size:.88rem;border-radius:999px;padding:10px 18px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:92vw;text-align:center}
+</style>
+<script>
+(function(){
+  var ADMIN = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var tries = 0, uid = null, authKnown = false;
+  function toast(msg){
+    var t = document.getElementById('unpub-toast');
+    if(!t){ t = document.createElement('div'); t.id = 'unpub-toast'; document.body.appendChild(t); }
+    t.textContent = msg; t.style.display = '';
+    clearTimeout(t.__h); t.__h = setTimeout(function(){ t.style.display = 'none'; }, 4200);
+  }
+  function docIdOf(tile){
+    var href = tile.getAttribute('href') || '';
+    var m = href.match(/[?&]id=([^&]+)/);
+    if(m) return decodeURIComponent(m[1]);
+    if(href.indexOf('member.html') >= 0) return tile.getAttribute('data-item') || '';
+    return '';
+  }
+  function owned(docId){ return uid && (docId === uid || docId.indexOf(uid + '__') === 0); }
+  function decorate(){
+    if(!authKnown || !uid) return;
+    var grid = document.getElementById('grid');
+    if(!grid) return;
+    grid.querySelectorAll('a.item').forEach(function(tile){
+      if(tile.querySelector('.unpub')) return;
+      var docId = docIdOf(tile);
+      if(!docId) return;
+      if(!(owned(docId) || uid === ADMIN)) return;
+      var nameEl = tile.querySelector('.name');
+      var name = nameEl ? nameEl.textContent.trim() : 'このページ';
+      var b = document.createElement('span');
+      b.className = 'unpub'; b.textContent = '非公開にする';
+      b.setAttribute('role', 'button');
+      var armed = false, timer = null;
+      b.addEventListener('click', function(ev){
+        ev.preventDefault(); ev.stopPropagation();
+        if(!armed){
+          armed = true; b.classList.add('confirm'); b.textContent = '本当に非公開にする？ もう一度タップで実行';
+          timer = setTimeout(function(){ armed = false; b.classList.remove('confirm'); b.textContent = '非公開にする'; }, 4000);
+          return;
+        }
+        clearTimeout(timer);
+        b.textContent = '非公開にしています…';
+        firebase.firestore().collection('profiles').doc(docId).set({draft: true}, {merge: true}).then(function(){
+          tile.remove();
+          if(window.__applyGenre) window.__applyGenre();
+          if(window.__buildPersonOptions) window.__buildPersonOptions();
+          if(window.__applyKotoCat) window.__applyKotoCat();
+          toast('「' + name + '」を非公開にしました。マイページからまた公開できます。');
+        }).catch(function(){
+          armed = false; b.classList.remove('confirm'); b.textContent = '非公開にする';
+          toast('非公開にできませんでした。時間をおいて試してください。');
+        });
+      });
+      var body = tile.querySelector('.body') || tile;
+      body.appendChild(b);
+    });
+  }
+  function wait(){
+    if(window.firebase && firebase.auth && firebase.firestore){
+      try{ firebase.auth().onAuthStateChanged(function(u){ uid = u ? u.uid : null; authKnown = true; decorate(); }); }catch(e){}
+      var n = 0, iv = setInterval(function(){ decorate(); if(++n > 20) clearInterval(iv); }, 700);
+      return;
+    }
+    if(++tries < 60) setTimeout(wait, 250);
+  }
+  wait();
+})();
+</script>
 </body>
 </html>
