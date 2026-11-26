@@ -136,7 +136,7 @@ var app = initializeApp({
   appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
 });
 try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider("6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv"), isTokenAutoRefreshEnabled: true});} catch (e) {}
-var model = getGenerativeModel(getAI(app, { backend: new GoogleAIBackend()}), { model: "gemini-3.5-flash", systemInstruction: SYS + "\n今日の日付は" + new Date().toLocaleDateString("ja-JP", {year: "numeric", month: "long", day: "numeric"}) + "です。"});
+var model = getGenerativeModel(getAI(app, { backend: new GoogleAIBackend()}), { model: "gemini-3.5-flash-lite", systemInstruction: SYS + "\n今日の日付は" + new Date().toLocaleDateString("ja-JP", {year: "numeric", month: "long", day: "numeric"}) + "です。"});
 var chat = null;
 window.__geminiAskMomo = async function(q) {
 if (!chat) chat = model.startChat({ history: []});
