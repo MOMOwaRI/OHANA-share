@@ -92,7 +92,7 @@ return '話してくださって、ありがとうございます。今はAIの�
 }
 async function ask(q) {
 if (window.__geminiAskMomo) {
-try { return await window.__geminiAskMomo(q);} catch (e) { return fallbackAnswer(q);}
+try { return await Promise.race([window.__geminiAskMomo(q), new Promise(function(_, rej){ setTimeout(function(){ rej(new Error('timeout'));}, 30000);})]);} catch (e) { if (window.__geminiResetMomo) { try { window.__geminiResetMomo();} catch (e2) {} } return fallbackAnswer(q);}
 }
 return fallbackAnswer(q);
 }
@@ -143,6 +143,7 @@ if (!chat) chat = model.startChat({ history: []});
 var r = await chat.sendMessage(q);
 return r.response.text();
 };
+window.__geminiResetMomo = function() { chat = null; };
 } catch (e) {
 window.__geminiAskMomo = null;
 }
