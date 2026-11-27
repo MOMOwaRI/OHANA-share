@@ -31,3 +31,4 @@
 - セレクト愛媛MAP（乳幼児・子供連れで行きやすい愛媛のお店・施設96件を地図とカードで紹介。地図にはイベント会場15件と新規オープン2件のピンもあり）：https://momowari.github.io/OHANA-share/members/select-ehime-map.html
 - OHANAのあゆみ：https://momowari.github.io/OHANA-share/ayumi.html
 - みんなの掲示板：https://momowari.github.io/OHANA-share/board.html
+- ページ作りの応援（こんなページを作って）：https://momowari.github.io/OHANA-share/tsukurou.html ― お店や活動のページ作りを基本無料で応援。AIのMuseと一緒に作る方法と、松山でのリアル講座の案内。相談はフォームではなくMuseへの登録から始める形
