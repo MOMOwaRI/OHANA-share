@@ -1502,7 +1502,7 @@ list.forEach(function(el){ io.observe(el); });
     btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:6px;right:max(10px, calc(50% - 350px));z-index:96'; rowEl.className = 'authbar-row';
     if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '94vw'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'nowrap'; btn.style.textAlign = 'center'; btn.style.fontSize = '.8rem'; }
     btn.style.textAlign = 'center';
     rowEl.appendChild(btn);
@@ -2269,5 +2269,13 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 .chat-panel .chat>p{font-size:.72rem!important;line-height:1.5;margin-top:6px!important}
 .chat-panel .chat-log{min-height:56px}
 </style>
+<style id="topbar-fix">
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:64px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;pointer-events:none}
+.omenu{top:11px!important}
+.omenu-btn{background:transparent!important;box-shadow:none!important}
+</style>
+<script>
+(function(){ if(!document.getElementById('topbar-strip')){ var s = document.createElement('div'); s.id = 'topbar-strip'; document.body.insertBefore(s, document.body.firstChild); } })();
+</script>
 </body>
 </html>

@@ -151,7 +151,7 @@ body:not(.editing) #island-ava{outline:none!important}
 h1{flex-wrap:nowrap}
 #p-name{min-width:0;white-space:nowrap}
 #p-icon,#p-letter,#island-ava-wrap{flex:none}
-@media (max-width:520px){#island-ava{height:52px!important}h1{gap:6px}}
+@media (max-width:520px){#island-ava{height:64px!important}h1{gap:6px}}
 .ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .ctarow a{flex:1;min-width:150px;text-align:center;border-radius:999px;padding:13px 8px;text-decoration:none;font-weight:bold}
 .ctarow .main{background:#06c755;color:#fff;box-shadow:0 4px 14px rgba(6,199,85,.35)}
@@ -1748,7 +1748,7 @@ try {
     btn2.style.cssText = btn.style.cssText + ';display:none;box-sizing:border-box';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:6px;right:max(10px, calc(50% - 350px));z-index:96'; rowEl.className = 'authbar-row';
     if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '94vw'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'nowrap'; btn.style.textAlign = 'center'; btn.style.fontSize = '.8rem'; }
     btn.style.textAlign = 'center';
     rowEl.appendChild(btn);
@@ -2797,5 +2797,13 @@ window.__PC_TARGET_UID = window.__PC_PAGE_ID.split('__')[0];
 .chat-panel .chat>p{font-size:.72rem!important;line-height:1.5;margin-top:6px!important}
 .chat-panel .chat-log{min-height:56px}
 </style>
+<style id="topbar-fix">
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:64px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;pointer-events:none}
+.omenu{top:11px!important}
+.omenu-btn{background:transparent!important;box-shadow:none!important}
+</style>
+<script>
+(function(){ if(!document.getElementById('topbar-strip')){ var s = document.createElement('div'); s.id = 'topbar-strip'; document.body.insertBefore(s, document.body.firstChild); } })();
+</script>
 </body>
 </html>

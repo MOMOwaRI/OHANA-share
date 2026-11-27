@@ -234,7 +234,7 @@ body{padding-bottom:50px}
 </details>
 <header>
     <div><span class="badge">ヒト</span></div>
-    <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:52px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span><span id="hito-ava-wrap" style="display:inline-flex;flex-direction:column;align-items:center;margin-left:12px;vertical-align:middle"><img id="hito-ava" src="https://momowari.github.io/ohana-jima/av-player.png" alt="島アバター" style="height:72px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1><p id="hito-ava-msg" style="font-size:.8rem;color:#1a7a6d;margin:2px 0 0"></p>
+    <h1><img src="../momowari-icon.png" alt="MOMOwaRIのアイコン" style="width:52px;height:64px;border-radius:50%;object-fit:cover;vertical-align:-11px;margin-right:10px"><span id="hito-name">MOMOwaRI</span><span id="hito-ava-wrap" style="display:inline-flex;flex-direction:column;align-items:center;margin-left:12px;vertical-align:middle"><img id="hito-ava" src="https://momowari.github.io/ohana-jima/av-player.png" alt="島アバター" style="height:72px;width:auto;background:transparent"><span style="font-size:.58rem;font-weight:normal;color:#1a7a6d">島アバター</span></span></h1><p id="hito-ava-msg" style="font-size:.8rem;color:#1a7a6d;margin:2px 0 0"></p>
     <p class="sub">松山市</p>
     <div class="pv-wrap"><span class="tkt-stk" data-lock aria-hidden="true"><span class="stub">OHANA</span><span class="main"><span class="big">100円券</span><span class="stamp">券</span></span></span><div class="hero-pv"><img class="hero-video" src="../images/shop/momowari-works-cm.webp" width="408" height="538" alt="MOMOwaRIの紹介アニメーション"></div></div>
     <div class="tags">
@@ -922,7 +922,7 @@ else { f.scrollBy({left: step, behavior: 'smooth'}); }
     btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:6px;right:max(10px, calc(50% - 350px));z-index:96'; rowEl.className = 'authbar-row';
     if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '94vw'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'nowrap'; btn.style.textAlign = 'center'; btn.style.fontSize = '.8rem'; }
     btn.style.textAlign = 'center';
     rowEl.appendChild(btn);
@@ -2342,5 +2342,13 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 .chat-panel .chat>p{font-size:.72rem!important;line-height:1.5;margin-top:6px!important}
 .chat-panel .chat-log{min-height:56px}
 </style>
+<style id="topbar-fix">
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:64px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;pointer-events:none}
+.omenu{top:11px!important}
+.omenu-btn{background:transparent!important;box-shadow:none!important}
+</style>
+<script>
+(function(){ if(!document.getElementById('topbar-strip')){ var s = document.createElement('div'); s.id = 'topbar-strip'; document.body.insertBefore(s, document.body.firstChild); } })();
+</script>
 </body>
 </html>

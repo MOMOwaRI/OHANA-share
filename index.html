@@ -175,7 +175,7 @@ background:var(--accent-soft);color:var(--accent-deep);
 font-size:.82rem;font-weight:700;letter-spacing:.06em;
 }
 .hero-title{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 10px}
-.hero-title img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);flex:none}
+.hero-title img{width:52px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);flex:none}
 .hero h1{font-size:clamp(1.02rem,5.1vw,2.1rem);line-height:1.35;margin:0;font-weight:900;text-align:left;white-space:nowrap;letter-spacing:.01em}
 .hero h1 .star{color:var(--accent)}
 @media (max-width:520px){
@@ -221,7 +221,7 @@ background:var(--green);opacity:.55;animation:floaty 2.9s ease-in-out .5s infini
 .hero-cta{margin:22px 0 4px;display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;justify-content:center;align-items:stretch}
 .btn{
 display:inline-flex;align-items:center;justify-content:center;gap:8px;
-min-height:52px;padding:10px 26px;border-radius:999px;border:none;cursor:pointer;
+min-height:64px;padding:10px 26px;border-radius:999px;border:none;cursor:pointer;
 font-family:inherit;font-size:1rem;font-weight:700;text-decoration:none;
 transition:transform.15s ease, opacity.15s ease;
 }
@@ -1753,7 +1753,7 @@ else useRule();
     btn.style.cssText = 'background:none;border:none;box-shadow:none;color:#b3541e;font-weight:bold;font-family:inherit;font-size:.88rem;line-height:1.4;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-shadow:0 0 5px #fff,0 0 5px #fff,0 1px 3px #fff';
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:6px;right:max(10px, calc(50% - 350px));z-index:96'; rowEl.className = 'authbar-row';
     if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '94vw'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'nowrap'; btn.style.textAlign = 'center'; btn.style.fontSize = '.8rem'; }
     btn.style.textAlign = 'center';
     rowEl.appendChild(btn);
@@ -2972,5 +2972,13 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 .chat-panel .chat>p{font-size:.72rem!important;line-height:1.5;margin-top:6px!important}
 .chat-panel .chat-log{min-height:56px}
 </style>
+<style id="topbar-fix">
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:64px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;pointer-events:none}
+.omenu{top:11px!important}
+.omenu-btn{background:transparent!important;box-shadow:none!important}
+</style>
+<script>
+(function(){ if(!document.getElementById('topbar-strip')){ var s = document.createElement('div'); s.id = 'topbar-strip'; document.body.insertBefore(s, document.body.firstChild); } })();
+</script>
 </body>
 </html>

@@ -330,7 +330,6 @@ body{padding-bottom:50px}
       <a class="sub2" href="tel:0899341587">電話で予約する</a>
     </div>
     <p class="note">完全予約制・マンツーマン施術のため、事前のご予約をお願いいたします。</p>
-    <p style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap"><a href="https://www.instagram.com/mahalo.hair/" target="_blank" rel="noopener" aria-label="InstagramのDMで予約・相談する" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#fff;border:1.5px solid #e0a458;text-decoration:none;flex:none"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#b3541e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.15" fill="#b3541e" stroke="none"/></svg></a><span style="font-size:13px">LINEが難しい方は、Instagramのメッセージ（DM）からも予約・相談できます</span></p>
   </header>
   <nav class="pagenav3" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px"><a href="../board.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">みんなの掲示板</a><a href="../help.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">困った助け合い</a><a href="../idea.html" style="display:inline-block;background:#fff;border:1.5px solid #e0a458;color:#b3541e;font-weight:bold;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.88rem">💡 アイディア掲示板</a></nav>
 <div class="sharewrap"><a id="share-btn" class="sharelink">シェア</a><div class="sharemenu" id="share-menu"><a id="share-line" target="_blank" rel="noopener">LINEで送る</a><a id="share-x" target="_blank" rel="noopener">Xでシェア</a><button type="button" id="share-copy">リンクをコピー</button></div></div><p class="note" id="share-msg" style="text-align:center"></p>
@@ -1717,7 +1716,7 @@ body.site-editing .lrow p{outline:2px dashed rgba(224,123,36,.55);outline-offset
     window.__authBtn = btn;
     var wrapEl = document.querySelector('.wrap') || document.body;
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'position:fixed;top:54px;right:max(10px, calc(50% - 350px));z-index:96';
+    rowEl.style.cssText = 'position:fixed;top:6px;right:max(10px, calc(50% - 350px));z-index:96'; rowEl.className = 'authbar-row';
     if(window.innerWidth <= 640){ rowEl.style.top = '6px'; rowEl.style.maxWidth = '94vw'; rowEl.style.justifyContent = 'flex-end'; btn.style.whiteSpace = 'nowrap'; btn.style.textAlign = 'center'; btn.style.fontSize = '.8rem'; }
     btn.style.textAlign = 'center';
     rowEl.appendChild(btn);
@@ -2520,5 +2519,13 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 .chat-panel .chat>p{font-size:.72rem!important;line-height:1.5;margin-top:6px!important}
 .chat-panel .chat-log{min-height:56px}
 </style>
+<style id="topbar-fix">
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:64px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;pointer-events:none}
+.omenu{top:11px!important}
+.omenu-btn{background:transparent!important;box-shadow:none!important}
+</style>
+<script>
+(function(){ if(!document.getElementById('topbar-strip')){ var s = document.createElement('div'); s.id = 'topbar-strip'; document.body.insertBefore(s, document.body.firstChild); } })();
+</script>
 </body>
 </html>
