@@ -1001,7 +1001,7 @@ if (has(text, ["誰", "主催", "やってる", "運営", "連絡"])) return QA[
 if (has(text, ["何", "とは", "OHANA", "おはな", "オハナ", "物々交換", "フリマ"])) return QA[0].a;
 return null;
 }
-QA.forEach(function(item){ if(!item.chip) return;
+QA.forEach(function(item){ if(!item.chip) return; if(['OHANAって何？','いつ・どこで開催？','参加のしかた','出店したい','100円券って何？'].indexOf(item.chip) < 0) return;
 var b = document.createElement('button');
 b.type = 'button';
 b.className = 'ochip';
@@ -2357,5 +2357,17 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
   wire(); setTimeout(wire, 3000); setTimeout(wire, 8000);
 })();
 </script>
+<style id="bot-head-fix">
+.chat-panel .chat-head{flex-wrap:wrap}
+.chat-panel .chat-head>div{flex:1 1 140px;min-width:0}
+.chat-panel .chat-head .chat-close{order:4}
+.chat-panel .chat-head .chat-end{order:5;margin-left:auto}
+.chat-panel .chat{max-height:min(88vh,680px);max-height:min(88dvh,680px)}
+.chat-panel .chat-head img{height:60px}
+.chat-panel .qlinks{display:flex;flex-wrap:nowrap;gap:6px}
+.chat-panel .qlinks .oc-link{flex:1 1 0;text-align:center;white-space:nowrap;padding-left:2px;padding-right:2px;font-size:.78rem}
+.chat-panel .chat>p{font-size:.72rem!important;line-height:1.5;margin-top:6px!important}
+.chat-panel .chat-log{min-height:56px}
+</style>
 </body>
 </html>
