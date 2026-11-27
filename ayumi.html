@@ -1689,15 +1689,28 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.h
 .chat-panel .chat-log{min-height:56px}
 </style>
 <style id="topbar-fix">
-#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:48px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;pointer-events:none}
-.omenu{top:0!important;left:max(0px,calc(50% - 360px))!important}
-.omenu-btn{width:auto!important;height:48px!important;padding:0 16px!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;border-right:1px solid rgba(190,130,50,.32)!important;font-size:20px!important;color:#7a4a08!important}
-.omenu-panel{top:52px!important}
-.authbar-row{top:0!important;right:max(0px,calc(50% - 360px))!important;height:48px!important;flex-direction:row!important;gap:0!important;align-items:stretch!important}
-.authbar-row button{border-left:1px solid rgba(190,130,50,.32)!important;padding:0 13px!important;text-decoration:none!important;text-shadow:none!important;color:#7a4a08!important;font-size:.8rem!important;white-space:nowrap!important;background:transparent!important}
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:48px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;display:flex;align-items:stretch}
+#topbar-strip .omenu{position:static!important;flex:1;display:flex}
+#topbar-strip .omenu-btn{flex:1;width:auto!important;height:auto!important;padding:0 10px!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;border:none!important;border-right:1px solid rgba(190,130,50,.32)!important;font-size:20px!important;font-weight:500!important;color:#7a4a08!important}
+#topbar-strip .omenu-panel{top:52px!important;left:10px!important}
+#topbar-strip .authbar-row{position:static!important;flex:2;display:flex!important;flex-direction:row!important;gap:0!important;align-items:stretch!important;height:auto!important;max-width:none!important}
+#topbar-strip .authbar-row button{flex:1;border:none!important;border-left:1px solid rgba(190,130,50,.32)!important;padding:0 8px!important;text-decoration:none!important;text-shadow:none!important;color:#7a4a08!important;font-size:.82rem!important;font-weight:500!important;white-space:nowrap!important;background:transparent!important}
+#topbar-strip .authbar-row a{display:flex;align-items:center;justify-content:center;flex:1;border-left:1px solid rgba(190,130,50,.32);padding:0 8px;text-decoration:none;color:#7a4a08;font-size:.82rem;font-weight:500;white-space:nowrap}
 </style>
 <script>
-(function(){ if(!document.getElementById('topbar-strip')){ var s = document.createElement('div'); s.id = 'topbar-strip'; document.body.insertBefore(s, document.body.firstChild); } })();
+(function(){
+  function build(){
+    var strip = document.getElementById('topbar-strip');
+    if(!strip){ strip = document.createElement('div'); strip.id = 'topbar-strip'; document.body.insertBefore(strip, document.body.firstChild); }
+    var om = document.querySelector('.omenu');
+    var row = document.querySelector('.authbar-row');
+    if(om && om.parentElement !== strip) strip.appendChild(om);
+    if(row && row.parentElement !== strip) strip.appendChild(row);
+    return !!(om && row);
+  }
+  if(build()) return;
+  var n = 0, iv = setInterval(function(){ if(build() || ++n > 20) clearInterval(iv); }, 150);
+})();
 </script>
 </body>
 </html>
