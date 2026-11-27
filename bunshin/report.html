@@ -59,18 +59,41 @@ var main = document.getElementById("main");
 function esc(s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 function fmt(ts) { try { var d = ts && ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString("ja-JP"); } catch (e) { return ""; } }
 
+async function editSection() {
+  var s = await getDoc(doc(db, "botSettings", botKey));
+  var d = s.exists() ? s.data() : {};
+  return "<div class='note'><b>設定の編集</b><br>無料で話せる往復数：<input id='eFree' type='number' min='1' max='200' value='" + (d.freeLimit || 20) + "' style='width:70px;font-size:15px;'><br>本人への案内URL：<input id='eUrl' type='text' value='" + esc(d.guideUrl || "") + "' style='width:100%;font-size:14px;box-sizing:border-box;'><br><button id='eSave'>保存する</button> <span id='eMsg'></span></div>";
+}
+function bindSave() {
+  var b = document.getElementById("eSave");
+  if (!b) return;
+  b.addEventListener("click", async function() {
+    var f = parseInt(document.getElementById("eFree").value, 10);
+    var u = document.getElementById("eUrl").value.trim();
+    var data = {};
+    if (f > 0) data.freeLimit = f;
+    if (u) data.guideUrl = u;
+    await setDoc(doc(db, "botSettings", botKey), data, { merge: true });
+    document.getElementById("eMsg").textContent = "保存しました。分身ページに反映されます。";
+  });
+}
+
 async function renderLogs() {
   var q = query(collection(db, "botLogs"), where("page", "==", BOT.page), orderBy("ts", "desc"), limit(100));
   var snap = await getDocs(q);
-  if (snap.empty) { main.innerHTML = "<div class='note'>まだ記録がありません。会話があると、ここに並びます。</div>"; return; }
-  var h = "";
+  var eh = await editSection();
+  if (snap.empty) { main.innerHTML = eh + "<div class='note'>まだ記録がありません。会話があると、ここに並びます。</div>"; bindSave(); return; }
+  var h = eh;
   snap.forEach(function(d) { var v = d.data(); h += "<div class='card'><div class='d'>" + esc(fmt(v.ts)) + "</div><div class='q'>" + esc(v.q) + "</div><div class='a'>" + esc(v.a) + "</div></div>"; });
   main.innerHTML = h;
+  bindSave();
 }
 
 async function renderEditor(user) {
-  var h = "<div class='note'>管理者としてログイン中です。このBOTの記録と、承認待ちの申請を表示します。</div><h3>承認待ちの申請</h3><div id='reqs'>読み込み中…</div><h3>記録</h3><div id='logs'></div>";
+  var eh = await editSection();
+  var h = "<div class='note'>管理者としてログイン中です。このBOTの記録と、承認待ちの申請を表示します。</div>" + eh + "<h3>承認待ちの申請</h3><div id='reqs'>読み込み中…</div><h3>記録</h3><div id='logs'></div>";
   main.innerHTML = h;
+  bindSave();
   var rs = await getDocs(collection(db, "botViewerRequests"));
   var rh = "";
   var n = 0;
