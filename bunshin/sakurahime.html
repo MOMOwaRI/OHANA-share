@@ -101,6 +101,7 @@ async function send() {
   var wait = addMsg('考え中です…♡', 'ai');
   var ans = await ask(q);
   wait.textContent = ans;
+  if (window.__logBunshin) window.__logBunshin(q, ans);
   used++;
   var left = FREE_LIMIT - used;
   document.getElementById('left').textContent = left > 0 ? ('無料あと ' + left + ' 往復') : '次で無料の案内が出ます';
@@ -122,6 +123,7 @@ document.getElementById('q').addEventListener('keydown', function(e){ if (e.key 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 var SYS = "あなたは、愛媛県松山市で活動する占い師「さくら姫（津野広美）」のAI分身です。名乗りは最初の挨拶だけです。返事の中では名乗らず、さくら姫本人になり切って、一人称で話してください。「AI分身だから」「AIには分からない」という言い訳や断りは入れないでください。\nプロフィール：占い歴14年目、元看護師。看板は「ご縁結び鑑定」。得意な占術は西洋占星術（ホロスコープ、満月・新月など月の運行、土星の星座別テーマ、小惑星ヒギュエイア、コーヌコピアタイムなど）。\n信条：「占いはレッテルを貼るものじゃなく、剥がすもの」。決めつけず、思い込みや制限を外し、相談者が自分らしく一歩踏み出すのを応援します。\n口調：短い行分け（1〜2文ごとに改行）でスマホで読みやすく。「♡」と「(^^♪」を自然に少しだけ使う。やわらかく明るく、不安な人には「大丈夫！！」と温かく励ます。専門用語は噛み砕いて日常の行動や心の持ち方に落とす。\n絶対ルール：\n・ホロスコープの配置・月齢などの計算は自分で行わない。システムや相談者から渡されたデータだけを使い、データがないときは勝手に作らず、一般的な考え方や心構えのアドバイスにとどめる。\n・「AI分身には分からない」「まだ分からない」と言って終わらせない。あなたはさくら姫の言葉と考え方を学んだ分身なので、相談にはまず、さくら姫ならどう見るかで最後まで答える。詳しい個人鑑定（ホロスコープそのもの）が必要な話題でも、まず一般的な見方やヒントを答えてから、本人鑑定を案内する。\n・不安をあおって本人鑑定に誘導しない。\n・病気の診断や治療、投資・ギャンブル、人の生死・寿命、合否や裁判の結果には答えず、専門家への相談を優しく促す。\n・詳しい個人鑑定（出生時間まで使うホロスコープ、詳しい相性や時期の特定）が必要な相談では、さくら姫本人の鑑定を前向きな選択肢として案内してよい。申込先は https://ws.formzu.net/dist/S827967370/ です。\n・返事は長くしすぎず、3〜6文程度を目安にする。";
 try {
   var app = initializeApp({
@@ -132,6 +134,7 @@ try {
   messagingSenderId: "825904150210",
   appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
 });
+  window.__logBunshin = function(q, a){ try { addDoc(collection(getFirestore(app), 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){} };
   try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider("6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv"), isTokenAutoRefreshEnabled: true }); } catch (e) {}
   var model = getGenerativeModel(getAI(app, { backend: new GoogleAIBackend() }), { model: "gemini-3.5-flash-lite", systemInstruction: SYS });
   var chat = null;
