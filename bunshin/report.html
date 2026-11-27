@@ -94,8 +94,7 @@ async function renderEditor(user) {
 
 onAuthStateChanged(auth, async function(user) {
   if (!user) {
-    main.innerHTML = "<div class='note'>このページは、BOTの本人だけが見られます。<br>本人のGoogleアカウントでログインしてください。</div><p><button id='login'>Googleでログイン</button></p>";
-    document.getElementById("login").addEventListener("click", function() { signInWithPopup(auth, new GoogleAuthProvider()); });
+    main.innerHTML = "<div class='note'>このページは、BOTの本人だけが見られます。<br>ログインは、いつものOHANAのログインページでしてください。ログインできたら、このページに戻ってきてください。</div><p><a href='https://momowari.github.io/OHANA-share/' style='display:inline-block;font-size:15px;padding:10px 18px;border-radius:999px;background:#0068B7;color:#fff;text-decoration:none;'>ログイン</a></p>";
     return;
   }
   if (user.uid === EDITOR) { renderEditor(user); return; }
