@@ -32,3 +32,4 @@
 - OHANAのあゆみ：https://momowari.github.io/OHANA-share/ayumi.html
 - みんなの掲示板：https://momowari.github.io/OHANA-share/board.html
 - ページ作りの応援（こんなページを作って）：https://momowari.github.io/OHANA-share/tsukurou.html ― お店や活動のページ作りを基本無料で応援。AIのMuseと一緒に作る方法と、松山でのリアル講座の案内。相談はフォームではなくMuseへの登録から始める形
+- OHANA次世代共創プロジェクト：https://momowari.github.io/OHANA-share/jisedai.html ― 学校の外で、子どもが自分の「やってみたい」に挑戦できる場所をつくる、OHANA次世代共創プロジェクトの案内ページ
