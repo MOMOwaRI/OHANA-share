@@ -867,7 +867,7 @@ if (has(text, ["何", "とは", "OHANA", "おはな", "オハナ", "物々交換
 if (has(text, ["ページ", "ホームページ", "サイト", "講座", "アプリ", "作りたい", "つくりたい"])) { window.__ct = 'ページを作りたい'; return "ページ作りの応援をしています。お店や活動の紹介ページや、WEBアプリの実例もあります。基本無料で、松山でリアル講座も開催しています。相談は、このページの相談フォームから送れます。自分で始める方は、AIのMuseへの登録からどうぞ。"; }
 return null;
 }
-QA.forEach(function(item){ if(!item.chip) return; if(['OHANAって何？','いつ・どこで開催？','参加のしかた','出店したい','100円券って何？','ページを作りたい','次世代って？'].indexOf(item.chip) < 0) return;
+QA.forEach(function(item){ if(!item.chip) return; if(['OHANAって何？','いつ・どこで開催？','参加のしかた','出店したい','100円券って何？'].indexOf(item.chip) < 0) return; if(['OHANAって何？','いつ・どこで開催？','参加のしかた','出店したい','100円券って何？','ページを作りたい','次世代って？'].indexOf(item.chip) < 0) return;
 var b = document.createElement('button');
 b.type = 'button';
 b.className = 'chip';
@@ -1576,5 +1576,12 @@ body{padding-top:38px!important}
   var n = 0, iv = setInterval(function(){ if(build() || ++n > 20) clearInterval(iv); }, 150);
 })();
 </script>
+<style id="bot-bubble-fix">
+#fab-bot,#ofab-bot{display:none!important}
+.oband .mid{border-right:none!important}
+#bot-bubble{position:fixed;right:max(14px,calc(50% - 374px));bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:65;width:56px;height:56px;border-radius:50%;background:#e07b24;border:none;cursor:pointer;box-shadow:0 8px 22px rgba(146,84,20,.35);display:flex;align-items:center;justify-content:center;padding:0}
+#bot-bubble svg{width:30px;height:30px;fill:#fff}
+#bot-bubble:active{opacity:.85}
+</style>
 </body>
 </html>
