@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIづくり｜あなたの「○○AI」を作ります</title>
+<meta name="description" content="その人の言葉や考え方を学んだAIが、本人みたいに相談に答えるページを作っています。名前は「○○AI」。無料で話せる範囲は本人が決められます。実例はMOMOwaRI AIとさくら姫AI。">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0;}
+body { font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif; background: #fff8ef; color: #4a3421;}
+header { padding: 84px 16px 6px; text-align: center;}
+header h1 { font-size: 1.4rem; color: #8a5a17; letter-spacing:.03em;}
+header p { font-size:.9rem; margin-top: 10px; color: #7a5c38; line-height: 1.7;}
+a.loginfix { position: fixed; top: 14px; right: max(12px, calc(50% - 348px)); z-index: 96; color: #7a4a08; font-size: .85rem; text-decoration: none; border: 1px solid #e9ba77; background: #fff; border-radius: 999px; padding: 6px 16px; font-weight: 700;}
+main { max-width: 720px; margin: 0 auto; padding: 10px 14px 190px;}
+.card { background: #fff; border: 1px solid #f0d7b5; border-radius: 16px; padding: 16px; margin: 12px 0;}
+.card h2 { font-size: 1.1rem; margin-bottom: 6px;}
+.card p { font-size: .9rem; line-height: 1.7; color: #6b4e2e;}
+.card a.btn { display: block; text-align: center; color: #fff; text-decoration: none; border-radius: 999px; padding: 12px; margin-top: 12px; font-weight: bold;}
+h3.sec { font-size: 1rem; color: #8a5a17; margin: 22px 0 4px;}
+ol.steps { margin: 8px 0 0 20px; font-size: .9rem; line-height: 1.8; color: #6b4e2e;}
+.cta { text-align: center; margin-top: 26px;}
+.cta a { display: inline-block; background: #c07f2a; color: #fff; text-decoration: none; border-radius: 999px; padding: 13px 26px; font-weight: bold;}
+</style>
+<style id="oband-style">
+.ofabs,.fab-stack,.fab-line{display:none!important}
+body{padding-bottom:50px}
+.oband{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:680px;bottom:0;z-index:72;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
+.oband a,.oband button{flex:1;background:none;border:none;font:inherit;font-weight:700;font-size:.78rem;color:#7a4a08;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 2px;cursor:pointer;text-align:center;white-space:nowrap}
+.oband .mid{border-left:1px solid rgba(190,130,50,.32);border-right:1px solid rgba(190,130,50,.32)}
+.oband img{height:24px;width:auto}
+.opanel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
+.chat-panel{bottom:calc(68px + env(safe-area-inset-bottom,0px))!important}
+</style>
+<style id="topbar-fix">
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:64px;background:rgba(255,248,239,.93);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.12);z-index:79;pointer-events:none}
+.omenu{top:11px!important}
+.omenu-btn{background:transparent!important;box-shadow:none!important}
+</style>
+</head>
+<body>
+<header>
+<h1>あなたの「○○AI」、作ります</h1>
+<p>その人の言葉や考え方を学んだAIが、<br>本人みたいに相談に答えるページを作っています。<br>無料で話せる範囲は、本人が決められます。</p>
+</header>
+<main>
+<h3 class="sec">実例</h3>
+<div class="card">
+<h2>🍑 MOMOwaRI AI</h2>
+<p>OHANAシェア＊プロジェクトのMOMOwaRI（中岡有里）のAI。占いを入口に本質を見る人生相談と、OHANAの案内ができます。タメ口で、素のまま話します。</p>
+<a class="btn" style="background:#c07f2a;" href="momowari.html">MOMOwaRI AIと話す</a>
+</div>
+<div class="card">
+<h2>🌸 さくら姫AI</h2>
+<p>松山市の占い師・さくら姫（津野広美さん）のAI。「占いはレッテルを貼るものじゃなく、剥がすもの」という本人の言葉で、やさしく背中を押します。</p>
+<a class="btn" style="background:#d1567f;" href="sakurahime.html">さくら姫AIと話す</a>
+</div>
+<h3 class="sec">作る流れ</h3>
+<ol class="steps">
+<li>材料を集めます（SNSの投稿・プロフィール・大事にしていること）</li>
+<li>試作を作って、本人に確認してもらいます</li>
+<li>公開します。本人だけが見られる「会話の記録ページ」と、無料で話せる回数を自分で変えられる設定も付きます</li>
+</ol>
+<div class="cta">
+<p style="font-size:.9rem;color:#7a5c38;margin-bottom:12px;">自分も作ってほしい方は、こちらから声をかけてください。</p>
+<a href="https://lit.link/momowari" target="_blank" rel="noopener">相談はこちら（lit.link）</a>
+</div>
+</main>
+<a class="loginfix" href="https://momowari.github.io/OHANA-share/">ログイン</a>
+<nav class="oband" data-lock aria-label="下部メニュー"><a href="https://momowari.github.io/ohana-jima/kai.html" target="_blank" rel="noopener">OHANA海🐠へ</a><a class="mid" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a><a href="https://momowari.github.io/OHANA-share/"><img src="../img-992cf83a89.png" alt="">OHANAに質問する</a></nav>
+<script>
+(function(){ if(!document.getElementById('topbar-strip')){ var s = document.createElement('div'); s.id = 'topbar-strip'; document.body.insertBefore(s, document.body.firstChild); } })();
+</script>
+</body>
+</html>

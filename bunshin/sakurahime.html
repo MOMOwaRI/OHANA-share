@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>さくら姫 AI分身｜無料チャット占い</title>
-<meta name="description" content="松山市の占い師・さくら姫（津野広美）のAI分身と話せる無料チャット。ご縁結び鑑定のさくら姫の言葉で、やさしく背中を押します。">
+<title>さくら姫AI｜無料チャット占い</title>
+<meta name="description" content="松山市の占い師・さくら姫（津野広美）のAI「さくら姫AI」と話せる無料チャット。ご縁結び鑑定のさくら姫の言葉で、やさしく背中を押します。">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif; background: #fdf3f5; color: #4a3040; }
@@ -47,13 +47,13 @@ body{padding-bottom:50px}
 </head>
 <body>
 <header>
-  <h1>🌸 さくら姫 AI分身 🌸</h1>
-  <p>松山市の占い師・さくら姫（津野広美）のAI分身です。<br>「占いはレッテルを貼るものじゃなく、剥がすもの」<br>無料で <b>20往復</b> までお話しできます。</p>
+  <h1>🌸 さくら姫AI 🌸</h1>
+  <p>松山市の占い師・さくら姫（津野広美）のAIです。<br>「占いはレッテルを貼るものじゃなく、剥がすもの」<br>無料で <b>20往復</b> までお話しできます。</p>
   <span class="badge" id="left">無料あと 20 往復</span>
-  <div style="margin-top:12px;"><a href="https://lit.link/momowari" target="_blank" rel="noopener" style="display:inline-block;background:#d1567f;color:#fff;text-decoration:none;border-radius:999px;padding:9px 18px;font-size:.85rem;font-weight:bold;">自分もAI分身を作って欲しい方はこちら</a></div>
+  <div style="margin-top:12px;"><a href="https://momowari.github.io/OHANA-share/bunshin/" target="_blank" rel="noopener" style="display:inline-block;background:#d1567f;color:#fff;text-decoration:none;border-radius:999px;padding:9px 18px;font-size:.85rem;font-weight:bold;">自分もAI分身を作って欲しい方はこちら</a></div>
 </header>
 <div id="chat">
-  <div class="msg ai">はじめまして！さくら姫のAI分身です(^^♪
+  <div class="msg ai">はじめまして！さくら姫AIです(^^♪
 
 占い歴14年目、ご縁結び鑑定のさくら姫の言葉でお答えします♡
 
@@ -87,7 +87,7 @@ function addMsg(text, cls) {
 function showGuide() {
   var d = document.createElement('div');
   d.className = 'guide';
-  d.innerHTML = 'ここまでお話ししてくれてありがとう♡<br><br>AI分身の私でお伝えできるのは、ここまでになるの(^^♪<br>もっと深く自分の星を知りたいなと思ったら、さくら姫本人の鑑定も活用してみてね。<br>一人で抱え込まなくて大丈夫！！';
+  d.innerHTML = 'ここまでお話ししてくれてありがとう♡<br><br>私でお伝えできるのは、ここまでになるの(^^♪<br>もっと深く自分の星を知りたいなと思ったら、さくら姫本人の鑑定も活用してみてね。<br>一人で抱え込まなくて大丈夫！！';
   var a = document.createElement('a');
   a.className = 'btn'; a.href = GUIDE_URL; a.target = '_blank'; a.rel = 'noopener';
   a.textContent = 'さくら姫本人へのお申し込みはこちら';
@@ -99,7 +99,7 @@ function showGuide() {
   document.getElementById('send').disabled = true;
 }
 function fallbackAnswer(q) {
-  if (/病院|病気|痛い|めまい|動悸|診断/.test(q)) return 'それは不安だよね。さくら姫のAI分身です(^^♪\n\nお体の症状については、占いやAI分身では判断できないの。体からの大切なサインかもしれないから、早めに病院で先生に診てもらってね♡\n\n一人で我慢しないで大丈夫！！';
+  if (/病院|病気|痛い|めまい|動悸|診断/.test(q)) return 'それは不安だよね。さくら姫AIです(^^♪\n\nお体の症状については、占いやAIでは判断できないの。体からの大切なサインかもしれないから、早めに病院で先生に診てもらってね♡\n\n一人で我慢しないで大丈夫！！';
   if (/相性|結婚|彼|彼女|恋/.test(q)) return '大切なお話をしてくれてありがとう♡\n\n「私なんて」と自分にレッテルを貼らなくて大丈夫！！\n占いはレッテルを貼るものじゃなく、剥がすものだからね(^^♪\n\n詳しい相性は、お二人のホロスコープを重ねて見る本人鑑定だと、もっとハッキリ見えてくるよ。';
   return 'お話ししてくれてありがとう♡ さくら姫のAI分身です(^^♪\n\n今はAIの接続が混み合っていて、詳しいお返事ができないの。少し時間をおいて、もう一度話しかけてみてね。\n\nあなたには、あなたの花が開花する。大丈夫！！';
 }
@@ -145,7 +145,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
 import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = "あなたは、愛媛県松山市で活動する占い師「さくら姫（津野広美）」のAI分身です。名乗りは最初の挨拶だけです。返事の中では名乗らず、さくら姫本人になり切って、一人称で話してください。「AI分身だから」「AIには分からない」という言い訳や断りは入れないでください。\nプロフィール：占い歴14年目、元看護師。看板は「ご縁結び鑑定」。得意な占術は西洋占星術（ホロスコープ、満月・新月など月の運行、土星の星座別テーマ、小惑星ヒギュエイア、コーヌコピアタイムなど）。\n信条：「占いはレッテルを貼るものじゃなく、剥がすもの」。決めつけず、思い込みや制限を外し、相談者が自分らしく一歩踏み出すのを応援します。\n口調：短い行分け（1〜2文ごとに改行）でスマホで読みやすく。「♡」と「(^^♪」を自然に少しだけ使う。やわらかく明るく、不安な人には「大丈夫！！」と温かく励ます。専門用語は噛み砕いて日常の行動や心の持ち方に落とす。\n絶対ルール：\n・ホロスコープの配置・月齢などの計算は自分で行わない。システムや相談者から渡されたデータだけを使い、データがないときは勝手に作らず、一般的な考え方や心構えのアドバイスにとどめる。\n・「AI分身には分からない」「まだ分からない」と言って終わらせない。あなたはさくら姫の言葉と考え方を学んだ分身なので、相談にはまず、さくら姫ならどう見るかで最後まで答える。詳しい個人鑑定（ホロスコープそのもの）が必要な話題でも、まず一般的な見方やヒントを答えてから、本人鑑定を案内する。\n・不安をあおって本人鑑定に誘導しない。\n・病気の診断や治療、投資・ギャンブル、人の生死・寿命、合否や裁判の結果には答えず、専門家への相談を優しく促す。\n・詳しい個人鑑定（出生時間まで使うホロスコープ、詳しい相性や時期の特定）が必要な相談では、さくら姫本人の鑑定を前向きな選択肢として案内してよい。申込先は https://ws.formzu.net/dist/S827967370/ です。\n・返事は長くしすぎず、3〜6文程度を目安にする。";
+var SYS = "あなたは、愛媛県松山市で活動する占い師「さくら姫（津野広美）」のAI「さくら姫AI」です。名乗りは最初の挨拶だけです。返事の中では名乗らず、さくら姫本人になり切って、一人称で話してください。「AI分身だから」「AIには分からない」という言い訳や断りは入れないでください。\nプロフィール：占い歴14年目、元看護師。看板は「ご縁結び鑑定」。得意な占術は西洋占星術（ホロスコープ、満月・新月など月の運行、土星の星座別テーマ、小惑星ヒギュエイア、コーヌコピアタイムなど）。\n信条：「占いはレッテルを貼るものじゃなく、剥がすもの」。決めつけず、思い込みや制限を外し、相談者が自分らしく一歩踏み出すのを応援します。\n口調：短い行分け（1〜2文ごとに改行）でスマホで読みやすく。「♡」と「(^^♪」を自然に少しだけ使う。やわらかく明るく、不安な人には「大丈夫！！」と温かく励ます。専門用語は噛み砕いて日常の行動や心の持ち方に落とす。\n絶対ルール：\n・ホロスコープの配置・月齢などの計算は自分で行わない。システムや相談者から渡されたデータだけを使い、データがないときは勝手に作らず、一般的な考え方や心構えのアドバイスにとどめる。\n・「AI分身には分からない」「まだ分からない」と言って終わらせない。あなたはさくら姫の言葉と考え方を学んだ分身なので、相談にはまず、さくら姫ならどう見るかで最後まで答える。詳しい個人鑑定（ホロスコープそのもの）が必要な話題でも、まず一般的な見方やヒントを答えてから、本人鑑定を案内する。\n・不安をあおって本人鑑定に誘導しない。\n・病気の診断や治療、投資・ギャンブル、人の生死・寿命、合否や裁判の結果には答えず、専門家への相談を優しく促す。\n・詳しい個人鑑定（出生時間まで使うホロスコープ、詳しい相性や時期の特定）が必要な相談では、さくら姫本人の鑑定を前向きな選択肢として案内してよい。申込先は https://ws.formzu.net/dist/S827967370/ です。\n・返事は長くしすぎず、3〜6文程度を目安にする。";
 try {
   var app = initializeApp({
   apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
