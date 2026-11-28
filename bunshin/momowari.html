@@ -49,6 +49,9 @@ body{padding-bottom:50px}
 <body>
 <header>
 <h1>🍑 MOMOwaRI AI分身</h1>
+<p>松山でOHANAシェア＊プロジェクトをしている、MOMOwaRIのAI分身です。<br>「眠っている価値を、必要な場所へ。」<br>無料で <b>20往復</b> までお話しできます。</p>
+<span class="badge" id="left">無料あと 20 往復</span>
+<div style="margin-top:12px;"><a href="https://lit.link/momowari" target="_blank" rel="noopener" style="display:inline-block;background:#c07f2a;color:#fff;text-decoration:none;border-radius:999px;padding:9px 18px;font-size:.85rem;font-weight:bold;">自分もAI分身を作って欲しい方はこちら</a></div>
 </header>
 <div id="chat">
 <div class="msg ai">はじめまして、MOMOwaRIのAI分身です。何でも話してくださいね。</div>
@@ -133,6 +136,7 @@ renderText(wait, ans);
 attachCopy(wait, ans);
 if (window.__logBunshin) window.__logBunshin(q, ans);
 used++;
+var le = document.getElementById('left'); if (le) le.textContent = '無料あと ' + Math.max(0, FREE_LIMIT - used) + ' 往復';
 busy = false;
 document.getElementById('send').disabled = false;
 window.scrollTo(0, document.documentElement.scrollHeight);
@@ -157,7 +161,7 @@ var app = initializeApp({
   appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
 });
 window.__logBunshin = function(q, a){ try { addDoc(collection(getFirestore(app), 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, ts: serverTimestamp() }).catch(function(){}); } catch(e){} };
-getDoc(doc(getFirestore(app), "botSettings", "momowari")).then(function(s){ if (!s.exists()) return; var d = s.data(); if (typeof d.freeLimit === "number" && d.freeLimit > 0) window.FREE_LIMIT = d.freeLimit; if (d.guideUrl) window.GUIDE_URL = d.guideUrl; }).catch(function(){});
+getDoc(doc(getFirestore(app), "botSettings", "momowari")).then(function(s){ if (!s.exists()) return; var d = s.data(); if (typeof d.freeLimit === "number" && d.freeLimit > 0) window.FREE_LIMIT = d.freeLimit; var hb = document.querySelector('header p b'); if (hb && typeof d.freeLimit === "number") hb.textContent = d.freeLimit + '往復'; var le2 = document.getElementById('left'); if (le2) le2.textContent = '無料あと ' + Math.max(0, window.FREE_LIMIT - (window.used || 0)) + ' 往復'; if (d.guideUrl) window.GUIDE_URL = d.guideUrl; }).catch(function(){});
 try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider("6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv"), isTokenAutoRefreshEnabled: true});} catch (e) {}
 var model = getGenerativeModel(getAI(app, { backend: new GoogleAIBackend()}), { model: "gemini-3.5-flash-lite", systemInstruction: SYS + "\n今日の日付は" + new Date().toLocaleDateString("ja-JP", {year: "numeric", month: "long", day: "numeric"}) + "です。"});
 var chat = null;
